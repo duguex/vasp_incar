@@ -45,10 +45,10 @@ class RAGConfig:
 
     # 模型配置
     PREFERRED_EMBEDDING_MODELS = [
-        'qwen3-embedding',
+        'nomic-embed-text-v2-moe',
     ]
 
-    DEFAULT_CHAT_MODEL = "qwen3:4b-instruct-2507-q4_K_M"
+    DEFAULT_CHAT_MODEL = "qwen3:30b-a3b-instruct-2507-q4_K_M"
 
     def __init__(
         self,
@@ -411,19 +411,38 @@ class RealTimeLoadBalancer:
             # 标记为空闲
             self._mark_server_busy(embedder, False)
 
+    def get_server_count(self) -> int:
+        """获取可用服务器数量"""
+        return len(self.embedders)
+
     def generate_embeddings_parallel(
         self,
         texts: List[str],
         model: str,
         batch_size: Optional[int] = None,
-        max_workers: int = 3
+        max_workers: Optional[int] = None
     ) -> List[List[float]]:
-        """并行生成嵌入向量 - 谁空闲谁干活"""
+        """并行生成嵌入向量 - 谁空闲谁干活
+
+        Args:
+            texts: 要生成嵌入的文本列表
+            model: 嵌入模型名称
+            batch_size: 批次大小
+            max_workers: 最大并行工作数，如果为 None 则自动设置为服务器数量
+        """
         if not texts:
             return []
 
+        # 自动调整 max_workers 以匹配服务器数量
+        server_count = self.get_server_count()
+        if max_workers is None:
+            max_workers = server_count
+        else:
+            # 确保 max_workers 不超过服务器数量，避免过度并发
+            max_workers = min(max_workers, server_count)
+
         logger.info(f"开始实时负载均衡生成嵌入: {len(texts)} 个文本, 模型: {model}")
-        logger.info(f"使用 {len(self.embedders)} 个服务器，最大并行度: {max_workers}")
+        logger.info(f"使用 {server_count} 个服务器，最大并行度: {max_workers}")
 
         batch_size = batch_size or 20
 
@@ -433,6 +452,7 @@ class RealTimeLoadBalancer:
 
         print(f"\n🔄 开始生成嵌入向量 (实时负载均衡 - 谁空闲谁干活)")
         print(f"   总共 {total_batches} 个批次，每批 {batch_size} 个文本")
+        print(f"   服务器数量: {server_count}, 并行工作数: {max_workers}")
         self.print_server_stats()
 
         all_embeddings = []
@@ -447,20 +467,23 @@ class RealTimeLoadBalancer:
 
             # 等待完成
             with tqdm(total=total_batches, desc="处理批次") as pbar:
+                completed_batches = 0
                 for future in as_completed(futures):
                     try:
                         embeddings = future.result()
                         all_embeddings.extend(embeddings)
                         pbar.update(1)
+                        completed_batches += 1
 
-                        # 每完成3个批次显示一次状态
-                        if len(all_embeddings) // batch_size % 10 == 0:
-                            print(f"\n   [进度: {len(all_embeddings) // batch_size}/{total_batches}]")
+                        # 每完成10个批次或最后一批时显示状态
+                        if completed_batches % 10 == 0 or completed_batches == total_batches:
+                            print(f"\n   [进度: {completed_batches}/{total_batches}]")
                             self.print_server_stats()
 
                     except Exception as e:
                         logger.error(f"批次处理失败: {e}")
                         pbar.update(1)
+                        completed_batches += 1
 
         print("\n✅ 嵌入生成完成")
         self.print_server_stats()
@@ -661,185 +684,6 @@ class VASPRAGAdvanced:
         results = self.vectorstore.similarity_search(query, k=k)
         return results
 
-    # def two_stage_search(self, query: str, title_k: int = 10, content_k: int = 5) -> List[Document]:
-    #     """
-    #     两阶段检索策略：
-    #     1. 第一阶段：在标题中检索（使用标题向量存储）
-    #     2. 第二阶段：在第一阶段结果的 content 中精确检索
-
-    #     Args:
-    #         query: 查询语句
-    #         title_k: 第一阶段从标题中检索的数量
-    #         content_k: 第二阶段最终返回的数量
-
-    #     Returns:
-    #         检索到的文档列表
-    #     """
-    #     if self.vectorstore is None:
-    #         raise ValueError("向量数据库尚未初始化，请先调用 build_vectorstore()")
-    #     if not hasattr(self, 'title_vectorstore'):
-    #         raise ValueError("标题向量存储未初始化，请先调用 build_title_vectorstore()")
-
-    #     print(f"\n🔍 两阶段检索: '{query}'")
-    #     print(f"   阶段1: 在标题中检索 (取前 {title_k} 个)")
-
-    #     # 阶段1: 在标题向量存储中检索
-    #     title_results = self.title_vectorstore.similarity_search(query, k=title_k)
-
-    #     print(f"   阶段1完成，找到 {len(title_results)} 个相关标题")
-    #     print(f"   阶段2: 在这些文档的 content 中精确检索")
-
-    #     # 阶段2: 提取第一阶段结果的 content，重新构建临时向量存储进行检索
-    #     if not title_results:
-    #         print("   ⚠️  阶段1未找到结果，返回空列表")
-    #         return []
-
-    #     # 从标题结果中提取原始文档（通过 title 匹配）
-    #     # 由于分块后 metadata 保留 title，我们需要去重
-    #     unique_docs = {}
-    #     for doc in title_results:
-    #         title = doc.metadata.get('title')
-    #         if title and title not in unique_docs:
-    #             unique_docs[title] = doc
-
-    #     # 提取这些文档的 content 用于第二阶段检索
-    #     content_docs = []
-    #     for title, doc in unique_docs.items():
-    #         # 创建新文档，只包含 content
-    #         new_doc = Document(
-    #             page_content=doc.page_content,
-    #             metadata=doc.metadata
-    #         )
-    #         content_docs.append(new_doc)
-
-    #     print(f"   找到 {len(content_docs)} 个唯一文档，开始第二阶段检索...")
-
-    #     # 为第二阶段创建临时向量存储
-    #     import chromadb
-    #     temp_client = chromadb.PersistentClient(path="./chroma_db_temp")
-    #     temp_collection = temp_client.get_or_create_collection(name="temp_content")
-
-    #     # 生成嵌入并存储
-    #     if self.parallel_generator and self.config.embedding_config:
-    #         texts = [doc.page_content for doc in content_docs]
-    #         metadatas = [doc.metadata for doc in content_docs]
-
-    #         embeddings = self.parallel_generator.generate_embeddings_parallel(
-    #             texts,
-    #             self.config.embedding_config['model'],
-    #             batch_size=min(self.config.batch_size, len(texts)),
-    #             max_workers=1  # 临时使用单线程
-    #         )
-
-    #         # 添加到临时集合
-    #         ids = [f"temp_{i}" for i in range(len(content_docs))]
-    #         temp_collection.add(
-    #             embeddings=embeddings,
-    #             documents=texts,
-    #             metadatas=metadatas,
-    #             ids=ids
-    #         )
-
-    #         # 创建临时向量存储并检索
-    #         from langchain_chroma import Chroma
-    #         from langchain_ollama import OllamaEmbeddings
-
-    #         temp_embeddings = OllamaEmbeddings(
-    #             model=self.config.embedding_config['model'],
-    #             base_url=self.config.embedding_config['base_url']
-    #         )
-
-    #         temp_vectorstore = Chroma(
-    #             embedding_function=temp_embeddings,
-    #             collection_name="temp_content",
-    #             persist_directory="./chroma_db_temp"
-    #         )
-
-    #         # 在 content 中进行最终检索
-    #         final_results = temp_vectorstore.similarity_search(query, k=content_k)
-
-    #         print(f"   ✅ 两阶段检索完成，返回 {len(final_results)} 个结果")
-    #         return final_results
-
-    #     else:
-    #         print("   ❌ 错误：缺少嵌入生成器或配置")
-    #         return []
-
-    # def build_title_vectorstore(self, documents: List[Document]) -> None:
-    #     """
-    #     构建专门用于标题检索的向量存储
-    #     这会在内存中创建一个只包含标题的向量存储
-    #     """
-    #     print(f"\n🏗️  构建标题向量存储...")
-    #     print(f"   文档数量: {len(documents)}")
-
-    #     # 提取唯一标题
-    #     title_map = {}
-    #     for doc in documents:
-    #         title = doc.metadata.get('title')
-    #         if title and title not in title_map:
-    #             title_map[title] = doc.metadata
-
-    #     unique_titles = list(title_map.keys())
-    #     print(f"   唯一标题数量: {len(unique_titles)}")
-
-    #     if not unique_titles:
-    #         print("   ⚠️  没有找到标题")
-    #         return
-
-    #     # 为标题生成嵌入
-    #     if self.parallel_generator and self.config.embedding_config:
-    #         print("\n🔄 生成标题嵌入向量...")
-
-    #         # 创建临时文档列表（只包含标题）
-    #         title_docs = []
-    #         for title in unique_titles:
-    #             doc = Document(
-    #                 page_content=title,
-    #                 metadata=title_map[title]
-    #             )
-    #             title_docs.append(doc)
-
-    #         texts = [doc.page_content for doc in title_docs]
-    #         metadatas = [doc.metadata for doc in title_docs]
-
-    #         embeddings = self.parallel_generator.generate_embeddings_parallel(
-    #             texts,
-    #             self.config.embedding_config['model'],
-    #             batch_size=min(self.config.batch_size, len(texts)),
-    #             max_workers=1
-    #         )
-
-    #         # 创建标题向量存储（使用 Chroma 内存模式）
-    #         import chromadb
-    #         title_client = chromadb.PersistentClient(path="./chroma_db_titles")
-    #         title_collection = title_client.get_or_create_collection(name="vasp_titles")
-
-    #         ids = [f"title_{i}" for i in range(len(title_docs))]
-    #         title_collection.add(
-    #             embeddings=embeddings,
-    #             documents=texts,
-    #             metadatas=metadatas,
-    #             ids=ids
-    #         )
-
-    #         from langchain_chroma import Chroma
-    #         from langchain_ollama import OllamaEmbeddings
-
-    #         title_embeddings = OllamaEmbeddings(
-    #             model=self.config.embedding_config['model'],
-    #             base_url=self.config.embedding_config['base_url']
-    #         )
-
-    #         self.title_vectorstore = Chroma(
-    #             embedding_function=title_embeddings,
-    #             collection_name="vasp_titles",
-    #             persist_directory="./chroma_db_titles"
-    #         )
-
-    #         print(f"✅ 标题向量存储构建完成")
-    #     else:
-    #         print("❌ 错误：缺少嵌入生成器或配置")
 
     def setup_qa_chain(self):
         """设置 RAG 问答链"""
@@ -896,21 +740,16 @@ class VASPRAGAdvanced:
 
         return rag_chain
 
-    def query(self, question: str, show_results: bool = True, use_two_stage: bool = True) -> str:
+    def query(self, question: str, show_results: bool = True) -> str:
         """
         执行 RAG 查询
 
         Args:
             question: 查询问题
             show_results: 是否显示检索结果
-            use_two_stage: 是否使用两阶段检索（默认 True）
         """
-        if use_two_stage and hasattr(self, 'title_vectorstore'):
-            # 使用两阶段检索
-            results = self.two_stage_search(question, title_k=10, content_k=5)
-        else:
-            # 使用传统单阶段检索
-            results = self.similarity_search(question, k=10)
+        # 使用传统单阶段检索
+        results = self.similarity_search(question, k=10)
 
         if show_results:
             print("\n📋 检索到的相关文档:")
@@ -944,7 +783,7 @@ def run_pipeline():
         chunk_overlap=200,
         persist_dir="./chroma_db",
         batch_size=100,
-        chat_model="qwen3:4b-instruct-2507-q4_K_M",
+        chat_model="qwen3:30b-a3b-instruct-2507-q4_K_M",
         force_rebuild=False
     )
 
