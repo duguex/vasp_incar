@@ -31,10 +31,10 @@ logging.getLogger("chromadb").setLevel(logging.WARNING)
 
 
 class RAGConfig:
-    """RAG 系统配置管理类"""
+    """RAG 系统配置管理类 - 支持环境变量和配置文件"""
 
     # 默认配置常量
-    DEFAULT_SERVER_HOSTS = ["192.168.1.130", "192.168.1.127", "localhost"]
+    DEFAULT_SERVER_HOSTS = ["localhost"]
     DEFAULT_PORT = 11434
     DEFAULT_TIMEOUT = 3
     DEFAULT_MAX_WORKERS = 4
@@ -57,28 +57,59 @@ class RAGConfig:
     def __init__(
         self,
         server_hosts: Optional[List[str]] = None,
-        port: int = DEFAULT_PORT,
-        timeout: int = DEFAULT_TIMEOUT,
-        max_workers: int = DEFAULT_MAX_WORKERS,
-        chunk_size: int = DEFAULT_CHUNK_SIZE,
-        chunk_overlap: int = DEFAULT_CHUNK_OVERLAP,
-        persist_dir: str = DEFAULT_PERSIST_DIR,
-        batch_size: int = DEFAULT_BATCH_SIZE,
-        chat_model: str = DEFAULT_CHAT_MODEL,
+        port: Optional[int] = None,
+        timeout: Optional[int] = None,
+        max_workers: Optional[int] = None,
+        chunk_size: Optional[int] = None,
+        chunk_overlap: Optional[int] = None,
+        persist_dir: Optional[str] = None,
+        batch_size: Optional[int] = None,
+        chat_model: Optional[str] = None,
         force_rebuild: bool = False
     ):
-        self.server_hosts = server_hosts or self.DEFAULT_SERVER_HOSTS
-        self.port = port
-        self.timeout = timeout
-        self.max_workers = max_workers
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
-        self.persist_dir = persist_dir
-        self.batch_size = batch_size
-        self.chat_model = chat_model
+        # 优先级：参数 > 环境变量 > 默认值
+        self.server_hosts = server_hosts or self._get_env_list('VASP_SERVER_HOSTS', self.DEFAULT_SERVER_HOSTS)
+        self.port = port or self._get_env_int('VASP_SERVER_PORT', self.DEFAULT_PORT)
+        self.timeout = timeout or self._get_env_int('VASP_SERVER_TIMEOUT', self.DEFAULT_TIMEOUT)
+        self.max_workers = max_workers or self._get_env_int('VASP_MAX_WORKERS', self.DEFAULT_MAX_WORKERS)
+        self.chunk_size = chunk_size or self._get_env_int('VASP_CHUNK_SIZE', self.DEFAULT_CHUNK_SIZE)
+        self.chunk_overlap = chunk_overlap or self._get_env_int('VASP_CHUNK_OVERLAP', self.DEFAULT_CHUNK_OVERLAP)
+        self.persist_dir = persist_dir or os.getenv('VASP_PERSIST_DIR', self.DEFAULT_PERSIST_DIR)
+        self.batch_size = batch_size or self._get_env_int('VASP_BATCH_SIZE', self.DEFAULT_BATCH_SIZE)
+        self.chat_model = chat_model or os.getenv('VASP_CHAT_MODEL', self.DEFAULT_CHAT_MODEL)
         self.force_rebuild = force_rebuild
+
         self.embedding_config: Optional[Dict[str, str]] = None
         self.online_servers: List[Dict[str, Any]] = []
+
+    @staticmethod
+    def _get_env_int(key: str, default: int) -> int:
+        """从环境变量获取整数值"""
+        value = os.getenv(key)
+        if value:
+            try:
+                return int(value)
+            except ValueError:
+                logger.warning(f"环境变量 {key} 值无效: {value}，使用默认值 {default}")
+        return default
+
+    @staticmethod
+    def _get_env_list(key: str, default: List[str]) -> List[str]:
+        """从环境变量获取列表值（支持 JSON 数组或逗号分隔）"""
+        value = os.getenv(key)
+        if not value:
+            return default
+
+        # 尝试解析 JSON 数组
+        if value.strip().startswith('['):
+            try:
+                import json
+                return json.loads(value)
+            except:
+                pass
+
+        # 逗号分隔
+        return [v.strip() for v in value.split(',') if v.strip()]
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -98,6 +129,73 @@ class RAGConfig:
         return f"RAGConfig({self.to_dict()})"
 
 
+def check_ollama_server(host: str, port: int = 11434, timeout: int = 3, retry_count: int = 2) -> Dict[str, Any]:
+    """
+    检查单个 Ollama 服务器状态（带重试机制）
+
+    Args:
+        host: 服务器地址
+        port: 端口号
+        timeout: 超时时间（秒）
+        retry_count: 重试次数
+
+    Returns:
+        服务器状态字典
+    """
+    server_info = {"host": host, "port": port, "status": "checking"}
+
+    for attempt in range(retry_count + 1):
+        try:
+            # 测试基础连接
+            url = f"http://{host}:{port}/api/version"
+            response = requests.get(url, timeout=timeout)
+            if response.status_code == 200:
+                version = response.json().get('version', '未知')
+
+                # 获取模型列表
+                models_url = f"http://{host}:{port}/api/tags"
+                models_response = requests.get(models_url, timeout=timeout)
+                if models_response.status_code == 200:
+                    models = models_response.json().get('models', [])
+                    model_names = [m['name'] for m in models]
+
+                    return {
+                        'host': host,
+                        'port': port,
+                        'status': 'online',
+                        'version': version,
+                        'models': model_names,
+                        'model_count': len(models),
+                        'error': None
+                    }
+                else:
+                    # 只有版本接口成功，但模型接口失败
+                    return {
+                        'host': host,
+                        'port': port,
+                        'status': 'online',
+                        'version': version,
+                        'models': [],
+                        'model_count': 0,
+                        'error': None
+                    }
+
+        except requests.exceptions.Timeout:
+            if attempt == retry_count:
+                server_info['status'] = 'offline'
+                server_info['error'] = 'timeout'
+        except requests.exceptions.ConnectionError:
+            if attempt == retry_count:
+                server_info['status'] = 'offline'
+                server_info['error'] = 'connection_error'
+        except Exception as e:
+            if attempt == retry_count:
+                server_info['status'] = 'offline'
+                server_info['error'] = str(e)
+
+    return server_info
+
+
 class RemoteOllamaConfig:
     """远程 Ollama 服务器配置管理"""
 
@@ -110,29 +208,12 @@ class RemoteOllamaConfig:
 
     def check_server_single(self, server: Dict[str, Any], retry_count: int = 2) -> Dict[str, Any]:
         """检查单个服务器状态（带重试机制）"""
-        for attempt in range(retry_count + 1):
-            try:
-                url = f"http://{server['host']}:{server['port']}/api/version"
-                response = requests.get(url, timeout=self.config.timeout)
-                if response.status_code == 200:
-                    server['status'] = 'online'
-                    server['version'] = response.json().get('version', 'unknown')
-                    server['error'] = None
-                    return server
-            except requests.exceptions.Timeout:
-                if attempt == retry_count:
-                    server['status'] = 'offline'
-                    server['error'] = 'timeout'
-            except requests.exceptions.ConnectionError:
-                if attempt == retry_count:
-                    server['status'] = 'offline'
-                    server['error'] = 'connection_error'
-            except Exception as e:
-                if attempt == retry_count:
-                    server['status'] = 'offline'
-                    server['error'] = str(e)
-
-        return server
+        return check_ollama_server(
+            host=server['host'],
+            port=server['port'],
+            timeout=self.config.timeout,
+            retry_count=retry_count
+        )
 
     def check_servers(self) -> List[Dict[str, Any]]:
         """检查所有服务器状态"""
@@ -693,6 +774,78 @@ class VASPRAGAdvanced:
             return llm.invoke(prompt).content
 
 
+def _run_pipeline_core(
+    rag: "VASPRAGAdvanced",
+    documents: List[Document],
+    test_queries: List[str],
+    pipeline_name: str = "完整流程",
+    skip_server_check: bool = False
+) -> None:
+    """
+    RAG 流程的核心执行逻辑（内部函数）
+
+    Args:
+        rag: VASPRAGAdvanced 实例
+        documents: 文档列表
+        test_queries: 测试查询列表
+        pipeline_name: 流程名称（用于显示）
+        skip_server_check: 是否跳过服务器检查（用于演示模式）
+    """
+    try:
+        # 步骤1: 服务器配置
+        print("\n" + "=" * 70)
+        print("步骤 1: 服务器配置")
+        print("=" * 70)
+        if not skip_server_check:
+            if not rag.setup_servers():
+                if pipeline_name == "演示流程":
+                    print("❌ 服务器配置失败，但继续执行后续步骤...")
+                else:
+                    logger.error("服务器配置失败，流程终止")
+                    return
+        else:
+            print("⏭️  跳过服务器检查（演示模式）")
+
+        # 步骤2: 数据加载
+        print("\n" + "=" * 70)
+        print("步骤 2: 数据加载")
+        print("=" * 70)
+        print(f"✅ 已加载 {len(documents)} 个文档")
+
+        # 步骤3: 文档分块
+        print("\n" + "=" * 70)
+        print("步骤 3: 文档分块")
+        print("=" * 70)
+        split_docs = rag.split_documents(documents)
+
+        # 步骤4: 向量存储构建
+        print("\n" + "=" * 70)
+        print("步骤 4: 向量存储构建")
+        print("=" * 70)
+        rag.build_vectorstore(split_docs)
+
+        # 步骤5: 检索测试
+        print("\n" + "=" * 70)
+        print("步骤 5: 检索测试")
+        print("=" * 70)
+        for i, query in enumerate(test_queries, 1):
+            print(f"\n【问题 {i}】: {query}")
+            print("-" * 50)
+            try:
+                answer = rag.query(query, use_rag=True, show_results=True)
+                print(f"\n【回答】:\n{answer}")
+            except Exception as e:
+                logger.error(f"查询失败: {e}")
+            print("\n" + "=" * 70)
+
+        print(f"\n✅ {pipeline_name}执行完成！")
+
+    except Exception as e:
+        logger.error(f"流程执行出错: {e}")
+        import traceback
+        traceback.print_exc()
+
+
 def run_full_pipeline(config: RAGConfig, json_file: str, test_queries: List[str]) -> None:
     """
     运行完整的 RAG 流程
@@ -708,90 +861,22 @@ def run_full_pipeline(config: RAGConfig, json_file: str, test_queries: List[str]
     print(f"\n配置: {config}")
 
     rag = VASPRAGAdvanced(config)
-
-    print("\n" + "=" * 70)
-    print("步骤 1: 服务器配置")
-    print("=" * 70)
-    if not rag.setup_servers():
-        logger.error("服务器配置失败，流程终止")
-        return
-
-    try:
-        print("\n" + "=" * 70)
-        print("步骤 2: 数据加载")
-        print("=" * 70)
-        documents = rag.load_data(json_file)
-
-        print("\n" + "=" * 70)
-        print("步骤 3: 文档分块")
-        print("=" * 70)
-        split_docs = rag.split_documents(documents)
-
-        print("\n" + "=" * 70)
-        print("步骤 4: 向量存储构建")
-        print("=" * 70)
-        rag.build_vectorstore(split_docs)
-
-        print("\n" + "=" * 70)
-        print("步骤 5: 检索测试")
-        print("=" * 70)
-        for i, query in enumerate(test_queries, 1):
-            print(f"\n【问题 {i}】: {query}")
-            print("-" * 50)
-            try:
-                answer = rag.query(query, use_rag=True, show_results=True)
-                print(f"\n【回答】:\n{answer}")
-            except Exception as e:
-                logger.error(f"查询失败: {e}")
-            print("\n" + "=" * 70)
-
-        print("\n✅ 完整流程执行完成！")
-
-    except Exception as e:
-        logger.error(f"流程执行出错: {e}")
-        import traceback
-        traceback.print_exc()
+    documents = rag.load_data(json_file)
+    _run_pipeline_core(rag, documents, test_queries, "完整流程", skip_server_check=False)
 
 
-def test_server(host, port=11434, timeout=3):
-    """测试单个Ollama服务器"""
-    try:
-        # 测试基础连接
-        url = f"http://{host}:{port}/api/version"
-        response = requests.get(url, timeout=timeout)
-        if response.status_code == 200:
-            version = response.json().get('version', '未知')
+def test_servers(server_hosts=None, port: int = 11434, timeout: int = 3):
+    """
+    测试所有Ollama服务器
 
-            # 获取模型列表
-            models_url = f"http://{host}:{port}/api/tags"
-            models_response = requests.get(models_url, timeout=timeout)
-            if models_response.status_code == 200:
-                models = models_response.json().get('models', [])
-                model_names = [m['name'] for m in models]
-
-                return {
-                    'host': host,
-                    'port': port,
-                    'status': 'online',
-                    'version': version,
-                    'models': model_names,
-                    'model_count': len(models)
-                }
-    except Exception as e:
-        pass
-
-    return {
-        'host': host,
-        'port': port,
-        'status': 'offline',
-        'error': str(e) if 'e' in locals() else 'Connection failed'
-    }
-
-
-def test_servers(server_hosts=None):
-    """测试所有Ollama服务器"""
+    Args:
+        server_hosts: 服务器地址列表，如果为 None 则从环境变量或默认值读取
+        port: 端口号
+        timeout: 超时时间
+    """
+    # 从环境变量或默认值获取服务器列表
     if server_hosts is None:
-        server_hosts = ["192.168.1.130", "192.168.1.127", "localhost"]
+        server_hosts = RAGConfig._get_env_list('VASP_SERVER_HOSTS', ['localhost'])
 
     print("=" * 60)
     print("🌐 Ollama 服务器连接测试")
@@ -802,7 +887,10 @@ def test_servers(server_hosts=None):
     # 并行测试
     results = []
     with ThreadPoolExecutor(max_workers=10) as executor:
-        futures = [executor.submit(test_server, host) for host in server_hosts]
+        futures = [
+            executor.submit(check_ollama_server, host, port, timeout)
+            for host in server_hosts
+        ]
 
         for future in tqdm(as_completed(futures), total=len(futures), desc="测试进度"):
             results.append(future.result())
@@ -854,11 +942,11 @@ def demo_load_balancing():
     print("   3. 任务等待空闲服务器，不预先分配")
     print("   4. 快服务器完成任务后立即接新任务")
 
-    # 创建测试配置
+    # 创建测试配置 - 从环境变量或默认值获取服务器列表
+    server_hosts = RAGConfig._get_env_list('VASP_SERVER_HOSTS', ['localhost'])
     server_configs = [
-        {'host': '192.168.1.130', 'port': 11434, 'base_url': 'http://192.168.1.130:11434'},
-        {'host': '192.168.1.127', 'port': 11434, 'base_url': 'http://192.168.1.127:11434'},
-        {'host': 'localhost', 'port': 11434, 'base_url': 'http://localhost:11434'},
+        {'host': host, 'port': 11434, 'base_url': f'http://{host}:11434'}
+        for host in server_hosts
     ]
 
     print("\n🔄 初始化负载均衡器...")
@@ -979,7 +1067,6 @@ def run_demo_pipeline():
 
     # 配置 - 使用少量数据进行演示
     config = RAGConfig(
-        server_hosts=["192.168.1.127", "192.168.1.130", "localhost"],
         max_workers=3,
         chunk_size=1000,
         chunk_overlap=150,
@@ -987,27 +1074,15 @@ def run_demo_pipeline():
         force_rebuild=True
     )
 
-    print("\n📋 演示配置:")
+    print("📋 演示配置:")
     print(f"   服务器: {config.server_hosts}")
     print(f"   并行工作数: {config.max_workers}")
     print(f"   分块大小: {config.chunk_size}")
     print(f"   重叠大小: {config.chunk_overlap}")
 
-    # 步骤1: 服务器检测
-    print("\n" + "=" * 70)
-    print("步骤 1/6: 服务器检测与配置")
+    # 数据加载（使用模拟数据）
     print("=" * 70)
-
-    rag = VASPRAGAdvanced(config)
-
-    if not rag.setup_servers():
-        print("❌ 服务器配置失败，但继续执行后续步骤...")
-    else:
-        print("✅ 服务器配置完成")
-
-    # 步骤2: 数据加载（使用模拟数据）
-    print("\n" + "=" * 70)
-    print("步骤 2/6: 数据加载与预处理")
+    print("数据加载与预处理")
     print("=" * 70)
 
     try:
@@ -1030,7 +1105,7 @@ def run_demo_pipeline():
         if "Redirect to:" in item.get('content', ''):
             continue
 
-        content = f"标题: {item['title']}\nURL: {item['url']}\n内容: {item['content']}"
+        content = f"标题: {item['title']}\\nURL: {item['url']}\\n内容: {item['content']}"
         doc = Document(
             page_content=content,
             metadata={'title': item['title'], 'url': item['url']}
@@ -1039,85 +1114,14 @@ def run_demo_pipeline():
 
     print(f"✅ 预处理完成，准备 {len(documents)} 个文档")
 
-    # 步骤3: 文档分块
-    print("\n" + "=" * 70)
-    print("步骤 3/6: 文档分块")
-    print("=" * 70)
-
-    split_docs = rag.split_documents(documents)
-    print(f"✅ 分块完成，生成 {len(split_docs)} 个文本块")
-
-    # 步骤4: 构建向量存储
-    print("\n" + "=" * 70)
-    print("步骤 4/6: 并行嵌入生成与向量存储构建")
-    print("=" * 70)
-
-    start_time = time.time()
-    rag.build_vectorstore(split_docs)
-    total_time = time.time() - start_time
-
-    print(f"\n📊 构建统计:")
-    print(f"   处理文本块: {len(split_docs)}")
-    print(f"   总耗时: {total_time:.1f}秒")
-    print(f"   平均速度: {len(split_docs)/total_time:.1f} 块/秒")
-    print(f"✅ 向量存储构建完成")
-
-    # 步骤5: 检索测试
-    print("\n" + "=" * 70)
-    print("步骤 5/6: 相似性检索测试")
-    print("=" * 70)
-
-    test_query = "RPA 计算"
-    print(f"\n测试查询: '{test_query}'")
-
-    results = rag.similarity_search(test_query, k=3)
-    print(f"\n✅ 检索到 {len(results)} 个相关文档:")
-
-    for i, doc in enumerate(results, 1):
-        print(f"\n--- 结果 {i} ---")
-        print(f"标题: {doc.metadata.get('title', 'N/A')}")
-        print(f"内容预览: {doc.page_content[:150]}...")
-
-    # 步骤6: RAG问答
-    print("\n" + "=" * 70)
-    print("步骤 6/6: RAG 问答测试")
-    print("=" * 70)
-
-    question = "什么是 RPA 计算？"
-    print(f"\n测试问题: {question}")
-
-    try:
-        qa_chain = rag.setup_qa_chain()
-        print("\n💭 正在生成回答...")
-
-        start_time = time.time()
-        answer = qa_chain.invoke(question)
-        end_time = time.time()
-
-        print(f"\n✅ 回答生成完成 (耗时: {end_time - start_time:.1f}秒)")
-        print(f"\n回答:\n{answer}")
-    except Exception as e:
-        print(f"❌ 问答失败: {e}")
-        print("   可能原因: 服务器未连接或模型不可用")
-
-    # 最终总结
-    print("\n" + "=" * 70)
-    print("🎉 演示流程完成！")
-    print("=" * 70)
-
-    print("\n📊 测试结果总结:")
-    print("   ✅ 服务器检测与配置")
-    print("   ✅ 数据加载与预处理")
-    print("   ✅ 文档分块处理")
-    print("   ✅ 并行嵌入生成")
-    print("   ✅ 向量存储构建")
-    print("   ✅ 相似性检索")
-    print("   ✅ RAG 问答")
+    # 使用核心流程函数
+    rag = VASPRAGAdvanced(config)
+    test_queries = ["什么是 RPA 计算？"]
+    _run_pipeline_core(rag, documents, test_queries, "演示流程", skip_server_check=True)
 
     print(f"\n📁 演示数据已保存到: {config.persist_dir}")
     print("\n💡 提示: 此测试使用了少量数据和快速配置")
     print("   完整版运行: python vasp_rag_advanced.py pipeline")
-
 
 def print_help():
     print("=" * 70)
@@ -1147,9 +1151,8 @@ if __name__ == "__main__":
         command = sys.argv[1]
 
         if command == "pipeline":
-            # 完整流程
+            # 完整流程 - 使用环境变量或默认配置
             config = RAGConfig(
-                server_hosts=["192.168.1.127", "192.168.1.130", "localhost"],
                 max_workers=3,
                 chunk_size=1000,
                 chunk_overlap=200,
@@ -1159,13 +1162,17 @@ if __name__ == "__main__":
                 force_rebuild=False
             )
 
-            test_queries = [
+            # 从环境变量或默认值获取测试查询
+            test_queries = RAGConfig._get_env_list('VASP_TEST_QUERIES', [
                 "什么是 RPA 计算？如何在 VASP 中设置 RPA 计算？",
                 "ALGO 参数有哪些选项？分别代表什么含义？",
                 "如何设置 INCAR 文件中的混合泛函参数？"
-            ]
+            ])
 
-            run_full_pipeline(config, "vasp_wiki_all_data.json", test_queries)
+            # 从环境变量或默认值获取数据文件路径
+            data_file = os.getenv('VASP_DATA_FILE', 'vasp_wiki_all_data.json')
+
+            run_full_pipeline(config, data_file, test_queries)
 
         elif command == "demo":
             # 负载均衡演示
