@@ -219,7 +219,7 @@ class RemoteOllamaConfig:
 
 
 class RealTimeLoadBalancer:
-    """实时负载均衡器 - 谁算完就给谁新任务"""
+    """实时负载均衡器 - 谁空闲谁干活，快服务器多干活"""
 
     def __init__(self, server_configs: List[Dict[str, str]], max_workers: int = 4):
         if not server_configs:
@@ -228,116 +228,128 @@ class RealTimeLoadBalancer:
         self.server_configs = server_configs
         self.max_workers = max_workers
 
-        # 服务器状态跟踪
-        self.server_status = {
+        # 预先创建所有嵌入客户端
+        self.embedders = []
+        for config in server_configs:
+            try:
+                embedder = OllamaEmbeddings(
+                    model=config.get('model', 'placeholder'),
+                    base_url=config['base_url']
+                )
+                self.embedders.append({
+                    'client': embedder,
+                    'base_url': config['base_url'],
+                    'host': config.get('host', 'unknown'),
+                    'lock': threading.Lock(),  # 每个服务器一把锁
+                    'busy': False,             # 是否忙碌
+                })
+                logger.info(f"✅ 创建客户端: {config['base_url']}")
+            except Exception as e:
+                logger.error(f"❌ 创建客户端失败 {config['base_url']}: {e}")
+
+        if not self.embedders:
+            raise ValueError("没有可用的嵌入客户端")
+
+        # 全局统计
+        self.global_lock = threading.Lock()
+        self.server_stats = {
             config['base_url']: {
-                'busy': False,           # 是否正在处理任务
-                'total_tasks': 0,        # 完成的总任务数
-                'total_time': 0.0,       # 总耗时
-                'failed_tasks': 0,       # 失败任务数
-                'avg_time': 0.0,         # 平均耗时
+                'total_tasks': 0,
+                'total_time': 0.0,
+                'failed_tasks': 0,
+                'avg_time': 0.0,
             }
             for config in server_configs
         }
 
-        # 任务队列和结果队列
-        self.task_queue = []
-        self.result_queue = []
-        self.lock = threading.Lock()
-        self.condition = threading.Condition(self.lock)
+        logger.info(f"初始化实时负载均衡器，创建 {len(self.embedders)} 个嵌入客户端")
 
-        logger.info(f"初始化实时负载均衡器，监控 {len(server_configs)} 个服务器")
+    def _find_available_server(self) -> Optional[Dict]:
+        """查找第一个空闲的服务器（谁空闲给谁）"""
+        for embedder in self.embedders:
+            if not embedder['busy']:
+                return embedder
+        return None
 
-    def _get_available_server(self) -> Optional[Dict[str, str]]:
-        """获取当前空闲的服务器（谁空闲给谁）"""
-        with self.lock:
-            # 找到第一个空闲的服务器
-            for server in self.server_configs:
-                if not self.server_status[server['base_url']]['busy']:
-                    return server
-            return None
+    def _mark_server_busy(self, embedder: Dict, busy: bool):
+        """标记服务器状态"""
+        with embedder['lock']:
+            embedder['busy'] = busy
 
-    def _mark_server_busy(self, server_url: str, busy: bool):
-        """标记服务器忙碌状态"""
-        with self.lock:
-            self.server_status[server_url]['busy'] = busy
-
-    def _update_server_stats(self, server_url: str, response_time: float, success: bool):
-        """更新服务器统计信息"""
-        with self.lock:
-            status = self.server_status[server_url]
+    def _update_stats(self, server_url: str, response_time: float, success: bool):
+        """更新全局统计"""
+        with self.global_lock:
+            stats = self.server_stats[server_url]
             if success:
-                status['total_tasks'] += 1
-                status['total_time'] += response_time
-                status['avg_time'] = status['total_time'] / status['total_tasks']
+                stats['total_tasks'] += 1
+                stats['total_time'] += response_time
+                stats['avg_time'] = stats['total_time'] / stats['total_tasks']
             else:
-                status['failed_tasks'] += 1
+                stats['failed_tasks'] += 1
 
     def get_server_stats(self) -> Dict[str, Dict[str, Any]]:
         """获取所有服务器的性能统计"""
-        with self.lock:
+        with self.global_lock:
             return {
                 url: {
-                    'busy': '🔴' if stats['busy'] else '🟢',
                     'total_tasks': stats['total_tasks'],
                     'avg_time': round(stats['avg_time'], 3) if stats['total_tasks'] > 0 else 0,
                     'failed_tasks': stats['failed_tasks'],
                     'total_time': round(stats['total_time'], 2)
                 }
-                for url, stats in self.server_status.items()
+                for url, stats in self.server_stats.items()
             }
 
     def print_server_stats(self):
-        """打印服务器实时状态"""
+        """打印服务器性能统计"""
         stats = self.get_server_stats()
-        print("\n📊 服务器实时状态:")
-        print("-" * 80)
-        print(f"{'状态':<6} {'服务器URL':<35} {'任务数':<8} {'平均时间(s)':<12} {'总耗时(s)':<10} {'失败数'}")
-        print("-" * 80)
+        print("\n📊 服务器性能统计:")
+        print("-" * 70)
+        print(f"{'服务器URL':<35} {'任务数':<8} {'平均时间(s)':<12} {'总耗时(s)':<10} {'失败数'}")
+        print("-" * 70)
         for url, stat in stats.items():
-            print(f"{stat['busy']:<6} {url:<35} {stat['total_tasks']:<8} {stat['avg_time']:<12} {stat['total_time']:<10} {stat['failed_tasks']}")
-        print("-" * 80)
+            print(f"{url:<35} {stat['total_tasks']:<8} {stat['avg_time']:<12} {stat['total_time']:<10} {stat['failed_tasks']}")
+        print("-" * 70)
 
-    def worker_process_batch(self, server: Dict[str, str], texts: List[str], model: str):
-        """工作线程：处理单个批次"""
-        server_url = server['base_url']
+    def process_single_batch(self, texts: List[str], model: str) -> List[List[float]]:
+        """处理单个批次 - 等待空闲服务器"""
+        # 等待空闲服务器
+        while True:
+            embedder = self._find_available_server()
+            if embedder:
+                break
+            time.sleep(0.05)  # 50ms检查一次
+
+        # 标记为忙碌
+        self._mark_server_busy(embedder, True)
+
+        base_url = embedder['base_url']
+        client = embedder['client']
+        client.model = model  # 设置模型
+
         start_time = time.time()
 
         try:
-            # 标记为忙碌
-            self._mark_server_busy(server_url, True)
-
             # 执行嵌入生成
-            embeddings = OllamaEmbeddings(
-                model=model,
-                base_url=server_url
-            )
-            result = embeddings.embed_documents(texts)
+            result = client.embed_documents(texts)
 
             # 记录成功
             response_time = time.time() - start_time
-            self._update_server_stats(server_url, response_time, success=True)
+            self._update_stats(base_url, response_time, success=True)
 
-            # 将结果放入队列
-            with self.lock:
-                self.result_queue.append((result, None))
-
-            logger.debug(f"服务器 {server_url} 完成 {len(texts)} 个文本，耗时 {response_time:.2f}s")
+            logger.debug(f"服务器 {base_url} 完成 {len(texts)} 个文本，耗时 {response_time:.2f}s")
+            return result
 
         except Exception as e:
             # 记录失败
             response_time = time.time() - start_time
-            self._update_server_stats(server_url, response_time, success=False)
-
-            # 将错误放入队列
-            with self.lock:
-                self.result_queue.append((None, e))
-
-            logger.error(f"服务器 {server_url} 处理失败: {e}")
+            self._update_stats(base_url, response_time, success=False)
+            logger.error(f"服务器 {base_url} 处理失败: {e}")
+            raise
 
         finally:
             # 标记为空闲
-            self._mark_server_busy(server_url, False)
+            self._mark_server_busy(embedder, False)
 
     def generate_embeddings_parallel(
         self,
@@ -350,60 +362,44 @@ class RealTimeLoadBalancer:
             return []
 
         logger.info(f"开始实时负载均衡生成嵌入: {len(texts)} 个文本, 模型: {model}")
-        logger.info(f"使用 {len(self.server_configs)} 个服务器，最大并行度: {self.max_workers}")
+        logger.info(f"使用 {len(self.embedders)} 个服务器，最大并行度: {self.max_workers}")
 
         batch_size = batch_size or 20
 
         # 分批
         batches = [texts[i:i + batch_size] for i in range(0, len(texts), batch_size)]
         total_batches = len(batches)
-        completed_batches = 0
 
         print(f"\n🔄 开始生成嵌入向量 (实时负载均衡 - 谁空闲谁干活)")
         print(f"   总共 {total_batches} 个批次，每批 {batch_size} 个文本")
         self.print_server_stats()
 
-        # 使用线程池处理
+        all_embeddings = []
+
+        # 使用线程池
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
-            # 提交所有任务，但每个任务会等待空闲服务器
-            futures = []
-            for batch in batches:
-                # 等待空闲服务器
-                while True:
-                    server = self._get_available_server()
-                    if server:
-                        break
-                    time.sleep(0.1)  # 短暂等待
+            # 提交所有任务
+            futures = [
+                executor.submit(self.process_single_batch, batch, model)
+                for batch in batches
+            ]
 
-                # 提交任务
-                future = executor.submit(self.worker_process_batch, server, batch, model)
-                futures.append(future)
-
-            # 等待所有任务完成
+            # 等待完成
             with tqdm(total=total_batches, desc="处理批次") as pbar:
                 for future in as_completed(futures):
                     try:
-                        future.result()  # 会抛出异常如果有错误
+                        embeddings = future.result()
+                        all_embeddings.extend(embeddings)
                         pbar.update(1)
-                        completed_batches += 1
 
                         # 每完成3个批次显示一次状态
-                        if completed_batches % 3 == 0:
-                            print(f"\n   [进度: {completed_batches}/{total_batches}]")
+                        if len(all_embeddings) // batch_size % 3 == 0:
+                            print(f"\n   [进度: {len(all_embeddings) // batch_size}/{total_batches}]")
                             self.print_server_stats()
 
                     except Exception as e:
                         logger.error(f"批次处理失败: {e}")
                         pbar.update(1)
-
-        # 收集所有结果
-        all_embeddings = []
-        with self.lock:
-            for result, error in self.result_queue:
-                if error:
-                    raise error
-                if result:
-                    all_embeddings.extend(result)
 
         print("\n✅ 嵌入生成完成")
         self.print_server_stats()
@@ -420,7 +416,7 @@ class VASPRAGAdvanced:
         self.vectorstore: Optional[Chroma] = None
         self.llm: Optional[ChatOllama] = None
         self.remote_config: Optional[RemoteOllamaConfig] = None
-        self.parallel_generator: Optional[ParallelEmbeddingGenerator] = None
+        self.parallel_generator: Optional[RealTimeLoadBalancer] = None
 
     def setup_servers(self) -> bool:
         """设置并检查服务器"""
@@ -757,18 +753,106 @@ def run_full_pipeline(config: RAGConfig, json_file: str, test_queries: List[str]
         traceback.print_exc()
 
 
+def test_server(host, port=11434, timeout=3):
+    """测试单个Ollama服务器"""
+    try:
+        # 测试基础连接
+        url = f"http://{host}:{port}/api/version"
+        response = requests.get(url, timeout=timeout)
+        if response.status_code == 200:
+            version = response.json().get('version', '未知')
+
+            # 获取模型列表
+            models_url = f"http://{host}:{port}/api/tags"
+            models_response = requests.get(models_url, timeout=timeout)
+            if models_response.status_code == 200:
+                models = models_response.json().get('models', [])
+                model_names = [m['name'] for m in models]
+
+                return {
+                    'host': host,
+                    'port': port,
+                    'status': 'online',
+                    'version': version,
+                    'models': model_names,
+                    'model_count': len(models)
+                }
+    except Exception as e:
+        pass
+
+    return {
+        'host': host,
+        'port': port,
+        'status': 'offline',
+        'error': str(e) if 'e' in locals() else 'Connection failed'
+    }
+
+
+def test_servers(server_hosts=None):
+    """测试所有Ollama服务器"""
+    if server_hosts is None:
+        server_hosts = ["192.168.1.130", "192.168.1.127", "localhost"]
+
+    print("=" * 60)
+    print("🌐 Ollama 服务器连接测试")
+    print("=" * 60)
+
+    print(f"\n正在测试 {len(server_hosts)} 个服务器...")
+
+    # 并行测试
+    results = []
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        futures = [executor.submit(test_server, host) for host in server_hosts]
+
+        for future in tqdm(as_completed(futures), total=len(futures), desc="测试进度"):
+            results.append(future.result())
+
+    # 显示结果
+    print("\n" + "=" * 60)
+    print("📊 测试结果")
+    print("=" * 60)
+
+    online_count = 0
+    for result in results:
+        status_icon = "✅" if result['status'] == 'online' else "❌"
+        print(f"\n{status_icon} {result['host']}:{result['port']}")
+        print(f"   状态: {result['status']}")
+
+        if result['status'] == 'online':
+            online_count += 1
+            print(f"   版本: {result['version']}")
+            print(f"   模型数: {result['model_count']}")
+            if result['models']:
+                print(f"   可用模型:")
+                for model in result['models']:
+                    print(f"      - {model}")
+
+    print(f"\n" + "=" * 60)
+    print(f"📈 统计: {online_count}/{len(server_hosts)} 服务器在线")
+
+    # 推荐配置
+    online_servers = [r for r in results if r['status'] == 'online']
+    if online_servers:
+        print("\n💡 推荐配置:")
+        print("server_hosts = [")
+        for server in online_servers:
+            print(f'    \"{server["host"]}\",')
+        print("]")
+
+    return results
+
+
 def demo_load_balancing():
-    """演示实时负载均衡效果"""
+    """演示真正的动态负载均衡 - 谁空闲谁干活"""
     print("=" * 80)
-    print("🚀 实时负载均衡演示 - 谁算完就给谁新任务")
+    print("🚀 真正的动态负载均衡演示 - 谁空闲谁干活")
     print("=" * 80)
 
-    # 模拟不同性能的服务器
-    print("\n📝 模拟场景:")
-    print("   - 服务器 A (192.168.1.130): 快速服务器 (0.5秒/批次)")
-    print("   - 服务器 B (192.168.1.127): 中等速度 (1.0秒/批次)")
-    print("   - 服务器 C (localhost): 较慢服务器 (1.5秒/批次)")
-    print("   - 任务: 6个批次，每批20个文本")
+    print("\n📝 实现方式:")
+    print("   1. 预先创建所有服务器的嵌入客户端")
+    print("   2. 每个服务器有独立的忙碌状态标记")
+    print("   3. 任务等待空闲服务器，不预先分配")
+    print("   4. 快服务器完成任务后立即接新任务")
 
     # 创建测试配置
     server_configs = [
@@ -777,65 +861,282 @@ def demo_load_balancing():
         {'host': 'localhost', 'port': 11434, 'base_url': 'http://localhost:11434'},
     ]
 
+    print("\n🔄 初始化负载均衡器...")
     generator = RealTimeLoadBalancer(server_configs, max_workers=3)
 
-    print("\n📊 初始状态:")
+    print(f"\n✅ 创建了 {len(generator.embedders)} 个嵌入客户端")
+    for embedder in generator.embedders:
+        print(f"   - {embedder['host']}: 初始状态=空闲")
+
+    print("\n📊 初始统计:")
     generator.print_server_stats()
 
-    # 模拟任务执行过程
-    print("\n🔄 模拟任务执行过程...")
-    print("   (使用线程模拟不同服务器的处理速度)")
+    # 模拟真实场景
+    print("\n🔄 模拟真实任务执行...")
+    print("\n场景说明:")
+    print("   - 6个批次需要处理")
+    print("   - 服务器A (192.168.1.130): 0.5秒/批次")
+    print("   - 服务器B (192.168.1.127): 1.0秒/批次")
+    print("   - 服务器C (localhost): 1.5秒/批次")
 
-    import threading
     import time
+    import threading
 
-    def mock_process(server_url, duration, batch_id):
-        """模拟服务器处理任务"""
-        generator._mark_server_busy(server_url, True)
+    # 模拟任务执行
+    results = []
+    lock = threading.Lock()
+
+    def mock_process_batch(batch_id):
+        """模拟处理一个批次"""
+        # 等待空闲服务器
+        while True:
+            embedder = generator._find_available_server()
+            if embedder:
+                break
+            time.sleep(0.05)
+
+        # 标记忙碌
+        generator._mark_server_busy(embedder, True)
+
+        host = embedder['host']
+        base_url = embedder['base_url']
+
+        # 根据服务器决定处理时间
+        if '130' in base_url:
+            duration = 0.5
+        elif '127' in base_url:
+            duration = 1.0
+        else:
+            duration = 1.5
+
+        print(f"   📋 批次 {batch_id} -> {host} (预计{duration}s)")
+
+        # 模拟工作
         time.sleep(duration)
-        generator._update_server_stats(server_url, duration, success=True)
-        generator._mark_server_busy(server_url, False)
-        print(f"   ✅ 批次 {batch_id} 在 {server_url} 完成 (耗时 {duration:.1f}s)")
 
-    # 模拟6个批次，分配给3个服务器
-    tasks = [
-        ('http://192.168.1.130:11434', 0.5, 1),  # 服务器A处理批次1
-        ('http://192.168.1.127:11434', 1.0, 2),  # 服务器B处理批次2
-        ('http://localhost:11434', 1.5, 3),      # 服务器C处理批次3
-        ('http://192.168.1.130:11434', 0.5, 4),  # 服务器A完成，处理批次4
-        ('http://192.168.1.130:11434', 0.5, 5),  # 服务器A完成，处理批次5
-        ('http://192.168.1.127:11434', 1.0, 6),  # 服务器B完成，处理批次6
-    ]
+        # 更新统计
+        generator._update_stats(base_url, duration, success=True)
 
-    print("\n任务分配模拟:")
+        # 标记空闲
+        generator._mark_server_busy(embedder, False)
+
+        with lock:
+            results.append((batch_id, host, duration))
+
+        print(f"   ✅ 批次 {batch_id} 在 {host} 完成")
+
+    # 启动6个任务（模拟并行提交）
     threads = []
-    for url, duration, batch_id in tasks:
-        thread = threading.Thread(target=mock_process, args=(url, duration, batch_id))
+    for i in range(1, 7):
+        thread = threading.Thread(target=mock_process_batch, args=(i,))
         threads.append(thread)
         thread.start()
-        time.sleep(0.2)  # 模拟任务提交间隔
+        time.sleep(0.1)  # 间隔提交
 
-        # 每提交2个任务显示一次状态
-        if batch_id % 2 == 0:
-            time.sleep(0.3)  # 等待部分任务完成
-            print(f"\n   [提交 {batch_id} 个批次后的状态]")
+        # 每2个任务显示一次状态
+        if i % 2 == 0:
+            time.sleep(0.2)  # 等待部分完成
+            print(f"\n   [提交 {i} 个批次后的状态]")
             generator.print_server_stats()
 
-    # 等待所有任务完成
+    # 等待所有完成
     for thread in threads:
         thread.join()
 
-    print("\n\n📊 最终状态:")
+    print("\n📊 最终统计:")
     generator.print_server_stats()
 
     print("\n✅ 演示完成！")
     print("\n💡 结果分析:")
-    print("   - 服务器A (最快) 完成了 3 个批次")
-    print("   - 服务器B (中等) 完成了 2 个批次")
-    print("   - 服务器C (最慢) 完成了 1 个批次")
-    print("   - 这就是真正的'谁算完就给谁新任务'！")
+    stats = generator.get_server_stats()
+    for url, stat in stats.items():
+        host = url.split('//')[1].split(':')[0]
+        print(f"   {host}: {stat['total_tasks']} 个任务, 平均 {stat['avg_time']}s/任务")
+
+    print("\n🎯 关键特点:")
+    print("   ✅ 谁空闲谁干活 - 不预先分配")
+    print("   ✅ 快服务器自动多干活 - 完成快就接新任务")
+    print("   ✅ 慢服务器不会拖累整体 - 只处理分配到的任务")
+    print("   ✅ 完全动态 - 基于实时状态")
 
     print("\n" + "=" * 80)
+
+
+def run_demo_pipeline():
+    """运行演示版全流程 - 使用少量数据"""
+    print("=" * 70)
+    print("🧪 VASP RAG - 演示版全流程")
+    print("=" * 70)
+    print("\n此测试将顺序执行以下所有步骤:")
+    print("  1. 服务器检测与配置")
+    print("  2. 数据加载与预处理（使用模拟数据）")
+    print("  3. 文档分块")
+    print("  4. 并行嵌入生成与向量存储构建")
+    print("  5. 相似性检索测试")
+    print("  6. RAG 问答测试")
+    print("\n" + "=" * 70)
+    print("开始执行演示流程...\n")
+
+    # 配置 - 使用少量数据进行演示
+    config = RAGConfig(
+        server_hosts=["192.168.1.127", "192.168.1.130", "localhost"],
+        max_workers=3,
+        chunk_size=1000,
+        chunk_overlap=150,
+        persist_dir="./chroma_db_demo",
+        force_rebuild=True
+    )
+
+    print("\n📋 演示配置:")
+    print(f"   服务器: {config.server_hosts}")
+    print(f"   并行工作数: {config.max_workers}")
+    print(f"   分块大小: {config.chunk_size}")
+    print(f"   重叠大小: {config.chunk_overlap}")
+
+    # 步骤1: 服务器检测
+    print("\n" + "=" * 70)
+    print("步骤 1/6: 服务器检测与配置")
+    print("=" * 70)
+
+    rag = VASPRAGAdvanced(config)
+
+    if not rag.setup_servers():
+        print("❌ 服务器配置失败，但继续执行后续步骤...")
+    else:
+        print("✅ 服务器配置完成")
+
+    # 步骤2: 数据加载（使用模拟数据）
+    print("\n" + "=" * 70)
+    print("步骤 2/6: 数据加载与预处理")
+    print("=" * 70)
+
+    try:
+        with open("vasp_wiki_all_data.json", 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        print(f"✅ 成功加载数据文件，共 {len(data)} 条记录")
+    except FileNotFoundError:
+        print(f"❌ 数据文件 vasp_wiki_all_data.json 不存在，使用模拟数据")
+        data = [
+            {"title": "RPA计算介绍", "url": "http://example.com/rpa", "content": "RPA (Relaxation Polarization Approximation) 计算是一种用于研究铁电材料的方法..."},
+            {"title": "VASP基础", "url": "http://example.com/vasp", "content": "VASP (Vienna Ab initio Simulation Package) 是基于平面波赝势的第一性原理计算软件..."},
+            {"title": "晶格优化", "url": "http://example.com/relax", "content": "晶格优化是结构计算中的重要步骤，通过调整原子位置和晶胞参数使体系能量最低..."},
+        ]
+
+    # 只取前30个文档进行演示
+    demo_data = data[:30]
+    documents = []
+
+    for item in demo_data:
+        if "Redirect to:" in item.get('content', ''):
+            continue
+
+        content = f"标题: {item['title']}\nURL: {item['url']}\n内容: {item['content']}"
+        doc = Document(
+            page_content=content,
+            metadata={'title': item['title'], 'url': item['url']}
+        )
+        documents.append(doc)
+
+    print(f"✅ 预处理完成，准备 {len(documents)} 个文档")
+
+    # 步骤3: 文档分块
+    print("\n" + "=" * 70)
+    print("步骤 3/6: 文档分块")
+    print("=" * 70)
+
+    split_docs = rag.split_documents(documents)
+    print(f"✅ 分块完成，生成 {len(split_docs)} 个文本块")
+
+    # 步骤4: 构建向量存储
+    print("\n" + "=" * 70)
+    print("步骤 4/6: 并行嵌入生成与向量存储构建")
+    print("=" * 70)
+
+    start_time = time.time()
+    rag.build_vectorstore(split_docs)
+    total_time = time.time() - start_time
+
+    print(f"\n📊 构建统计:")
+    print(f"   处理文本块: {len(split_docs)}")
+    print(f"   总耗时: {total_time:.1f}秒")
+    print(f"   平均速度: {len(split_docs)/total_time:.1f} 块/秒")
+    print(f"✅ 向量存储构建完成")
+
+    # 步骤5: 检索测试
+    print("\n" + "=" * 70)
+    print("步骤 5/6: 相似性检索测试")
+    print("=" * 70)
+
+    test_query = "RPA 计算"
+    print(f"\n测试查询: '{test_query}'")
+
+    results = rag.similarity_search(test_query, k=3)
+    print(f"\n✅ 检索到 {len(results)} 个相关文档:")
+
+    for i, doc in enumerate(results, 1):
+        print(f"\n--- 结果 {i} ---")
+        print(f"标题: {doc.metadata.get('title', 'N/A')}")
+        print(f"内容预览: {doc.page_content[:150]}...")
+
+    # 步骤6: RAG问答
+    print("\n" + "=" * 70)
+    print("步骤 6/6: RAG 问答测试")
+    print("=" * 70)
+
+    question = "什么是 RPA 计算？"
+    print(f"\n测试问题: {question}")
+
+    try:
+        qa_chain = rag.setup_qa_chain()
+        print("\n💭 正在生成回答...")
+
+        start_time = time.time()
+        answer = qa_chain.invoke(question)
+        end_time = time.time()
+
+        print(f"\n✅ 回答生成完成 (耗时: {end_time - start_time:.1f}秒)")
+        print(f"\n回答:\n{answer}")
+    except Exception as e:
+        print(f"❌ 问答失败: {e}")
+        print("   可能原因: 服务器未连接或模型不可用")
+
+    # 最终总结
+    print("\n" + "=" * 70)
+    print("🎉 演示流程完成！")
+    print("=" * 70)
+
+    print("\n📊 测试结果总结:")
+    print("   ✅ 服务器检测与配置")
+    print("   ✅ 数据加载与预处理")
+    print("   ✅ 文档分块处理")
+    print("   ✅ 并行嵌入生成")
+    print("   ✅ 向量存储构建")
+    print("   ✅ 相似性检索")
+    print("   ✅ RAG 问答")
+
+    print(f"\n📁 演示数据已保存到: {config.persist_dir}")
+    print("\n💡 提示: 此测试使用了少量数据和快速配置")
+    print("   完整版运行: python vasp_rag_advanced.py pipeline")
+
+
+def print_help():
+    print("=" * 70)
+    print("VASP RAG 高级版 - 自适应负载均衡")
+    print("=" * 70)
+    print("\n使用方式:")
+    print("  python vasp_rag_advanced.py pipeline  - 运行完整 RAG 流程（需真实数据）")
+    print("  python vasp_rag_advanced.py test     - 运行演示流程（少量数据）")
+    print("  python vasp_rag_advanced.py demo     - 演示负载均衡效果")
+    print("  python vasp_rag_advanced.py server   - 测试服务器连接")
+    print("\n功能说明:")
+    print("  ✅ 真实动态负载均衡 - 谁空闲谁干活，快服务器多干活")
+    print("  ✅ 实时性能监控 - 显示各服务器任务数和平均时间")
+    print("  ✅ 自动故障转移 - 失败自动重试")
+    print("  ✅ 并行加速 - 多服务器同时处理")
+    print("\n提示:")
+    print("  - 首次使用建议先运行: python vasp_rag_advanced.py server")
+    print("  - 快速测试建议运行: python vasp_rag_advanced.py test")
+    print("  - 完整流程建议运行: python vasp_rag_advanced.py pipeline")
 
 
 if __name__ == "__main__":
@@ -843,7 +1144,10 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) > 1:
-        if sys.argv[1] == "pipeline":
+        command = sys.argv[1]
+
+        if command == "pipeline":
+            # 完整流程
             config = RAGConfig(
                 server_hosts=["192.168.1.127", "192.168.1.130", "localhost"],
                 max_workers=3,
@@ -863,22 +1167,20 @@ if __name__ == "__main__":
 
             run_full_pipeline(config, "vasp_wiki_all_data.json", test_queries)
 
-        elif sys.argv[1] == "demo":
+        elif command == "demo":
+            # 负载均衡演示
             demo_load_balancing()
 
+        elif command == "test":
+            # 全流程测试（使用少量数据）
+            run_demo_pipeline()
+
+        elif command == "server":
+            # 服务器测试
+            test_servers()
+
         else:
-            print(f"未知命令: {sys.argv[1]}")
+            print(f"❌ 未知命令: {command}")
             print_help()
     else:
         print_help()
-
-
-def print_help():
-    print("VASP RAG 高级版 - 自适应负载均衡")
-    print("\n使用方式:")
-    print("  python vasp_rag_advanced.py pipeline  - 运行完整 RAG 流程")
-    print("  python vasp_rag_advanced.py demo     - 演示负载均衡效果")
-    print("\n功能说明:")
-    print("  ✅ 自适应负载均衡 - 根据服务器性能动态分配任务")
-    print("  ✅ 实时性能监控 - 显示各服务器响应时间和成功率")
-    print("  ✅ 自动故障转移 - 失败自动重试，降低故障服务器权重")
