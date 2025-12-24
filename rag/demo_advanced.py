@@ -58,7 +58,7 @@ def demo():
         data = json.load(f)
 
     # 只取前50个文档进行演示
-    demo_data = data[:50]
+    demo_data = data[:10]
     documents = []
 
     for item in demo_data:

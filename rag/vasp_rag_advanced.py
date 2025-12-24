@@ -13,7 +13,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_ollama import OllamaEmbeddings, ChatOllama
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
@@ -347,31 +347,48 @@ class VASPRAGAdvanced:
 
         # 创建向量存储
         print("\n💾 保存到向量数据库...")
-        embeddings = OllamaEmbeddings(
-            model=self.embedding_config['model'],
-            base_url=self.embedding_config['base_url']
+
+        # 使用底层 chromadb 直接添加嵌入和文档，避免重新计算嵌入
+        import chromadb
+
+        # 获取底层的 chroma 客户端
+        client = chromadb.PersistentClient(path=self.persist_dir)
+
+        # 获取或创建集合
+        collection = client.get_or_create_collection(
+            name="vasp_rag"
         )
 
-        # 批量添加到 ChromaDB
+        # 批量添加到 chromadb
         batch_size = 100
-        total_batches = (len(split_docs) + batch_size - 1) // batch_size
-
         with tqdm(total=len(split_docs), desc="保存到数据库") as pbar:
             for i in range(0, len(split_docs), batch_size):
                 batch_docs = split_docs[i:i+batch_size]
                 batch_embeddings = embeddings_list[i:i+batch_size]
 
-                # 手动创建向量存储
-                if i == 0:
-                    self.vectorstore = Chroma.from_documents(
-                        documents=batch_docs,
-                        embedding=embeddings,
-                        persist_directory=self.persist_dir
-                    )
-                else:
-                    self.vectorstore.add_documents(batch_docs)
+                ids = [f"doc_{j}" for j in range(i, i + len(batch_docs))]
+                documents = [doc.page_content for doc in batch_docs]
+                metadatas = [doc.metadata for doc in batch_docs]
 
+                collection.add(
+                    embeddings=batch_embeddings,
+                    documents=documents,
+                    metadatas=metadatas,
+                    ids=ids
+                )
                 pbar.update(len(batch_docs))
+
+        # 重新创建 langchain_chroma 实例以使用持久化的数据
+        embeddings = OllamaEmbeddings(
+            model=self.embedding_config['model'],
+            base_url=self.embedding_config['base_url']
+        )
+
+        self.vectorstore = Chroma(
+            embedding_function=embeddings,
+            collection_name="vasp_rag",
+            persist_directory=self.persist_dir
+        )
 
         print(f"✅ 向量数据库构建完成")
         print(f"   总耗时: {time.time() - start_time:.1f}秒")
