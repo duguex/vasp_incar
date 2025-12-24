@@ -76,7 +76,6 @@ class RAGConfig:
         self.force_rebuild = force_rebuild
 
         self.embedding_config: Optional[Dict[str, str]] = None
-        self.online_servers: List[Dict[str, Any]] = []
 
     @staticmethod
     def _get_env_int(key: str, default: int) -> int:
@@ -99,7 +98,6 @@ class RAGConfig:
         # 尝试解析 JSON 数组
         if value.strip().startswith('['):
             try:
-                import json
                 return json.loads(value)
             except:
                 pass
@@ -107,22 +105,10 @@ class RAGConfig:
         # 逗号分隔
         return [v.strip() for v in value.split(',') if v.strip()]
 
-    def to_dict(self) -> Dict[str, Any]:
-        return {
-            'server_hosts': self.server_hosts,
-            'port': self.port,
-            'timeout': self.timeout,
-            'max_workers': self.max_workers,
-            'chunk_size': self.chunk_size,
-            'chunk_overlap': self.chunk_overlap,
-            'persist_dir': self.persist_dir,
-            'batch_size': self.batch_size,
-            'chat_model': self.chat_model,
-            'force_rebuild': self.force_rebuild
-        }
-
     def __repr__(self) -> str:
-        return f"RAGConfig({self.to_dict()})"
+        return (f"RAGConfig(max_workers={self.max_workers}, "
+                f"chunk_size={self.chunk_size}, "
+                f"persist_dir='{self.persist_dir}')")
 
 
 def check_ollama_server(host: str, port: int = 11434, timeout: int = 3, retry_count: int = 2) -> Dict[str, Any]:
@@ -298,12 +284,9 @@ class RemoteOllamaConfig:
 class RealTimeLoadBalancer:
     """实时负载均衡器 - 谁空闲谁干活，快服务器多干活"""
 
-    def __init__(self, server_configs: List[Dict[str, str]], max_workers: int = 4):
+    def __init__(self, server_configs: List[Dict[str, str]]):
         if not server_configs:
             raise ValueError("至少需要一个可用的服务器配置")
-
-        self.server_configs = server_configs
-        self.max_workers = max_workers
 
         # 预先创建所有嵌入客户端
         self.embedders = []
@@ -432,14 +415,15 @@ class RealTimeLoadBalancer:
         self,
         texts: List[str],
         model: str,
-        batch_size: Optional[int] = None
+        batch_size: Optional[int] = None,
+        max_workers: int = 3
     ) -> List[List[float]]:
         """并行生成嵌入向量 - 谁空闲谁干活"""
         if not texts:
             return []
 
         logger.info(f"开始实时负载均衡生成嵌入: {len(texts)} 个文本, 模型: {model}")
-        logger.info(f"使用 {len(self.embedders)} 个服务器，最大并行度: {self.max_workers}")
+        logger.info(f"使用 {len(self.embedders)} 个服务器，最大并行度: {max_workers}")
 
         batch_size = batch_size or 20
 
@@ -454,7 +438,7 @@ class RealTimeLoadBalancer:
         all_embeddings = []
 
         # 使用线程池
-        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
             # 提交所有任务
             futures = [
                 executor.submit(self.process_single_batch, batch, model)
@@ -513,7 +497,6 @@ class VASPRAGAdvanced:
             return False
 
         self.config.embedding_config = embedding_config
-        self.config.online_servers = online_servers
 
         available_servers = [
             {
@@ -524,10 +507,7 @@ class VASPRAGAdvanced:
             for s in online_servers
         ]
 
-        self.parallel_generator = RealTimeLoadBalancer(
-            available_servers,
-            self.config.max_workers
-        )
+        self.parallel_generator = RealTimeLoadBalancer(available_servers)
 
         print(f"\n✅ 服务器配置完成")
         print(f"   嵌入模型: {embedding_config['model']}")
@@ -538,7 +518,7 @@ class VASPRAGAdvanced:
         return True
 
     def load_data(self, json_file_path: str) -> List[Document]:
-        """加载 JSON 数据文件"""
+        """加载 JSON 数据文件 - 分离标题/URL 到 metadata"""
         logger.info(f"加载数据: {json_file_path}")
 
         if not os.path.exists(json_file_path):
@@ -552,12 +532,10 @@ class VASPRAGAdvanced:
             if "Redirect to:" in item.get('content', ''):
                 continue
 
-            content = f"标题: {item['title']}\n"
-            content += f"URL: {item['url']}\n"
-            content += f"内容: {item['content']}"
-
+            # 只将纯内容放入 page_content
+            # 标题和 URL 作为独立的 metadata
             doc = Document(
-                page_content=content,
+                page_content=item['content'],
                 metadata={
                     'title': item['title'],
                     'url': item['url']
@@ -569,7 +547,7 @@ class VASPRAGAdvanced:
         return documents
 
     def split_documents(self, documents: List[Document]) -> List[Document]:
-        """文档分块处理"""
+        """文档分块处理 - 保留原始 metadata"""
         print(f"\n✂️  文档分块 (chunk_size={self.config.chunk_size}, overlap={self.config.chunk_overlap})")
 
         text_splitter = RecursiveCharacterTextSplitter(
@@ -582,6 +560,7 @@ class VASPRAGAdvanced:
         split_docs = []
         for doc in tqdm(documents, desc="分块处理"):
             chunks = text_splitter.split_documents([doc])
+            # 每个分块都会继承原始文档的 metadata（标题、URL）
             split_docs.extend(chunks)
 
         print(f"✅ 分块完成，共 {len(split_docs)} 个文本块")
@@ -610,7 +589,8 @@ class VASPRAGAdvanced:
         embeddings_list = self.parallel_generator.generate_embeddings_parallel(
             texts,
             self.config.embedding_config['model'],
-            batch_size=self.config.batch_size
+            batch_size=self.config.batch_size,
+            max_workers=self.config.max_workers
         )
 
         embedding_time = time.time() - start_time
@@ -673,13 +653,193 @@ class VASPRAGAdvanced:
         self._build_new_vectorstore(split_docs)
 
     def similarity_search(self, query: str, k: int = 5) -> List[Document]:
-        """执行相似性搜索"""
+        """执行相似性搜索（单阶段，保留兼容性）"""
         if self.vectorstore is None:
             raise ValueError("向量数据库尚未初始化，请先调用 build_vectorstore()")
 
         print(f"\n🔍 执行相似性搜索: '{query}'")
         results = self.vectorstore.similarity_search(query, k=k)
         return results
+
+    # def two_stage_search(self, query: str, title_k: int = 10, content_k: int = 5) -> List[Document]:
+    #     """
+    #     两阶段检索策略：
+    #     1. 第一阶段：在标题中检索（使用标题向量存储）
+    #     2. 第二阶段：在第一阶段结果的 content 中精确检索
+
+    #     Args:
+    #         query: 查询语句
+    #         title_k: 第一阶段从标题中检索的数量
+    #         content_k: 第二阶段最终返回的数量
+
+    #     Returns:
+    #         检索到的文档列表
+    #     """
+    #     if self.vectorstore is None:
+    #         raise ValueError("向量数据库尚未初始化，请先调用 build_vectorstore()")
+    #     if not hasattr(self, 'title_vectorstore'):
+    #         raise ValueError("标题向量存储未初始化，请先调用 build_title_vectorstore()")
+
+    #     print(f"\n🔍 两阶段检索: '{query}'")
+    #     print(f"   阶段1: 在标题中检索 (取前 {title_k} 个)")
+
+    #     # 阶段1: 在标题向量存储中检索
+    #     title_results = self.title_vectorstore.similarity_search(query, k=title_k)
+
+    #     print(f"   阶段1完成，找到 {len(title_results)} 个相关标题")
+    #     print(f"   阶段2: 在这些文档的 content 中精确检索")
+
+    #     # 阶段2: 提取第一阶段结果的 content，重新构建临时向量存储进行检索
+    #     if not title_results:
+    #         print("   ⚠️  阶段1未找到结果，返回空列表")
+    #         return []
+
+    #     # 从标题结果中提取原始文档（通过 title 匹配）
+    #     # 由于分块后 metadata 保留 title，我们需要去重
+    #     unique_docs = {}
+    #     for doc in title_results:
+    #         title = doc.metadata.get('title')
+    #         if title and title not in unique_docs:
+    #             unique_docs[title] = doc
+
+    #     # 提取这些文档的 content 用于第二阶段检索
+    #     content_docs = []
+    #     for title, doc in unique_docs.items():
+    #         # 创建新文档，只包含 content
+    #         new_doc = Document(
+    #             page_content=doc.page_content,
+    #             metadata=doc.metadata
+    #         )
+    #         content_docs.append(new_doc)
+
+    #     print(f"   找到 {len(content_docs)} 个唯一文档，开始第二阶段检索...")
+
+    #     # 为第二阶段创建临时向量存储
+    #     import chromadb
+    #     temp_client = chromadb.PersistentClient(path="./chroma_db_temp")
+    #     temp_collection = temp_client.get_or_create_collection(name="temp_content")
+
+    #     # 生成嵌入并存储
+    #     if self.parallel_generator and self.config.embedding_config:
+    #         texts = [doc.page_content for doc in content_docs]
+    #         metadatas = [doc.metadata for doc in content_docs]
+
+    #         embeddings = self.parallel_generator.generate_embeddings_parallel(
+    #             texts,
+    #             self.config.embedding_config['model'],
+    #             batch_size=min(self.config.batch_size, len(texts)),
+    #             max_workers=1  # 临时使用单线程
+    #         )
+
+    #         # 添加到临时集合
+    #         ids = [f"temp_{i}" for i in range(len(content_docs))]
+    #         temp_collection.add(
+    #             embeddings=embeddings,
+    #             documents=texts,
+    #             metadatas=metadatas,
+    #             ids=ids
+    #         )
+
+    #         # 创建临时向量存储并检索
+    #         from langchain_chroma import Chroma
+    #         from langchain_ollama import OllamaEmbeddings
+
+    #         temp_embeddings = OllamaEmbeddings(
+    #             model=self.config.embedding_config['model'],
+    #             base_url=self.config.embedding_config['base_url']
+    #         )
+
+    #         temp_vectorstore = Chroma(
+    #             embedding_function=temp_embeddings,
+    #             collection_name="temp_content",
+    #             persist_directory="./chroma_db_temp"
+    #         )
+
+    #         # 在 content 中进行最终检索
+    #         final_results = temp_vectorstore.similarity_search(query, k=content_k)
+
+    #         print(f"   ✅ 两阶段检索完成，返回 {len(final_results)} 个结果")
+    #         return final_results
+
+    #     else:
+    #         print("   ❌ 错误：缺少嵌入生成器或配置")
+    #         return []
+
+    # def build_title_vectorstore(self, documents: List[Document]) -> None:
+    #     """
+    #     构建专门用于标题检索的向量存储
+    #     这会在内存中创建一个只包含标题的向量存储
+    #     """
+    #     print(f"\n🏗️  构建标题向量存储...")
+    #     print(f"   文档数量: {len(documents)}")
+
+    #     # 提取唯一标题
+    #     title_map = {}
+    #     for doc in documents:
+    #         title = doc.metadata.get('title')
+    #         if title and title not in title_map:
+    #             title_map[title] = doc.metadata
+
+    #     unique_titles = list(title_map.keys())
+    #     print(f"   唯一标题数量: {len(unique_titles)}")
+
+    #     if not unique_titles:
+    #         print("   ⚠️  没有找到标题")
+    #         return
+
+    #     # 为标题生成嵌入
+    #     if self.parallel_generator and self.config.embedding_config:
+    #         print("\n🔄 生成标题嵌入向量...")
+
+    #         # 创建临时文档列表（只包含标题）
+    #         title_docs = []
+    #         for title in unique_titles:
+    #             doc = Document(
+    #                 page_content=title,
+    #                 metadata=title_map[title]
+    #             )
+    #             title_docs.append(doc)
+
+    #         texts = [doc.page_content for doc in title_docs]
+    #         metadatas = [doc.metadata for doc in title_docs]
+
+    #         embeddings = self.parallel_generator.generate_embeddings_parallel(
+    #             texts,
+    #             self.config.embedding_config['model'],
+    #             batch_size=min(self.config.batch_size, len(texts)),
+    #             max_workers=1
+    #         )
+
+    #         # 创建标题向量存储（使用 Chroma 内存模式）
+    #         import chromadb
+    #         title_client = chromadb.PersistentClient(path="./chroma_db_titles")
+    #         title_collection = title_client.get_or_create_collection(name="vasp_titles")
+
+    #         ids = [f"title_{i}" for i in range(len(title_docs))]
+    #         title_collection.add(
+    #             embeddings=embeddings,
+    #             documents=texts,
+    #             metadatas=metadatas,
+    #             ids=ids
+    #         )
+
+    #         from langchain_chroma import Chroma
+    #         from langchain_ollama import OllamaEmbeddings
+
+    #         title_embeddings = OllamaEmbeddings(
+    #             model=self.config.embedding_config['model'],
+    #             base_url=self.config.embedding_config['base_url']
+    #         )
+
+    #         self.title_vectorstore = Chroma(
+    #             embedding_function=title_embeddings,
+    #             collection_name="vasp_titles",
+    #             persist_directory="./chroma_db_titles"
+    #         )
+
+    #         print(f"✅ 标题向量存储构建完成")
+    #     else:
+    #         print("❌ 错误：缺少嵌入生成器或配置")
 
     def setup_qa_chain(self):
         """设置 RAG 问答链"""
@@ -736,110 +896,39 @@ class VASPRAGAdvanced:
 
         return rag_chain
 
-    def query(self, question: str, use_rag: bool = True, show_results: bool = True) -> str:
-        """执行查询"""
-        if use_rag:
-            results = self.similarity_search(question, k=5)
+    def query(self, question: str, show_results: bool = True, use_two_stage: bool = True) -> str:
+        """
+        执行 RAG 查询
 
-            if show_results:
-                print("\n📋 检索到的相关文档:")
-                for i, doc in enumerate(results, 1):
-                    print(f"\n--- 结果 {i} ---")
-                    print(f"标题: {doc.metadata.get('title', 'N/A')}")
-                    print(f"URL: {doc.metadata.get('url', 'N/A')}")
-                    print(f"内容预览: {doc.page_content[:200]}...")
-
-            qa_chain = self.setup_qa_chain()
-            print("\n💭 正在生成回答...")
-
-            start_time = time.time()
-            answer = qa_chain.invoke(question)
-            end_time = time.time()
-
-            print(f"✅ 回答生成完成 (耗时: {end_time - start_time:.1f}秒)")
-            return answer
+        Args:
+            question: 查询问题
+            show_results: 是否显示检索结果
+            use_two_stage: 是否使用两阶段检索（默认 True）
+        """
+        if use_two_stage and hasattr(self, 'title_vectorstore'):
+            # 使用两阶段检索
+            results = self.two_stage_search(question, title_k=10, content_k=5)
         else:
-            base_url = self.config.embedding_config['base_url'] if self.config.embedding_config else "http://localhost:11434"
-            llm = ChatOllama(
-                model=self.config.chat_model,
-                base_url=base_url,
-                temperature=0.1
-            )
+            # 使用传统单阶段检索
+            results = self.similarity_search(question, k=10)
 
-            prompt = f"你是一个 VASP 专家，请回答以下问题: {question}"
-            return llm.invoke(prompt).content
+        if show_results:
+            print("\n📋 检索到的相关文档:")
+            for i, doc in enumerate(results, 1):
+                print(f"\n--- 结果 {i} ---")
+                print(f"标题: {doc.metadata.get('title', 'N/A')}")
+                print(f"URL: {doc.metadata.get('url', 'N/A')}")
+                print(f"内容预览: {doc.page_content}...")
 
+        qa_chain = self.setup_qa_chain()
+        print("\n💭 正在生成回答...")
 
-def _run_pipeline_core(
-    rag: "VASPRAGAdvanced",
-    documents: List[Document],
-    test_queries: List[str],
-    pipeline_name: str = "完整流程",
-    skip_server_check: bool = False
-) -> None:
-    """
-    RAG 流程的核心执行逻辑（内部函数）
+        start_time = time.time()
+        answer = qa_chain.invoke(question)
+        end_time = time.time()
 
-    Args:
-        rag: VASPRAGAdvanced 实例
-        documents: 文档列表
-        test_queries: 测试查询列表
-        pipeline_name: 流程名称（用于显示）
-        skip_server_check: 是否跳过服务器检查（用于演示模式）
-    """
-    try:
-        # 步骤1: 服务器配置
-        print("\n" + "=" * 70)
-        print("步骤 1: 服务器配置")
-        print("=" * 70)
-        if not skip_server_check:
-            if not rag.setup_servers():
-                if pipeline_name == "演示流程":
-                    print("❌ 服务器配置失败，但继续执行后续步骤...")
-                else:
-                    logger.error("服务器配置失败，流程终止")
-                    return
-        else:
-            print("⏭️  跳过服务器检查（演示模式）")
-
-        # 步骤2: 数据加载
-        print("\n" + "=" * 70)
-        print("步骤 2: 数据加载")
-        print("=" * 70)
-        print(f"✅ 已加载 {len(documents)} 个文档")
-
-        # 步骤3: 文档分块
-        print("\n" + "=" * 70)
-        print("步骤 3: 文档分块")
-        print("=" * 70)
-        split_docs = rag.split_documents(documents)
-
-        # 步骤4: 向量存储构建
-        print("\n" + "=" * 70)
-        print("步骤 4: 向量存储构建")
-        print("=" * 70)
-        rag.build_vectorstore(split_docs)
-
-        # 步骤5: 检索测试
-        print("\n" + "=" * 70)
-        print("步骤 5: 检索测试")
-        print("=" * 70)
-        for i, query in enumerate(test_queries, 1):
-            print(f"\n【问题 {i}】: {query}")
-            print("-" * 50)
-            try:
-                answer = rag.query(query, use_rag=True, show_results=True)
-                print(f"\n【回答】:\n{answer}")
-            except Exception as e:
-                logger.error(f"查询失败: {e}")
-            print("\n" + "=" * 70)
-
-        print(f"\n✅ {pipeline_name}执行完成！")
-
-    except Exception as e:
-        logger.error(f"流程执行出错: {e}")
-        import traceback
-        traceback.print_exc()
+        print(f"✅ 回答生成完成 (耗时: {end_time - start_time:.1f}秒)")
+        return answer
 
 
 def run_pipeline():
@@ -863,7 +952,7 @@ def run_pipeline():
     test_queries = RAGConfig._get_env_list('VASP_TEST_QUERIES', [
         "什么是 RPA 计算？如何在 VASP 中设置 RPA 计算？",
         "ALGO 参数有哪些选项？分别代表什么含义？",
-        "如何设置 INCAR 文件中的混合泛函参数？"
+        "In electronic structure calculations, how to keep the given wavefunction unchanged while computing specific occupied electronic states？"
     ])
 
     # 数据文件
@@ -902,8 +991,31 @@ def run_pipeline():
         print(f"❌ 数据文件 {data_file} 不存在，请检查路径")
         return
 
-    # 步骤3-6: 使用核心流程
-    _run_pipeline_core(rag, documents, test_queries, "完整流程", skip_server_check=False)
+    # 步骤3: 文档分块
+    print("\n" + "=" * 70)
+    print("步骤 3: 文档分块")
+    print("=" * 70)
+    split_docs = rag.split_documents(documents)
+
+    # 步骤4: 向量存储构建
+    print("\n" + "=" * 70)
+    print("步骤 4: 向量存储构建")
+    print("=" * 70)
+    rag.build_vectorstore(split_docs)
+
+    # 步骤5: 检索测试
+    print("\n" + "=" * 70)
+    print("步骤 5: 检索测试")
+    print("=" * 70)
+    for i, query in enumerate(test_queries, 1):
+        print(f"\n【问题 {i}】: {query}")
+        print("-" * 50)
+        try:
+            answer = rag.query(query, show_results=True)
+            print(f"\n【回答】:\n{answer}")
+        except Exception as e:
+            logger.error(f"查询失败: {e}")
+        print("\n" + "=" * 70)
 
     print(f"\n📁 数据已保存到: {config.persist_dir}")
     print("\n✅ 完整流程执行完成！")
