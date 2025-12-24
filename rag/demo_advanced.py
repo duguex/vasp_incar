@@ -4,7 +4,106 @@ VASP RAG 高级版 - 功能演示
 """
 
 import time
+import requests
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from tqdm import tqdm
 from vasp_rag_advanced import VASPRAGAdvanced
+
+
+def test_server(host, port=11434, timeout=3):
+    """测试单个Ollama服务器"""
+    try:
+        # 测试基础连接
+        url = f"http://{host}:{port}/api/version"
+        response = requests.get(url, timeout=timeout)
+        if response.status_code == 200:
+            version = response.json().get('version', '未知')
+
+            # 获取模型列表
+            models_url = f"http://{host}:{port}/api/tags"
+            models_response = requests.get(models_url, timeout=timeout)
+            if models_response.status_code == 200:
+                models = models_response.json().get('models', [])
+                model_names = [m['name'] for m in models]
+
+                return {
+                    'host': host,
+                    'port': port,
+                    'status': 'online',
+                    'version': version,
+                    'models': model_names,
+                    'model_count': len(models)
+                }
+    except Exception as e:
+        pass
+
+    return {
+        'host': host,
+        'port': port,
+        'status': 'offline',
+        'error': str(e) if 'e' in locals() else 'Connection failed'
+    }
+
+
+def test_servers(server_hosts=None):
+    """测试所有Ollama服务器
+
+    Args:
+        server_hosts: 服务器列表，如果为None则使用默认配置
+
+    Returns:
+        list: 服务器测试结果列表
+    """
+    if server_hosts is None:
+        server_hosts = ["192.168.1.130", "192.168.1.127", "localhost"]
+
+    print("=" * 60)
+    print("🌐 Ollama 服务器连接测试")
+    print("=" * 60)
+
+    print(f"\n正在测试 {len(server_hosts)} 个服务器...")
+
+    # 并行测试
+    results = []
+    with ThreadPoolExecutor(max_workers=10) as executor:
+        futures = [executor.submit(test_server, host) for host in server_hosts]
+
+        for future in tqdm(as_completed(futures), total=len(futures), desc="测试进度"):
+            results.append(future.result())
+
+    # 显示结果
+    print("\n" + "=" * 60)
+    print("📊 测试结果")
+    print("=" * 60)
+
+    online_count = 0
+    for result in results:
+        status_icon = "✅" if result['status'] == 'online' else "❌"
+        print(f"\n{status_icon} {result['host']}:{result['port']}")
+        print(f"   状态: {result['status']}")
+
+        if result['status'] == 'online':
+            online_count += 1
+            print(f"   版本: {result['version']}")
+            print(f"   模型数: {result['model_count']}")
+            if result['models']:
+                print(f"   可用模型:")
+                for model in result['models']:
+                    print(f"      - {model}")
+
+    print(f"\n" + "=" * 60)
+    print(f"📈 统计: {online_count}/{len(server_hosts)} 服务器在线")
+
+    # 推荐配置
+    online_servers = [r for r in results if r['status'] == 'online']
+    if online_servers:
+        print("\n💡 推荐配置:")
+        print("vasp_rag_advanced.py 中的 server_hosts = [")
+        for server in online_servers:
+            print(f'    \"{server["host"]}\",')
+        print("]")
+
+    return results
 
 
 def demo():
@@ -150,5 +249,53 @@ def demo():
     print("\n🚀 完整版运行: python vasp_rag_advanced.py")
 
 
+def main():
+    """主函数 - 支持多种运行模式"""
+    import sys
+
+    if len(sys.argv) > 1:
+        mode = sys.argv[1]
+        if mode == "test_servers":
+            # 服务器测试模式
+            test_servers()
+        elif mode == "demo":
+            # 完整演示模式
+            demo()
+        else:
+            print(f"未知模式: {mode}")
+            print("\n可用模式:")
+            print("  python demo_advanced.py test_servers  - 测试Ollama服务器连接")
+            print("  python demo_advanced.py demo          - 运行完整功能演示")
+    else:
+        # 默认模式 - 交互式选择
+        print("=" * 70)
+        print("🎉 VASP RAG 高级版 - 演示程序")
+        print("=" * 70)
+        print("\n请选择运行模式:")
+        print("  [1] 测试Ollama服务器连接")
+        print("  [2] 运行完整功能演示")
+        print("  [3] 服务器测试 + 完整演示")
+
+        choice = input("\n请输入选项 (1/2/3): ").strip()
+
+        if choice == "1":
+            test_servers()
+        elif choice == "2":
+            demo()
+        elif choice == "3":
+            # 先测试服务器，再运行演示
+            results = test_servers()
+            online_servers = [r for r in results if r['status'] == 'online']
+            if online_servers:
+                print("\n" + "=" * 70)
+                print("服务器测试完成，开始完整演示...")
+                print("=" * 70)
+                demo()
+            else:
+                print("\n⚠️  没有在线服务器，跳过演示")
+        else:
+            print("无效选项，程序退出")
+
+
 if __name__ == "__main__":
-    demo()
+    main()
