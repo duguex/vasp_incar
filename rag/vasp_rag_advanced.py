@@ -1,14 +1,14 @@
 """
-VASP RAG System - 高级版
-支持进度条、远程 Ollama 服务器、并行加速
+VASP RAG System
+支持远程 Ollama 服务器、并行加速
 """
 
 import json
 import os
 import requests
-import asyncio
 import time
-from typing import List, Dict, Optional
+import logging
+from typing import List, Dict, Optional, Any
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -19,117 +19,215 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 
+# 配置日志
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+# 减少第三方库的冗余日志
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("langchain_ollama").setLevel(logging.WARNING)
+logging.getLogger("chromadb").setLevel(logging.WARNING)
+
+
+class RAGConfig:
+    """RAG 系统配置管理类"""
+
+    # 默认配置常量
+    DEFAULT_SERVER_HOSTS = ["192.168.1.130", "192.168.1.127", "localhost"]
+    DEFAULT_PORT = 11434
+    DEFAULT_TIMEOUT = 3
+    DEFAULT_MAX_WORKERS = 4
+    DEFAULT_CHUNK_SIZE = 1000
+    DEFAULT_CHUNK_OVERLAP = 200
+    DEFAULT_PERSIST_DIR = "./chroma_db"
+    DEFAULT_BATCH_SIZE = 20
+
+    # 模型配置
+    PREFERRED_EMBEDDING_MODELS = [
+        'qwen3-embedding',
+        'qwen2.5',
+        'nomic-embed-text',
+        'bge-m3',
+        'mxbai-embed-large'
+    ]
+
+    DEFAULT_CHAT_MODEL = "qwen3:4b-instruct-2507-q4_K_M"
+
+    def __init__(
+        self,
+        server_hosts: Optional[List[str]] = None,
+        port: int = DEFAULT_PORT,
+        timeout: int = DEFAULT_TIMEOUT,
+        max_workers: int = DEFAULT_MAX_WORKERS,
+        chunk_size: int = DEFAULT_CHUNK_SIZE,
+        chunk_overlap: int = DEFAULT_CHUNK_OVERLAP,
+        persist_dir: str = DEFAULT_PERSIST_DIR,
+        batch_size: int = DEFAULT_BATCH_SIZE,
+        chat_model: str = DEFAULT_CHAT_MODEL,
+        force_rebuild: bool = False
+    ):
+        self.server_hosts = server_hosts or self.DEFAULT_SERVER_HOSTS
+        self.port = port
+        self.timeout = timeout
+        self.max_workers = max_workers
+        self.chunk_size = chunk_size
+        self.chunk_overlap = chunk_overlap
+        self.persist_dir = persist_dir
+        self.batch_size = batch_size
+        self.chat_model = chat_model
+        self.force_rebuild = force_rebuild
+        self.embedding_config: Optional[Dict[str, str]] = None
+        self.online_servers: List[Dict[str, Any]] = []
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            'server_hosts': self.server_hosts,
+            'port': self.port,
+            'timeout': self.timeout,
+            'max_workers': self.max_workers,
+            'chunk_size': self.chunk_size,
+            'chunk_overlap': self.chunk_overlap,
+            'persist_dir': self.persist_dir,
+            'batch_size': self.batch_size,
+            'chat_model': self.chat_model,
+            'force_rebuild': self.force_rebuild
+        }
+
+    def __repr__(self) -> str:
+        return f"RAGConfig({self.to_dict()})"
+
 
 class RemoteOllamaConfig:
-    """远程 Ollama 服务器配置"""
+    """远程 Ollama 服务器配置管理"""
 
-    def __init__(self):
+    def __init__(self, config: RAGConfig):
+        self.config = config
         self.servers = [
-            {"host": "192.168.1.130", "port": 11434, "status": "checking"},
-            {"host": "192.168.1.127", "port": 11434, "status": "checking"},
-            {"host": "localhost", "port": 11434, "status": "checking"}  # 本地作为备用
+            {"host": host, "port": config.port, "status": "checking"}
+            for host in config.server_hosts
         ]
 
-    def check_servers(self):
-        """检查所有服务器状态"""
-        print("🔍 检查远程 Ollama 服务器...")
-
-        def check_server(server):
+    def check_server_single(self, server: Dict[str, Any], retry_count: int = 2) -> Dict[str, Any]:
+        """检查单个服务器状态（带重试机制）"""
+        for attempt in range(retry_count + 1):
             try:
                 url = f"http://{server['host']}:{server['port']}/api/version"
-                response = requests.get(url, timeout=3)
+                response = requests.get(url, timeout=self.config.timeout)
                 if response.status_code == 200:
                     server['status'] = 'online'
                     server['version'] = response.json().get('version', 'unknown')
+                    server['error'] = None
                     return server
-            except:
-                server['status'] = 'offline'
-            return server
+            except requests.exceptions.Timeout:
+                if attempt == retry_count:
+                    server['status'] = 'offline'
+                    server['error'] = 'timeout'
+            except requests.exceptions.ConnectionError:
+                if attempt == retry_count:
+                    server['status'] = 'offline'
+                    server['error'] = 'connection_error'
+            except Exception as e:
+                if attempt == retry_count:
+                    server['status'] = 'offline'
+                    server['error'] = str(e)
 
-        # 并行检查服务器
-        with ThreadPoolExecutor(max_workers=5) as executor:
-            futures = [executor.submit(check_server, server) for server in self.servers]
+        return server
+
+    def check_servers(self) -> List[Dict[str, Any]]:
+        """检查所有服务器状态"""
+        logger.info("开始检查 Ollama 服务器连接...")
+
+        with ThreadPoolExecutor(max_workers=min(10, len(self.servers))) as executor:
+            futures = [
+                executor.submit(self.check_server_single, server)
+                for server in self.servers
+            ]
             results = []
             for future in tqdm(as_completed(futures), total=len(self.servers), desc="检查服务器"):
                 results.append(future.result())
 
         self.servers = results
+        online_count = sum(1 for s in self.servers if s['status'] == 'online')
+        logger.info(f"服务器状态: {online_count}/{len(self.servers)} 在线")
 
-        # 显示结果
         print("\n📊 服务器状态:")
         for server in self.servers:
             status_icon = "✅" if server['status'] == 'online' else "❌"
             print(f"   {status_icon} {server['host']}:{server['port']} - {server['status']}")
             if server['status'] == 'online':
                 print(f"      版本: {server.get('version', '未知')}")
+            elif server.get('error'):
+                print(f"      错误: {server['error']}")
 
         return [s for s in self.servers if s['status'] == 'online']
 
-    def get_available_models(self, server):
+    def get_available_models(self, server: Dict[str, Any], timeout: Optional[int] = None) -> List[str]:
         """获取指定服务器上的模型列表"""
         try:
             url = f"http://{server['host']}:{server['port']}/api/tags"
-            response = requests.get(url, timeout=5)
+            response = requests.get(url, timeout=timeout or self.config.timeout)
             if response.status_code == 200:
                 models = response.json().get('models', [])
                 return [model['name'] for model in models]
-        except:
-            pass
+        except Exception as e:
+            logger.warning(f"获取服务器 {server['host']}:{server['port']} 模型列表失败: {e}")
         return []
 
-    def find_best_embedding_model(self):
+    def find_best_embedding_model(self, preferred_models: Optional[List[str]] = None) -> Optional[Dict[str, str]]:
         """在所有服务器中查找最佳嵌入模型"""
-        print("\n🔍 在所有服务器中查找嵌入模型...")
+        if preferred_models is None:
+            preferred_models = self.config.PREFERRED_EMBEDDING_MODELS
 
-        preferred_models = ['qwen3-embedding', 'qwen2.5', 'nomic-embed-text', 'bge-m3', 'mxbai-embed-large']
-        available_models = {}
+        logger.info("在所有服务器中查找最佳嵌入模型...")
 
-        # 收集所有服务器的模型
+        available_models: Dict[str, List[str]] = {}
         for server in self.servers:
             if server['status'] == 'online':
                 models = self.get_available_models(server)
                 if models:
                     available_models[server['host']] = models
 
-        # 查找最佳匹配
-        best_match = None
-        best_server = None
+        if not available_models:
+            logger.error("没有找到任何可用的服务器模型")
+            return None
 
         for preferred in preferred_models:
             for server_host, models in available_models.items():
                 for model in models:
                     if preferred in model.lower():
-                        best_match = model
-                        best_server = server_host
-                        break
-                if best_match:
-                    break
-            if best_match:
-                break
+                        server_config = next(s for s in self.servers if s['host'] == server_host)
+                        result = {
+                            'model': model,
+                            'base_url': f"http://{server_host}:{server_config['port']}",
+                            'server': server_host,
+                            'port': server_config['port']
+                        }
+                        logger.info(f"找到最佳嵌入模型: {model} (服务器: {server_host})")
+                        return result
 
-        if best_match:
-            # 获取对应服务器配置
-            server_config = next(s for s in self.servers if s['host'] == best_server)
-            print(f"✅ 找到最佳嵌入模型: {best_match}")
-            print(f"   服务器: {best_server}:{server_config['port']}")
-            return {
-                'model': best_match,
-                'base_url': f"http://{best_server}:{server_config['port']}",
-                'server': best_server
-            }
-
-        return None
+        first_server_host = next(iter(available_models))
+        first_model = available_models[first_server_host][0]
+        server_config = next(s for s in self.servers if s['host'] == first_server_host)
+        logger.warning(f"未找到优先模型，使用默认: {first_model}")
+        return {
+            'model': first_model,
+            'base_url': f"http://{first_server_host}:{server_config['port']}",
+            'server': first_server_host,
+            'port': server_config['port']
+        }
 
 
 class ParallelEmbeddingGenerator:
     """并行嵌入生成器"""
 
-    def __init__(self, server_configs: List[Dict], max_workers: int = 4):
+    def __init__(self, server_configs: List[Dict[str, str]], max_workers: int = 4):
+        if not server_configs:
+            raise ValueError("至少需要一个可用的服务器配置")
         self.server_configs = server_configs
         self.max_workers = max_workers
         self.current_server_idx = 0
 
-    def get_next_server(self):
+    def get_next_server(self) -> Optional[Dict[str, str]]:
         """轮询获取下一个服务器"""
         if not self.server_configs:
             return None
@@ -137,36 +235,53 @@ class ParallelEmbeddingGenerator:
         self.current_server_idx += 1
         return server
 
-    def generate_embeddings_batch(self, texts: List[str], model: str) -> List[List[float]]:
-        """为一批文本生成嵌入"""
-        server = self.get_next_server()
-        if not server:
-            raise ValueError("没有可用的服务器")
+    def generate_embeddings_batch(
+        self,
+        texts: List[str],
+        model: str,
+        retry_count: int = 2
+    ) -> List[List[float]]:
+        """为一批文本生成嵌入（带重试）"""
+        for attempt in range(retry_count + 1):
+            server = self.get_next_server()
+            if not server:
+                raise ValueError("没有可用的服务器")
 
-        embeddings = OllamaEmbeddings(
-            model=model,
-            base_url=server['base_url']
-        )
+            try:
+                embeddings = OllamaEmbeddings(
+                    model=model,
+                    base_url=server['base_url']
+                )
+                return embeddings.embed_documents(texts)
+            except Exception as e:
+                if attempt == retry_count:
+                    logger.error(f"服务器 {server['base_url']} 嵌入生成失败: {e}")
+                    raise
+                logger.warning(f"服务器 {server['base_url']} 尝试 {attempt + 1} 失败，重试中...")
 
-        # 批量生成嵌入
-        return embeddings.embed_documents(texts)
+        raise ValueError("嵌入生成失败")
 
-    def generate_embeddings_parallel(self, texts: List[str], model: str, batch_size: int = 10) -> List[List[float]]:
-        """并行生成嵌入"""
+    def generate_embeddings_parallel(
+        self,
+        texts: List[str],
+        model: str,
+        batch_size: Optional[int] = None
+    ) -> List[List[float]]:
+        """并行生成嵌入向量"""
         if not texts:
             return []
 
+        logger.info(f"开始并行生成嵌入: {len(texts)} 个文本, 模型: {model}")
         all_embeddings = []
+        batch_size = batch_size or 20
 
-        # 分批处理
         for i in tqdm(range(0, len(texts), batch_size), desc="生成嵌入向量"):
-            batch = texts[i:i+batch_size]
+            batch = texts[i:i + batch_size]
+            actual_workers = min(self.max_workers, len(self.server_configs), len(batch))
 
-            # 使用多线程处理批次
-            with ThreadPoolExecutor(max_workers=min(self.max_workers, len(self.server_configs))) as executor:
-                # 将批次拆分给不同服务器
-                chunk_size = len(batch) // len(self.server_configs) + 1
-                chunks = [batch[j:j+chunk_size] for j in range(0, len(batch), chunk_size)]
+            with ThreadPoolExecutor(max_workers=actual_workers) as executor:
+                chunk_size = max(1, len(batch) // len(self.server_configs))
+                chunks = [batch[j:j + chunk_size] for j in range(0, len(batch), chunk_size)]
 
                 futures = []
                 for chunk in chunks:
@@ -179,63 +294,42 @@ class ParallelEmbeddingGenerator:
                         embeddings = future.result()
                         all_embeddings.extend(embeddings)
                     except Exception as e:
-                        print(f"⚠️  嵌入生成失败: {e}")
+                        logger.error(f"嵌入生成任务失败: {e}")
 
+        logger.info(f"嵌入生成完成: {len(all_embeddings)} 个向量")
         return all_embeddings
 
 
 class VASPRAGAdvanced:
-    """增强版 VASP RAG 系统"""
+    """增强版 VASP RAG 系统 - 核心类"""
 
-    def __init__(self,
-                 server_hosts: List[str] = None,
-                 max_workers: int = 4,
-                 chunk_size: int = 1000,
-                 chunk_overlap: int = 200,
-                 persist_dir: str = "./chroma_db"):
-        """
-        初始化增强版 RAG 系统
+    def __init__(self, config: Optional[RAGConfig] = None):
+        self.config = config or RAGConfig()
+        self.vectorstore: Optional[Chroma] = None
+        self.llm: Optional[ChatOllama] = None
+        self.remote_config: Optional[RemoteOllamaConfig] = None
+        self.parallel_generator: Optional[ParallelEmbeddingGenerator] = None
 
-        Args:
-            server_hosts: 远程服务器列表
-            max_workers: 最大并行工作数
-            chunk_size: 文本分块大小
-            chunk_overlap: 文本分块重叠
-            persist_dir: 向量数据库持久化目录
-        """
-        self.server_hosts = server_hosts or ["192.168.1.130", "192.168.1.127", "localhost"]
-        self.max_workers = max_workers
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
-        self.persist_dir = persist_dir
-        self.vectorstore = None
-        self.llm = None
-        self.embedding_config = None
-        self.parallel_generator = None
-
-        # 初始化远程配置
-        self.remote_config = RemoteOllamaConfig()
-        self.remote_config.servers = [
-            {"host": host, "port": 11434, "status": "checking"}
-            for host in self.server_hosts
-        ]
-
-    def setup_servers(self):
+    def setup_servers(self) -> bool:
         """设置并检查服务器"""
+        logger.info("开始配置服务器...")
+
+        self.remote_config = RemoteOllamaConfig(self.config)
         online_servers = self.remote_config.check_servers()
 
         if not online_servers:
-            print("❌ 没有可用的服务器")
+            logger.error("没有可用的服务器")
             return False
 
-        # 查找最佳嵌入模型
-        self.embedding_config = self.remote_config.find_best_embedding_model()
+        embedding_config = self.remote_config.find_best_embedding_model()
 
-        if not self.embedding_config:
-            print("❌ 未找到可用的嵌入模型")
+        if not embedding_config:
+            logger.error("未找到可用的嵌入模型")
             return False
 
-        # 准备并行生成器
+        self.config.embedding_config = embedding_config
+        self.config.online_servers = online_servers
+
         available_servers = [
             {
                 'host': s['host'],
@@ -245,19 +339,25 @@ class VASPRAGAdvanced:
             for s in online_servers
         ]
 
-        self.parallel_generator = ParallelEmbeddingGenerator(available_servers, self.max_workers)
+        self.parallel_generator = ParallelEmbeddingGenerator(
+            available_servers,
+            self.config.max_workers
+        )
 
         print(f"\n✅ 服务器配置完成")
-        print(f"   嵌入模型: {self.embedding_config['model']}")
-        print(f"   主服务器: {self.embedding_config['server']}")
+        print(f"   嵌入模型: {embedding_config['model']}")
+        print(f"   主服务器: {embedding_config['server']}")
         print(f"   可用服务器数: {len(available_servers)}")
-        print(f"   并行工作数: {self.max_workers}")
+        print(f"   并行工作数: {self.config.max_workers}")
 
         return True
 
     def load_data(self, json_file_path: str) -> List[Document]:
-        """加载数据（带进度条）"""
-        print(f"\n📂 加载数据: {json_file_path}")
+        """加载 JSON 数据文件"""
+        logger.info(f"加载数据: {json_file_path}")
+
+        if not os.path.exists(json_file_path):
+            raise FileNotFoundError(f"数据文件不存在: {json_file_path}")
 
         with open(json_file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
@@ -284,17 +384,16 @@ class VASPRAGAdvanced:
         return documents
 
     def split_documents(self, documents: List[Document]) -> List[Document]:
-        """文档分块（带进度条）"""
-        print(f"\n✂️  文档分块 (chunk_size={self.chunk_size}, overlap={self.chunk_overlap})")
+        """文档分块处理"""
+        print(f"\n✂️  文档分块 (chunk_size={self.config.chunk_size}, overlap={self.config.chunk_overlap})")
 
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=self.chunk_size,
-            chunk_overlap=self.chunk_overlap,
+            chunk_size=self.config.chunk_size,
+            chunk_overlap=self.config.chunk_overlap,
             length_function=len,
             add_start_index=True,
         )
 
-        # 分块处理
         split_docs = []
         for doc in tqdm(documents, desc="分块处理"):
             chunks = text_splitter.split_documents([doc])
@@ -303,68 +402,45 @@ class VASPRAGAdvanced:
         print(f"✅ 分块完成，共 {len(split_docs)} 个文本块")
         return split_docs
 
-    def build_vectorstore(self, split_docs: List[Document], force_rebuild: bool = False):
-        """构建向量存储（带进度条和并行加速）"""
-        if os.path.exists(self.persist_dir) and not force_rebuild:
-            print(f"\n📂 加载现有向量数据库: {self.persist_dir}")
-            embeddings = OllamaEmbeddings(
-                model=self.embedding_config['model'],
-                base_url=self.embedding_config['base_url']
-            )
-            self.vectorstore = Chroma(
-                persist_directory=self.persist_dir,
-                embedding_function=embeddings
-            )
-            print("✅ 向量数据库加载完成")
-            return
+    def _build_new_vectorstore(self, split_docs: List[Document]) -> None:
+        """构建新的向量数据库（内部方法）"""
+        import chromadb
+        import shutil
 
-        if force_rebuild and os.path.exists(self.persist_dir):
-            import shutil
-            shutil.rmtree(self.persist_dir)
+        if os.path.exists(self.config.persist_dir):
+            shutil.rmtree(self.config.persist_dir)
             print("🗑️  已删除旧的向量数据库")
 
         print(f"\n🏗️  构建新的向量数据库...")
         print(f"   文本块数量: {len(split_docs)}")
-        print(f"   使用嵌入模型: {self.embedding_config['model']}")
-        print(f"   并行服务器: {self.max_workers} 个")
+        print(f"   使用嵌入模型: {self.config.embedding_config['model']}")
+        print(f"   并行服务器: {self.config.max_workers} 个")
 
-        # 提取文本内容
         texts = [doc.page_content for doc in split_docs]
         metadatas = [doc.metadata for doc in split_docs]
 
-        # 使用并行生成嵌入
         print("\n🔄 生成嵌入向量 (并行加速)...")
         start_time = time.time()
 
         embeddings_list = self.parallel_generator.generate_embeddings_parallel(
             texts,
-            self.embedding_config['model'],
-            batch_size=20
+            self.config.embedding_config['model'],
+            batch_size=self.config.batch_size
         )
 
         embedding_time = time.time() - start_time
         print(f"✅ 嵌入生成完成，耗时: {embedding_time:.1f}秒")
 
-        # 创建向量存储
         print("\n💾 保存到向量数据库...")
 
-        # 使用底层 chromadb 直接添加嵌入和文档，避免重新计算嵌入
-        import chromadb
+        client = chromadb.PersistentClient(path=self.config.persist_dir)
+        collection = client.get_or_create_collection(name="vasp_rag")
 
-        # 获取底层的 chroma 客户端
-        client = chromadb.PersistentClient(path=self.persist_dir)
-
-        # 获取或创建集合
-        collection = client.get_or_create_collection(
-            name="vasp_rag"
-        )
-
-        # 批量添加到 chromadb
         batch_size = 100
         with tqdm(total=len(split_docs), desc="保存到数据库") as pbar:
             for i in range(0, len(split_docs), batch_size):
-                batch_docs = split_docs[i:i+batch_size]
-                batch_embeddings = embeddings_list[i:i+batch_size]
+                batch_docs = split_docs[i:i + batch_size]
+                batch_embeddings = embeddings_list[i:i + batch_size]
 
                 ids = [f"doc_{j}" for j in range(i, i + len(batch_docs))]
                 documents = [doc.page_content for doc in batch_docs]
@@ -378,35 +454,52 @@ class VASPRAGAdvanced:
                 )
                 pbar.update(len(batch_docs))
 
-        # 重新创建 langchain_chroma 实例以使用持久化的数据
         embeddings = OllamaEmbeddings(
-            model=self.embedding_config['model'],
-            base_url=self.embedding_config['base_url']
+            model=self.config.embedding_config['model'],
+            base_url=self.config.embedding_config['base_url']
         )
 
         self.vectorstore = Chroma(
             embedding_function=embeddings,
             collection_name="vasp_rag",
-            persist_directory=self.persist_dir
+            persist_directory=self.config.persist_dir
         )
 
-        print(f"✅ 向量数据库构建完成")
-        print(f"   总耗时: {time.time() - start_time:.1f}秒")
-        print(f"   平均速度: {len(split_docs)/(time.time() - start_time):.1f} 文档/秒")
+        total_time = time.time() - start_time
+        print(f"\n✅ 向量数据库构建完成")
+        print(f"   总耗时: {total_time:.1f}秒")
+        print(f"   平均速度: {len(split_docs) / total_time:.1f} 文档/秒")
+
+    def build_vectorstore(self, split_docs: List[Document]) -> None:
+        """构建向量存储（自动判断是否需要重建）"""
+        if os.path.exists(self.config.persist_dir) and not self.config.force_rebuild:
+            print(f"\n📂 加载现有向量数据库: {self.config.persist_dir}")
+            embeddings = OllamaEmbeddings(
+                model=self.config.embedding_config['model'],
+                base_url=self.config.embedding_config['base_url']
+            )
+            self.vectorstore = Chroma(
+                persist_directory=self.config.persist_dir,
+                embedding_function=embeddings
+            )
+            print("✅ 向量数据库加载完成")
+            return
+
+        self._build_new_vectorstore(split_docs)
 
     def similarity_search(self, query: str, k: int = 5) -> List[Document]:
-        """相似性搜索"""
+        """执行相似性搜索"""
         if self.vectorstore is None:
-            raise ValueError("向量数据库尚未初始化")
+            raise ValueError("向量数据库尚未初始化，请先调用 build_vectorstore()")
 
         print(f"\n🔍 执行相似性搜索: '{query}'")
         results = self.vectorstore.similarity_search(query, k=k)
         return results
 
     def setup_qa_chain(self):
-        """设置问答链"""
+        """设置 RAG 问答链"""
         if self.vectorstore is None:
-            raise ValueError("向量数据库尚未初始化")
+            raise ValueError("向量数据库尚未初始化，请先调用 build_vectorstore()")
 
         retriever = self.vectorstore.as_retriever(
             search_type="similarity",
@@ -431,9 +524,8 @@ class VASPRAGAdvanced:
             input_variables=["context", "question"]
         )
 
-        # 选择对话模型 (优先使用本地或远程服务器)
-        chat_model = "qwen3:4b-instruct-2507-q4_K_M"
-        base_url = self.embedding_config['base_url'] if self.embedding_config else "http://localhost:11434"
+        chat_model = self.config.chat_model
+        base_url = self.config.embedding_config['base_url'] if self.config.embedding_config else "http://localhost:11434"
 
         print(f"\n🤖 配置对话模型: {chat_model}")
         print(f"   服务器: {base_url}")
@@ -462,7 +554,6 @@ class VASPRAGAdvanced:
     def query(self, question: str, use_rag: bool = True, show_results: bool = True) -> str:
         """执行查询"""
         if use_rag:
-            # 检索
             results = self.similarity_search(question, k=5)
 
             if show_results:
@@ -473,7 +564,6 @@ class VASPRAGAdvanced:
                     print(f"URL: {doc.metadata.get('url', 'N/A')}")
                     print(f"内容预览: {doc.page_content[:200]}...")
 
-            # 生成回答
             qa_chain = self.setup_qa_chain()
             print("\n💭 正在生成回答...")
 
@@ -484,10 +574,9 @@ class VASPRAGAdvanced:
             print(f"✅ 回答生成完成 (耗时: {end_time - start_time:.1f}秒)")
             return answer
         else:
-            # 直接使用 LLM
-            base_url = self.embedding_config['base_url'] if self.embedding_config else "http://localhost:11434"
+            base_url = self.config.embedding_config['base_url'] if self.config.embedding_config else "http://localhost:11434"
             llm = ChatOllama(
-                model="qwen3:4b-instruct-2507-q4_K_M",
+                model=self.config.chat_model,
                 base_url=base_url,
                 temperature=0.1
             )
@@ -496,51 +585,81 @@ class VASPRAGAdvanced:
             return llm.invoke(prompt).content
 
 
-def main():
-    """主函数"""
+def run_full_pipeline(config: RAGConfig, json_file: str, test_queries: List[str]) -> None:
+    """
+    运行完整的 RAG 流程
+
+    Args:
+        config: RAG 配置
+        json_file: 数据文件路径
+        test_queries: 测试查询列表
+    """
     print("=" * 70)
-    print("🚀 VASP RAG 高级版 - 并行加速 + 远程服务器")
+    print("🚀 VASP RAG 高级版 - 完整流程")
     print("=" * 70)
+    print(f"\n配置: {config}")
 
-    # 配置 (根据测试结果自动优化)
-    config = {
-        "json_file": "vasp_wiki_all_data.json",
-        # 优先使用在线服务器，按响应速度排序
-        "server_hosts": ["192.168.1.127", "127.0.0.1", "192.168.1.130", "localhost"],
-        "max_workers": 3,           # 并行工作数 (与服务器数量一致)
-        "chunk_size": 1000,
-        "chunk_overlap": 200,
-        "persist_dir": "./chroma_db",
-        "force_rebuild": False
-    }
+    rag = VASPRAGAdvanced(config)
 
-    # 初始化系统
-    rag = VASPRAGAdvanced(
-        server_hosts=config["server_hosts"],
-        max_workers=config["max_workers"],
-        chunk_size=config["chunk_size"],
-        chunk_overlap=config["chunk_overlap"],
-        persist_dir=config["persist_dir"]
-    )
-
-    # 设置服务器
+    print("\n" + "=" * 70)
+    print("步骤 1: 服务器配置")
+    print("=" * 70)
     if not rag.setup_servers():
+        logger.error("服务器配置失败，流程终止")
         return
 
     try:
-        # 1. 加载数据
-        documents = rag.load_data(config["json_file"])
+        print("\n" + "=" * 70)
+        print("步骤 2: 数据加载")
+        print("=" * 70)
+        documents = rag.load_data(json_file)
 
-        # 2. 文档分块
+        print("\n" + "=" * 70)
+        print("步骤 3: 文档分块")
+        print("=" * 70)
         split_docs = rag.split_documents(documents)
 
-        # 3. 构建向量存储
-        rag.build_vectorstore(split_docs, force_rebuild=config["force_rebuild"])
-
-        # 4. 测试检索
         print("\n" + "=" * 70)
-        print("🎯 测试检索功能")
+        print("步骤 4: 向量存储构建")
         print("=" * 70)
+        rag.build_vectorstore(split_docs)
+
+        print("\n" + "=" * 70)
+        print("步骤 5: 检索测试")
+        print("=" * 70)
+        for i, query in enumerate(test_queries, 1):
+            print(f"\n【问题 {i}】: {query}")
+            print("-" * 50)
+            try:
+                answer = rag.query(query, use_rag=True, show_results=True)
+                print(f"\n【回答】:\n{answer}")
+            except Exception as e:
+                logger.error(f"查询失败: {e}")
+            print("\n" + "=" * 70)
+
+        print("\n✅ 完整流程执行完成！")
+
+    except Exception as e:
+        logger.error(f"流程执行出错: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+if __name__ == "__main__":
+    # 简单的命令行接口
+    import sys
+
+    if len(sys.argv) > 1 and sys.argv[1] == "pipeline":
+        config = RAGConfig(
+            server_hosts=["192.168.1.127", "192.168.1.130", "localhost"],
+            max_workers=3,
+            chunk_size=1000,
+            chunk_overlap=200,
+            persist_dir="./chroma_db",
+            batch_size=20,
+            chat_model="qwen3:4b-instruct-2507-q4_K_M",
+            force_rebuild=False
+        )
 
         test_queries = [
             "什么是 RPA 计算？如何在 VASP 中设置 RPA 计算？",
@@ -548,43 +667,9 @@ def main():
             "如何设置 INCAR 文件中的混合泛函参数？"
         ]
 
-        for i, query in enumerate(test_queries, 1):
-            print(f"\n【问题 {i}】: {query}")
-            print("-" * 50)
-
-            try:
-                answer = rag.query(query, use_rag=True, show_results=True)
-                print(f"\n【回答】:\n{answer}")
-            except Exception as e:
-                print(f"❌ 查询出错: {e}")
-
-            print("\n" + "=" * 70)
-
-        # 5. 交互式查询
-        print("\n💬 进入交互式查询模式 (输入 'quit' 退出)")
-        while True:
-            try:
-                user_query = input("\n请输入你的问题: ").strip()
-                if user_query.lower() in ['quit', 'exit', '退出']:
-                    break
-
-                if not user_query:
-                    continue
-
-                answer = rag.query(user_query, use_rag=True, show_results=True)
-                print(f"\n【回答】:\n{answer}")
-
-            except KeyboardInterrupt:
-                print("\n\n👋 程序已退出")
-                break
-            except Exception as e:
-                print(f"❌ 错误: {e}")
-
-    except Exception as e:
-        print(f"\n❌ 程序执行出错: {e}")
-        import traceback
-        traceback.print_exc()
-
-
-if __name__ == "__main__":
-    main()
+        run_full_pipeline(config, "vasp_wiki_all_data.json", test_queries)
+    else:
+        print("VASP RAG 高级版")
+        print("使用方式:")
+        print("  python vasp_rag_advanced.py pipeline  - 运行完整流程")
+        print("  python demo_advanced.py               - 运行测试和演示")
