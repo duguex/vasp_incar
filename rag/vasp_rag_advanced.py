@@ -34,10 +34,10 @@ class RAGConfig:
     """RAG 系统配置管理类 - 支持环境变量和配置文件"""
 
     # 默认配置常量
-    DEFAULT_SERVER_HOSTS = ["localhost"]
+    DEFAULT_SERVER_HOSTS = ["localhost", "192.168.1.130", "192.168.1.127"]
     DEFAULT_PORT = 11434
     DEFAULT_TIMEOUT = 3
-    DEFAULT_MAX_WORKERS = 4
+    DEFAULT_MAX_WORKERS = 3
     DEFAULT_CHUNK_SIZE = 1000
     DEFAULT_CHUNK_OVERLAP = 200
     DEFAULT_PERSIST_DIR = "./chroma_db"
@@ -46,10 +46,6 @@ class RAGConfig:
     # 模型配置
     PREFERRED_EMBEDDING_MODELS = [
         'qwen3-embedding',
-        'qwen2.5',
-        'nomic-embed-text',
-        'bge-m3',
-        'mxbai-embed-large'
     ]
 
     DEFAULT_CHAT_MODEL = "qwen3:4b-instruct-2507-q4_K_M"
@@ -399,7 +395,7 @@ class RealTimeLoadBalancer:
             embedder = self._find_available_server()
             if embedder:
                 break
-            time.sleep(0.05)  # 50ms检查一次
+            time.sleep(0.5)  # 500ms检查一次
 
         # 标记为忙碌
         self._mark_server_busy(embedder, True)
@@ -474,7 +470,7 @@ class RealTimeLoadBalancer:
                         pbar.update(1)
 
                         # 每完成3个批次显示一次状态
-                        if len(all_embeddings) // batch_size % 3 == 0:
+                        if len(all_embeddings) // batch_size % 10 == 0:
                             print(f"\n   [进度: {len(all_embeddings) // batch_size}/{total_batches}]")
                             self.print_server_stats()
 
@@ -846,348 +842,72 @@ def _run_pipeline_core(
         traceback.print_exc()
 
 
-def run_full_pipeline(config: RAGConfig, json_file: str, test_queries: List[str]) -> None:
-    """
-    运行完整的 RAG 流程
+def run_pipeline():
+    """运行完整的 RAG 流程（使用真实数据）"""
+    print("=" * 70)
+    print("🚀 VASP RAG 完整流程")
+    print("=" * 70)
 
-    Args:
-        config: RAG 配置
-        json_file: 数据文件路径
-        test_queries: 测试查询列表
-    """
-    print("=" * 70)
-    print("🚀 VASP RAG 高级版 - 完整流程")
-    print("=" * 70)
+    # 配置
+    config = RAGConfig(
+        max_workers=3,
+        chunk_size=1000,
+        chunk_overlap=200,
+        persist_dir="./chroma_db",
+        batch_size=100,
+        chat_model="qwen3:4b-instruct-2507-q4_K_M",
+        force_rebuild=False
+    )
+
+    # 测试查询
+    test_queries = RAGConfig._get_env_list('VASP_TEST_QUERIES', [
+        "什么是 RPA 计算？如何在 VASP 中设置 RPA 计算？",
+        "ALGO 参数有哪些选项？分别代表什么含义？",
+        "如何设置 INCAR 文件中的混合泛函参数？"
+    ])
+
+    # 数据文件
+    data_file = os.getenv('VASP_DATA_FILE', 'vasp_wiki_all_data_readable.json')
+
     print(f"\n配置: {config}")
-
-    rag = VASPRAGAdvanced(config)
-    documents = rag.load_data(json_file)
-    _run_pipeline_core(rag, documents, test_queries, "完整流程", skip_server_check=False)
-
-
-def test_servers(server_hosts=None, port: int = 11434, timeout: int = 3):
-    """
-    测试所有Ollama服务器
-
-    Args:
-        server_hosts: 服务器地址列表，如果为 None 则从环境变量或默认值读取
-        port: 端口号
-        timeout: 超时时间
-    """
-    # 从环境变量或默认值获取服务器列表
-    if server_hosts is None:
-        server_hosts = RAGConfig._get_env_list('VASP_SERVER_HOSTS', ['localhost'])
-
-    print("=" * 60)
-    print("🌐 Ollama 服务器连接测试")
-    print("=" * 60)
-
-    print(f"\n正在测试 {len(server_hosts)} 个服务器...")
-
-    # 并行测试
-    results = []
-    with ThreadPoolExecutor(max_workers=10) as executor:
-        futures = [
-            executor.submit(check_ollama_server, host, port, timeout)
-            for host in server_hosts
-        ]
-
-        for future in tqdm(as_completed(futures), total=len(futures), desc="测试进度"):
-            results.append(future.result())
-
-    # 显示结果
-    print("\n" + "=" * 60)
-    print("📊 测试结果")
-    print("=" * 60)
-
-    online_count = 0
-    for result in results:
-        status_icon = "✅" if result['status'] == 'online' else "❌"
-        print(f"\n{status_icon} {result['host']}:{result['port']}")
-        print(f"   状态: {result['status']}")
-
-        if result['status'] == 'online':
-            online_count += 1
-            print(f"   版本: {result['version']}")
-            print(f"   模型数: {result['model_count']}")
-            if result['models']:
-                print(f"   可用模型:")
-                for model in result['models']:
-                    print(f"      - {model}")
-
-    print(f"\n" + "=" * 60)
-    print(f"📈 统计: {online_count}/{len(server_hosts)} 服务器在线")
-
-    # 推荐配置
-    online_servers = [r for r in results if r['status'] == 'online']
-    if online_servers:
-        print("\n💡 推荐配置:")
-        print("server_hosts = [")
-        for server in online_servers:
-            print(f'    \"{server["host"]}\",')
-        print("]")
-
-    return results
-
-
-def demo_load_balancing():
-    """演示真正的动态负载均衡 - 谁空闲谁干活"""
-    print("=" * 80)
-    print("🚀 真正的动态负载均衡演示 - 谁空闲谁干活")
-    print("=" * 80)
-
-    print("\n📝 实现方式:")
-    print("   1. 预先创建所有服务器的嵌入客户端")
-    print("   2. 每个服务器有独立的忙碌状态标记")
-    print("   3. 任务等待空闲服务器，不预先分配")
-    print("   4. 快服务器完成任务后立即接新任务")
-
-    # 创建测试配置 - 从环境变量或默认值获取服务器列表
-    server_hosts = RAGConfig._get_env_list('VASP_SERVER_HOSTS', ['localhost'])
-    server_configs = [
-        {'host': host, 'port': 11434, 'base_url': f'http://{host}:11434'}
-        for host in server_hosts
-    ]
-
-    print("\n🔄 初始化负载均衡器...")
-    generator = RealTimeLoadBalancer(server_configs, max_workers=3)
-
-    print(f"\n✅ 创建了 {len(generator.embedders)} 个嵌入客户端")
-    for embedder in generator.embedders:
-        print(f"   - {embedder['host']}: 初始状态=空闲")
-
-    print("\n📊 初始统计:")
-    generator.print_server_stats()
-
-    # 模拟真实场景
-    print("\n🔄 模拟真实任务执行...")
-    print("\n场景说明:")
-    print("   - 6个批次需要处理")
-    print("   - 服务器A (192.168.1.130): 0.5秒/批次")
-    print("   - 服务器B (192.168.1.127): 1.0秒/批次")
-    print("   - 服务器C (localhost): 1.5秒/批次")
-
-    import time
-    import threading
-
-    # 模拟任务执行
-    results = []
-    lock = threading.Lock()
-
-    def mock_process_batch(batch_id):
-        """模拟处理一个批次"""
-        # 等待空闲服务器
-        while True:
-            embedder = generator._find_available_server()
-            if embedder:
-                break
-            time.sleep(0.05)
-
-        # 标记忙碌
-        generator._mark_server_busy(embedder, True)
-
-        host = embedder['host']
-        base_url = embedder['base_url']
-
-        # 根据服务器决定处理时间
-        if '130' in base_url:
-            duration = 0.5
-        elif '127' in base_url:
-            duration = 1.0
-        else:
-            duration = 1.5
-
-        print(f"   📋 批次 {batch_id} -> {host} (预计{duration}s)")
-
-        # 模拟工作
-        time.sleep(duration)
-
-        # 更新统计
-        generator._update_stats(base_url, duration, success=True)
-
-        # 标记空闲
-        generator._mark_server_busy(embedder, False)
-
-        with lock:
-            results.append((batch_id, host, duration))
-
-        print(f"   ✅ 批次 {batch_id} 在 {host} 完成")
-
-    # 启动6个任务（模拟并行提交）
-    threads = []
-    for i in range(1, 7):
-        thread = threading.Thread(target=mock_process_batch, args=(i,))
-        threads.append(thread)
-        thread.start()
-        time.sleep(0.1)  # 间隔提交
-
-        # 每2个任务显示一次状态
-        if i % 2 == 0:
-            time.sleep(0.2)  # 等待部分完成
-            print(f"\n   [提交 {i} 个批次后的状态]")
-            generator.print_server_stats()
-
-    # 等待所有完成
-    for thread in threads:
-        thread.join()
-
-    print("\n📊 最终统计:")
-    generator.print_server_stats()
-
-    print("\n✅ 演示完成！")
-    print("\n💡 结果分析:")
-    stats = generator.get_server_stats()
-    for url, stat in stats.items():
-        host = url.split('//')[1].split(':')[0]
-        print(f"   {host}: {stat['total_tasks']} 个任务, 平均 {stat['avg_time']}s/任务")
-
-    print("\n🎯 关键特点:")
-    print("   ✅ 谁空闲谁干活 - 不预先分配")
-    print("   ✅ 快服务器自动多干活 - 完成快就接新任务")
-    print("   ✅ 慢服务器不会拖累整体 - 只处理分配到的任务")
-    print("   ✅ 完全动态 - 基于实时状态")
-
-    print("\n" + "=" * 80)
-
-
-def run_demo_pipeline():
-    """运行演示版全流程 - 使用少量数据"""
-    print("=" * 70)
-    print("🧪 VASP RAG - 演示版全流程")
-    print("=" * 70)
-    print("\n此测试将顺序执行以下所有步骤:")
+    print(f"数据文件: {data_file}")
+    print(f"测试查询数: {len(test_queries)}")
+    print("\n执行步骤:")
     print("  1. 服务器检测与配置")
-    print("  2. 数据加载与预处理（使用模拟数据）")
+    print("  2. 数据加载与预处理")
     print("  3. 文档分块")
     print("  4. 并行嵌入生成与向量存储构建")
     print("  5. 相似性检索测试")
     print("  6. RAG 问答测试")
     print("\n" + "=" * 70)
-    print("开始执行演示流程...\n")
+    print("开始执行...\n")
 
-    # 配置 - 使用少量数据进行演示
-    config = RAGConfig(
-        max_workers=3,
-        chunk_size=1000,
-        chunk_overlap=150,
-        persist_dir="./chroma_db_demo",
-        force_rebuild=True
-    )
-
-    print("📋 演示配置:")
-    print(f"   服务器: {config.server_hosts}")
-    print(f"   并行工作数: {config.max_workers}")
-    print(f"   分块大小: {config.chunk_size}")
-    print(f"   重叠大小: {config.chunk_overlap}")
-
-    # 数据加载（使用模拟数据）
+    # 步骤1: 服务器配置
+    rag = VASPRAGAdvanced(config)
+    print("\n" + "=" * 70)
+    print("步骤 1: 服务器配置")
     print("=" * 70)
-    print("数据加载与预处理")
+    if not rag.setup_servers():
+        print("❌ 服务器配置失败")
+        return
+
+    # 步骤2: 数据加载
+    print("\n" + "=" * 70)
+    print("步骤 2: 数据加载")
     print("=" * 70)
 
     try:
-        with open("vasp_wiki_all_data.json", 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        print(f"✅ 成功加载数据文件，共 {len(data)} 条记录")
+        documents = rag.load_data(data_file)
     except FileNotFoundError:
-        print(f"❌ 数据文件 vasp_wiki_all_data.json 不存在，使用模拟数据")
-        data = [
-            {"title": "RPA计算介绍", "url": "http://example.com/rpa", "content": "RPA (Relaxation Polarization Approximation) 计算是一种用于研究铁电材料的方法..."},
-            {"title": "VASP基础", "url": "http://example.com/vasp", "content": "VASP (Vienna Ab initio Simulation Package) 是基于平面波赝势的第一性原理计算软件..."},
-            {"title": "晶格优化", "url": "http://example.com/relax", "content": "晶格优化是结构计算中的重要步骤，通过调整原子位置和晶胞参数使体系能量最低..."},
-        ]
+        print(f"❌ 数据文件 {data_file} 不存在，请检查路径")
+        return
 
-    # 只取前30个文档进行演示
-    demo_data = data[:30]
-    documents = []
+    # 步骤3-6: 使用核心流程
+    _run_pipeline_core(rag, documents, test_queries, "完整流程", skip_server_check=False)
 
-    for item in demo_data:
-        if "Redirect to:" in item.get('content', ''):
-            continue
-
-        content = f"标题: {item['title']}\\nURL: {item['url']}\\n内容: {item['content']}"
-        doc = Document(
-            page_content=content,
-            metadata={'title': item['title'], 'url': item['url']}
-        )
-        documents.append(doc)
-
-    print(f"✅ 预处理完成，准备 {len(documents)} 个文档")
-
-    # 使用核心流程函数
-    rag = VASPRAGAdvanced(config)
-    test_queries = ["什么是 RPA 计算？"]
-    _run_pipeline_core(rag, documents, test_queries, "演示流程", skip_server_check=True)
-
-    print(f"\n📁 演示数据已保存到: {config.persist_dir}")
-    print("\n💡 提示: 此测试使用了少量数据和快速配置")
-    print("   完整版运行: python vasp_rag_advanced.py pipeline")
-
-def print_help():
-    print("=" * 70)
-    print("VASP RAG 高级版 - 自适应负载均衡")
-    print("=" * 70)
-    print("\n使用方式:")
-    print("  python vasp_rag_advanced.py pipeline  - 运行完整 RAG 流程（需真实数据）")
-    print("  python vasp_rag_advanced.py test     - 运行演示流程（少量数据）")
-    print("  python vasp_rag_advanced.py demo     - 演示负载均衡效果")
-    print("  python vasp_rag_advanced.py server   - 测试服务器连接")
-    print("\n功能说明:")
-    print("  ✅ 真实动态负载均衡 - 谁空闲谁干活，快服务器多干活")
-    print("  ✅ 实时性能监控 - 显示各服务器任务数和平均时间")
-    print("  ✅ 自动故障转移 - 失败自动重试")
-    print("  ✅ 并行加速 - 多服务器同时处理")
-    print("\n提示:")
-    print("  - 首次使用建议先运行: python vasp_rag_advanced.py server")
-    print("  - 快速测试建议运行: python vasp_rag_advanced.py test")
-    print("  - 完整流程建议运行: python vasp_rag_advanced.py pipeline")
-
+    print(f"\n📁 数据已保存到: {config.persist_dir}")
+    print("\n✅ 完整流程执行完成！")
 
 if __name__ == "__main__":
-    # 简单的命令行接口
-    import sys
-
-    if len(sys.argv) > 1:
-        command = sys.argv[1]
-
-        if command == "pipeline":
-            # 完整流程 - 使用环境变量或默认配置
-            config = RAGConfig(
-                max_workers=3,
-                chunk_size=1000,
-                chunk_overlap=200,
-                persist_dir="./chroma_db",
-                batch_size=20,
-                chat_model="qwen3:4b-instruct-2507-q4_K_M",
-                force_rebuild=False
-            )
-
-            # 从环境变量或默认值获取测试查询
-            test_queries = RAGConfig._get_env_list('VASP_TEST_QUERIES', [
-                "什么是 RPA 计算？如何在 VASP 中设置 RPA 计算？",
-                "ALGO 参数有哪些选项？分别代表什么含义？",
-                "如何设置 INCAR 文件中的混合泛函参数？"
-            ])
-
-            # 从环境变量或默认值获取数据文件路径
-            data_file = os.getenv('VASP_DATA_FILE', 'vasp_wiki_all_data.json')
-
-            run_full_pipeline(config, data_file, test_queries)
-
-        elif command == "demo":
-            # 负载均衡演示
-            demo_load_balancing()
-
-        elif command == "test":
-            # 全流程测试（使用少量数据）
-            run_demo_pipeline()
-
-        elif command == "server":
-            # 服务器测试
-            test_servers()
-
-        else:
-            print(f"❌ 未知命令: {command}")
-            print_help()
-    else:
-        print_help()
+    # 运行完整 RAG 流程
+    run_pipeline()
