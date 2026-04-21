@@ -1,3 +1,2 @@
-/incar_samples
-/rag/chroma_db
-/rag/__pycache__
+__pycache__/
+*.pyc

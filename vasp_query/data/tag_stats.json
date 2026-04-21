@@ -1,0 +1,3495 @@
+{
+  "ADDGRID": {
+    "count": 31,
+    "total_configs": 10176,
+    "frequency": 0.3,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 30
+      },
+      {
+        "value": "false",
+        "count": 1
+      }
+    ]
+  },
+  "AEXX": {
+    "count": 1439,
+    "total_configs": 10176,
+    "frequency": 14.1,
+    "top_values": [
+      {
+        "value": "0.25",
+        "count": 1091
+      },
+      {
+        "value": "0.28",
+        "count": 71
+      },
+      {
+        "value": "0.3",
+        "count": 65
+      },
+      {
+        "value": "0.27",
+        "count": 54
+      },
+      {
+        "value": "0.29",
+        "count": 41
+      }
+    ]
+  },
+  "AGGAC": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "0.81",
+        "count": 1
+      }
+    ]
+  },
+  "AGGAX": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "0.72",
+        "count": 1
+      }
+    ]
+  },
+  "AGMOM": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "\"387*0.0 93*1.0 3000*0.0\"",
+        "count": 1
+      }
+    ]
+  },
+  "ALDAC": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "0.19",
+        "count": 1
+      }
+    ]
+  },
+  "ALGO": {
+    "count": 9283,
+    "total_configs": 10176,
+    "frequency": 91.2,
+    "top_values": [
+      {
+        "value": "\"N\"",
+        "count": 3297
+      },
+      {
+        "value": "\"Normal\"",
+        "count": 2977
+      },
+      {
+        "value": "\"All\"",
+        "count": 1234
+      },
+      {
+        "value": "\"Conjugate\"",
+        "count": 1143
+      },
+      {
+        "value": "\"Fast\"",
+        "count": 173
+      }
+    ]
+  },
+  "AMIX": {
+    "count": 1306,
+    "total_configs": 10176,
+    "frequency": 12.8,
+    "top_values": [
+      {
+        "value": "0.2",
+        "count": 1265
+      },
+      {
+        "value": "0.1",
+        "count": 35
+      },
+      {
+        "value": "0.05",
+        "count": 5
+      },
+      {
+        "value": "0.3",
+        "count": 1
+      }
+    ]
+  },
+  "AMIX_MAG": {
+    "count": 602,
+    "total_configs": 10176,
+    "frequency": 5.9,
+    "top_values": [
+      {
+        "value": "0.8",
+        "count": 569
+      },
+      {
+        "value": "0.4",
+        "count": 31
+      },
+      {
+        "value": "0.2",
+        "count": 2
+      }
+    ]
+  },
+  "BANDS_PLOT": {
+    "count": 587,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 577
+      },
+      {
+        "value": "false",
+        "count": 10
+      }
+    ]
+  },
+  "BERRY": {
+    "count": 571,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 563
+      },
+      {
+        "value": "false",
+        "count": 8
+      }
+    ]
+  },
+  "BERRY_CURV_ADPT_KMESH": {
+    "count": 569,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "5",
+        "count": 569
+      }
+    ]
+  },
+  "BERRY_CURV_ADPT_KMESH_THRESH": {
+    "count": 569,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "100.0",
+        "count": 569
+      }
+    ]
+  },
+  "BERRY_CURV_UNIT": {
+    "count": 569,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "\"Bohr2\"",
+        "count": 569
+      }
+    ]
+  },
+  "BERRY_KMESH": {
+    "count": 571,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "\"400 400 1\"",
+        "count": 571
+      }
+    ]
+  },
+  "BERRY_TASK": {
+    "count": 571,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "\"Ahc\"",
+        "count": 569
+      },
+      {
+        "value": "\"Shc\"",
+        "count": 2
+      }
+    ]
+  },
+  "BMIX": {
+    "count": 1303,
+    "total_configs": 10176,
+    "frequency": 12.8,
+    "top_values": [
+      {
+        "value": "0.0001",
+        "count": 1239
+      },
+      {
+        "value": "0.1",
+        "count": 27
+      },
+      {
+        "value": "1e-05",
+        "count": 23
+      },
+      {
+        "value": "0.001",
+        "count": 9
+      },
+      {
+        "value": "1",
+        "count": 3
+      }
+    ]
+  },
+  "BMIX_MAG": {
+    "count": 594,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "0.0001",
+        "count": 537
+      },
+      {
+        "value": "0.1",
+        "count": 25
+      },
+      {
+        "value": "1e-05",
+        "count": 23
+      },
+      {
+        "value": "0.001",
+        "count": 4
+      },
+      {
+        "value": "1",
+        "count": 3
+      }
+    ]
+  },
+  "BPARAM": {
+    "count": 10,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "6.3",
+        "count": 9
+      },
+      {
+        "value": "15.7",
+        "count": 1
+      }
+    ]
+  },
+  "CPARAM": {
+    "count": 10,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "0.0093",
+        "count": 10
+      }
+    ]
+  },
+  "CSHIFT": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "0.1",
+        "count": 2
+      }
+    ]
+  },
+  "DIPOL": {
+    "count": 5,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "[0.2, 0.2, 0.2]",
+        "count": 3
+      },
+      {
+        "value": "[0.5, 0.5, 0.5]",
+        "count": 2
+      }
+    ]
+  },
+  "DIS_FROZ_MAX": {
+    "count": 590,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "2.95",
+        "count": 556
+      },
+      {
+        "value": "8.2",
+        "count": 6
+      },
+      {
+        "value": "-0.6",
+        "count": 5
+      },
+      {
+        "value": "-0.5",
+        "count": 3
+      },
+      {
+        "value": "0.4",
+        "count": 2
+      }
+    ]
+  },
+  "DIS_FROZ_MIN": {
+    "count": 590,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "-10",
+        "count": 558
+      },
+      {
+        "value": "-2.4",
+        "count": 5
+      },
+      {
+        "value": "-8",
+        "count": 5
+      },
+      {
+        "value": "-0.2",
+        "count": 4
+      },
+      {
+        "value": "-3.5",
+        "count": 3
+      }
+    ]
+  },
+  "DIS_NUM_ITER": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "1000",
+        "count": 2
+      }
+    ]
+  },
+  "DIS_WIN_MAX": {
+    "count": 588,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "5",
+        "count": 564
+      },
+      {
+        "value": "10",
+        "count": 10
+      },
+      {
+        "value": "0",
+        "count": 3
+      },
+      {
+        "value": "0.5",
+        "count": 3
+      },
+      {
+        "value": "12.0",
+        "count": 2
+      }
+    ]
+  },
+  "DIS_WIN_MIN": {
+    "count": 588,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "-12",
+        "count": 557
+      },
+      {
+        "value": "-9",
+        "count": 7
+      },
+      {
+        "value": "-0.2",
+        "count": 5
+      },
+      {
+        "value": "-10.5",
+        "count": 4
+      },
+      {
+        "value": "-4.0",
+        "count": 3
+      }
+    ]
+  },
+  "EDIEF": {
+    "count": 19,
+    "total_configs": 10176,
+    "frequency": 0.2,
+    "top_values": [
+      {
+        "value": "1e-06",
+        "count": 19
+      }
+    ]
+  },
+  "EDIEFG": {
+    "count": 19,
+    "total_configs": 10176,
+    "frequency": 0.2,
+    "top_values": [
+      {
+        "value": "-0.01",
+        "count": 19
+      }
+    ]
+  },
+  "EDIFF": {
+    "count": 10148,
+    "total_configs": 10176,
+    "frequency": 99.7,
+    "top_values": [
+      {
+        "value": "1e-05",
+        "count": 4390
+      },
+      {
+        "value": "1.0",
+        "count": 2009
+      },
+      {
+        "value": "0.0001",
+        "count": 1439
+      },
+      {
+        "value": "1e-07",
+        "count": 1187
+      },
+      {
+        "value": "1e-06",
+        "count": 985
+      }
+    ]
+  },
+  "EDIFFG": {
+    "count": 9349,
+    "total_configs": 10176,
+    "frequency": 91.9,
+    "top_values": [
+      {
+        "value": "-0.01",
+        "count": 3304
+      },
+      {
+        "value": "-0.02",
+        "count": 2484
+      },
+      {
+        "value": "-1.0",
+        "count": 1930
+      },
+      {
+        "value": "-0.03",
+        "count": 1097
+      },
+      {
+        "value": "-0.005",
+        "count": 219
+      }
+    ]
+  },
+  "EFIELD": {
+    "count": 70,
+    "total_configs": 10176,
+    "frequency": 0.7,
+    "top_values": [
+      {
+        "value": "0.05",
+        "count": 17
+      },
+      {
+        "value": "0.02",
+        "count": 7
+      },
+      {
+        "value": "0.06",
+        "count": 6
+      },
+      {
+        "value": "0.1",
+        "count": 5
+      },
+      {
+        "value": "0.07",
+        "count": 4
+      }
+    ]
+  },
+  "EMAX": {
+    "count": 37,
+    "total_configs": 10176,
+    "frequency": 0.4,
+    "top_values": [
+      {
+        "value": "20",
+        "count": 28
+      },
+      {
+        "value": "\"14               final energy-range for dos\"",
+        "count": 4
+      },
+      {
+        "value": "14",
+        "count": 3
+      },
+      {
+        "value": "10",
+        "count": 2
+      }
+    ]
+  },
+  "EMIN": {
+    "count": 37,
+    "total_configs": 10176,
+    "frequency": 0.4,
+    "top_values": [
+      {
+        "value": "-20.01",
+        "count": 28
+      },
+      {
+        "value": "\"0               initial energy-range for dos\"",
+        "count": 4
+      },
+      {
+        "value": "-3",
+        "count": 3
+      },
+      {
+        "value": "-10",
+        "count": 1
+      },
+      {
+        "value": "0",
+        "count": 1
+      }
+    ]
+  },
+  "ENAUG": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "1360",
+        "count": 1
+      }
+    ]
+  },
+  "ENCUT": {
+    "count": 10100,
+    "total_configs": 10176,
+    "frequency": 99.3,
+    "top_values": [
+      {
+        "value": "400.0",
+        "count": 7300
+      },
+      {
+        "value": "520.0",
+        "count": 1520
+      },
+      {
+        "value": "500.0",
+        "count": 933
+      },
+      {
+        "value": "600.0",
+        "count": 102
+      },
+      {
+        "value": "499.0",
+        "count": 24
+      }
+    ]
+  },
+  "ENMAX": {
+    "count": 3,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "400",
+        "count": 2
+      },
+      {
+        "value": "270",
+        "count": 1
+      }
+    ]
+  },
+  "EXX": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "0.25",
+        "count": 2
+      }
+    ]
+  },
+  "FERDO": {
+    "count": 1086,
+    "total_configs": 10176,
+    "frequency": 10.7,
+    "top_values": [
+      {
+        "value": "\"483*1.0 3000*0.0\"",
+        "count": 94
+      },
+      {
+        "value": "\"678*1.0 3000*0.0\"",
+        "count": 55
+      },
+      {
+        "value": "\"654*1.0 3000*0.0\"",
+        "count": 24
+      },
+      {
+        "value": "\"384*1.0 2000*0.0\"",
+        "count": 18
+      },
+      {
+        "value": "\"331*1.0 0.0 1.0 3000*0.0\"",
+        "count": 16
+      }
+    ]
+  },
+  "FERMI_ENERGY": {
+    "count": 562,
+    "total_configs": 10176,
+    "frequency": 5.5,
+    "top_values": [
+      {
+        "value": "\"[insert your value here]\"",
+        "count": 557
+      },
+      {
+        "value": "-1.5233",
+        "count": 2
+      },
+      {
+        "value": "-1.6607",
+        "count": 1
+      },
+      {
+        "value": "-1.7005",
+        "count": 1
+      },
+      {
+        "value": "-1.294",
+        "count": 1
+      }
+    ]
+  },
+  "FERMI_ENERGY_MAX": {
+    "count": 569,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "1",
+        "count": 567
+      },
+      {
+        "value": "-2.1666",
+        "count": 1
+      },
+      {
+        "value": "-1.2233",
+        "count": 1
+      }
+    ]
+  },
+  "FERMI_ENERGY_MIN": {
+    "count": 569,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "-4",
+        "count": 567
+      },
+      {
+        "value": "-2.7666",
+        "count": 1
+      },
+      {
+        "value": "-1.8233",
+        "count": 1
+      }
+    ]
+  },
+  "FERWE": {
+    "count": 1346,
+    "total_configs": 10176,
+    "frequency": 13.2,
+    "top_values": [
+      {
+        "value": "\"485*1.0 0.0 2*1.0 3000*0.0\"",
+        "count": 27
+      },
+      {
+        "value": "\"483*1.0 5*0.8 3000*0.0\"",
+        "count": 21
+      },
+      {
+        "value": "\"384*1.0 7*0.1428571429 2000*0.0\"",
+        "count": 17
+      },
+      {
+        "value": "\"335*1.0 3000*0.0\"",
+        "count": 15
+      },
+      {
+        "value": "\"336*1.0 5*0.5 3000*0.0\"",
+        "count": 14
+      }
+    ]
+  },
+  "GGA": {
+    "count": 3091,
+    "total_configs": 10176,
+    "frequency": 30.4,
+    "top_values": [
+      {
+        "value": "\"Ps\"",
+        "count": 2444
+      },
+      {
+        "value": "\"Pe\"",
+        "count": 646
+      },
+      {
+        "value": "\"B3\"",
+        "count": 1
+      }
+    ]
+  },
+  "GGA_COMPAT": {
+    "count": 112,
+    "total_configs": 10176,
+    "frequency": 1.1,
+    "top_values": [
+      {
+        "value": "false",
+        "count": 112
+      }
+    ]
+  },
+  "GUIDING_CENTRES": {
+    "count": 587,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "\"T\"",
+        "count": 587
+      }
+    ]
+  },
+  "HFSCREEN": {
+    "count": 2098,
+    "total_configs": 10176,
+    "frequency": 20.6,
+    "top_values": [
+      {
+        "value": "0.2",
+        "count": 1311
+      },
+      {
+        "value": "0.0",
+        "count": 783
+      },
+      {
+        "value": "0.3",
+        "count": 2
+      },
+      {
+        "value": "2.0",
+        "count": 1
+      },
+      {
+        "value": "3.0",
+        "count": 1
+      }
+    ]
+  },
+  "IALGO": {
+    "count": 4,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "38",
+        "count": 3
+      },
+      {
+        "value": "48",
+        "count": 1
+      }
+    ]
+  },
+  "IBAND": {
+    "count": 10,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "\"1089 1090 1091 1092\"",
+        "count": 1
+      },
+      {
+        "value": "339",
+        "count": 1
+      },
+      {
+        "value": "\"575 579\"",
+        "count": 1
+      },
+      {
+        "value": "\"257 261\"",
+        "count": 1
+      },
+      {
+        "value": "\"488 487 486 485\"",
+        "count": 1
+      }
+    ]
+  },
+  "IBRION": {
+    "count": 10023,
+    "total_configs": 10176,
+    "frequency": 98.5,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 9372
+      },
+      {
+        "value": "-1",
+        "count": 302
+      },
+      {
+        "value": "1",
+        "count": 222
+      },
+      {
+        "value": "8",
+        "count": 82
+      },
+      {
+        "value": "3",
+        "count": 16
+      }
+    ]
+  },
+  "IBRON": {
+    "count": 3,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 3
+      }
+    ]
+  },
+  "ICHAIN": {
+    "count": 10,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "0",
+        "count": 10
+      }
+    ]
+  },
+  "ICHARG": {
+    "count": 1195,
+    "total_configs": 10176,
+    "frequency": 11.7,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 720
+      },
+      {
+        "value": "11",
+        "count": 338
+      },
+      {
+        "value": "1",
+        "count": 135
+      },
+      {
+        "value": "10",
+        "count": 2
+      }
+    ]
+  },
+  "ICHARGE": {
+    "count": 23,
+    "total_configs": 10176,
+    "frequency": 0.2,
+    "top_values": [
+      {
+        "value": "11",
+        "count": 23
+      }
+    ]
+  },
+  "IDIPOL": {
+    "count": 88,
+    "total_configs": 10176,
+    "frequency": 0.9,
+    "top_values": [
+      {
+        "value": "3",
+        "count": 81
+      },
+      {
+        "value": "2",
+        "count": 3
+      },
+      {
+        "value": "1",
+        "count": 3
+      },
+      {
+        "value": "4",
+        "count": 1
+      }
+    ]
+  },
+  "IMAGES": {
+    "count": 16,
+    "total_configs": 10176,
+    "frequency": 0.2,
+    "top_values": [
+      {
+        "value": "4",
+        "count": 8
+      },
+      {
+        "value": "5",
+        "count": 8
+      }
+    ]
+  },
+  "IMIX": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "1",
+        "count": 1
+      }
+    ]
+  },
+  "IOPT": {
+    "count": 16,
+    "total_configs": 10176,
+    "frequency": 0.2,
+    "top_values": [
+      {
+        "value": "1",
+        "count": 11
+      },
+      {
+        "value": "3",
+        "count": 2
+      },
+      {
+        "value": "4",
+        "count": 1
+      },
+      {
+        "value": "2",
+        "count": 1
+      },
+      {
+        "value": "7",
+        "count": 1
+      }
+    ]
+  },
+  "IOPTCELL": {
+    "count": 114,
+    "total_configs": 10176,
+    "frequency": 1.1,
+    "top_values": [
+      {
+        "value": "\"0 0 0 0 0 0 0 0 1\"",
+        "count": 114
+      }
+    ]
+  },
+  "IPRINT": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 2
+      }
+    ]
+  },
+  "ISIF": {
+    "count": 9857,
+    "total_configs": 10176,
+    "frequency": 96.9,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 8447
+      },
+      {
+        "value": "3",
+        "count": 1081
+      },
+      {
+        "value": "4",
+        "count": 238
+      },
+      {
+        "value": "0",
+        "count": 71
+      },
+      {
+        "value": "7",
+        "count": 10
+      }
+    ]
+  },
+  "ISMEAR": {
+    "count": 10167,
+    "total_configs": 10176,
+    "frequency": 99.9,
+    "top_values": [
+      {
+        "value": "0",
+        "count": 8800
+      },
+      {
+        "value": "-2",
+        "count": 1180
+      },
+      {
+        "value": "-5",
+        "count": 154
+      },
+      {
+        "value": "-4",
+        "count": 19
+      },
+      {
+        "value": "1",
+        "count": 12
+      }
+    ]
+  },
+  "ISPIN": {
+    "count": 9387,
+    "total_configs": 10176,
+    "frequency": 92.2,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 9012
+      },
+      {
+        "value": "1",
+        "count": 373
+      },
+      {
+        "value": "3",
+        "count": 1
+      },
+      {
+        "value": "0",
+        "count": 1
+      }
+    ]
+  },
+  "ISTART": {
+    "count": 993,
+    "total_configs": 10176,
+    "frequency": 9.8,
+    "top_values": [
+      {
+        "value": "0",
+        "count": 852
+      },
+      {
+        "value": "1",
+        "count": 140
+      },
+      {
+        "value": "2",
+        "count": 1
+      }
+    ]
+  },
+  "ISYM": {
+    "count": 6078,
+    "total_configs": 10176,
+    "frequency": 59.7,
+    "top_values": [
+      {
+        "value": "-1",
+        "count": 2886
+      },
+      {
+        "value": "0",
+        "count": 1374
+      },
+      {
+        "value": "\"-1                0-nonsym 1-usesym 2-fastsym\"",
+        "count": 1363
+      },
+      {
+        "value": "2",
+        "count": 358
+      },
+      {
+        "value": "\"2                0-nonsym 1-usesym 2-fastsym\"",
+        "count": 71
+      }
+    ]
+  },
+  "IVDM": {
+    "count": 12,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "12",
+        "count": 12
+      }
+    ]
+  },
+  "IVDW": {
+    "count": 173,
+    "total_configs": 10176,
+    "frequency": 1.7,
+    "top_values": [
+      {
+        "value": "11",
+        "count": 98
+      },
+      {
+        "value": "12",
+        "count": 74
+      },
+      {
+        "value": "10",
+        "count": 1
+      }
+    ]
+  },
+  "IWAVPR": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "11",
+        "count": 1
+      }
+    ]
+  },
+  "I_CONSTRAINED_M": {
+    "count": 40,
+    "total_configs": 10176,
+    "frequency": 0.4,
+    "top_values": [
+      {
+        "value": "1",
+        "count": 39
+      },
+      {
+        "value": "2",
+        "count": 1
+      }
+    ]
+  },
+  "KBLOCK": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "10",
+        "count": 1
+      }
+    ]
+  },
+  "KMESH_TOL": {
+    "count": 574,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "0.0001",
+        "count": 574
+      }
+    ]
+  },
+  "KPAR": {
+    "count": 1424,
+    "total_configs": 10176,
+    "frequency": 14.0,
+    "top_values": [
+      {
+        "value": "1",
+        "count": 1209
+      },
+      {
+        "value": "4",
+        "count": 181
+      },
+      {
+        "value": "2",
+        "count": 32
+      },
+      {
+        "value": "6",
+        "count": 1
+      },
+      {
+        "value": "16",
+        "count": 1
+      }
+    ]
+  },
+  "KPATH": {
+    "count": 569,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 562
+      },
+      {
+        "value": "false",
+        "count": 7
+      }
+    ]
+  },
+  "KPATH_BANDS_COLOUR": {
+    "count": 569,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "\"Spin\"",
+        "count": 569
+      }
+    ]
+  },
+  "KPATH_NUM_POINTS": {
+    "count": 569,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "1000",
+        "count": 569
+      }
+    ]
+  },
+  "KPATH_TASK": {
+    "count": 569,
+    "total_configs": 10176,
+    "frequency": 5.6,
+    "top_values": [
+      {
+        "value": "\"Bands+curv\"",
+        "count": 567
+      },
+      {
+        "value": "\"Curv\"",
+        "count": 2
+      }
+    ]
+  },
+  "KPUSE": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "1",
+        "count": 1
+      }
+    ]
+  },
+  "LAECHG": {
+    "count": 37,
+    "total_configs": 10176,
+    "frequency": 0.4,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 37
+      }
+    ]
+  },
+  "LAMBDA": {
+    "count": 37,
+    "total_configs": 10176,
+    "frequency": 0.4,
+    "top_values": [
+      {
+        "value": "5",
+        "count": 24
+      },
+      {
+        "value": "200",
+        "count": 10
+      },
+      {
+        "value": "10",
+        "count": 1
+      },
+      {
+        "value": "100",
+        "count": 1
+      },
+      {
+        "value": "50",
+        "count": 1
+      }
+    ]
+  },
+  "LANGEVIN_GAMMA": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "[5]",
+        "count": 1
+      }
+    ]
+  },
+  "LANGEVIN_GAMMA_L": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "10",
+        "count": 1
+      }
+    ]
+  },
+  "LASPH": {
+    "count": 7453,
+    "total_configs": 10176,
+    "frequency": 73.2,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 4045
+      },
+      {
+        "value": "\"T\"",
+        "count": 3400
+      },
+      {
+        "value": "\".f.\"",
+        "count": 8
+      }
+    ]
+  },
+  "LCALCPOL": {
+    "count": 11,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "\"T\"",
+        "count": 11
+      }
+    ]
+  },
+  "LCARGE": {
+    "count": 16,
+    "total_configs": 10176,
+    "frequency": 0.2,
+    "top_values": [
+      {
+        "value": "\".ture.\"",
+        "count": 16
+      }
+    ]
+  },
+  "LCHARG": {
+    "count": 2812,
+    "total_configs": 10176,
+    "frequency": 27.6,
+    "top_values": [
+      {
+        "value": "false",
+        "count": 2065
+      },
+      {
+        "value": "true",
+        "count": 747
+      }
+    ]
+  },
+  "LCHARGE": {
+    "count": 22,
+    "total_configs": 10176,
+    "frequency": 0.2,
+    "top_values": [
+      {
+        "value": "false",
+        "count": 22
+      }
+    ]
+  },
+  "LCLIMB": {
+    "count": 16,
+    "total_configs": 10176,
+    "frequency": 0.2,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 16
+      }
+    ]
+  },
+  "LDAIJ": {
+    "count": 127,
+    "total_configs": 10176,
+    "frequency": 1.2,
+    "top_values": [
+      {
+        "value": "\"0 0 0 0\"",
+        "count": 87
+      },
+      {
+        "value": "\"0 0 0 0 0\"",
+        "count": 40
+      }
+    ]
+  },
+  "LDATYPE": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 2
+      }
+    ]
+  },
+  "LDAU": {
+    "count": 5009,
+    "total_configs": 10176,
+    "frequency": 49.2,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 4894
+      },
+      {
+        "value": "false",
+        "count": 115
+      }
+    ]
+  },
+  "LDAUJ": {
+    "count": 4639,
+    "total_configs": 10176,
+    "frequency": 45.6,
+    "top_values": [
+      {
+        "value": "[1, 0, 0, 0]",
+        "count": 954
+      },
+      {
+        "value": "[0, 0, 0]",
+        "count": 542
+      },
+      {
+        "value": "[0, 0, 0, 0]",
+        "count": 430
+      },
+      {
+        "value": "[1.0, 0.0, 0.0, 0]",
+        "count": 428
+      },
+      {
+        "value": "[1.0, 0.0, 0.0, 0.0]",
+        "count": 392
+      }
+    ]
+  },
+  "LDAUL": {
+    "count": 5051,
+    "total_configs": 10176,
+    "frequency": 49.6,
+    "top_values": [
+      {
+        "value": "[2, -1, -1, -1]",
+        "count": 1447
+      },
+      {
+        "value": "[-1, 2, -1]",
+        "count": 522
+      },
+      {
+        "value": "[2, -1, -1, -1, -1]",
+        "count": 511
+      },
+      {
+        "value": "[-1, -1, -1, -1]",
+        "count": 371
+      },
+      {
+        "value": "[2, -1, -1]",
+        "count": 356
+      }
+    ]
+  },
+  "LDAUPRINT": {
+    "count": 558,
+    "total_configs": 10176,
+    "frequency": 5.5,
+    "top_values": [
+      {
+        "value": "1",
+        "count": 360
+      },
+      {
+        "value": "2",
+        "count": 198
+      }
+    ]
+  },
+  "LDAUTYPE": {
+    "count": 806,
+    "total_configs": 10176,
+    "frequency": 7.9,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 731
+      },
+      {
+        "value": "1",
+        "count": 39
+      },
+      {
+        "value": "3",
+        "count": 36
+      }
+    ]
+  },
+  "LDAUU": {
+    "count": 5051,
+    "total_configs": 10176,
+    "frequency": 49.6,
+    "top_values": [
+      {
+        "value": "[4, 0, 0, 0]",
+        "count": 641
+      },
+      {
+        "value": "[4.0, 0.0, 0.0, 0]",
+        "count": 299
+      },
+      {
+        "value": "[0, 3, 0]",
+        "count": 272
+      },
+      {
+        "value": "[4.0, 0.0, 0.0, 0.0]",
+        "count": 237
+      },
+      {
+        "value": "[4, 0, 0, 0, 0]",
+        "count": 196
+      }
+    ]
+  },
+  "LDIAG": {
+    "count": 49,
+    "total_configs": 10176,
+    "frequency": 0.5,
+    "top_values": [
+      {
+        "value": "false",
+        "count": 24
+      },
+      {
+        "value": "\"F\"",
+        "count": 22
+      },
+      {
+        "value": "\".f.\"",
+        "count": 3
+      }
+    ]
+  },
+  "LDIPOL": {
+    "count": 87,
+    "total_configs": 10176,
+    "frequency": 0.9,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 66
+      },
+      {
+        "value": "\".t.\"",
+        "count": 15
+      },
+      {
+        "value": "\"T\"",
+        "count": 6
+      }
+    ]
+  },
+  "LDMATRIX": {
+    "count": 43,
+    "total_configs": 10176,
+    "frequency": 0.4,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 32
+      },
+      {
+        "value": "\"T\"",
+        "count": 11
+      }
+    ]
+  },
+  "LDNEB": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "false",
+        "count": 1
+      }
+    ]
+  },
+  "LEFG": {
+    "count": 4,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 4
+      }
+    ]
+  },
+  "LELF": {
+    "count": 9,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "false",
+        "count": 9
+      }
+    ]
+  },
+  "LEPSILON": {
+    "count": 36,
+    "total_configs": 10176,
+    "frequency": 0.4,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 36
+      }
+    ]
+  },
+  "LHFCALC": {
+    "count": 2179,
+    "total_configs": 10176,
+    "frequency": 21.4,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 2179
+      }
+    ]
+  },
+  "LHYPERFINE": {
+    "count": 61,
+    "total_configs": 10176,
+    "frequency": 0.6,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 61
+      }
+    ]
+  },
+  "LIWAVE": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "\".f.\"",
+        "count": 1
+      }
+    ]
+  },
+  "LMAXFOCK": {
+    "count": 684,
+    "total_configs": 10176,
+    "frequency": 6.7,
+    "top_values": [
+      {
+        "value": "4",
+        "count": 684
+      }
+    ]
+  },
+  "LMAXMIN": {
+    "count": 217,
+    "total_configs": 10176,
+    "frequency": 2.1,
+    "top_values": [
+      {
+        "value": "4",
+        "count": 217
+      }
+    ]
+  },
+  "LMAXMIX": {
+    "count": 5307,
+    "total_configs": 10176,
+    "frequency": 52.2,
+    "top_values": [
+      {
+        "value": "4",
+        "count": 5139
+      },
+      {
+        "value": "6",
+        "count": 168
+      }
+    ]
+  },
+  "LMIXTAU": {
+    "count": 34,
+    "total_configs": 10176,
+    "frequency": 0.3,
+    "top_values": [
+      {
+        "value": "false",
+        "count": 33
+      },
+      {
+        "value": "true",
+        "count": 1
+      }
+    ]
+  },
+  "LMODELHF": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 2
+      }
+    ]
+  },
+  "LNEBCELL": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "false",
+        "count": 1
+      }
+    ]
+  },
+  "LNONCOLLINEAR": {
+    "count": 144,
+    "total_configs": 10176,
+    "frequency": 1.4,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 144
+      }
+    ]
+  },
+  "LOBRIT": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "11",
+        "count": 1
+      }
+    ]
+  },
+  "LOPTICS": {
+    "count": 4,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 4
+      }
+    ]
+  },
+  "LORBIT": {
+    "count": 9943,
+    "total_configs": 10176,
+    "frequency": 97.7,
+    "top_values": [
+      {
+        "value": "11",
+        "count": 5496
+      },
+      {
+        "value": "10",
+        "count": 2483
+      },
+      {
+        "value": "\"11               create proout\"",
+        "count": 1495
+      },
+      {
+        "value": "\"10               create proout\"",
+        "count": 411
+      },
+      {
+        "value": "14",
+        "count": 39
+      }
+    ]
+  },
+  "LORBMOM": {
+    "count": 6,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 6
+      }
+    ]
+  },
+  "LPARD": {
+    "count": 10,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "\".t.\"",
+        "count": 7
+      },
+      {
+        "value": "true",
+        "count": 2
+      },
+      {
+        "value": "\"T\"",
+        "count": 1
+      }
+    ]
+  },
+  "LPEAD": {
+    "count": 5,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 5
+      }
+    ]
+  },
+  "LPHON_DISPERSION": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 1
+      }
+    ]
+  },
+  "LPLANE": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 1
+      }
+    ]
+  },
+  "LREAL": {
+    "count": 9426,
+    "total_configs": 10176,
+    "frequency": 92.6,
+    "top_values": [
+      {
+        "value": "\"Auto\"",
+        "count": 7007
+      },
+      {
+        "value": "\"Auto          real-space projection\"",
+        "count": 1903
+      },
+      {
+        "value": "false",
+        "count": 308
+      },
+      {
+        "value": "\".f.\"",
+        "count": 187
+      },
+      {
+        "value": "\"F\"",
+        "count": 12
+      }
+    ]
+  },
+  "LRPA": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 1
+      }
+    ]
+  },
+  "LSEPB": {
+    "count": 10,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 9
+      },
+      {
+        "value": "\"T\"",
+        "count": 1
+      }
+    ]
+  },
+  "LSORBIT": {
+    "count": 397,
+    "total_configs": 10176,
+    "frequency": 3.9,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 397
+      }
+    ]
+  },
+  "LSPECTRAL": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 2
+      }
+    ]
+  },
+  "LTANGENTOLD": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "false",
+        "count": 1
+      }
+    ]
+  },
+  "LUSE_VDW": {
+    "count": 10,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 10
+      }
+    ]
+  },
+  "LVDW": {
+    "count": 6,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 6
+      }
+    ]
+  },
+  "LVHAR": {
+    "count": 86,
+    "total_configs": 10176,
+    "frequency": 0.8,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 65
+      },
+      {
+        "value": "\"T\"",
+        "count": 10
+      },
+      {
+        "value": "\".t.\"",
+        "count": 6
+      },
+      {
+        "value": "false",
+        "count": 5
+      }
+    ]
+  },
+  "LVTOT": {
+    "count": 66,
+    "total_configs": 10176,
+    "frequency": 0.6,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 60
+      },
+      {
+        "value": "false",
+        "count": 5
+      },
+      {
+        "value": "\".t.\"",
+        "count": 1
+      }
+    ]
+  },
+  "LWANNIER90": {
+    "count": 594,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "\".f.\"",
+        "count": 558
+      },
+      {
+        "value": "\".t.\"",
+        "count": 30
+      },
+      {
+        "value": "true",
+        "count": 6
+      }
+    ]
+  },
+  "LWAVE": {
+    "count": 2836,
+    "total_configs": 10176,
+    "frequency": 27.9,
+    "top_values": [
+      {
+        "value": "false",
+        "count": 2147
+      },
+      {
+        "value": "true",
+        "count": 689
+      }
+    ]
+  },
+  "LWRITE_SPN": {
+    "count": 587,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "\".f.\"",
+        "count": 563
+      },
+      {
+        "value": "\".t.\"",
+        "count": 24
+      }
+    ]
+  },
+  "LWRITE_UNK": {
+    "count": 4,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "\".t.\"",
+        "count": 4
+      }
+    ]
+  },
+  "LWRITE_WANNIER_XSF": {
+    "count": 4,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "\".t.\"",
+        "count": 4
+      }
+    ]
+  },
+  "MAGMOM": {
+    "count": 1792,
+    "total_configs": 10176,
+    "frequency": 17.6,
+    "top_values": [
+      {
+        "value": "[8.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]",
+        "count": 107
+      },
+      {
+        "value": "[0, 0, 0, 0, 3, -3, 0, 0, 0, 0, 0, 0, 0, 0]",
+        "count": 72
+      },
+      {
+        "value": "[1, -1, 0, 0, 0]",
+        "count": 61
+      },
+      {
+        "value": "[0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0]",
+        "count": 49
+      },
+      {
+        "value": "[0, 0, 0, 0, 3, -3, -3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]",
+        "count": 49
+      }
+    ]
+  },
+  "MAXMIX": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "40",
+        "count": 1
+      }
+    ]
+  },
+  "MAXMOVE": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "0.2",
+        "count": 1
+      }
+    ]
+  },
+  "MDALGO": {
+    "count": 10,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 5
+      },
+      {
+        "value": "3",
+        "count": 4
+      },
+      {
+        "value": "1",
+        "count": 1
+      }
+    ]
+  },
+  "MELMIN": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "6",
+        "count": 1
+      }
+    ]
+  },
+  "METAGGA": {
+    "count": 730,
+    "total_configs": 10176,
+    "frequency": 7.2,
+    "top_values": [
+      {
+        "value": "\"Scan\"",
+        "count": 727
+      },
+      {
+        "value": "\"R2scan\"",
+        "count": 2
+      },
+      {
+        "value": "\"Tpss\"",
+        "count": 1
+      }
+    ]
+  },
+  "ML_ISTART": {
+    "count": 7,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 5
+      },
+      {
+        "value": "0",
+        "count": 2
+      }
+    ]
+  },
+  "ML_LMLFF": {
+    "count": 12,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "\"T\"",
+        "count": 7
+      },
+      {
+        "value": "true",
+        "count": 5
+      }
+    ]
+  },
+  "ML_MODE": {
+    "count": 5,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "\"train\"",
+        "count": 5
+      }
+    ]
+  },
+  "ML_WTSIF": {
+    "count": 4,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 4
+      }
+    ]
+  },
+  "M_CONSTR": {
+    "count": 36,
+    "total_configs": 10176,
+    "frequency": 0.4,
+    "top_values": [
+      {
+        "value": "\"12*0   3 0 0   0 3 0   -3 0 0   0 -3 0   36*0\"",
+        "count": 5
+      },
+      {
+        "value": "\"0 0 -4 0 0 4 0 0 -4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 0 0 4 210*0\"",
+        "count": 2
+      },
+      {
+        "value": "\"12*0   2.598 -1.500 0   -1.500 2.598 0   -2.598 1.500 0   1.500 -2.598 0   36*0\"",
+        "count": 1
+      },
+      {
+        "value": "\"12*0   2.898 0.776 0   0.776 2.898 0   -2.898 -0.776 0   -0.776 -2.898 0   36*0\"",
+        "count": 1
+      },
+      {
+        "value": "\"12*0   2.598 1.500 0   1.500 2.598 0   -2.598 -1.500 0   -1.500 -2.598 0   36*0\"",
+        "count": 1
+      }
+    ]
+  },
+  "NBAND": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "64",
+        "count": 1
+      }
+    ]
+  },
+  "NBANDS": {
+    "count": 100,
+    "total_configs": 10176,
+    "frequency": 1.0,
+    "top_values": [
+      {
+        "value": "320",
+        "count": 11
+      },
+      {
+        "value": "160",
+        "count": 9
+      },
+      {
+        "value": "80",
+        "count": 5
+      },
+      {
+        "value": "48",
+        "count": 5
+      },
+      {
+        "value": "130",
+        "count": 4
+      }
+    ]
+  },
+  "NBLOCK": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "1",
+        "count": 2
+      }
+    ]
+  },
+  "NCORE": {
+    "count": 7815,
+    "total_configs": 10176,
+    "frequency": 76.8,
+    "top_values": [
+      {
+        "value": "4",
+        "count": 6226
+      },
+      {
+        "value": "\"4                parallelization over bands\"",
+        "count": 1205
+      },
+      {
+        "value": "8",
+        "count": 171
+      },
+      {
+        "value": "2",
+        "count": 113
+      },
+      {
+        "value": "6",
+        "count": 44
+      }
+    ]
+  },
+  "NEDOS": {
+    "count": 84,
+    "total_configs": 10176,
+    "frequency": 0.8,
+    "top_values": [
+      {
+        "value": "4002",
+        "count": 28
+      },
+      {
+        "value": "1000",
+        "count": 27
+      },
+      {
+        "value": "\"1000             points  for dos\"",
+        "count": 5
+      },
+      {
+        "value": "2001",
+        "count": 4
+      },
+      {
+        "value": "\"2001         (doscar points)\"",
+        "count": 4
+      }
+    ]
+  },
+  "NELE": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "2377",
+        "count": 1
+      }
+    ]
+  },
+  "NELEC": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "1726",
+        "count": 1
+      }
+    ]
+  },
+  "NELECT": {
+    "count": 6799,
+    "total_configs": 10176,
+    "frequency": 66.8,
+    "top_values": [
+      {
+        "value": "970.0",
+        "count": 174
+      },
+      {
+        "value": "517",
+        "count": 155
+      },
+      {
+        "value": "523",
+        "count": 102
+      },
+      {
+        "value": "1153",
+        "count": 102
+      },
+      {
+        "value": "971",
+        "count": 95
+      }
+    ]
+  },
+  "NELM": {
+    "count": 10078,
+    "total_configs": 10176,
+    "frequency": 99.0,
+    "top_values": [
+      {
+        "value": "20",
+        "count": 2159
+      },
+      {
+        "value": "100",
+        "count": 2050
+      },
+      {
+        "value": "120",
+        "count": 1371
+      },
+      {
+        "value": "30",
+        "count": 1016
+      },
+      {
+        "value": "40",
+        "count": 1007
+      }
+    ]
+  },
+  "NELMDL": {
+    "count": 115,
+    "total_configs": 10176,
+    "frequency": 1.1,
+    "top_values": [
+      {
+        "value": "-5",
+        "count": 49
+      },
+      {
+        "value": "-10",
+        "count": 45
+      },
+      {
+        "value": "0",
+        "count": 20
+      },
+      {
+        "value": "-3",
+        "count": 1
+      }
+    ]
+  },
+  "NELMIN": {
+    "count": 8063,
+    "total_configs": 10176,
+    "frequency": 79.2,
+    "top_values": [
+      {
+        "value": "6",
+        "count": 3499
+      },
+      {
+        "value": "5",
+        "count": 2389
+      },
+      {
+        "value": "3",
+        "count": 2109
+      },
+      {
+        "value": "4",
+        "count": 63
+      },
+      {
+        "value": "8",
+        "count": 1
+      }
+    ]
+  },
+  "NFREE": {
+    "count": 10,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 8
+      },
+      {
+        "value": "4",
+        "count": 1
+      },
+      {
+        "value": "6",
+        "count": 1
+      }
+    ]
+  },
+  "NGX": {
+    "count": 3,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "46",
+        "count": 2
+      },
+      {
+        "value": "4",
+        "count": 1
+      }
+    ]
+  },
+  "NGXF": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "90",
+        "count": 2
+      }
+    ]
+  },
+  "NGY": {
+    "count": 3,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "46",
+        "count": 2
+      },
+      {
+        "value": "4",
+        "count": 1
+      }
+    ]
+  },
+  "NGYF": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "90",
+        "count": 2
+      }
+    ]
+  },
+  "NGYROMAG": {
+    "count": 65,
+    "total_configs": 10176,
+    "frequency": 0.6,
+    "top_values": [
+      {
+        "value": "\"307.66 1070.5\"",
+        "count": 35
+      },
+      {
+        "value": "\"-846.5 1070.5\"",
+        "count": 26
+      },
+      {
+        "value": "\"1070.5 307.66\"",
+        "count": 2
+      },
+      {
+        "value": "\"10.707746 3.076273\"",
+        "count": 1
+      },
+      {
+        "value": "\"-84.65 1070.5\"",
+        "count": 1
+      }
+    ]
+  },
+  "NGZ": {
+    "count": 3,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "300",
+        "count": 2
+      },
+      {
+        "value": "4",
+        "count": 1
+      }
+    ]
+  },
+  "NKRED": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "3",
+        "count": 1
+      }
+    ]
+  },
+  "NOMEGA": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "72",
+        "count": 2
+      }
+    ]
+  },
+  "NPAR": {
+    "count": 11,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "2",
+        "count": 5
+      },
+      {
+        "value": "6",
+        "count": 2
+      },
+      {
+        "value": "4",
+        "count": 1
+      },
+      {
+        "value": "8",
+        "count": 1
+      },
+      {
+        "value": "9",
+        "count": 1
+      }
+    ]
+  },
+  "NSIM": {
+    "count": 3271,
+    "total_configs": 10176,
+    "frequency": 32.1,
+    "top_values": [
+      {
+        "value": "16",
+        "count": 3241
+      },
+      {
+        "value": "4",
+        "count": 22
+      },
+      {
+        "value": "60",
+        "count": 3
+      },
+      {
+        "value": "32",
+        "count": 3
+      },
+      {
+        "value": "8",
+        "count": 1
+      }
+    ]
+  },
+  "NSW": {
+    "count": 9993,
+    "total_configs": 10176,
+    "frequency": 98.2,
+    "top_values": [
+      {
+        "value": "0",
+        "count": 4636
+      },
+      {
+        "value": "50",
+        "count": 1345
+      },
+      {
+        "value": "200",
+        "count": 1020
+      },
+      {
+        "value": "30",
+        "count": 1011
+      },
+      {
+        "value": "20",
+        "count": 495
+      }
+    ]
+  },
+  "NUM_BANDS": {
+    "count": 586,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "80",
+        "count": 570
+      },
+      {
+        "value": "200",
+        "count": 7
+      },
+      {
+        "value": "320",
+        "count": 4
+      },
+      {
+        "value": "160",
+        "count": 3
+      },
+      {
+        "value": "240",
+        "count": 1
+      }
+    ]
+  },
+  "NUM_ITER": {
+    "count": 590,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "200",
+        "count": 587
+      },
+      {
+        "value": "0",
+        "count": 3
+      }
+    ]
+  },
+  "NUM_WANN": {
+    "count": 590,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "30",
+        "count": 558
+      },
+      {
+        "value": "44",
+        "count": 7
+      },
+      {
+        "value": "74",
+        "count": 3
+      },
+      {
+        "value": "76",
+        "count": 3
+      },
+      {
+        "value": "50",
+        "count": 3
+      }
+    ]
+  },
+  "NUPDOWN": {
+    "count": 6355,
+    "total_configs": 10176,
+    "frequency": 62.5,
+    "top_values": [
+      {
+        "value": "0.0",
+        "count": 1338
+      },
+      {
+        "value": "3.0",
+        "count": 1291
+      },
+      {
+        "value": "5.0",
+        "count": 1210
+      },
+      {
+        "value": "2.0",
+        "count": 902
+      },
+      {
+        "value": "4.0",
+        "count": 834
+      }
+    ]
+  },
+  "NUPDWON": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "4",
+        "count": 1
+      }
+    ]
+  },
+  "NWRITE": {
+    "count": 4,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "0",
+        "count": 4
+      }
+    ]
+  },
+  "OCCEXT": {
+    "count": 40,
+    "total_configs": 10176,
+    "frequency": 0.4,
+    "top_values": [
+      {
+        "value": "1",
+        "count": 40
+      }
+    ]
+  },
+  "PHON_NWRITE": {
+    "count": 3,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "\"-3       (both phonon eigenvectors and phonon frequencies are written for each q point)\"",
+        "count": 2
+      },
+      {
+        "value": "1",
+        "count": 1
+      }
+    ]
+  },
+  "PLDAU": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 1
+      }
+    ]
+  },
+  "PMASS": {
+    "count": 4,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "10",
+        "count": 4
+      }
+    ]
+  },
+  "POTIM": {
+    "count": 5537,
+    "total_configs": 10176,
+    "frequency": 54.4,
+    "top_values": [
+      {
+        "value": "0.3",
+        "count": 2299
+      },
+      {
+        "value": "0.5",
+        "count": 1927
+      },
+      {
+        "value": "0.25",
+        "count": 582
+      },
+      {
+        "value": "0.2",
+        "count": 459
+      },
+      {
+        "value": "0.1",
+        "count": 93
+      }
+    ]
+  },
+  "PREC": {
+    "count": 7217,
+    "total_configs": 10176,
+    "frequency": 70.9,
+    "top_values": [
+      {
+        "value": "\"Normal\"",
+        "count": 4463
+      },
+      {
+        "value": "\"Normal           low\"",
+        "count": 1904
+      },
+      {
+        "value": "\"Accurate\"",
+        "count": 762
+      },
+      {
+        "value": "\"A\"",
+        "count": 49
+      },
+      {
+        "value": "\"High\"",
+        "count": 9
+      }
+    ]
+  },
+  "PRECFOCK": {
+    "count": 2116,
+    "total_configs": 10176,
+    "frequency": 20.8,
+    "top_values": [
+      {
+        "value": "\"Fast\"",
+        "count": 2114
+      },
+      {
+        "value": "\"Normal\"",
+        "count": 1
+      },
+      {
+        "value": "\"N           (hf fft grid)\"",
+        "count": 1
+      }
+    ]
+  },
+  "PSTRESS": {
+    "count": 12,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "160",
+        "count": 2
+      },
+      {
+        "value": "100",
+        "count": 1
+      },
+      {
+        "value": "35",
+        "count": 1
+      },
+      {
+        "value": "65",
+        "count": 1
+      },
+      {
+        "value": "130",
+        "count": 1
+      }
+    ]
+  },
+  "QUAD_EFG": {
+    "count": 4,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "[20.44, 0]",
+        "count": 4
+      }
+    ]
+  },
+  "RANDOM_SEED": {
+    "count": 4,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "\"88951986 0 0\"",
+        "count": 3
+      },
+      {
+        "value": "\"688344966 0 0\"",
+        "count": 1
+      }
+    ]
+  },
+  "RWIGS": {
+    "count": 36,
+    "total_configs": 10176,
+    "frequency": 0.4,
+    "top_values": [
+      {
+        "value": "\"1.323  1.164  0.820   1.535\"",
+        "count": 23
+      },
+      {
+        "value": "\"1.6 1.2 0.8\"",
+        "count": 13
+      }
+    ]
+  },
+  "SAXIS": {
+    "count": 317,
+    "total_configs": 10176,
+    "frequency": 3.1,
+    "top_values": [
+      {
+        "value": "\"0 0 1\"",
+        "count": 313
+      },
+      {
+        "value": "\"1e-10 0 1\"",
+        "count": 2
+      },
+      {
+        "value": "\"1 0 0\"",
+        "count": 2
+      }
+    ]
+  },
+  "SIGMA": {
+    "count": 10085,
+    "total_configs": 10176,
+    "frequency": 99.1,
+    "top_values": [
+      {
+        "value": "0.05",
+        "count": 5699
+      },
+      {
+        "value": "0.1",
+        "count": 1455
+      },
+      {
+        "value": "0.02",
+        "count": 1221
+      },
+      {
+        "value": "0.01",
+        "count": 772
+      },
+      {
+        "value": "0.2",
+        "count": 430
+      }
+    ]
+  },
+  "SMASS": {
+    "count": 10,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "1.0",
+        "count": 6
+      },
+      {
+        "value": "1",
+        "count": 2
+      },
+      {
+        "value": "2",
+        "count": 1
+      },
+      {
+        "value": "0",
+        "count": 1
+      }
+    ]
+  },
+  "SPINORS": {
+    "count": 583,
+    "total_configs": 10176,
+    "frequency": 5.7,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 583
+      }
+    ]
+  },
+  "SPRING": {
+    "count": 16,
+    "total_configs": 10176,
+    "frequency": 0.2,
+    "top_values": [
+      {
+        "value": "-5",
+        "count": 15
+      },
+      {
+        "value": "-5.0",
+        "count": 1
+      }
+    ]
+  },
+  "SYMPREC": {
+    "count": 29,
+    "total_configs": 10176,
+    "frequency": 0.3,
+    "top_values": [
+      {
+        "value": "1e-07",
+        "count": 14
+      },
+      {
+        "value": "1e-06",
+        "count": 5
+      },
+      {
+        "value": "0.001",
+        "count": 4
+      },
+      {
+        "value": "\"1.d-3\"",
+        "count": 4
+      },
+      {
+        "value": "1e-08",
+        "count": 2
+      }
+    ]
+  },
+  "SYSTEM": {
+    "count": 4806,
+    "total_configs": 10176,
+    "frequency": 47.2,
+    "top_values": [
+      {
+        "value": "\"name\"",
+        "count": 1941
+      },
+      {
+        "value": "\"Mx            name of system\"",
+        "count": 1910
+      },
+      {
+        "value": "\"wz-GaN\"",
+        "count": 167
+      },
+      {
+        "value": "\"Mx\"",
+        "count": 98
+      },
+      {
+        "value": "\"CaO\"",
+        "count": 42
+      }
+    ]
+  },
+  "SYSTERM": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "\"Crte2\"",
+        "count": 2
+      }
+    ]
+  },
+  "TEBEG": {
+    "count": 10,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "1000",
+        "count": 4
+      },
+      {
+        "value": "400",
+        "count": 3
+      },
+      {
+        "value": "2000",
+        "count": 3
+      }
+    ]
+  },
+  "TEEND": {
+    "count": 2,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "400",
+        "count": 1
+      },
+      {
+        "value": "2000",
+        "count": 1
+      }
+    ]
+  },
+  "TIME": {
+    "count": 2045,
+    "total_configs": 10176,
+    "frequency": 20.1,
+    "top_values": [
+      {
+        "value": "0.4",
+        "count": 2002
+      },
+      {
+        "value": "0.2",
+        "count": 23
+      },
+      {
+        "value": "0.1",
+        "count": 10
+      },
+      {
+        "value": "0.3",
+        "count": 6
+      },
+      {
+        "value": "0.05",
+        "count": 4
+      }
+    ]
+  },
+  "TIMESTEP": {
+    "count": 1,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "0.1",
+        "count": 1
+      }
+    ]
+  },
+  "VDW_D": {
+    "count": 3,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "20.0",
+        "count": 3
+      }
+    ]
+  },
+  "VDW_RADIUS": {
+    "count": 3,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "30.0",
+        "count": 3
+      }
+    ]
+  },
+  "VDW_SCALING": {
+    "count": 3,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "0.75",
+        "count": 3
+      }
+    ]
+  },
+  "WANNIER90_WIN": {
+    "count": 590,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "\"\\\"\"",
+        "count": 590
+      }
+    ]
+  },
+  "WANNIER_PLOT": {
+    "count": 3,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 3
+      }
+    ]
+  },
+  "WANNIER_PLOT_LIST": {
+    "count": 3,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "\"31 32 33 34 35 36 37 38 39 40\"",
+        "count": 2
+      },
+      {
+        "value": "\"1 2 3 4\"",
+        "count": 1
+      }
+    ]
+  },
+  "WRITE_HR": {
+    "count": 590,
+    "total_configs": 10176,
+    "frequency": 5.8,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 590
+      }
+    ]
+  },
+  "WRITE_TB": {
+    "count": 4,
+    "total_configs": 10176,
+    "frequency": 0.0,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 4
+      }
+    ]
+  },
+  "WRITE_XYZ": {
+    "count": 6,
+    "total_configs": 10176,
+    "frequency": 0.1,
+    "top_values": [
+      {
+        "value": "true",
+        "count": 6
+      }
+    ]
+  }
+}
