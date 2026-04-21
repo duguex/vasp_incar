@@ -13,6 +13,7 @@ vasp_incar/
 │   ├── mcp_server.py            # MCP server（6 个工具）
 │   ├── processor.py             # 数据预处理
 │   ├── query.py                 # CLI 查询工具
+│   ├── test_mcp.py              # MCP 工具自测脚本
 │   └── data/
 │       ├── tag_index.json       # 630 个结构化 tag
 │       ├── wiki_full.json       # 1036 页 wiki 内容
@@ -58,6 +59,18 @@ python3 -m vasp_query tag LEFG
 ```
 
 或通过 MCP 调用 `get_tag(name="LEFG")`。
+
+### 6. 运行 MCP 自测（推荐）
+
+```bash
+python3 -m vasp_query.test_mcp
+```
+
+输出 `75 passed, 0 failed` 表示全部 6 个 MCP 工具功能正常。
+
+可选参数：
+- `--tool get_tag` — 只测单个工具
+- `--quiet` — 只显示失败项
 
 ## 常见问题
 

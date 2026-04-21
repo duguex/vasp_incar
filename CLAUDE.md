@@ -6,7 +6,8 @@ This directory contains `vasp_query`, a CLI tool for querying VASP INCAR paramet
 
 ```bash
 python3 -m vasp_query tag LEFG           # Look up a tag
-python3 -m vasp_query search "EFG"       # Search tags by keyword
+python3 -m vasp_query search "EFG"        # Search tags by keyword
+python3 -m vasp_query search "POSCAR"      # Search file format
 python3 -m vasp_query stats ENCUT        # Show tag statistics
 python3 -m vasp_query list               # List all tags
 python3 -m vasp_query related QUAD_EFG   # Show related tags
@@ -20,11 +21,11 @@ All output is JSON for machine parsing.
 The MCP server is registered in `.mcp.json`. When Claude Code starts in this directory, the `vasp-query` MCP server will be available with these tools:
 
 - `get_tag(name)` — Get tag description, default value, related tags
-- `search_tags(keyword, limit=20)` — Search tags by keyword
+- `search_tags(keyword, limit=20)` — Search tags, wiki pages, and VASP file formats by keyword
 - `get_tag_stats(name?)` — Tag frequency and common values
 - `list_tags()` — List all known tags
 - `get_related_tags(name)` — Wiki-related tags
-- `get_fullwiki(title)` — Full wiki page content
+- `get_fullwiki(title)` — Full wiki page content by title (supports tag names and file names like POSCAR, OUTCAR)
 
 ## Data
 

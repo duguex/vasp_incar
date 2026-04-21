@@ -2,14 +2,17 @@
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
 from vasp_query.processor import (
     _VASP_BASE,
     TAG_INDEX,
+    NON_TAG_INDEX,
     TAG_STATS,
     WIKI_FULL,
+    INCAR_DATA,
     preprocess,
 )
 
@@ -43,7 +46,7 @@ def cmd_tag(args) -> int:
         if len(matches) == 1:
             print(json.dumps(matches[0], indent=2, ensure_ascii=False))
             return 0
-        print(json.dumps({"hint": f"Did you mean one of these?", "matches": [m["title"] for m in matches]}), indent=2, ensure_ascii=False)
+        print(json.dumps({"hint": f"Did you mean one of these?", "matches": [m["title"] for m in matches]}, indent=2, ensure_ascii=False))
         return 1
 
     # Case-insensitive match
@@ -52,42 +55,91 @@ def cmd_tag(args) -> int:
         print(json.dumps(matches[0], indent=2, ensure_ascii=False))
         return 0
 
-    print(json.dumps({"error": f"Tag '{tag_name}' not found.", "suggestion": "Use 'search' to find similar tags"}), indent=2, ensure_ascii=False)
+    print(json.dumps({"error": f"Tag '{tag_name}' not found.", "suggestion": "Use 'search' to find similar tags"}, indent=2, ensure_ascii=False))
     return 1
 
 
+def _match_keyword(kw: str, text: str) -> bool:
+    """Match keyword against text using word-level matching."""
+    if kw in text:
+        return True
+    words = re.findall(r'[a-z]+', kw.lower())
+    if words and len(words) > 1:
+        return all(w in text for w in words)
+    return False
+
+
+def _score_keyword(kw: str, text: str) -> int:
+    """Score relevance of keyword match."""
+    if kw.lower() == text.lower():
+        return 100
+    if kw.lower() in text.lower():
+        return 50
+    words = re.findall(r'[a-z]+', kw.lower())
+    if words and len(words) > 1:
+        matched = sum(1 for w in words if w in text.lower())
+        if matched == len(words):
+            return 70
+        return matched * 10
+    return 0
+
+
 def cmd_search(args) -> int:
-    """Search tags by keyword in name or description."""
+    """Search tags and wiki pages by keyword."""
     index = _load_json(TAG_INDEX)
+    non_tag = _load_json(NON_TAG_INDEX)
     if index is None:
         print(json.dumps({"error": "tag_index.json not found. Run: python -m vasp_query preprocess"}))
         return 1
 
     keyword = args.keyword.lower()
     results = []
+
+    # Search tag index
     for entry in index:
         score = 0
         if entry["title"].lower() == keyword:
             score = 100
         elif keyword in entry["title"].lower():
             score = 50
-        if keyword in entry.get("description", "").lower():
-            score = max(score, 30)
+        if _match_keyword(keyword, entry.get("description", "").lower()):
+            score = max(score, _score_keyword(keyword, entry.get("description", "").lower()))
         if score > 0:
             results.append({
+                "type": "tag",
                 "tag": entry["title"],
                 "score": score,
-                "value": entry.get("value", ""),
                 "default": entry.get("default", ""),
                 "description": entry.get("description", ""),
                 "url": entry.get("url", ""),
             })
 
+    # Search non-tag pages (tutorials, how-tos, best practices, file formats)
+    if non_tag:
+        for entry in non_tag:
+            if entry["title"].startswith("Category:"):
+                continue
+            score = 0
+            if _match_keyword(keyword, entry["title"].lower()):
+                if entry.get("is_file_page"):
+                    score = max(score, 80)
+                else:
+                    score = max(score, 40)
+            if _match_keyword(keyword, entry.get("summary", "").lower()):
+                score = max(score, 25)
+            if score > 0:
+                results.append({
+                    "type": entry["type"],
+                    "title": entry["title"],
+                    "score": score,
+                    "summary": entry.get("summary", ""),
+                })
+
     results.sort(key=lambda x: -x["score"])
     results = results[:args.limit]
 
     if not results:
-        print(json.dumps({"error": f"No tags found matching '{args.keyword}'"}), indent=2, ensure_ascii=False)
+        print(json.dumps({"error": f"No results found matching '{args.keyword}'"}, indent=2, ensure_ascii=False))
         return 1
 
     print(json.dumps({"query": args.keyword, "count": len(results), "results": results}, indent=2, ensure_ascii=False))
@@ -110,10 +162,10 @@ def cmd_stats(args) -> int:
                 if len(matches) == 1:
                     tag = matches[0]
                 else:
-                    print(json.dumps({"error": f"Ambiguous tag '{tag}'", "matches": matches}), indent=2, ensure_ascii=False)
+                    print(json.dumps({"error": f"Ambiguous tag '{tag}'", "matches": matches}, indent=2, ensure_ascii=False))
                     return 1
             else:
-                print(json.dumps({"error": f"Tag '{tag}' not found in stats database"}), indent=2, ensure_ascii=False)
+                print(json.dumps({"error": f"Tag '{tag}' not found in stats database"}, indent=2, ensure_ascii=False))
                 return 1
         print(json.dumps({tag: stats[tag]}, indent=2, ensure_ascii=False))
     else:
@@ -264,9 +316,9 @@ def cmd_fullwiki(args) -> int:
         # Fuzzy match
         matches = [k for k in full if title.lower() in k.lower()]
         if matches:
-            print(json.dumps({"hint": f"Found {len(matches)} similar pages", "matches": matches}), indent=2, ensure_ascii=False)
+            print(json.dumps({"hint": f"Found {len(matches)} similar pages", "matches": matches}, indent=2, ensure_ascii=False))
         else:
-            print(json.dumps({"error": f"Page '{title}' not found"}), indent=2, ensure_ascii=False)
+            print(json.dumps({"error": f"Page '{title}' not found"}, indent=2, ensure_ascii=False))
         return 1
     return 0
 
@@ -290,7 +342,7 @@ def main() -> int:
     p_tag.add_argument("tag", help="Tag name (e.g., LEFG, ENCUT)")
 
     # search
-    p_search = subparsers.add_parser("search", help="Search tags by keyword")
+    p_search = subparsers.add_parser("search", help="Search tags, wiki pages, and VASP file formats by keyword")
     p_search.add_argument("keyword", help="Search keyword")
     p_search.add_argument("-n", "--limit", type=int, default=20, help="Max results (default: 20)")
 

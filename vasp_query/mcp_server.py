@@ -1,19 +1,23 @@
 """MCP server for VASP INCAR tag queries."""
 
 import json
+import re
 from pathlib import Path
 from mcp.server.fastmcp import FastMCP
 
 BASE = Path(__file__).resolve().parent / "data"
-tag_index = _load_json = lambda p: json.load(open(p, "r")) if p.exists() else None
+_load_json = lambda p: json.load(open(p, "r")) if p.exists() else None
 
 _INDEX = _load_json(BASE / "tag_index.json")
+_NON_TAG = _load_json(BASE / "non_tag_index.json")
 _STATS = _load_json(BASE / "tag_stats.json")
 _FULLWIKI = _load_json(BASE / "wiki_full.json")
 
 if _INDEX is None:
     print("[ERROR] tag_index.json not found. Run: python -m vasp_query preprocess")
     _INDEX = []
+if _NON_TAG is None:
+    _NON_TAG = []
 if _STATS is None:
     _STATS = {}
 if _FULLWIKI is None:
@@ -44,26 +48,77 @@ def get_tag(name: str) -> str:
     return json.dumps({"error": f"Tag '{name}' not found"}, indent=2)
 
 
+def _match_keyword(kw: str, text: str) -> bool:
+    """Match keyword against text using word-level matching (handles hyphens, spaces)."""
+    if kw in text:
+        return True
+    # Word-level: split keyword into words, all must appear in text
+    words = re.findall(r'[a-z]+', kw.lower())
+    if words and len(words) > 1:
+        return all(w in text for w in words)
+    return False
+
+
+def _score_keyword(kw: str, text: str) -> int:
+    """Score relevance of keyword match."""
+    if kw.lower() == text.lower():
+        return 100
+    if kw.lower() in text.lower():
+        return 50
+    words = re.findall(r'[a-z]+', kw.lower())
+    if words and len(words) > 1:
+        matched = sum(1 for w in words if w in text.lower())
+        if matched == len(words):
+            return 70
+        return matched * 10
+    return 0
+
+
 @mcp.tool()
 def search_tags(keyword: str, limit: int = 20) -> str:
-    """Search INCAR tags by keyword in name or description."""
+    """Search INCAR tags, wiki pages (tutorials, how-tos, best practices) and VASP file formats (POSCAR, OUTCAR, etc.) by keyword. Returns ranked results with file pages getting higher priority."""
     kw = keyword.lower()
     results = []
+
+    # Search tag index
     for e in _INDEX:
         score = 0
         if e["title"].lower() == kw:
             score = 100
         elif kw in e["title"].lower():
             score = 50
-        if kw in e.get("description", "").lower():
-            score = max(score, 30)
+        if _match_keyword(kw, e.get("description", "").lower()):
+            score = max(score, _score_keyword(kw, e.get("description", "").lower()))
         if score > 0:
             results.append({
+                "type": "tag",
                 "tag": e["title"],
                 "score": score,
                 "default": e.get("default", ""),
                 "description": e.get("description", ""),
             })
+
+    # Search non-tag index (tutorials, how-tos, best practices, file formats)
+    for e in _NON_TAG:
+        if e["title"].startswith("Category:"):
+            continue
+        score = 0
+        if _match_keyword(kw, e["title"].lower()):
+            # Known VASP file pages get priority over description matches
+            if e.get("is_file_page"):
+                score = max(score, 80)
+            else:
+                score = max(score, 40)
+        if _match_keyword(kw, e.get("summary", "").lower()):
+            score = max(score, 25)
+        if score > 0:
+            results.append({
+                "type": e["type"],
+                "title": e["title"],
+                "score": score,
+                "summary": e.get("summary", ""),
+            })
+
     results.sort(key=lambda x: -x["score"])
     return json.dumps({"query": keyword, "count": len(results), "results": results[:limit]}, indent=2, ensure_ascii=False)
 
@@ -111,7 +166,7 @@ def get_related_tags(name: str) -> str:
 
 @mcp.tool()
 def get_fullwiki(title: str) -> str:
-    """Get full wiki page content by tag title."""
+    """Get full wiki page content by title. Supports tag names and VASP file names (POSCAR, OUTCAR, etc.)."""
     if title in _FULLWIKI:
         return json.dumps(_FULLWIKI[title], indent=2, ensure_ascii=False)
     matches = [k for k in _FULLWIKI if title.lower() in k.lower()]

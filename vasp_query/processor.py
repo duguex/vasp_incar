@@ -8,6 +8,7 @@ _VASP_BASE = Path(__file__).resolve().parent.parent  # /home/duguex/vasp_incar/
 WIKI_RAW = _VASP_BASE / "vasp_wiki_all_data.json"
 WIKI_FULL = Path(__file__).resolve().parent / "data" / "wiki_full.json"
 TAG_INDEX = Path(__file__).resolve().parent / "data" / "tag_index.json"
+NON_TAG_INDEX = Path(__file__).resolve().parent / "data" / "non_tag_index.json"
 INCAR_DATA = _VASP_BASE / "incar_data.json"
 TAG_STATS = Path(__file__).resolve().parent / "data" / "tag_stats.json"
 
@@ -41,21 +42,20 @@ def _parse_tag_page(item: dict) -> dict | None:
         return None
 
     # Check if this page describes an INCAR tag
-    # Tag pages have: TITLE\n= value\nDefault:\nTITLE\n= default_value\nDescription: ...
-    lines_raw = content.split("\\n") if "\\n" in content else [content]
-    first_word = lines_raw[0].strip() if lines_raw else ""
+    # Normalize: literal \n (from JSON) → real newlines first
+    raw = _clean_text(content)
+    lines = [l.strip() for l in raw.split("\n") if l.strip()]
+
+    first_word = lines[0] if lines else ""
     if not first_word:
         return None
     # Quick heuristic: tag names are uppercase, and content has "= " on a following line
     if not first_word[0].isupper():
         return None
     # Also check there's a line with just "=" or "= value" (the tag definition)
-    has_tag_def = any(line.strip() == "=" or line.strip().startswith("= ") or line.strip().startswith("=.") or line.strip() == f"{title}=" for line in lines_raw[:10])
+    has_tag_def = any(line == "=" or line.startswith("= ") or line.startswith("=.") or line == f"{title}=" for line in lines[:10])
     if not has_tag_def:
         return None
-
-    raw = _clean_text(content)
-    lines = [l.strip() for l in raw.split("\n") if l.strip()]
 
     # Extract value format and default
     # Line structure: TITLE, "= value", "Default:", TITLE, "= default", "Description: ...", ...
@@ -117,6 +117,94 @@ def _parse_tag_page(item: dict) -> dict | None:
         "related": related_tags,
         "url": url,
     }
+
+
+def _classify_non_tag_page(title: str) -> str:
+    """Classify a non-tag wiki page into a type."""
+    t = title.lower()
+    if "tutorial" in t:
+        return "tutorial"
+    if "how to" in t or "how-to" in t:
+        return "how_to"
+    if "best practices" in t or "best-practices" in t:
+        return "best_practices"
+    if "faq" in t or "faq" in title:
+        return "faq"
+    if "how to calculate" in t:
+        return "how_to"
+    if "how to perform" in t:
+        return "how_to"
+    if "pseudopotential" in t or "available pseudopotential" in t:
+        return "reference"
+    return "other"
+
+
+def _parse_non_tag_page(item: dict) -> dict | None:
+    """Extract structured fields from a non-tag wiki page."""
+    title = item.get("title", "")
+    content = item.get("content", "")
+
+    # Skip tag-named pages EXCEPT known VASP file format pages
+    # Store the set for use by search scorers (higher priority for file pages)
+    _KNOWN_FILES = frozenset(("POSCAR", "KPOINTS", "KPOINTS_OPT", "KPOINTS_ELPH",
+        "POTCAR", "INCAR", "ICONST", "PENALTYPOT", "GAMMA", "STOPCAR", "TMPCAR",
+        "OUTCAR", "OSZICAR", "CHGCAR", "CONTCAR", "DOSCAR", "EIGENVAL", "LOCPOT",
+        "PROCAR", "PROCAR_OPT", "WAVECAR", "XDATCAR", "HESSEMAT", "HILLSPOT",
+        "PCDAT", "PROJCAR", "PROOUT", "POT", "QPOINTS", "IBZKPT", "UIJKL", "VIJKL",
+        "BSEFATBAND", "DYNMATFULL", "ML_HIS", "NMRCURBX", "REPORT"))
+    if re.match(r"^[A-Z][A-Z0-9_]*$", title) and title not in _KNOWN_FILES:
+        return None
+
+    # Mark known file pages so search scorers can boost their rank
+    item["_is_known_file"] = title in _KNOWN_FILES
+
+    # Skip empty or tiny pages
+    if not content or len(content) < 50:
+        return None
+
+    clean = _clean_text(content)
+    page_type = _classify_non_tag_page(title)
+
+    # For reference pages (pseudopotentials), try to extract a brief summary
+    # For others, use the first ~1000 chars of clean content as summary
+    summary = clean[:1000].strip()
+
+    return {
+        "title": title,
+        "type": page_type,
+        "summary": summary,
+        "url": item.get("url", ""),
+        "is_file_page": title in _KNOWN_FILES,
+    }
+
+
+def parse_non_tag_to_index() -> list[dict]:
+    """Parse non-tag wiki pages (tutorials, how-tos, best practices) into JSON."""
+    with open(WIKI_RAW, "r") as f:
+        data = json.load(f)
+
+    pages = []
+    skipped = 0
+    for item in data:
+        result = _parse_non_tag_page(item)
+        if result:
+            pages.append(result)
+        else:
+            skipped += 1
+
+    # Deduplicate by title (some pages appear twice in wiki)
+    seen = set()
+    deduped = []
+    for p in pages:
+        if p["title"] not in seen:
+            seen.add(p["title"])
+            deduped.append(p)
+
+    with open(NON_TAG_INDEX, "w") as f:
+        json.dump(deduped, f, ensure_ascii=False, indent=2)
+
+    print(f"Parsed {len(deduped)} non-tag pages ({skipped} skipped)")
+    return deduped
 
 
 def parse_wiki_to_index() -> list[dict]:
@@ -203,6 +291,7 @@ def preprocess() -> None:
     """Run all preprocessing steps."""
     Path(TAG_INDEX).parent.mkdir(parents=True, exist_ok=True)
     parse_wiki_to_index()
+    parse_non_tag_to_index()
     make_wiki_full()
     extract_tag_stats()
     print("Preprocessing complete.")
