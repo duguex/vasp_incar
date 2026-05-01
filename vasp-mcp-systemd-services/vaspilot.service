@@ -1,0 +1,16 @@
+[Unit]
+Description=VASPilot MCP Server
+
+[Service]
+Type=simple
+WorkingDirectory=/home/duguex/.openclaw/workspace/repos/automation/VASPilot
+Environment=PMG_VASP_PSP_DIR=/mnt/shared/VASP_POT
+Environment=FASTMCP_HOST=0.0.0.0
+Environment=FASTMCP_PORT=8933
+Environment=FASTMCP_STATELESS_HTTP=true
+ExecStart=/home/duguex/.local/bin/uv run python -c "import sys; sys.path.insert(0, 'src'); import asyncio; from vaspilot.tools.mcp.mcp_server import main; asyncio.run(main(config_path='examples/1.Basic/configs/mcp_config.yaml'))"
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
