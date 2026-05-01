@@ -2,7 +2,17 @@
 
 import json
 import re
+import os
+import argparse
 from pathlib import Path
+
+# Parse arguments early to get host/port for FastMCP
+parser = argparse.ArgumentParser(description="VASP INCAR tag query MCP server")
+parser.add_argument("--port", type=int, default=8932, help="HTTP port (default: 8932)")
+parser.add_argument("--host", default="0.0.0.0", help="HTTP host (default: 0.0.0.0)")
+parser.add_argument("--transport", choices=["stdio", "http"], default="http", help="Transport mode")
+args = parser.parse_args()
+
 from mcp.server.fastmcp import FastMCP
 
 BASE = Path(__file__).resolve().parent / "data"
@@ -23,7 +33,10 @@ if _STATS is None:
 if _FULLWIKI is None:
     _FULLWIKI = {}
 
-mcp = FastMCP("vasp-query")
+if args.transport == "http":
+    mcp = FastMCP("vasp-query", host=args.host, port=args.port, stateless_http=True)
+else:
+    mcp = FastMCP("vasp-query")
 
 
 def _find_tag(name: str):
@@ -176,4 +189,7 @@ def get_fullwiki(title: str) -> str:
 
 
 if __name__ == "__main__":
-    mcp.run()
+    if args.transport == "http":
+        mcp.run(transport="streamable-http")
+    else:
+        mcp.run()
