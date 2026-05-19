@@ -4,7 +4,7 @@ import json
 import re
 from pathlib import Path
 
-_VASP_BASE = Path(__file__).resolve().parent.parent  # /home/duguex/vasp_incar/
+_VASP_BASE = Path(__file__).resolve().parent.parent  # project root
 WIKI_RAW = _VASP_BASE / "vasp_wiki_all_data.json"
 WIKI_FULL = Path(__file__).resolve().parent / "data" / "wiki_full.json"
 TAG_INDEX = Path(__file__).resolve().parent / "data" / "tag_index.json"
