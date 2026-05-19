@@ -2,8 +2,8 @@
   "mcpServers": {
     "vasp-query": {
       "command": "python3",
-      "args": ["/home/duguex/vasp_incar/vasp_query/mcp_server.py"],
-      "cwd": "/home/duguex/vasp_incar"
+      "args": ["./vasp_query/mcp_server.py"],
+      "cwd": "."
     }
   }
 }
