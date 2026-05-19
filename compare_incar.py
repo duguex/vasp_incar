@@ -1,4 +1,4 @@
-#!/home/duguex/.conda/envs/pydefect/bin/python
+#!/usr/bin/env python3
 
 import os
 from pymatgen.io.vasp import Incar
