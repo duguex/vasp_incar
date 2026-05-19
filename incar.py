@@ -1,4 +1,4 @@
-#!/home/duguex/.conda/envs/pydefect/bin/python
+#!/usr/bin/env python3
 
 from pymatgen.io.vasp import Incar
 from pymatgen.core import Structure
