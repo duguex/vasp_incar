@@ -1,12 +1,18 @@
 [Unit]
 Description=VASP Query MCP Server
+StartLimitIntervalSec=60
+StartLimitBurst=5
 
 [Service]
 Type=simple
+User=duguex
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=read-only
 WorkingDirectory=/home/duguex/vasp_incar
-Environment=PATH=/home/duguex/.conda/envs/dgkan_rocm_3.11/bin
-ExecStart=/home/duguex/.conda/envs/dgkan_rocm_3.11/bin/python3 /home/duguex/vasp_incar/vasp_query/mcp_server.py --transport http --port 8932 --host 0.0.0.0
-Restart=always
+Environment=PATH=/home/duguex/.conda/envs/dgkan_rocm_3.11/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/home/duguex/.conda/envs/dgkan_rocm_3.11/bin/python3 /home/duguex/vasp_incar/vasp_query/mcp_server.py
+Restart=on-failure
 RestartSec=10
 
 [Install]
