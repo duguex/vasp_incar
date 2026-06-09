@@ -1,102 +1,86 @@
-# VASP MCP 系统服务备份
+# vasp-query MCP systemd user service
 
-## 文件说明
+把 `vasp_query/mcp_server.py` 部署成 HTTP 端点(端口 8932),供远程 Claude Code 通过 HTTP transport 访问。
 
-- `vaspilot.service` — VASPilot MCP 服务器 (端口 8933)
-- `vasp-query.service` — vasp-query MCP 服务器 (端口 8932)
-- `README.md` — 此说明文件
+> 本仓库根目录的 `.mcp.json` 用的是 stdio transport(本地调用);
+> 本目录用 HTTP transport(跨机器调用)。两者互不冲突,可同时使用。
 
-## 迁移到新机器的步骤
-
-### 1. 复制 service 文件
+## 快速安装
 
 ```bash
-scp vasp-mcp-systemd-services/*.service user@new-machine:~/vasp-mcp-systemd-services/
+cd vasp-mcp-systemd-services
+./setup.sh
 ```
 
-### 2. 在新机器上安装
+`setup.sh` 会:
+1. 把 `vasp-query.service` 复制到 `~/.config/systemd/user/`
+2. `daemon-reload` + `enable --now`
+3. 显示服务状态和端口监听情况
+
+## 手动步骤
+
+### 1. 安装
 
 ```bash
-# 复制到 systemd 目录
-cp vasp*.service ~/.config/systemd/user/
+# 关键:必须先 cd,否则下一步 cp 找不到文件
+cd vasp-mcp-systemd-services
 
-# 重载 systemd
+cp vasp-query.service ~/.config/systemd/user/
 systemctl --user daemon-reload
-
-# 启动服务
-systemctl --user start vaspilot
 systemctl --user start vasp-query
-
-# 设置为开机自启
-systemctl --user enable vaspilot
 systemctl --user enable vasp-query
 ```
 
-### 3. 检查服务状态
+### 2. 开启开机自启
+
+`systemctl --user` 默认**不会在系统启动时运行**,只在用户登录后启动。
+要真正开机自启需要:
 
 ```bash
-systemctl --user status vaspilot vasp-query
-ss -tlnp | grep -E "8932|8933"
+sudo loginctl enable-linger $USER
 ```
 
-## 注意事项
+### 3. 检查状态
 
-### 路径修改
-
-不同机器的目录结构可能不同，需要修改 service 文件中的路径：
-
-**vaspilot.service** 需要修改：
-- `WorkingDirectory` — VASPilot 项目根目录
-- `Environment=PMG_VASP_PSP_DIR` — POTCAR 目录路径
-- `ExecStart` 中的 `config_path` — 配置文件路径
-
-**vasp-query.service** 需要修改：
-- `WorkingDirectory` — vasp_query 项目目录
-- `Environment=PATH` — 正确的 conda 环境路径
-- `ExecStart` 中的可执行文件和项目路径
-
-### Python 环境
-
-确保新机器上安装了相应的 Python 包：
-
-**vaspilot**:
 ```bash
-# 使用 vasp 项目的虚拟环境
-cd /path/to/VASPilot
-uv run pip install -e .
+systemctl --user status vasp-query
+ss -tln | grep 8932
 ```
 
-**vasp-query**:
+## 路径修改
+
+把 `vasp-query.service` 复制到 `~/.config/systemd/user/` 之后,根据你的环境改:
+
+- `WorkingDirectory` — vasp_incar 项目根目录(默认 `/home/duguex/vasp_incar`)
+- `Environment=PATH` — 包含 `mcp` 和 `fastmcp` 的 conda 环境路径
+- `ExecStart` 中的 `python3` 绝对路径 — 对应环境里的 python 解释器
+
+## Python 环境
+
+服务依赖的 Python 包:
+
 ```bash
-# 确保 conda 环境中安装了 mcp 和 fastmcp
-conda activate dgkan_rocm_3.11  # 或其他环境
+conda activate <env_name>  # 例如 dgkan_rocm_3.11
 pip install mcp fastmcp
 ```
 
-### 防火墙
+## 防火墙
 
-如果其他机器要通过网络访问，确保防火墙放行端口：
-- 8932 (vasp-query)
-- 8933 (VASPilot)
+如果其他机器要通过网络访问,放行端口 8932:
 
 ```bash
 sudo ufw allow 8932/tcp
-sudo ufw allow 8933/tcp
 ```
 
-### Claude Code 配置
+## Claude Code 远程配置
 
-如果要在其他机器上使用 Claude Code 访问这些 MCP 服务，需要更新 `~/.claude.json` 中的 URL：
+在客户端机器的 `~/.claude.json` 中:
 
 ```json
 "mcpServers": {
   "vasp-query": {
     "type": "http",
     "url": "http://<server-ip>:8932/mcp"
-  },
-  "VASPilot": {
-    "type": "http",
-    "url": "http://<server-ip>:8933/mcp"
   }
 }
 ```
