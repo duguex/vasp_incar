@@ -5,11 +5,11 @@ import re
 from pathlib import Path
 
 _VASP_BASE = Path(__file__).resolve().parent.parent  # project root
-WIKI_RAW = _VASP_BASE / "vasp_wiki_all_data.json"
+WIKI_RAW = _VASP_BASE / "data" / "raw" / "vasp_wiki_all_data.json"
 WIKI_FULL = Path(__file__).resolve().parent / "data" / "wiki_full.json"
 TAG_INDEX = Path(__file__).resolve().parent / "data" / "tag_index.json"
 NON_TAG_INDEX = Path(__file__).resolve().parent / "data" / "non_tag_index.json"
-INCAR_DATA = _VASP_BASE / "incar_data.json"
+INCAR_DATA = _VASP_BASE / "data" / "raw" / "incar_data.json"
 TAG_STATS = Path(__file__).resolve().parent / "data" / "tag_stats.json"
 
 # Section markers that end the description block

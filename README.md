@@ -29,12 +29,18 @@ LLMs know what VASP is, but they don't know what parameters to use for a specifi
 # Start the MCP server
 python vasp_query/mcp_server.py
 
+# Rebuild preprocessed indexes from raw data
+python3 -m vasp_query preprocess
+
 # Or run queries directly
 python -c "from vasp_query.processor import VaspQuery; vq = VaspQuery(); print(vq.get_tag('ENCUT'))"
 ```
 
 ## Data
 
-- `vasp_wiki_all_data.json` — full VASP Wiki dump
-- `incar_data.json` — 10,176 real INCAR tag statistics
-- `POSCAR/` — reference POSCAR files for various material systems
+Raw inputs live in `data/raw/`:
+- `data/raw/incar_data.json` — 10,176 real INCAR tag statistics
+- `data/raw/vasp_wiki_all_data.json` — full VASP Wiki dump
+- `examples/POSCAR` — reference POSCAR for SiC supercell
+
+Legacy `pymatgen`-based utilities are in `legacy_scripts/` (see `legacy_scripts/README.md`).
