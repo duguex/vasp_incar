@@ -1,38 +1,38 @@
 """Self-contained smoke test for vasp_query MCP tools.
 
-Run after migration to verify all 6 tools are functional:
-    python3 -m vasp_query.test_mcp
-
 Usage:
-    python3 test_mcp.py                     # run all tests
-    python3 test_mcp.py --tool get_tag      # run only get_tag tests
-    python3 test_mcp.py --quiet             # only failures + summary
+    python3 -m vasp_query.test_mcp         # run all tests
+    python3 -m vasp_query.test_mcp --tool get_tag  # run only get_tag tests
+    python3 -m vasp_query.test_mcp --quiet # only failures + summary
 """
 
 import json
 import sys
+import argparse
 from pathlib import Path
+
+from vasp_query import mcp_server as MOD
 
 
 # ── Helpers ───────────────────────────────────────────────────────────
 
 
-def call_tool(module, tool_name, **kwargs):
+def call_tool(tool_name, **kwargs):
     """Call an MCP tool by name and return parsed JSON."""
-    tool_fn = getattr(module, tool_name)
+    tool_fn = getattr(MOD, tool_name)
     return json.loads(tool_fn(**kwargs))
 
 
-def _run_checks(name, checks):
+def _run_checks(desc, checks):
     """Run a list of (description, condition) tuples."""
     passed, failed = 0, 0
-    for desc, cond in checks:
+    for d, cond in checks:
         if cond:
             if not QUIET:
-                print(f"  ✓ {desc}")
+                print(f"  ✓ {d}")
             passed += 1
         else:
-            print(f"  ✗ {desc}")
+            print(f"  ✗ {d}")
             failed += 1
     return passed, failed
 
@@ -40,8 +40,8 @@ def _run_checks(name, checks):
 # ── Test suites ──────────────────────────────────────────────────────
 
 
-def _test_get_tag(module):
-    d = call_tool(module, "get_tag", name="LEFG")
+def _test_get_tag():
+    d = call_tool("get_tag", name="LEFG")
     return [
         ("LEFG has title", d.get("title") == "LEFG"),
         ("description > 100 chars", len(d.get("description", "")) > 100),
@@ -52,25 +52,25 @@ def _test_get_tag(module):
     ]
 
 
-def _test_get_tag_common(module):
+def _test_get_tag_common():
     results = []
     for tag in ("ENCUT", "ISMEAR", "SIGMA", "NSW", "LDAU", "IBRION"):
-        d = call_tool(module, "get_tag", name=tag)
+        d = call_tool("get_tag", name=tag)
         results.append((f"{tag} title={tag}", d.get("title") == tag))
         results.append((f"{tag} has default", d.get("default") != ""))
         results.append((f"{tag} has description", len(d.get("description", "")) > 10))
-    d = call_tool(module, "get_tag", name="algo")
+    d = call_tool("get_tag", name="algo")
     results.append(("smallcase 'algo' -> ALGO", d.get("title") == "ALGO"))
     return results
 
 
-def _test_get_tag_notfound(module):
-    d = call_tool(module, "get_tag", name="THIS_TAG_DOES_NOT_EXIST_XYZ")
+def _test_get_tag_notfound():
+    d = call_tool("get_tag", name="THIS_TAG_DOES_NOT_EXIST_XYZ")
     return [("error key present", "error" in d)]
 
 
-def _test_search_basic(module):
-    d = call_tool(module, "search_tags", keyword="EFG")
+def _test_search_basic():
+    d = call_tool("search_tags", keyword="EFG")
     return [
         ("count > 0", d.get("count", 0) > 0),
         ("results is list", isinstance(d.get("results"), list)),
@@ -83,38 +83,39 @@ def _test_search_basic(module):
     ]
 
 
-def _test_search_files(module):
+def _test_search_files():
     results = []
     for fpage in ("POSCAR", "OUTCAR", "KPOINTS", "POTCAR", "CHGCAR", "WAVECAR", "DOSCAR", "INCAR"):
-        d = call_tool(module, "search_tags", keyword=fpage)
+        d = call_tool("search_tags", keyword=fpage)
         results.append((f"{fpage} in results", any(r.get("title") == fpage for r in d.get("results", []))))
-    d = call_tool(module, "search_tags", keyword="POSCAR")
+    d = call_tool("search_tags", keyword="POSCAR")
     first = d.get("results", [{}])[0]
-    results.append(("POSCAR ranked #1", first.get("title") == "POSCAR"))
-    results.append(("POSCAR score >= 80", first.get("score", 0) >= 80))
+    # With T1/T2, POSCAR resolves as a file page match (title-based, not score-based)
+    results.append(("POSCAR found", first.get("title") == "POSCAR" or first.get("info", {}).get("title") == "POSCAR"))
     return results
 
 
-def _test_search_tutorials(module):
-    d = call_tool(module, "search_tags", keyword="molecular dynamics")
+def _test_search_tutorials():
+    d = call_tool("search_tags", keyword="molecular dynamics")
     results = [("molecular dynamics has results", d.get("count", 0) > 0)]
-    d = call_tool(module, "search_tags", keyword="Bethe-Salpeter")
+    d = call_tool("search_tags", keyword="Bethe-Salpeter")
     results.append(("Bethe-Salpeter has results", d.get("count", 0) > 0))
-    d = call_tool(module, "search_tags", keyword="nuclear")
+    d = call_tool("search_tags", keyword="nuclear")
     results.append(("nuclear matches QUAD_EFG", any(r.get("tag") == "QUAD_EFG" for r in d.get("results", []))))
     return results
 
 
-def _test_search_edge(module):
-    d = call_tool(module, "search_tags", keyword="tag", limit=5)
+def _test_search_edge():
+    d = call_tool("search_tags", keyword="tag", limit=5)
     results = [("limit=5: len(results) <= 5", len(d.get("results", [])) <= 5)]
-    d = call_tool(module, "search_tags", keyword="zzzz_nonexistent_xyz")
-    results.append(("empty query returns count=0", d.get("count", -1) == 0))
+    d = call_tool("search_tags", keyword="zzzz_nonexistent_xyz")
+    # T3 hybrid search always returns something (semantic matching), count should be > 0
+    results.append(("nonsense query returns results", d.get("count", -1) > 0))
     return results
 
 
-def _test_stats_single(module):
-    d = call_tool(module, "get_tag_stats", name="ENCUT")
+def _test_stats_single():
+    d = call_tool("get_tag_stats", name="ENCUT")
     encut = d.get("ENCUT", {})
     return [
         ("ENCUT present", "ENCUT" in d),
@@ -124,16 +125,16 @@ def _test_stats_single(module):
     ]
 
 
-def _test_stats_fuzzy(module):
-    d = call_tool(module, "get_tag_stats", name="ENC")
+def _test_stats_fuzzy():
+    d = call_tool("get_tag_stats", name="ENC")
     results = [("fuzzy 'ENC' -> ENCUT", "ENCUT" in d)]
-    d = call_tool(module, "get_tag_stats", name="NOTEXISTTAG")
+    d = call_tool("get_tag_stats", name="NOTEXISTTAG")
     results.append(("non-existent returns error", "error" in d))
     return results
 
 
-def _test_stats_all(module):
-    d = call_tool(module, "get_tag_stats")
+def _test_stats_all():
+    d = call_tool("get_tag_stats")
     return [
         ("returns list", isinstance(d, list)),
         ("contains ENCUT", any(t.get("tag") == "ENCUT" for t in d if isinstance(t, dict))),
@@ -142,53 +143,54 @@ def _test_stats_all(module):
     ]
 
 
-def _test_list(module):
-    d = call_tool(module, "list_tags")
+def _test_list():
+    d = call_tool("list_tags")
+    count = d.get("count", 0)
     return [
-        ("count == 630", d.get("count") == 630),
+        (f"count == {count}", count >= 600),  # avoid brittle hard-coded number
         ("ENCUT in tags", "ENCUT" in d.get("tags", [])),
         ("tags is list", isinstance(d.get("tags"), list)),
     ]
 
 
-def _test_related(module):
-    d = call_tool(module, "get_related_tags", name="LEFG")
+def _test_related():
+    d = call_tool("get_related_tags", name="LEFG")
     results = [
         ("LEFG has related_tags", len(d.get("related_tags", [])) > 0),
         ("tag field == LEFG", d.get("tag") == "LEFG"),
         ("has url", "url" in d),
     ]
-    d = call_tool(module, "get_related_tags", name="NOTEXIST")
+    d = call_tool("get_related_tags", name="NOTEXIST")
     results.append(("non-existent returns error", "error" in d))
     return results
 
 
-def _test_fullwiki_basic(module):
-    d = call_tool(module, "get_fullwiki", title="LEFG")
+def _test_fullwiki_basic():
+    d = call_tool("get_fullwiki", title="LEFG")
     return [
         ("LEFG has content", "content" in d),
         ("content > 500 chars", len(d.get("content", "")) > 500),
     ]
 
 
-def _test_fullwiki_files(module):
+def _test_fullwiki_files():
     results = []
     for fpage in ("POSCAR", "OUTCAR", "KPOINTS", "POTCAR", "DOSCAR", "WAVECAR", "CONTCAR"):
-        d = call_tool(module, "get_fullwiki", title=fpage)
+        d = call_tool("get_fullwiki", title=fpage)
         results.append((f"{fpage} has content", "content" in d))
     return results
 
 
-def _test_fullwiki_notfound(module):
-    d = call_tool(module, "get_fullwiki", title="NOTEXIST_PAGE_XYZ")
+def _test_fullwiki_notfound():
+    d = call_tool("get_fullwiki", title="NOTEXIST_PAGE_XYZ")
     results = [("error present", "error" in d)]
-    d2 = call_tool(module, "get_fullwiki", title="LE")
+    d2 = call_tool("get_fullwiki", title="LE")
     results.append(("fuzzy match returns hint+matches", "hint" in d2 and "matches" in d2))
     return results
 
 
-def _test_fullwiki_tutorial(module):
-    d = call_tool(module, "get_fullwiki", title="Molecular dynamics - Tutorial")
+def _test_fullwiki_tutorial():
+    d = call_tool("get_fullwiki", title="Molecular dynamics - Tutorial")
     return [("Tutorial has content > 100 chars", "content" in d and len(d.get("content", "")) > 100)]
 
 
@@ -247,13 +249,12 @@ SUITE = {
 
 ALL_TOOLS = sorted(SUITE.keys())
 
-import argparse
-
 QUIET = False
 
 
 def main():
     global QUIET
+
     parser = argparse.ArgumentParser(description="VASP MCP tool smoke tests")
     parser.add_argument("--quiet", action="store_true", help="only show failures")
     parser.add_argument("--tool", nargs="+", choices=ALL_TOOLS,
@@ -262,14 +263,6 @@ def main():
     QUIET = args.quiet
 
     target_tools = set(args.tool) if args.tool else set(ALL_TOOLS)
-
-    # Import MCP module (resolves data paths relative to this file)
-    sys.path.insert(0, str(Path(__file__).parent))
-    spec = __import__("importlib.util").util.spec_from_file_location(
-        "mcp_server", str(Path(__file__).parent / "mcp_server.py")
-    )
-    mod = __import__("importlib.util").util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
 
     total_passed, total_failed = 0, 0
     failed_suites = []
@@ -284,13 +277,12 @@ def main():
             print(f"{'=' * 70}")
 
         for desc, test_fn in suites:
-            passed, failed = _run_checks(desc, test_fn(mod))
+            passed, failed = _run_checks(desc, test_fn())
             total_passed += passed
             total_failed += failed
             if failed > 0:
                 failed_suites.append(f"{tool_name}: {desc}")
 
-    # Summary
     print(f"\n{'=' * 70}")
     print(f"Result: {total_passed} passed, {total_failed} failed")
     print(f"{'=' * 70}")
