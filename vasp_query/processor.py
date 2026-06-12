@@ -430,6 +430,18 @@ def build_search_indexes() -> None:
     import numpy as np
     from tantivy import Index, SchemaBuilder, Document
 
+    # Load co-occurrence data for text enrichment
+    import json as _json
+    cooccur_path = DATA_DIR / "tag_cooccur.json"
+    if cooccur_path.exists():
+        cooccur_raw = _json.load(open(cooccur_path))
+        if isinstance(cooccur_raw, dict) and "data" in cooccur_raw:
+            cooccur_data = cooccur_raw["data"]
+        else:
+            cooccur_data = {}
+    else:
+        cooccur_data = {}
+
     tags = json.load(open(DATA_DIR / "tag_index.json"))
     if isinstance(tags, dict) and "data" in tags:
         tags = tags["data"]
@@ -439,10 +451,16 @@ def build_search_indexes() -> None:
 
     docs = []
     for t in tags:
+        title = t['title']
+        text = f"{title} {t.get('description', '')} {t.get('default', '')} {t.get('value', '')}"
+        # Enrich with top co-occurring tags (from incar_data) for semantic bridging
+        if cooccur_data and title in cooccur_data:
+            top_cooc = sorted(cooccur_data[title].items(), key=lambda x: -x[1])[:5]
+            names = [c[0] for c in top_cooc]
+            text += " " + " ".join(names)
         docs.append({
-            "id": f"tag:{t['title']}", "title": t["title"],
-            "text": f"{t['title']} {t.get('description', '')} {t.get('default', '')} {t.get('value', '')}",
-            "type": "tag",
+            "id": f"tag:{title}", "title": title,
+            "text": text, "type": "tag",
         })
     for n in non_tags:
         docs.append({
@@ -480,6 +498,18 @@ def build_search_indexes() -> None:
         with open(DATA_DIR / "doc_meta.json", "w") as f:
             json.dump(meta, f, ensure_ascii=False)
         logger.info("Generated embeddings: %d docs x %d dim", len(embeddings), embeddings.shape[1])
+
+        # Also generate tag-only embeddings for focused semantic matching
+        tag_docs = [(i, d) for i, d in enumerate(docs) if d["type"] == "tag"]
+        if tag_docs:
+            tag_indices, tag_entries = zip(*tag_docs)
+            tag_texts = [d["text"] for d in tag_entries]
+            tag_embeddings = model.encode(tag_texts, show_progress_bar=False)
+            np.save(str(DATA_DIR / "tag_vectors.npy"), tag_embeddings)
+            tag_meta = [{"idx": i, "id": d["id"], "title": d["title"]} for i, d in tag_docs]
+            with open(DATA_DIR / "tag_meta.json", "w") as f:
+                json.dump(tag_meta, f, ensure_ascii=False)
+            logger.info("Generated tag-only embeddings: %d tags x %d dim", len(tag_embeddings), tag_embeddings.shape[1])
     except Exception as e:
         logger.warning("sentence-transformers embedding failed (skip): %s", e)
 

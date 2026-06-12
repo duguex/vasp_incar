@@ -61,7 +61,7 @@ def search_tags(keyword: str, limit: int = 20) -> str:
     """Search INCAR tags, wiki pages (tutorials, how-tos, best practices) and VASP file formats by keyword. Uses hybrid BM25 + semantic search for relevant results."""
     # T1: resolve_tag
     resolved = resolve_tag(keyword, _INDEX, non_tag=_NON_TAG)
-    if isinstance(resolved, dict) and resolved.get("_match") == "exact":
+    if isinstance(resolved, dict) and resolved.get("_match") in ("exact", "term_map"):
         configs = load_data(TAG_CONFIGS)
         stats = load_data(TAG_STATS)
         cooccur = load_data(TAG_COOCCUR)

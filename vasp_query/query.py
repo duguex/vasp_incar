@@ -91,7 +91,7 @@ def cmd_search(args) -> int:
     # Tier 1: resolve_tag — exact match or file page
     debug_log("Tier 1: resolve_tag")
     resolved = resolve_tag(keyword, index, non_tag=non_tag)
-    if isinstance(resolved, dict) and resolved.get("_match") == "exact":
+    if isinstance(resolved, dict) and resolved.get("_match") in ("exact", "term_map"):
         debug_log(f"  -> TIER 1 HIT: exact → {resolved['title']}")
         configs = load_data(TAG_CONFIGS)
         stats = load_data(TAG_STATS)

@@ -8453,19 +8453,19 @@
       "url": "https://vasp.at/wiki/Zab_vdW"
     },
     {
-      "title": "EXX",
-      "value": "0.25",
+      "title": "ENMAX",
+      "value": "400 | 270",
       "default": "",
-      "description": "EXX is a VASP input parameter. Appears in 2 configurations. Common values: 0.25 (2x).",
+      "description": "ENMAX is a VASP input parameter. Appears in 3 configurations. Common values: 400 (2x), 270 (1x).",
       "related": [],
       "url": "",
       "auto_generated": true
     },
     {
-      "title": "ENMAX",
-      "value": "400 | 270",
+      "title": "EXX",
+      "value": "0.25",
       "default": "",
-      "description": "ENMAX is a VASP input parameter. Appears in 3 configurations. Common values: 400 (2x), 270 (1x).",
+      "description": "EXX is a VASP input parameter. Appears in 2 configurations. Common values: 0.25 (2x).",
       "related": [],
       "url": "",
       "auto_generated": true

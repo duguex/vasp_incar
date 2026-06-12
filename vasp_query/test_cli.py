@@ -33,16 +33,12 @@ def test_tag_human():
 
 
 def test_search_type_filter():
-    # HSE now goes through T3 hybrid search (no alias table)
+    # HSE resolves via term_map → HFSCREEN (T1), structured response
     r = _cli("search", "HSE")
     assert r.returncode == 0, f"search failed: {r.stderr}"
     d = json.loads(r.stdout)
-    # Should return results with HFSCREEN or HSE-related content
-    results = d.get("results", [])
-    assert len(results) > 0
-    # At least one result should be tag or how_to about HSE
-    titles = [r.get("tag") or r.get("title", "") for r in results]
-    assert any("HSE" in t or "HFSCREEN" in t for t in titles)
+    # T1 hit returns info.title = HFSCREEN
+    assert d.get("info", {}).get("title") == "HFSCREEN"
 
 
 def test_search_human():
@@ -53,8 +49,8 @@ def test_search_human():
 
 
 def test_search_hybrid():
-    # Hybrid search should always return results (BM25 + semantic)
-    r = _cli("search", "phonon")
+    # Hybrid search via T3 (use a query not covered by term_map)
+    r = _cli("search", "convergence problems")
     assert r.returncode == 0
     d = json.loads(r.stdout)
     assert "results" in d and len(d["results"]) > 0

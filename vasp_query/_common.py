@@ -63,6 +63,8 @@ WIKI_FULL = DATA_DIR / "wiki_full.json"
 TAG_CONFIGS = DATA_DIR / "tag_configs.json"
 TAG_COOCCUR = DATA_DIR / "tag_cooccur.json"
 SEARCH_INDEX = DATA_DIR / "search_index"
+TAG_VECTORS = DATA_DIR / "tag_vectors.npy"
+TAG_META = DATA_DIR / "tag_meta.json"
 DOC_VECTORS = DATA_DIR / "doc_vectors.npy"
 DOC_META = DATA_DIR / "doc_meta.json"
 
@@ -213,8 +215,27 @@ def clear_debug_log() -> None:
     _DEBUG_LOG.clear()
 
 
+# Minimal domain abbreviation -> tag mapping (not a full alias table)
+# Fixes common short queries that BGE-small can't handle semantically
+_TERM_MAP = {
+    "soc": "LSORBIT",
+    "dft+u": "LDAU",
+    "dft": "GGA",
+    "gga": "GGA",
+    "pbe": "GGA",
+    "hse": "HFSCREEN",
+    "gw": "ALGO",
+    "vdw": "IVDW",
+    "bse": "ALGO",
+    "phonon": "IBRION",
+    "hubbard": "LDAU",
+    "hubbard u": "LDAU",
+    "molecular dynamics": "IBRION",
+}
+
+
 def resolve_tag(input: str, index: list[dict], non_tag: list[dict] | None = None) -> dict | list[dict] | None:
-    """Resolve user input to a tag. Stages: exact -> file page -> fuzzy -> substring.
+    """Resolve user input to a tag. Stages: exact -> term map -> file page -> fuzzy -> substring.
 
     Returns a single tag dict (exact/file page match), a list (fuzzy/substring),
     or None (not found).
@@ -226,6 +247,15 @@ def resolve_tag(input: str, index: list[dict], non_tag: list[dict] | None = None
         if t["title"] == inp:
             debug_log(f"  exact: {t['title']}")
             return {**t, "_match": "exact"}
+
+    # 2. Domain abbreviation map
+    key = input.lower().strip()
+    if key in _TERM_MAP:
+        target = _TERM_MAP[key].upper()
+        debug_log(f"  term_map: '{key}' -> '{target}'")
+        for t in index:
+            if t["title"] == target:
+                return {**t, "_match": "term_map"}
 
     if non_tag:
         for n in non_tag:
@@ -346,14 +376,30 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
                 _MODEL_CACHE = SentenceTransformer("BAAI/bge-small-en-v1.5")
             model = _MODEL_CACHE
             query_vec = model.encode([kw], show_progress_bar=False)
+
+            # Signal A: full semantic (all docs)
             scores = np.dot(vectors, query_vec.T).flatten()
             top_idx = np.argsort(-scores)[:top_k * 3]
-            debug_log(f"  Semantic: top {len(top_idx)} from {len(scores)}")
+            debug_log(f"  Full semantic: top {len(top_idx)} from {len(scores)}")
             for rank, idx in enumerate(top_idx[:5]):
                 doc_id = meta[idx]["id"]
                 rrf = 1.0 / (60 + rank)
                 results[doc_id] = results.get(doc_id, 0) + rrf
-                debug_log(f"    SEM #{rank}: {doc_id} cos={scores[idx]:.4f} rrf={rrf:.4f}")
+                debug_log(f"    FULL #{rank}: {doc_id} cos={scores[idx]:.4f} rrf={rrf:.4f}")
+
+            # Signal B: tag-only semantic (boosted weight)
+                tag_vectors = load_data_raw(TAG_VECTORS) if TAG_VECTORS.exists() else None
+                tag_meta = load_data(TAG_META) or []
+                if tag_vectors is not None and tag_meta:
+                    tag_scores = np.dot(tag_vectors, query_vec.T).flatten()
+                    tag_top = np.argsort(-tag_scores)[:top_k * 2]
+                    debug_log(f"  Tag-only semantic: top {len(tag_top)} from {len(tag_scores)}")
+                    for rank, idx in enumerate(tag_top[:5]):
+                        entry = tag_meta[idx]
+                        doc_id = entry["id"]
+                        rrf = 1.5 / (60 + rank)
+                        results[doc_id] = results.get(doc_id, 0) + rrf
+                        debug_log(f"    TAG #{rank}: {doc_id} cos={tag_scores[idx]:.4f} rrf={rrf:.4f}")
         except Exception as e:
             debug_log(f"  Semantic error: {e}")
 
