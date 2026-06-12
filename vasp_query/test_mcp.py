@@ -169,6 +169,42 @@ def _test_stats_fuzzy():
     return results
 
 
+def _test_search_tags_caching():
+    """Issue #3: TAG_CONFIGS / TAG_STATS / TAG_COOCCUR must NOT be re-parsed
+    on every search_tags call. They are cached at module import.
+    """
+    from vasp_query import _common
+
+    with mock.patch.object(_common, "load_data", wraps=_common.load_data) as spy:
+        for _ in range(10):
+            try:
+                MOD.search_tags("ENCUT", limit=5)
+            except Exception:
+                pass
+
+        configs_calls = sum(
+            1 for c in spy.call_args_list
+            if "tag_configs" in str(c)
+        )
+        stats_calls = sum(
+            1 for c in spy.call_args_list
+            if "tag_stats" in str(c)
+        )
+        cooccur_calls = sum(
+            1 for c in spy.call_args_list
+            if "tag_cooccur" in str(c)
+        )
+
+    return [
+        (f"load_data(TAG_CONFIGS) called 0 times (was 1/call pre-fix; observed {configs_calls})",
+         configs_calls == 0),
+        (f"load_data(TAG_STATS) called 0 times (observed {stats_calls})",
+         stats_calls == 0),
+        (f"load_data(TAG_COOCCUR) called 0 times (observed {cooccur_calls})",
+         cooccur_calls == 0),
+    ]
+
+
 def _test_stats_all():
     d = call_tool("get_tag_stats")
     return [
@@ -256,6 +292,9 @@ SUITE = {
     ],
     "hybrid_signal_b_once": [
         ("Signal B not nested in Signal A loop", _test_hybrid_signal_b_called_once),
+    ],
+    "search_tags_caching": [
+        ("TAG_CONFIGS / TAG_STATS / TAG_COOCCUR not re-parsed per call", _test_search_tags_caching),
     ],
     "get_tag_stats": [
         ("single tag stats", _test_stats_single),

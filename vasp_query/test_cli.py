@@ -141,6 +141,34 @@ def test_fullwiki_human():
     assert "# LEFG" in r.stdout
 
 
+def test_preprocess_tag_vectors_match_doc_subset():
+    """Issue #6: tag_vectors.npy must equal the rows of doc_vectors.npy
+    corresponding to tag docs (modulo float32 precision from any prior
+    re-encoding pass). New builds produce bit-identical output (slicing);
+    legacy on-disk data may differ by ~1e-7 per element from a separate
+    encode pass.
+    """
+    import numpy as np
+    from pathlib import Path
+
+    data_dir = Path(__file__).resolve().parent / "data"
+    doc_vecs = np.load(str(data_dir / "doc_vectors.npy"))
+    tag_vecs = np.load(str(data_dir / "tag_vectors.npy"))
+    tag_meta = json.loads((data_dir / "tag_meta.json").read_text())
+
+    tag_indices = [m["idx"] for m in tag_meta]
+    expected = doc_vecs[tag_indices]
+
+    assert tag_vecs.shape == expected.shape, \
+        f"shape mismatch: tag={tag_vecs.shape} expected={expected.shape}"
+    # Tolerate legacy float32 noise from a prior re-encoding pass.
+    # New builds (slicing) are bit-equal; legacy data (separate encode)
+    # differs by ~1e-7. Both are fine; this test guards against a real
+    # re-encoding regression.
+    assert np.allclose(tag_vecs, expected, atol=1e-5), \
+        "tag_vectors differ significantly from doc_vectors[tag_indices]"
+
+
 def test_help():
     r = _cli("--help")
     assert r.returncode == 0
