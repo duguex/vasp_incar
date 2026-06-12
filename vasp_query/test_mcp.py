@@ -88,10 +88,13 @@ def _test_search_files():
     results = []
     for fpage in ("POSCAR", "OUTCAR", "KPOINTS", "POTCAR", "CHGCAR", "WAVECAR", "DOSCAR", "INCAR"):
         d = call_tool("search_tags", keyword=fpage)
-        results.append((f"{fpage} in results", any(r.get("title") == fpage for r in d.get("results", []))))
+        # Accept either the raw T1b file-page shape (title at top level)
+        # or the T1 query_tag-wrapped shape (title under info).
+        def _has_title(r, t):
+            return r.get("title") == t or r.get("info", {}).get("title") == t
+        results.append((f"{fpage} in results", any(_has_title(r, fpage) for r in d.get("results", []))))
     d = call_tool("search_tags", keyword="POSCAR")
     first = d.get("results", [{}])[0]
-    # With T1/T2, POSCAR resolves as a file page match (title-based, not score-based)
     results.append(("POSCAR found", first.get("title") == "POSCAR" or first.get("info", {}).get("title") == "POSCAR"))
     return results
 

@@ -14,6 +14,8 @@ from vasp_query._common import (
     resolve_tag,
     query_tag,
     hybrid_search,
+    match_keyword,
+    score_keyword,
     TAG_CONFIGS,
     TAG_STATS,
     TAG_COOCCUR,
@@ -94,8 +96,8 @@ def search_tags(keyword: str, limit: int = 20) -> str:
             score = 100
         elif kw in e["title"].lower():
             score = 50
-        if _match_keyword_legacy(kw, e.get("description", "").lower()):
-            score = max(score, _score_keyword_legacy(kw, e.get("description", "").lower()))
+        if match_keyword(kw, e.get("description", "").lower()):
+            score = max(score, score_keyword(kw, e.get("description", "").lower()))
         if score > 0:
             results.append({
                 "type": "tag", "tag": e["title"], "score": score,
@@ -105,9 +107,9 @@ def search_tags(keyword: str, limit: int = 20) -> str:
         if e["title"].startswith("Category:"):
             continue
         score = 0
-        if _match_keyword_legacy(kw, e["title"].lower()):
+        if match_keyword(kw, e["title"].lower()):
             score = 80 if e.get("is_file_page") else 40
-        if _match_keyword_legacy(kw, e.get("summary", "").lower()):
+        if match_keyword(kw, e.get("summary", "").lower()):
             score = max(score, 25)
         if score > 0:
             results.append({"type": e["type"], "title": e["title"], "score": score,
@@ -115,31 +117,6 @@ def search_tags(keyword: str, limit: int = 20) -> str:
     results.sort(key=lambda x: -x["score"])
     return json.dumps({"query": keyword, "count": len(results), "results": results[:limit]},
                       indent=2, ensure_ascii=False)
-
-
-def _match_keyword_legacy(kw: str, text: str) -> bool:
-    if kw in text:
-        return True
-    import re
-    words = re.findall(r'[a-z]+', kw.lower())
-    if words and len(words) > 1:
-        return all(w in text for w in words)
-    return False
-
-
-def _score_keyword_legacy(kw: str, text: str) -> int:
-    if kw.lower() == text.lower():
-        return 100
-    if kw.lower() in text.lower():
-        return 50
-    import re
-    words = re.findall(r'[a-z]+', kw.lower())
-    if words and len(words) > 1:
-        matched = sum(1 for w in words if w in text.lower())
-        if matched == len(words):
-            return 70
-        return matched * 10
-    return 0
 
 
 def get_tag_stats(name: str | None = None) -> str:
