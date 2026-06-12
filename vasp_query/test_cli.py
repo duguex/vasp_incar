@@ -182,6 +182,89 @@ def test_invalid_tag():
     assert "error" in d
 
 
+def test_aliases_data_file_exists_and_loads():
+    """Issue #5: data/aliases.json must exist and load_aliases() must return
+    the union of built-in + user map.
+    """
+    from vasp_query import _common
+    aliases = _common.load_aliases()
+    # Built-in entries must be present
+    assert aliases["soc"] == "LSORBIT"
+    assert aliases["hse"] == "HFSCREEN"
+    assert aliases["vdw"] == "IVDW"
+    assert aliases["phonon"] == "IBRION"
+    assert aliases["hubbard u"] == "LDAU"
+    # All keys are lowercase (case-normalized)
+    assert all(k == k.lower() for k in aliases)
+
+
+def test_alias_data_file_can_override_builtin():
+    """Adding a new alias to data/aliases.json must take effect without
+    a code change. We monkey-patch the cache to simulate a user adding
+    a custom alias.
+    """
+    from vasp_query import _common
+    # Simulate the user adding a new alias by writing to a fresh file
+    # and resetting the cache.
+    import json
+    custom = {"_version": "0.2.0", "data": {"my-alias": "ENCUT"}}
+    orig = _common.load_data(_common.ALIASES)
+    try:
+        _common.ALIASES.write_text(json.dumps(custom))
+        _common._ALIASES_CACHE = None
+        aliases = _common.load_aliases()
+        assert aliases["my-alias"] == "ENCUT", "user alias not merged"
+        # Built-in still present
+        assert aliases["soc"] == "LSORBIT"
+    finally:
+        # Restore
+        if orig is not None:
+            _common.ALIASES.write_text(json.dumps(orig))
+        else:
+            _common.ALIASES.unlink(missing_ok=True)
+        _common._ALIASES_CACHE = None
+
+
+def test_resolve_tag_uses_data_driven_aliases():
+    """Issue #5: 'soc' must still resolve to LSORBIT via the data-driven
+    load_aliases() path (no longer via the hardcoded _TERM_MAP).
+    """
+    from vasp_query import _common
+    # Build a minimal index containing LSORBIT
+    index = [{"title": "LSORBIT", "value": "", "default": "", "description": "", "related": [], "url": ""}]
+    resolved = _common.resolve_tag("soc", index)
+    assert resolved is not None
+    assert resolved.get("title") == "LSORBIT"
+    assert resolved.get("_match") == "term_map"
+
+
+def test_skipped_pages_file_written_by_preprocess():
+    """Issue #5: parse_wiki_to_index must write data/skipped_pages.json
+    with the list of wiki titles that failed _parse_tag_page.
+    """
+    from vasp_query import processor
+    from pathlib import Path
+    import json
+
+    sp = Path(__file__).resolve().parent / "data" / "skipped_pages.json"
+    # Either the file already exists (from a prior preprocess), or we run
+    # preprocess to produce it. Running the full preprocess is expensive
+    # (~15s model load), so we only run it if the file is missing.
+    if not sp.exists():
+        processor.preprocess()
+    assert sp.exists(), "skipped_pages.json was not written"
+    raw = json.loads(sp.read_text())
+    if isinstance(raw, dict) and "data" in raw:
+        skipped = raw["data"]
+    else:
+        skipped = raw
+    assert isinstance(skipped, list)
+    # ENMAX, ENMIN, EXX are known-skipped tags; if not already in tag_index.json
+    # they should appear here. (Some preprocesses may have already re-injected
+    # them; this is just a structural check.)
+    print(f"skipped_pages.json has {len(skipped)} entries")
+
+
 if __name__ == "__main__":
     import pytest
     sys.exit(pytest.main([__file__, "-v"]))

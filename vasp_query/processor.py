@@ -173,7 +173,7 @@ def parse_wiki_to_index() -> list[dict]:
         data = json.load(f)
 
     tags = []
-    skipped = 0
+    skipped: list[str] = []
     for item in data:
         result = _parse_tag_page(item)
         if result:
@@ -183,12 +183,22 @@ def parse_wiki_to_index() -> list[dict]:
                 logger.warning("Tag %s failed validation: %s", result.get("title"), e)
             tags.append(result)
         else:
-            skipped += 1
+            # Issue #5: persist the list of dropped titles so
+            # generate_missing_tags can auto-discover what to re-inject,
+            # instead of relying on a hardcoded OVERRIDE set.
+            title = item.get("title", "")
+            if title:
+                skipped.append(title)
 
     with open(DATA_DIR / "tag_index.json", "w") as f:
         json.dump({"_version": DATA_VERSION, "data": tags}, f, ensure_ascii=False, indent=2)
 
-    logger.info("Parsed %d INCAR tags, skipped %d pages", len(tags), skipped)
+    # Persist dropped titles (issue #5). Overwritten on each preprocess run.
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    with open(DATA_DIR / "skipped_pages.json", "w") as f:
+        json.dump({"_version": DATA_VERSION, "data": skipped}, f, ensure_ascii=False, indent=2)
+
+    logger.info("Parsed %d INCAR tags, skipped %d pages (written to skipped_pages.json)", len(tags), len(skipped))
     return tags
 
 
@@ -381,8 +391,18 @@ def generate_missing_tags() -> list[dict]:
             tag_values[k][json.dumps(v, ensure_ascii=False, default=str)] += 1
 
     generated = []
-    OVERRIDE = {"ENMAX", "ENMIN", "EXX"}
-    for tag in OVERRIDE:
+    # Issue #5: hardcoded OVERRIDE replaced with a union of (a) the minimum
+    # enforced set and (b) the auto-discovered skipped pages from the last
+    # preprocess run (written by parse_wiki_to_index to skipped_pages.json).
+    MINIMUM_OVERRIDE = {"ENMAX", "ENMIN", "EXX"}
+    skipped_raw = json.load(open(DATA_DIR / "skipped_pages.json")) if (DATA_DIR / "skipped_pages.json").exists() else {}
+    skipped_titles: set[str] = set()
+    if isinstance(skipped_raw, dict) and "data" in skipped_raw:
+        skipped_titles = set(skipped_raw["data"])
+    elif isinstance(skipped_raw, list):
+        skipped_titles = set(skipped_raw)
+    override_tags = MINIMUM_OVERRIDE | skipped_titles
+    for tag in override_tags:
         if tag in existing_titles:
             continue
         tc = tag_counts.get(tag, 0)
