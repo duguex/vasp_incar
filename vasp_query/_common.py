@@ -388,18 +388,20 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
                 debug_log(f"    FULL #{rank}: {doc_id} cos={scores[idx]:.4f} rrf={rrf:.4f}")
 
             # Signal B: tag-only semantic (boosted weight)
-                tag_vectors = load_data_raw(TAG_VECTORS) if TAG_VECTORS.exists() else None
-                tag_meta = load_data(TAG_META) or []
-                if tag_vectors is not None and tag_meta:
-                    tag_scores = np.dot(tag_vectors, query_vec.T).flatten()
-                    tag_top = np.argsort(-tag_scores)[:top_k * 2]
-                    debug_log(f"  Tag-only semantic: top {len(tag_top)} from {len(tag_scores)}")
-                    for rank, idx in enumerate(tag_top[:5]):
-                        entry = tag_meta[idx]
-                        doc_id = entry["id"]
-                        rrf = 1.5 / (60 + rank)
-                        results[doc_id] = results.get(doc_id, 0) + rrf
-                        debug_log(f"    TAG #{rank}: {doc_id} cos={tag_scores[idx]:.4f} rrf={rrf:.4f}")
+            # Sibling of Signal A loop — runs once per query, not per Signal A iteration.
+            # (Fix for issue #1: previously mis-indented inside the Signal A for-loop.)
+            tag_vectors = load_data_raw(TAG_VECTORS) if TAG_VECTORS.exists() else None
+            tag_meta = load_data(TAG_META) or []
+            if tag_vectors is not None and tag_meta:
+                tag_scores = np.dot(tag_vectors, query_vec.T).flatten()
+                tag_top = np.argsort(-tag_scores)[:top_k * 2]
+                debug_log(f"  Tag-only semantic: top {len(tag_top)} from {len(tag_scores)}")
+                for rank, idx in enumerate(tag_top[:5]):
+                    entry = tag_meta[idx]
+                    doc_id = entry["id"]
+                    rrf = 1.5 / (60 + rank)
+                    results[doc_id] = results.get(doc_id, 0) + rrf
+                    debug_log(f"    TAG #{rank}: {doc_id} cos={tag_scores[idx]:.4f} rrf={rrf:.4f}")
         except Exception as e:
             debug_log(f"  Semantic error: {e}")
 

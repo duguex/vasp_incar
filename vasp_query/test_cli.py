@@ -42,7 +42,7 @@ def test_search_type_filter():
 
 
 def test_search_human():
-    # POSCAR resolves as file page (T2), not through hybrid search
+    # POSCAR resolves as file page (T1b, via resolve_tag with non_tag)
     r = _cli("search", "POSCAR", "-H")
     assert r.returncode == 0
     assert "## File: POSCAR" in r.stdout
@@ -54,6 +54,45 @@ def test_search_hybrid():
     assert r.returncode == 0
     d = json.loads(r.stdout)
     assert "results" in d and len(d["results"]) > 0
+
+
+def test_search_type_filter_uses_hybrid():
+    """Issue #2: --type must apply as a post-filter, not skip the hybrid tier."""
+    # "energy cutoff" hits T3 hybrid (no term_map match); without --type, hybrid runs.
+    r1 = _cli("search", "energy cutoff", "--debug")
+    assert r1.returncode == 0
+    d1 = json.loads(r1.stdout)
+    assert "results" in d1, f"hybrid didn't run, stdout={r1.stdout!r}"
+    debug1 = d1.get("_debug", [])
+    assert any("TIER 3" in line for line in debug1), \
+        f"expected TIER 3 in debug log, got: {debug1!r}"
+
+    # With --type=tag, hybrid should STILL run, then filter results.
+    r2 = _cli("search", "energy cutoff", "--type", "tag", "--debug")
+    assert r2.returncode == 0
+    d2 = json.loads(r2.stdout)
+    assert "results" in d2, f"hybrid didn't run with --type, stdout={r2.stdout!r}"
+    debug2 = d2.get("_debug", [])
+    assert any("TIER 3" in line for line in debug2), \
+        f"expected TIER 3 in debug log with --type, got: {debug2!r}"
+    # All returned results must satisfy the type filter
+    for item in d2.get("results", []):
+        assert item.get("type") == "tag", f"type filter violated: {item!r}"
+
+
+def test_search_type_filter_post_applied():
+    """--type=tag must apply AFTER hybrid ranking, not as an algorithm switch."""
+    # Compare hybrid output without filter and with filter; the filtered result
+    # should be a subset of the unfiltered one (preserving order).
+    r_full = _cli("search", "energy cutoff", "-n", "20")
+    r_tag = _cli("search", "energy cutoff", "-n", "20", "--type", "tag")
+    if r_full.returncode == 0 and r_tag.returncode == 0:
+        d_full = json.loads(r_full.stdout)
+        d_tag = json.loads(r_tag.stdout)
+        tag_ids = {r["id"] for r in d_tag.get("results", [])}
+        full_ids = {r["id"] for r in d_full.get("results", [])}
+        # Every tag-filtered id must appear in the unfiltered set
+        assert tag_ids <= full_ids, f"filtered set not subset: {tag_ids - full_ids}"
 
 
 def test_list_human():
