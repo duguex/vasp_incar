@@ -499,17 +499,20 @@ def build_search_indexes() -> None:
             json.dump(meta, f, ensure_ascii=False)
         logger.info("Generated embeddings: %d docs x %d dim", len(embeddings), embeddings.shape[1])
 
-        # Also generate tag-only embeddings for focused semantic matching
+        # Also generate tag-only embeddings for focused semantic matching.
+        # Issue #6: slice the existing embeddings matrix instead of re-encoding.
+        # The tag docs are a strict subset of `docs`, so the tag vectors are
+        # already rows of `embeddings` — no second model.encode() pass needed.
         tag_docs = [(i, d) for i, d in enumerate(docs) if d["type"] == "tag"]
         if tag_docs:
             tag_indices, tag_entries = zip(*tag_docs)
-            tag_texts = [d["text"] for d in tag_entries]
-            tag_embeddings = model.encode(tag_texts, show_progress_bar=False)
+            tag_embeddings = embeddings[list(tag_indices)]
             np.save(str(DATA_DIR / "tag_vectors.npy"), tag_embeddings)
             tag_meta = [{"idx": i, "id": d["id"], "title": d["title"]} for i, d in tag_docs]
             with open(DATA_DIR / "tag_meta.json", "w") as f:
                 json.dump(tag_meta, f, ensure_ascii=False)
-            logger.info("Generated tag-only embeddings: %d tags x %d dim", len(tag_embeddings), tag_embeddings.shape[1])
+            logger.info("Generated tag-only embeddings: %d tags x %d dim (sliced from doc_embeddings, no re-encoding)",
+                        len(tag_embeddings), tag_embeddings.shape[1])
     except Exception as e:
         logger.warning("sentence-transformers embedding failed (skip): %s", e)
 

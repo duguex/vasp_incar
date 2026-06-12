@@ -25,6 +25,12 @@ _INDEX = load_data(DATA_DIR / "tag_index.json", default=[])
 _NON_TAG = load_data(DATA_DIR / "non_tag_index.json", default=[])
 _STATS = load_data(DATA_DIR / "tag_stats.json", default={})
 _FULLWIKI = load_data(DATA_DIR / "wiki_full.json", default={})
+# Cache these three at import time (issue #3): they were re-parsed on every
+# search_tags call, ~700 KB of JSON per request, even though the data is
+# immutable after `preprocess` runs.
+_CONFIGS = load_data(TAG_CONFIGS) or {}
+_STATS_FULL = load_data(TAG_STATS) or {}
+_COOCCUR = load_data(TAG_COOCCUR) or {}
 
 if not _INDEX:
     print("[ERROR] tag_index.json not found. Run: python -m vasp_query preprocess",
@@ -62,10 +68,9 @@ def search_tags(keyword: str, limit: int = 20) -> str:
     # T1: resolve_tag
     resolved = resolve_tag(keyword, _INDEX, non_tag=_NON_TAG)
     if isinstance(resolved, dict) and resolved.get("_match") in ("exact", "term_map"):
-        configs = load_data(TAG_CONFIGS)
-        stats = load_data(TAG_STATS)
-        cooccur = load_data(TAG_COOCCUR)
-        result = query_tag(resolved, configs=configs, stats=stats, cooccur=cooccur)
+        # Issue #3: use module-level cached constants instead of re-parsing
+        # TAG_CONFIGS / TAG_STATS / TAG_COOCCUR on every call.
+        result = query_tag(resolved, configs=_CONFIGS, stats=_STATS_FULL, cooccur=_COOCCUR)
         return json.dumps({"query": keyword, "count": 1, "results": [result]}, indent=2, ensure_ascii=False)
 
     if isinstance(resolved, dict) and resolved.get("_match") == "file":
