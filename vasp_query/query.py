@@ -117,40 +117,37 @@ def cmd_search(args) -> int:
             print(json.dumps(resolved, indent=2, ensure_ascii=False))
         return 0
 
-    # Tier 2: File page exact match (fallback, if resolve_tag missed it)
-    if non_tag:
-        for entry in non_tag:
-            if entry.get("is_file_page") and entry["title"].lower() == keyword:
-                if args.human:
-                    print(f"## File: {entry['title']}\n")
-                    print(entry.get("summary", "")[:500])
-                else:
-                    print(json.dumps(entry, indent=2, ensure_ascii=False))
-                return 0
+    # (Tier 2 removed — dead code. resolve_tag with non_tag=non_tag already handles
+    # file-page exact match and returns via T1b above. See issue #2.)
 
     # Tier 3: Hybrid search (BM25 + semantic)
     debug_log("Tier 3: hybrid_search")
-    if not args.type:
-        try:
-            hybrid_results = hybrid_search(keyword, top_k=args.limit)
-            if hybrid_results:
-                debug_log(f"  -> TIER 3: {len(hybrid_results)} results from hybrid search")
-                if args.human:
-                    print(f"## Search results for '{args.keyword}' ({len(hybrid_results)} found)\n")
-                    for item in hybrid_results:
-                        tag_name = item.get("tag") or item.get("title", "?")
-                        print(f"**`{tag_name}`** ({item.get('type', '?')}, score={item.get('score', 0)})")
-                        print()
-                else:
-                    result = {"query": args.keyword, "count": len(hybrid_results),
-                              "results": hybrid_results}
-                    if args.debug:
-                        result["_debug"] = get_debug_log()
-                    print(json.dumps(result, indent=2, ensure_ascii=False))
-                return 0
-            debug_log("  -> TIER 3: no results")
-        except Exception as e:
-            debug_log(f"  -> TIER 3: error {e}")
+    try:
+        hybrid_results = hybrid_search(keyword, top_k=args.limit)
+        # Apply --type filter AFTER hybrid produces results (issue #2: previously
+        # --type caused the entire tier to be skipped, switching algorithms).
+        if args.type:
+            before = len(hybrid_results)
+            hybrid_results = [r for r in hybrid_results if r.get("type") == args.type]
+            debug_log(f"  -> TIER 3: type filter '{args.type}' {before} -> {len(hybrid_results)}")
+        if hybrid_results:
+            debug_log(f"  -> TIER 3: {len(hybrid_results)} results from hybrid search")
+            if args.human:
+                print(f"## Search results for '{args.keyword}' ({len(hybrid_results)} found)\n")
+                for item in hybrid_results:
+                    tag_name = item.get("tag") or item.get("title", "?")
+                    print(f"**`{tag_name}`** ({item.get('type', '?')}, score={item.get('score', 0)})")
+                    print()
+            else:
+                result = {"query": args.keyword, "count": len(hybrid_results),
+                          "results": hybrid_results}
+                if args.debug:
+                    result["_debug"] = get_debug_log()
+                print(json.dumps(result, indent=2, ensure_ascii=False))
+            return 0
+        debug_log("  -> TIER 3: no results")
+    except Exception as e:
+        debug_log(f"  -> TIER 3: error {e}")
 
     # Tier 4: Legacy fallback search (for --type filter or if hybrid fails)
     debug_log("Tier 4: legacy fallback")
