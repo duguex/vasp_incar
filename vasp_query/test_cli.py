@@ -58,6 +58,7 @@ def test_search_hybrid():
 
 def test_search_type_filter_uses_hybrid():
     """Issue #2: --type must apply as a post-filter, not skip the hybrid tier."""
+    # "energy cutoff" hits T3 hybrid (no term_map match); without --type, hybrid runs.
     r1 = _cli("search", "energy cutoff", "--debug")
     assert r1.returncode == 0
     d1 = json.loads(r1.stdout)
@@ -66,6 +67,7 @@ def test_search_type_filter_uses_hybrid():
     assert any("TIER 3" in line for line in debug1), \
         f"expected TIER 3 in debug log, got: {debug1!r}"
 
+    # With --type=tag, hybrid should STILL run, then filter results.
     r2 = _cli("search", "energy cutoff", "--type", "tag", "--debug")
     assert r2.returncode == 0
     d2 = json.loads(r2.stdout)
@@ -73,12 +75,15 @@ def test_search_type_filter_uses_hybrid():
     debug2 = d2.get("_debug", [])
     assert any("TIER 3" in line for line in debug2), \
         f"expected TIER 3 in debug log with --type, got: {debug2!r}"
+    # All returned results must satisfy the type filter
     for item in d2.get("results", []):
         assert item.get("type") == "tag", f"type filter violated: {item!r}"
 
 
 def test_search_type_filter_post_applied():
     """--type=tag must apply AFTER hybrid ranking, not as an algorithm switch."""
+    # Compare hybrid output without filter and with filter; the filtered result
+    # should be a subset of the unfiltered one (preserving order).
     r_full = _cli("search", "energy cutoff", "-n", "20")
     r_tag = _cli("search", "energy cutoff", "-n", "20", "--type", "tag")
     if r_full.returncode == 0 and r_tag.returncode == 0:
@@ -86,6 +91,7 @@ def test_search_type_filter_post_applied():
         d_tag = json.loads(r_tag.stdout)
         tag_ids = {r["id"] for r in d_tag.get("results", [])}
         full_ids = {r["id"] for r in d_full.get("results", [])}
+        # Every tag-filtered id must appear in the unfiltered set
         assert tag_ids <= full_ids, f"filtered set not subset: {tag_ids - full_ids}"
 
 

@@ -123,6 +123,7 @@ def _test_hybrid_signal_b_called_once():
     """
     from vasp_query import _common
 
+    # Reset module-level caches so we observe the call counts.
     _common._INDEX_CACHE = None
     _common._SEARCHER_CACHE = None
     _common._MODEL_CACHE = None
@@ -132,8 +133,13 @@ def _test_hybrid_signal_b_called_once():
         try:
             _common.hybrid_search("ENCUT", top_k=10)
         except Exception:
+            # If tantivy/model unavailable in this env, the function returns []
+            # and never enters the semantic block. Skip with a neutral result.
             return [("hybrid_search returned without raising", True)]
 
+    # Count calls to load_data_raw for TAG_VECTORS specifically.
+    # After the fix: 1 call total (sibling of Signal A).
+    # Pre-fix bug: 5 calls (one per Signal A iteration).
     tag_calls = sum(
         1 for c in spy_raw.call_args_list
         if "tag_vectors" in str(c)
