@@ -67,6 +67,14 @@ TAG_VECTORS = DATA_DIR / "tag_vectors.npy"
 TAG_META = DATA_DIR / "tag_meta.json"
 DOC_VECTORS = DATA_DIR / "doc_vectors.npy"
 DOC_META = DATA_DIR / "doc_meta.json"
+# User-editable: domain abbreviations that resolve to canonical tag names.
+# Issue #5: was hardcoded as _TERM_MAP in this file; now data-driven so new
+# abbreviations can be added without a code change.
+ALIASES = DATA_DIR / "aliases.json"
+# Written by the preprocessor: list of wiki titles that failed parsing.
+# Lets generate_missing_tags auto-discover dropped tags instead of relying
+# on a hardcoded OVERRIDE set.
+SKIPPED_PAGES = DATA_DIR / "skipped_pages.json"
 
 # Raw inputs
 WIKI_RAW = RAW_DIR / "vasp_wiki_all_data.json"
@@ -215,9 +223,9 @@ def clear_debug_log() -> None:
     _DEBUG_LOG.clear()
 
 
-# Minimal domain abbreviation -> tag mapping (not a full alias table)
-# Fixes common short queries that BGE-small can't handle semantically
-_TERM_MAP = {
+# Built-in fallback for the alias map. Used when data/aliases.json is missing
+# or fails to load. User overrides in data/aliases.json take precedence.
+_BUILTIN_ALIASES: dict[str, str] = {
     "soc": "LSORBIT",
     "dft+u": "LDAU",
     "dft": "GGA",
@@ -232,6 +240,26 @@ _TERM_MAP = {
     "hubbard u": "LDAU",
     "molecular dynamics": "IBRION",
 }
+
+_ALIASES_CACHE: dict[str, str] | None = None
+
+
+def load_aliases() -> dict[str, str]:
+    """Load the user-editable alias map from data/aliases.json, merged on top
+    of the built-in fallback. Cached at module level.
+
+    Returns a dict mapping lowercase alias -> canonical tag name. Adding a
+    new alias is a data change, not a code change. The built-in map covers
+    the abbreviations that BGE-small can't bridge semantically.
+    """
+    global _ALIASES_CACHE
+    if _ALIASES_CACHE is not None:
+        return _ALIASES_CACHE
+    user = load_data(ALIASES) or {}
+    # User file takes precedence over built-in. Both are merged.
+    merged = {**_BUILTIN_ALIASES, **{k.lower().strip(): v for k, v in user.items()}}
+    _ALIASES_CACHE = merged
+    return merged
 
 
 def resolve_tag(input: str, index: list[dict], non_tag: list[dict] | None = None) -> dict | list[dict] | None:
@@ -248,10 +276,11 @@ def resolve_tag(input: str, index: list[dict], non_tag: list[dict] | None = None
             debug_log(f"  exact: {t['title']}")
             return {**t, "_match": "exact"}
 
-    # 2. Domain abbreviation map
+    # 2. Domain abbreviation map (data-driven: see load_aliases)
     key = input.lower().strip()
-    if key in _TERM_MAP:
-        target = _TERM_MAP[key].upper()
+    aliases = load_aliases()
+    if key in aliases:
+        target = aliases[key].upper()
         debug_log(f"  term_map: '{key}' -> '{target}'")
         for t in index:
             if t["title"] == target:
