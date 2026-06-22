@@ -95,6 +95,26 @@ def test_search_type_filter_post_applied():
         assert tag_ids <= full_ids, f"filtered set not subset: {tag_ids - full_ids}"
 
 
+def test_fts5_search_backend():
+    """SQLite FTS5 search db exists and returns results."""
+    from vasp_query._common import SEARCH_DB
+    import sqlite3
+    assert SEARCH_DB.exists(), f"FTS5 db not found at {SEARCH_DB}"
+    conn = sqlite3.connect(str(SEARCH_DB))
+    conn.row_factory = sqlite3.Row
+    row = conn.execute("SELECT COUNT(*) AS c FROM search_index").fetchone()
+    assert row["c"] > 0, f"FTS5 search_index empty: {row['c']}"
+    # FTS5 query works
+    results = conn.execute(
+        "SELECT id, title, rank FROM search_index WHERE search_index MATCH ? ORDER BY rank LIMIT 5",
+        ("encut",)
+    ).fetchall()
+    conn.close()
+    assert len(results) > 0, "FTS5 query returned no results"
+    assert any("ENCUT" in r["id"] for r in results), \
+        f"expected ENCUT in top results, got: {[dict(r) for r in results]}"
+
+
 def test_list_human():
     r = _cli("list", "-H")
     assert r.returncode == 0
