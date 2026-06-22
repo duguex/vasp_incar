@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "vasp-query": {
-      "command": "python3",
-      "args": ["./vasp_query/mcp_server.py"],
-      "cwd": "."
-    }
-  }
-}

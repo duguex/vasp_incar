@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vasp-query"
+version = "0.2.0"
+description = "VASP INCAR parameter knowledge base"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+semantic = ["sentence-transformers"]
+search = ["tantivy"]
+all = ["sentence-transformers", "tantivy"]
+
+[project.scripts]
+vasp-query = "vasp_query.query:main"
+
+[tool.setuptools.packages.find]
+include = ["vasp_query*"]
+
+[tool.setuptools.package-data]
+vasp_query = ["data/**/*"]

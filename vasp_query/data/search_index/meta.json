@@ -5,8 +5,8 @@
   },
   "segments": [
     {
-      "segment_id": "5c56d4b6-c320-433b-9744-dfc4390305af",
-      "max_doc": 1185,
+      "segment_id": "f46390f4-3701-4496-a82b-7a0707437506",
+      "max_doc": 1698,
       "deletes": null
     }
   ],
@@ -64,5 +64,5 @@
       }
     }
   ],
-  "opstamp": 1193
+  "opstamp": 1706
 }

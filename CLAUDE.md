@@ -6,15 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 The repo is organized into focused subdirectories:
 
-1. **`vasp_query/`** — agent-friendly Python package that exposes VASP INCAR tag knowledge (description, default, related tags, wiki content, frequency stats from real configurations) via a CLI and an MCP server. Target consumers are LLMs/agents that need authoritative VASP parameter info.
-2. **`legacy_scripts/`** — older `pymatgen`-based utilities for INCAR validation, reference generation, batch extraction, comparison, and tag-driven editing. These predate `vasp_query` and remain useful for ad‑hoc HPC workflows. See `legacy_scripts/README.md` for caveats.
-3. **`data/raw/`** — raw inputs to the preprocessor (`incar_data.json`, `vasp_wiki_all_data.json`).
-4. **`docs/`** — `MIGRATION.md` (Chinese setup walkthrough for a new machine), `QWEN.md` (context dump for handoff between agents).
-5. **`examples/`** — sample inputs (currently just `POSCAR`).
-6. **`vasp-mcp-systemd-services/`** — optional systemd --user unit that exposes the MCP server over HTTP on port 8932 for remote clients.
+1. **`skills/vasp-query/`** — Skill file (`SKILL.md`) registered as the primary agent interface.
+2. **`vasp_query/`** — Python package that exposes VASP INCAR tag knowledge (description, default, related tags, wiki content, frequency stats from real configurations) via a CLI. Target consumers are LLMs/agents that need authoritative VASP parameter info.
+3. **`legacy_scripts/`** — older `pymatgen`-based utilities for INCAR validation, reference generation, batch extraction, comparison, and tag-driven editing. These predate `vasp_query` and remain useful for ad‑hoc HPC workflows. See `legacy_scripts/README.md` for caveats.
+4. **`data/raw/`** — raw inputs to the preprocessor (`incar_data.json`, `vasp_wiki_all_data.json`).
+5. **`docs/`** — `MIGRATION.md` (Chinese setup walkthrough for a new machine), `QWEN.md` (context dump for handoff between agents).
+6. **`examples/`** — sample inputs (currently just `POSCAR`).
 7. **`rag/`** — separate LangChain/Chroma RAG prototype, dormant.
-8. **`.mcp.json`** — wires the `vasp-query` MCP server to Claude Code via stdio. Auto-loaded when Claude Code starts in this directory (also enabled in `.claude/settings.local.json`).
-
 ## `vasp_query` package
 
 ### Layout
@@ -27,8 +25,6 @@ vasp_query/
 ├── query.py            # argparse CLI; 12 subcommands
 ├── processor.py        # one-shot wiki/INCAR → structured JSON preprocessor
 ├── fetcher.py          # VASP wiki scraper (requests + BeautifulSoup)
-├── mcp_server.py       # FastMCP server (stdio or HTTP on :8932); clean import-safe design
-├── test_mcp.py         # self-contained smoke test for the 6 MCP tools
 ├── test_cli.py         # pytest suite for CLI subcommands (cooccur, -H, --type, --top-k, --debug)
 └── data/               # generated structured data (version envelope)
     ├── tag_index.json     # 676 INCAR tags (647 wiki + 29 auto-generated)
@@ -74,27 +70,7 @@ python3 -m vasp_query fetch --check      # check remote wiki for changes (~2s)
 python3 -m vasp_query preprocess         # rebuild data/*.json from raw inputs
 python3 -m vasp_query preprocess --check # detect stale data without running
 ```
-
 All output is JSON on stdout by default. Add `-H` / `--human` for Markdown, `--debug` for search to trace intermediate steps. Errors come back as `{"error": ..., "suggestion": ...}` (or `"matches": [...]` for ambiguous tags) with non-zero exit code.
-
-### MCP server
-
-Configured in `.mcp.json` at the repo root using **stdio** transport. The systemd unit in `vasp-mcp-systemd-services/` exposes the same server over **HTTP** on `0.0.0.0:8932` (`/mcp` path, `streamable-http` transport) for remote clients. Both can coexist; the HTTP one is for cross-machine access only.
-
-Tools exposed (6, all return JSON strings):
-
-| Tool              | Purpose                                                    |
-| ----------------- | ---------------------------------------------------------- |
-| `get_tag`         | Look up a tag by name (case-insensitive, fuzzy fallback)  |
-| `search_tags`     | Cross-search tags + non-tag wiki pages (file pages boosted)|
-| `get_tag_stats`   | Frequency + top values; omit name to list all              |
-| `list_tags`       | All known tag names                                        |
-| `get_related_tags`| Wiki-related tags for a given tag                          |
-| `get_fullwiki`    | Full cleaned content for tag or file-format page           |
-
-The server is now **import-safe**: `from vasp_query.mcp_server import get_tag` works. Tools are plain functions registered via `create_app()` factory.
-
-**MCP server search behavior:** `search_tags` uses the same tiered pipeline as CLI (T1 resolve_tag → T2 file page → T3 hybrid search → T4 legacy). Unlike CLI, the sentence-transformers model stays resident in the MCP process, so T3 hybrid search completes in ~30ms. Agent-style natural language queries benefit significantly from semantic search via this path.
 
 ### Regenerating structured data
 
@@ -117,7 +93,7 @@ Additional data generated:
 - `extract_tag_configs()` → `data/tag_configs.json` (INCAR config samples per tag)
 - `extract_tag_cooccur()` → `data/tag_cooccur.json` (co-occurrence matrix)
 - `generate_missing_tags()` → appends auto-generated entries for Wannier90 params etc.
-- `build_search_indexes()` → `data/search_index/` (tantivy BM25) + `data/doc_vectors.npy` (embeddings)
+- `build_search_indexes()` → `data/search_index/` (tantivy BM25) + `data/search.db` (SQLite FTS5) + `data/doc_vectors.npy` (embeddings)
 
 Each output file is wrapped in a version envelope: `{"_version": "...", "data": <actual content>}`.
 The version is checked on load by `_common.load_data()` — warnings are emitted if out of sync.
@@ -128,51 +104,43 @@ The parser heuristics are tightly coupled to VASP wiki markup conventions — se
 ### Tests
 
 ```bash
-python3 -m vasp_query.test_mcp               # 16 suites / 74 assertions — MCP tools
-python3 -m vasp_query.test_mcp --tool get_tag # single tool
-python3 -m vasp_query.test_mcp --quiet       # only failures + summary
 python3 -m vasp_query.test_cli               # 14 pytest tests — CLI subcommands
 ```
 
-Expects the `mcp_server` module to import successfully (i.e. `mcp` / `fastmcp` packages installed) and the data files to exist. Exits non-zero on any failure.
+Expects the data files to exist. Exits non-zero on any failure.
 
 ### Installation / setup
 
 ```bash
-pip install mcp fastmcp pydantic sentence-transformers tantivy   # non-stdlib dependencies
-pip install requests beautifulsoup4 tqdm                         # fetcher dependencies
-pip install tf-keras   # transformers compat workaround
-# Optional: HTTP service for remote clients
-(cd vasp-mcp-systemd-services && ./setup.sh)   # installs vasp-query.service to systemd --user
+pip install pydantic sentence-transformers               # core + semantic search
+pip install tantivy                                       # optional: BM25 search (SQLite FTS5 is built-in fallback)
+pip install requests beautifulsoup4 tqdm                  # fetcher dependencies
 ```
 
-`.mcp.json` already wires up stdio transport; Claude Code loads it automatically when started in this directory. The `MIGRATION.md` file is a Chinese-language walkthrough for setting this up on a new machine.
+The Skill file `skills/vasp-query/SKILL.md` is the primary agent interface. Register it via hermes:
 
-### Search architecture
+```bash
+mkdir -p ~/.hermes/skills/research/vasp-query
+ln -s ~/vasp_incar/skills/vasp-query/SKILL.md ~/.hermes/skills/research/vasp-query/SKILL.md
+```
 
+**`hybrid_search()`** (`_common.py`): SQLite FTS5 (primary, zero-dep) + semantic (sentence-transformers BGE-small, 384-dim) → Reciprocal Rank Fusion. Falls back to tantivy BM25 when SQLite unavailable.
 Two-stage context7-inspired pipeline:
-
-**Stage 1 - `resolve_tag()`** (`_common.py`): exact → fuzzy (difflib) → substring
-**Stage 2 - `query_tag()`** (`_common.py`): assembles wiki info + real INCAR configs + stats + co-occurrence
-
-**`hybrid_search()`** (`_common.py`): BM25 (tantivy) + semantic (sentence-transformers BGE-small, 384-dim) → Reciprocal Rank Fusion.
-
 **Tiered search (`search` command):**
 - **T1 — `resolve_tag`:** exact title match, file page exact match. Covers ~90% of human CLI queries. Latency: ~10ms.
 - **T2 — file page:** fallback for file formats like POSCAR, OUTCAR. Latency: ~2ms.
-- **T3 — `hybrid_search`:** BM25 (tantivy) + semantic (sentence-transformers BGE-small). Used for agent-style natural language queries and when T1/T2 miss. Latency: ~30ms in MCP server (model cached), ~15s in CLI (model loaded fresh per invocation).
+- **T3 — `hybrid_search`:** SQLite FTS5 (or tantivy BM25 fallback) + semantic (sentence-transformers BGE-small). Used for agent-style natural language queries and when T1/T2 miss. Latency: ~15s CLI (model loaded fresh per invocation).
 - **T4 — legacy keyword fallback:** original substring + heuristic scoring as safety net.
 
 Debug log: add `--debug` to `search` to trace the pipeline (which tier, alias match, BM25/semantic scores, RRF fusion).
-
-**CLI vs MCP server behavior:** the CLI reloads the sentence-transformers model on every invocation, so its T3 latency is dominated by model load (~15s); the MCP server keeps the model resident, so its T3 latency is ~30ms. The `search_tags` MCP tool uses the same tiered pipeline.
 
 Data files generated by `preprocess`:
 - `tag_index.json`, `non_tag_index.json`, `wiki_full.json`, `tag_stats.json`
 - `tag_configs.json` — INCAR config samples per tag (from 10,176 real configs)
 - `tag_cooccur.json` — precomputed co-occurrence matrix (207×207)
-- `search_index/` — tantivy BM25 index (1,183 docs)
-- `doc_vectors.npy` — sentence-transformers embeddings (1,183×384)
+- `search_index/` — tantivy BM25 index (1,698 docs)
+- `search.db` — SQLite FTS5 search index (1,698 docs, zero-dependency fallback)
+- `doc_vectors.npy` — sentence-transformers embeddings (1,698×384)
 - `doc_meta.json` — doc id mapping for vector index
 
 ## Legacy scripts (in `legacy_scripts/`)
@@ -199,14 +167,13 @@ These all hard-code `#!/home/duguex/.conda/envs/pydefect/bin/python` (or `dgkan_
 | **Data freshness** | `_version` match between code and preprocessed files | Stale data silently misleads users |
 | **Parse stability** | Wiki format changes break nothing on re-preprocess | VASP wiki markup is not guaranteed stable |
 | **Latency** | Time from query to response (current ~6 MB JSON loaded per call) | Above ~500 ms degrades CLI experience |
-| **Test coverage** | MCP smoke tests (74 checks) + CLI pytest (14 tests) | Low coverage makes regression easy |
+| **Test coverage** | CLI pytest (14 tests) | Low coverage makes regression easy |
 | **Error UX** | Every error must include actionable `suggestion` | `"not found"` without next step is useless to agents |
 
 ## Conventions & gotchas
 
-- The MCP server no longer parses CLI arguments at import time. Use `create_app()` factory for programmatic access, or `python3 vasp_query/mcp_server.py` for CLI invocation.
 - Tag lookups are case-insensitive on the title field but exact match is preferred. Partial matches return `{"hint": ..., "matches": [...]}` rather than guessing.
-- Search uses a hybrid approach: tantivy BM25 + sentence-transformers semantic embeddings → RRF fusion. See `hybrid_search()` in `_common.py`.
-- `vasp_query/data/*.json` files are generated, not hand-edited. After touching the parser, always re-run `preprocess` and re-run both test suites to catch regressions.
+- Search uses a hybrid approach: SQLite FTS5 (primary) or tantivy BM25 (fallback) + sentence-transformers semantic embeddings → RRF fusion. See `hybrid_search()` in `_common.py`.
+- `vasp_query/data/*.json` files are generated, not hand-edited. After touching the parser, always re-run `preprocess` and re-run the test suite to catch regressions.
 - `.gitignore` is minimal (`__pycache__/`, `*.pyc`); the large `*.json` data files (raw + preprocessed) are tracked. `data/raw/incar_data.json` is ~16 MB, `data/raw/vasp_wiki_all_data.json` ~5.9 MB, `rag/vasp_wiki_all_data.json` ~5.7 MB.
 - Set `USE_TF=0` before importing sentence-transformers if TensorFlow is not needed (transformers compat workaround).

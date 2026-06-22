@@ -528,8 +528,6 @@ def cmd_cooccur(args) -> int:
     return 0
 
 
-# ── CLI ──────────────────────────────────────────────────────────────
-
 
 def _add_human_arg(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("-H", "--human", action="store_true", dest="human",
@@ -601,6 +599,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_co.add_argument("tag_b", help="Second tag")
     _add_human_arg(p_co)
 
+
     return parser
 
 
@@ -611,7 +610,6 @@ def main() -> int:
     if not args.command:
         parser.print_help()
         return 0
-
     commands = {
         "tag": cmd_tag,
         "search": cmd_search,

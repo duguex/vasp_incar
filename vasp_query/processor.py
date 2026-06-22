@@ -506,6 +506,25 @@ def build_search_indexes() -> None:
     writer.commit()
     logger.info("Built tantivy index with %d docs at %s", len(docs), SEARCH_INDEX)
 
+
+    # Also build SQLite FTS5 search db (zero-dependency fallback when tantivy is unavailable)
+    import sqlite3
+    import shutil as _shutil
+    fts5_path = DATA_DIR / "search.db"
+    if fts5_path.exists():
+        fts5_path.unlink()
+    conn = sqlite3.connect(str(fts5_path))
+    conn.execute("CREATE VIRTUAL TABLE search_index USING fts5(id, title, text, type, tokenize='porter unicode61')")
+    with conn:
+        for d in docs:
+            conn.execute("INSERT INTO search_index(id, title, text, type) VALUES (?, ?, ?, ?)",
+                         (d["id"], d["title"], d["text"], d["type"]))
+    conn.execute("CREATE TABLE meta(key TEXT PRIMARY KEY, value TEXT)")
+    conn.execute("INSERT INTO meta(key, value) VALUES ('version', ?)", (DATA_VERSION,))
+    conn.execute("INSERT INTO meta(key, value) VALUES ('doc_count', ?)", (str(len(docs)),))
+    conn.commit()
+    conn.close()
+    logger.info("Built FTS5 search db with %d docs at %s", len(docs), fts5_path)
     try:
         import os as _os
         _os.environ["USE_TF"] = "0"

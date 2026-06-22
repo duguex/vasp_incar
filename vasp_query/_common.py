@@ -66,6 +66,7 @@ SEARCH_INDEX = DATA_DIR / "search_index"
 TAG_VECTORS = DATA_DIR / "tag_vectors.npy"
 TAG_META = DATA_DIR / "tag_meta.json"
 DOC_VECTORS = DATA_DIR / "doc_vectors.npy"
+SEARCH_DB = DATA_DIR / "search.db"
 DOC_META = DATA_DIR / "doc_meta.json"
 # User-editable: domain abbreviations that resolve to canonical tag names.
 # Issue #5: was hardcoded as _TERM_MAP in this file; now data-driven so new
@@ -346,8 +347,45 @@ _SEARCHER_CACHE = None
 _MODEL_CACHE = None
 
 
+def _search_fts5(keyword: str, top_k: int) -> list[dict]:
+    """Search via SQLite FTS5 backend. Returns empty list if unavailable."""
+    import sqlite3
+    try:
+        if not SEARCH_DB.exists():
+            debug_log("  FTS5 db not found")
+            return []
+        conn = sqlite3.connect(str(SEARCH_DB))
+        conn.row_factory = sqlite3.Row
+        fts_query = " OR ".join(f'"{w}"' if " " in w else w for w in keyword.split())
+        rows = conn.execute("""
+            SELECT id, title, type, rank
+            FROM search_index
+            WHERE search_index MATCH ?
+            ORDER BY rank
+            LIMIT ?
+        """, (fts_query, top_k * 3)).fetchall()
+        conn.close()
+        if not rows:
+            debug_log("  FTS5: no results")
+            return []
+        debug_log(f"  FTS5: {len(rows)} hits")
+        results = []
+        for rank, r in enumerate(rows):
+            doc_id = r["id"]
+            rrf = 1.0 / (60 + rank)
+            results.append({"id": doc_id, "rrf": rrf, "bm25_score": -r["rank"]})
+            debug_log(f"    FTS5 #{rank}: {doc_id} rrf={rrf:.4f}")
+        return results
+    except Exception as e:
+        debug_log(f"  FTS5 error: {e}")
+        return []
+
+
 def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
-    """Run BM25 + semantic search, return RRF-fused results."""
+    """Run BM25 + semantic search, return RRF-fused results.
+    
+    Backend priority: tantivy BM25 > SQLite FTS5 > semantic-only.
+    """
     global _INDEX_CACHE, _SEARCHER_CACHE, _MODEL_CACHE
 
     import numpy as np
@@ -355,18 +393,29 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
     clear_debug_log()
     debug_log(f"hybrid_search(keyword={keyword!r}, top_k={top_k})")
 
+    # Try SQLite FTS5 first (zero-dep), fall back to tantivy
+    fts5_results = None
     try:
-        if _SEARCHER_CACHE is None:
-            from tantivy import Index
-            _INDEX_CACHE = Index.open(str(SEARCH_INDEX))
-            _SEARCHER_CACHE = _INDEX_CACHE.searcher()
-        searcher = _SEARCHER_CACHE
-        index_obj = _INDEX_CACHE
-        debug_log(f"  tantivy index loaded")
+        import sqlite3 as _sq
+        if SEARCH_DB.exists():
+            fts5_results = _search_fts5(keyword, top_k)
+            debug_log(f"  FTS5: {'fallback' if fts5_results is None else 'ready'}")
     except Exception as e:
-        searcher = None
-        index_obj = None
-        debug_log(f"  tantivy unavailable: {e}")
+        debug_log(f"  FTS5 unavailable: {e}")
+
+    searcher = None
+    index_obj = None
+    if fts5_results is None:
+        try:
+            if _SEARCHER_CACHE is None:
+                from tantivy import Index
+                _INDEX_CACHE = Index.open(str(SEARCH_INDEX))
+                _SEARCHER_CACHE = _INDEX_CACHE.searcher()
+            searcher = _SEARCHER_CACHE
+            index_obj = _INDEX_CACHE
+            debug_log(f"  tantivy index loaded")
+        except Exception as e:
+            debug_log(f"  tantivy unavailable: {e}")
 
     vectors = load_data_raw(DOC_VECTORS) if DOC_VECTORS.exists() else None
     debug_log(f"  doc_vectors: {'loaded' if vectors is not None else 'not found'}")
@@ -374,7 +423,7 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
     meta = load_data(DOC_META) or []
     debug_log(f"  doc_meta: {len(meta)} entries")
 
-    if searcher is None and vectors is None:
+    if searcher is None and fts5_results is None and vectors is None:
         debug_log("  no search backend -> empty")
         return []
 
@@ -395,6 +444,10 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
                 debug_log(f"    BM25 #{rank}: {doc_id} bm25={bm25_score:.2f} rrf={rrf:.4f}")
         except Exception as e:
             debug_log(f"  BM25 error: {e}")
+    elif fts5_results:
+        for entry in fts5_results:
+            doc_id = entry["id"]
+            results[doc_id] = results.get(doc_id, 0) + entry["rrf"]
 
     if vectors is not None:
         try:
@@ -417,8 +470,6 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
                 debug_log(f"    FULL #{rank}: {doc_id} cos={scores[idx]:.4f} rrf={rrf:.4f}")
 
             # Signal B: tag-only semantic (boosted weight)
-            # Sibling of Signal A loop — runs once per query, not per Signal A iteration.
-            # (Fix for issue #1: previously mis-indented inside the Signal A for-loop.)
             tag_vectors = load_data_raw(TAG_VECTORS) if TAG_VECTORS.exists() else None
             tag_meta = load_data(TAG_META) or []
             if tag_vectors is not None and tag_meta:

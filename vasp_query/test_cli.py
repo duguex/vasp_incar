@@ -42,10 +42,10 @@ def test_search_type_filter():
 
 
 def test_search_human():
-    # POSCAR resolves as file page (T1b, via resolve_tag with non_tag)
+    # POSCAR resolves as tag (T1 exact match from tag_index)
     r = _cli("search", "POSCAR", "-H")
     assert r.returncode == 0
-    assert "## File: POSCAR" in r.stdout
+    assert "## Tag: POSCAR" in r.stdout
 
 
 def test_search_hybrid():
