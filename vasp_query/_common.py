@@ -297,7 +297,7 @@ def _search_fts5(keyword: str, top_k: int) -> list[dict]:
 
 def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
     """Run BM25 + semantic search, return RRF-fused results.
-    
+
     Backend priority: tantivy BM25 > SQLite FTS5 > semantic-only.
     """
     global _INDEX_CACHE, _SEARCHER_CACHE, _MODEL_CACHE
@@ -307,7 +307,9 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
     clear_debug_log()
     debug_log(f"hybrid_search(keyword={keyword!r}, top_k={top_k})")
 
-    # Try SQLite FTS5 first (zero-dep), fall back to tantivy
+    from dft_utils.search import rrf_merge
+
+    # ── Backend: FTS5 or tantivy BM25 ──────────────────────────────
     fts5_results = None
     try:
         import sqlite3 as _sq
@@ -327,13 +329,13 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
                 _SEARCHER_CACHE = _INDEX_CACHE.searcher()
             searcher = _SEARCHER_CACHE
             index_obj = _INDEX_CACHE
-            debug_log(f"  tantivy index loaded")
+            debug_log("  tantivy index loaded")
         except Exception as e:
             debug_log(f"  tantivy unavailable: {e}")
 
+    # ── Backend: semantic vectors ──────────────────────────────────
     vectors = load_data_raw(DOC_VECTORS) if DOC_VECTORS.exists() else None
     debug_log(f"  doc_vectors: {'loaded' if vectors is not None else 'not found'}")
-
     meta = load_data(DOC_META) or []
     debug_log(f"  doc_meta: {len(meta)} entries")
 
@@ -342,27 +344,28 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
         return []
 
     kw = keyword.lower()
-    results: dict[str, float] = {}
+    kw_id = lambda r: r["id"]
 
+    # ── Signal A: BM25 / FTS5 ──────────────────────────────────────
+    bm25_signal = []
     if searcher is not None and index_obj is not None:
         try:
             query = index_obj.parse_query(kw, ["text"])
             search_result = searcher.search(query, top_k * 3)
             bm25_hits = search_result.hits
             debug_log(f"  BM25: {len(bm25_hits)} hits from tantivy")
-            for rank, (bm25_score, doc_addr) in enumerate(bm25_hits[:5]):
+            for rank, (bm25_score, doc_addr) in enumerate(bm25_hits):
                 doc = searcher.doc(doc_addr)
-                doc_id = doc["id"][0]
-                rrf = 1.0 / (60 + rank)
-                results[doc_id] = results.get(doc_id, 0) + rrf
-                debug_log(f"    BM25 #{rank}: {doc_id} bm25={bm25_score:.2f} rrf={rrf:.4f}")
+                bm25_signal.append({"id": doc["id"][0], "bm25_score": bm25_score})
+            debug_log(f"    BM25: prepared {len(bm25_signal)} entries")
         except Exception as e:
             debug_log(f"  BM25 error: {e}")
     elif fts5_results:
         for entry in fts5_results:
-            doc_id = entry["id"]
-            results[doc_id] = results.get(doc_id, 0) + entry["rrf"]
+            bm25_signal.append({"id": entry["id"], "bm25_score": entry.get("bm25_score", 0)})
 
+    # ── Signal B: Full semantic ────────────────────────────────────
+    semantic_signal = []
     if vectors is not None:
         try:
             if _MODEL_CACHE is None:
@@ -373,45 +376,51 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
             model = _MODEL_CACHE
             query_vec = model.encode([kw], show_progress_bar=False)
 
-            # Signal A: full semantic (all docs)
             scores = np.dot(vectors, query_vec.T).flatten()
             top_idx = np.argsort(-scores)[:top_k * 3]
             debug_log(f"  Full semantic: top {len(top_idx)} from {len(scores)}")
-            for rank, idx in enumerate(top_idx[:5]):
-                doc_id = meta[idx]["id"]
-                rrf = 1.0 / (60 + rank)
-                results[doc_id] = results.get(doc_id, 0) + rrf
-                debug_log(f"    FULL #{rank}: {doc_id} cos={scores[idx]:.4f} rrf={rrf:.4f}")
-
-            # Signal B: tag-only semantic (boosted weight)
-            tag_vectors = load_data_raw(TAG_VECTORS) if TAG_VECTORS.exists() else None
-            tag_meta = load_data(TAG_META) or []
-            if tag_vectors is not None and tag_meta:
-                tag_scores = np.dot(tag_vectors, query_vec.T).flatten()
-                tag_top = np.argsort(-tag_scores)[:top_k * 2]
-                debug_log(f"  Tag-only semantic: top {len(tag_top)} from {len(tag_scores)}")
-                for rank, idx in enumerate(tag_top[:5]):
-                    entry = tag_meta[idx]
-                    doc_id = entry["id"]
-                    rrf = 1.5 / (60 + rank)
-                    results[doc_id] = results.get(doc_id, 0) + rrf
-                    debug_log(f"    TAG #{rank}: {doc_id} cos={tag_scores[idx]:.4f} rrf={rrf:.4f}")
+            for idx in top_idx:
+                semantic_signal.append({"id": meta[idx]["id"], "sim": float(scores[idx])})
         except Exception as e:
             debug_log(f"  Semantic error: {e}")
 
-    ranked = sorted(results.items(), key=lambda x: -x[1])[:top_k]
+        # ── Signal C: Tag-only semantic (boosted) ──────────────────
+        tag_signal = []
+        tag_vectors = load_data_raw(TAG_VECTORS) if TAG_VECTORS.exists() else None
+        tag_meta = load_data(TAG_META) or []
+        if tag_vectors is not None and tag_meta:
+            tag_scores = np.dot(tag_vectors, query_vec.T).flatten()
+            tag_top = np.argsort(-tag_scores)[:top_k * 2]
+            debug_log(f"  Tag-only semantic: top {len(tag_top)} from {len(tag_scores)}")
+            for idx in tag_top:
+                entry = tag_meta[idx]
+                tag_signal.append({"id": entry["id"], "sim": float(tag_scores[idx])})
+
+    # ── RRF fusion ─────────────────────────────────────────────────
+    signals = []
+    if bm25_signal:
+        signals.append((bm25_signal, "bm25", 1.0))
+    if semantic_signal:
+        signals.append((semantic_signal, "semantic", 1.0))
+    if tag_signal:
+        signals.append((tag_signal, "tag", 1.5))
+
+    fused = rrf_merge(signals, key_fn=kw_id, top_k=top_k)
+
+    # ── Enrich results with metadata ───────────────────────────────
     output = []
-    for doc_id, score in ranked:
+    for item in fused:
+        doc_id = item["id"]
         for m in meta:
             if m["id"] == doc_id:
-                item = {"id": doc_id, "score": round(score, 3)}
+                entry = {"id": doc_id, "score": item["score"]}
                 if doc_id.startswith("tag:"):
-                    item["type"] = "tag"
-                    item["tag"] = doc_id[4:]
+                    entry["type"] = "tag"
+                    entry["tag"] = doc_id[4:]
                 else:
-                    item["type"] = m.get("type", "page")
-                    item["title"] = m.get("title", doc_id)
-                output.append(item)
+                    entry["type"] = m.get("type", "page")
+                    entry["title"] = m.get("title", doc_id)
+                output.append(entry)
                 break
 
     debug_log(f"  -> {len(output)} final results")

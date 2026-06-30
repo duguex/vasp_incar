@@ -261,35 +261,15 @@ def cmd_hybrid(args, json_output=False):
     semantic_results = _search_semantic(query)
     debug_log(f"  Semantic: {len(semantic_results)} hits")
 
-    # Step 3: RRF fusion (copied from vasp_incar _common.py hybrid_search)
-    results: dict[str, dict] = {}
-    for rank, entry in enumerate(fts5_results):
-        key = f"{entry.get('sec_num', '')}:{entry['title']}"
-        rrf = 1.0 / (60 + rank)
-        results[key] = {
-            "sec_num": entry.get("sec_num"),
-            "title": entry["title"],
-            "score": rrf,
-            "source": "fts5",
-        }
-        debug_log(f"    FTS5 #{rank}: {entry['title']} rrf={rrf:.4f}")
-
-    for rank, entry in enumerate(semantic_results):
-        key = f"{entry.get('sec_num', '')}:{entry['title']}"
-        rrf = 1.0 / (60 + rank)
-        if key in results:
-            results[key]["score"] += rrf
-            results[key]["source"] = "hybrid"
-        else:
-            results[key] = {
-                "sec_num": entry.get("sec_num"),
-                "title": entry["title"],
-                "score": rrf,
-                "source": "semantic",
-            }
-        debug_log(f"    Semantic #{rank}: {entry['title']} sim={entry.get('sim', 0):.4f} rrf={rrf:.4f}")
-
-    ranked = sorted(results.values(), key=lambda x: -x["score"])[:20]
+    # Step 3: RRF fusion via shared dft_utils
+    from dft_utils.search import rrf_merge
+    kw_key = lambda r: f"{r.get('sec_num', '')}:{r['title']}"
+    signals = []
+    if fts5_results:
+        signals.append((fts5_results, "fts5", 1.0))
+    if semantic_results:
+        signals.append((semantic_results, "semantic", 1.0))
+    ranked = rrf_merge(signals, key_fn=kw_key, top_k=20)
 
     if not ranked:
         resp = {"results": [], "count": 0, "query": query}
