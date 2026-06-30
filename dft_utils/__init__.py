@@ -58,3 +58,5 @@ def die_json(msg: str, json_output: bool = False, code: int = 1):
 
 from dft_utils.version import load_data, check_version  # noqa: E402, F401
 from dft_utils.search import match_keyword, score_keyword, make_fts5_query, rrf_merge  # noqa: E402, F401
+
+from dft_utils.protocol import CodePlugin, register, get, list_all, discover  # noqa: E402, F401
