@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>46.1 NEGF overview &#8227; User&#8217;s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s46_negf.html" rel="up" title="46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="prev" title="46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s46_2_step1-leads.html" rel="next" title="46.2 Step 1: Calculation of the lead regions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(&#119873;) Methods &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of &#8216;lattice constant vs. energy&#8217; curves &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<meta content="Atoms.Number, Atoms.SpeciesAndCoordinates, Atoms.SpeciesAndCoordinates.Unit, Dos.fileout, LeftLeadAtoms.Number, LeftLeadAtoms.SpeciesAndCoordinates, NEGF.Channel.Nenergy, NEGF.Channel.Nkpoint, NEGF.Channel.Num, NEGF.Channel.energy, NEGF.Channel.kpoint, NEGF.Dos.Kgrid, NEGF.Dos.energy.div, NEGF.Dos.energyrange, NEGF.Num.Poles, NEGF.OffDiagonalCurrent, NEGF.Output.for.TranMain, NEGF.Poisson.Solver, NEGF.bias.neq.energy.step, NEGF.bias.neq.im.energy, NEGF.bias.voltage, NEGF.filename.hks, NEGF.filename.hks.l, NEGF.filename.hks.r, NEGF.gate.voltage, NEGF.output_hks, NEGF.scf.Iter.Band, NEGF.scf.Kgrid, NEGF.tran.Analysis, NEGF.tran.Channel, NEGF.tran.CurrentDensity, NEGF.tran.Kgrid, NEGF.tran.SCF.skip, NEGF.tran.energydiv, NEGF.tran.energyrange, NEGF.tran.interpolate, NEGF.tran.interpolate.coes, NEGF.tran.interpolate.file1, NEGF.tran.interpolate.file2, RightLeadAtoms.Number, RightLeadAtoms.SpeciesAndCoordinates, scf.EigenvalueSolver, scf.Kgrid, scf.criterion" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User&#8217;s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s46_negf.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s46_negf.html"><span class="openmx_nav_label">Previous:</span> 46 Electronic transport calculations by NEGF</a><a href="s46_2_step1-leads.html"><span class="openmx_nav_label">Next:</span> 46.2 Step 1: Calculation of the lead regions</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:electronic-transport-calculations-by-negf-overview">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">46.1 </span>NEGF overview</h1><div class="ltx_para" id="SS1.p1">
+<p class="ltx_p">Based on the non-equilibrium Green function method (NEGF),
+it is possible to calculate electron-transport properties of systems such as
+molecules, nanowires, and superlattice structures.
+The transport-calculation functionality supports both collinear and non-collinear calculations.
+In the NEGF method, a central region connected to two semi-infinite electrodes with different chemical potentials is treated,
+and electron transport in a non-equilibrium steady state is described.
+In the implementation of OpenMX Ver. 4.0, the electrodes and the central region can be treated within the same first-principles framework,
+and the electronic structure of the central region can be determined self-consistently even under a finite bias voltage <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib81" title="">81</a>]</cite>.
+Its features and capabilities are listed below.</p>
+<ul class="ltx_itemize" id="I1">
+<li class="ltx_item" id="I1.i1" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I1.i1.p1">
+<p class="ltx_p">SCF calculations for systems connected to two electrodes under zero and finite bias voltages</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i2" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I1.i2.p1">
+<p class="ltx_p">SCF calculations under a gate bias voltage</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i3" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I1.i3.p1">
+<p class="ltx_p">Can be combined with the DFT+<math alttext="U" class="ltx_Math" display="inline" id="I1.i3.p1.m1"><mi>U</mi></math> method</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i4" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I1.i4.p1">
+<p class="ltx_p">Spin-dependent transmission and current</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i5" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I1.i5.p1">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">k</span>-resolved transmission and current for directions perpendicular to the current</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i6" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I1.i6.p1">
+<p class="ltx_p">Calculation of current-voltage characteristics</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i7" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I1.i7.p1">
+<p class="ltx_p">Highly accurate and efficient contour integration</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i8" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I1.i8.p1">
+<p class="ltx_p">Interpolation of bias-voltage effects</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i9" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I1.i9.p1">
+<p class="ltx_p">Fast transmission calculations for periodic systems under zero bias voltage</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i10" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I1.i10.p1">
+<p class="ltx_p">Eigenchannel analysis <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib154" title="">154</a>]</cite></p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i11" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I1.i11.p1">
+<p class="ltx_p">Real-space current and spin current <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib152" title="">152</a>]</cite></p>
+</div>
+</li>
+</ul>
+</div><div class="ltx_para ltx_noindent" id="SS1.p2">
+<p class="ltx_p">For details of the implementation of each functionality, refer to Ref. <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib81" title="">81</a>]</cite>.
+We first explain how to use each function for the collinear case.
+After that, supplementary remarks are given for the non-collinear case.</p>
+</div><div class="ltx_para ltx_noindent" id="SS1.p3">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">System to be considered
+<br class="ltx_break"/></span></p>
+</div><div class="ltx_para ltx_noindent" id="SS1.p4">
+<p class="ltx_p">In the implementation of OpenMX Ver. 4.0, the system shown in Fig. <a class="ltx_ref" href="#fig:NEGF_system" title="Figure 44 &#8227; 46.1 NEGF overview &#8227; 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">44</span></a> (a) is treated by the NEGF method.
+This system consists of left and right semi-infinite electrode regions and the central part connecting them,
+and two-dimensional periodicity on the <span class="ltx_text ltx_font_bold">bc</span> plane is assumed.
+By taking this two-dimensional periodicity into account, the system can be transformed into a one-dimensional problem depending on the Bloch wave vector <math alttext="{\bf k}" class="ltx_Math" display="inline" id="SS1.p4.m1"><mi>&#119844;</mi></math>, as shown in Fig. <a class="ltx_ref" href="#fig:NEGF_system" title="Figure 44 &#8227; 46.1 NEGF overview &#8227; 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">44</span></a> (b).
+To take into account relaxation of the electronic structure near the interfaces between the central region <math alttext="C_{0}" class="ltx_Math" display="inline" id="SS1.p4.m2"><msub><mi>C</mi><mn>0</mn></msub></math> and the left and right regions <math alttext="L_{0}" class="ltx_Math" display="inline" id="SS1.p4.m3"><msub><mi>L</mi><mn>0</mn></msub></math> and <math alttext="R_{0}" class="ltx_Math" display="inline" id="SS1.p4.m4"><msub><mi>R</mi><mn>0</mn></msub></math>, the implementation of OpenMX Ver. 4.0
+self-consistently determines the Green function of the region <math alttext="C(\equiv L_{0}|C_{0}|R_{0})" class="ltx_Math" display="inline" id="SS1.p4.m5"><mrow><mi>C</mi><mspace style="width:0.3888888888888889em;" width="0.3888888888888889em"></mspace><mrow><mo stretchy="false">(</mo><mrow><mi></mi><mo>&#8801;</mo><mrow><msub><mi>L</mi><mn>0</mn></msub><mo>&#8290;</mo><mrow><mo stretchy="false">|</mo><msub><mi>C</mi><mn>0</mn></msub><mo stretchy="false">|</mo></mrow><mo>&#8290;</mo><msub><mi>R</mi><mn>0</mn></msub></mrow></mrow><mo stretchy="false">)</mo></mrow></mrow></math>.
+Note that, in the current implementation, it is assumed that the <span class="ltx_text ltx_font_bold">a</span> axis of the unit cell is the direction of electron transport.
+This specification must be respected when constructing the geometry of the calculation model.
+In this regard, also see Section <a class="ltx_ref" href="s46_2_step1-leads.html" title="46.2 Step 1: Calculation of the lead regions &#8227; 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">46.2</span></a>.</p>
+</div>
+
+<figure class="ltx_figure" id="fig:NEGF_system"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="245" id="F44.g1" src="x45.png" width="817"/>
+<br>  
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 44: </span><span class="ltx_text" style="font-size:90%;">Configuration of the system treated by the NEGF method.
+Semi-infinite electrodes are placed on the left and right along the <span class="ltx_text ltx_font_bold">a</span> axis,
+and a two-dimensional periodic boundary condition is assumed on the <span class="ltx_text ltx_font_bold">bc</span> plane.
+(b) A one-dimensionalized system obtained from the configuration shown in (a)
+by taking into account the periodicity on the <span class="ltx_text ltx_font_bold">bc</span> plane.
+The region <math alttext="C" class="ltx_Math" display="inline" id="F44.m5"><mi>C</mi></math> denotes the extended central region consisting of <math alttext="C_{0}" class="ltx_Math" display="inline" id="F44.m6"><msub><mi>C</mi><mn>0</mn></msub></math>, <math alttext="L_{0}" class="ltx_Math" display="inline" id="F44.m7"><msub><mi>L</mi><mn>0</mn></msub></math>, and <math alttext="R_{0}" class="ltx_Math" display="inline" id="F44.m8"><msub><mi>R</mi><mn>0</mn></msub></math>.
+</span></figcaption>
+</figure>
+<br>  
+
+
+<div class="ltx_para ltx_noindent" id="SS1.p5">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Flow of the calculation
+<br class="ltx_break"/></span></p>
+</div><div class="ltx_para ltx_noindent" id="SS1.p6">
+<p class="ltx_p">NEGF calculations are carried out in the following three stages.
+<br class="ltx_break"/>More specifically, (i) an SCF calculation for the electrodes, (ii) calculation of the equilibrium Green function for the extended central region,
+and, for finite bias, further (iii) evaluation of the non-equilibrium Green function and (iv) update and mixing of the electron density are performed,
+and after SCF convergence the transmission, current, current density, and eigenchannels are calculated.
+<br class="ltx_break"/></p>
+</div><div class="ltx_para" id="SS1.p7">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Step 1 <math alttext="\to" class="ltx_Math" display="inline" id="SS1.p7.m1"><mo stretchy="false">&#8594;</mo></math> Step 2 <math alttext="\to" class="ltx_Math" display="inline" id="SS1.p7.m2"><mo stretchy="false">&#8594;</mo></math> Step 3
+<br class="ltx_break"/></span></p>
+</div><div class="ltx_para ltx_noindent" id="SS1.p8">
+<p class="ltx_p">Each step is explained below.</p>
+</div><div class="ltx_para" id="SS1.p9">
+<ul class="ltx_itemize" id="I2">
+<li class="ltx_item" id="I2.i1" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I2.i1.p1">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Step 1</span></p>
+</div>
+<div class="ltx_para" id="I2.i1.p2">
+<p class="ltx_p">Perform band-structure calculations for the left and right electrode regions
+using the program code <code class="ltx_verbatim ltx_font_typewriter">code</code>.
+The obtained results are used for the electrode parts in the NEGF calculation of Step 2.</p>
+</div>
+</li>
+<li class="ltx_item" id="I2.i2" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I2.i2.p1">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Step 2</span></p>
+</div>
+<div class="ltx_para" id="I2.i2.p2">
+<p class="ltx_p">For the system shown in Fig. <a class="ltx_ref" href="#fig:NEGF_system" title="Figure 44 &#8227; 46.1 NEGF overview &#8227; 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">44</span></a>,
+perform an NEGF calculation under zero or finite bias voltage using the program code <code class="ltx_verbatim ltx_font_typewriter">code</code>.
+At this stage, the results calculated in Step 1 are used to construct the electrode parts.</p>
+</div>
+</li>
+<li class="ltx_item" id="I2.i3" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">&#8226;</span>
+<div class="ltx_para" id="I2.i3.p1">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Step 3</span></p>
+</div>
+<div class="ltx_para" id="I2.i3.p2">
+<p class="ltx_p">Using the results obtained in Step 2, calculate the transmission,
+current density, spin-current density, and eigenchannels using the program code <code class="ltx_verbatim ltx_font_typewriter">code</code>.</p>
+</div>
+</li>
+</ul>
+</div><div class="ltx_para ltx_noindent" id="SS1.p10">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Example: carbon chain
+<br class="ltx_break"/></span></p>
+</div><div class="ltx_para ltx_noindent" id="SS1.p11">
+<p class="ltx_p">As a first example, we consider a carbon chain and explain the above three steps.</p>
+</div><div class="ltx_para" id="SS1.p12">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Step 1</span></p>
+</div><div class="ltx_para" id="SS1.p13">
+<pre class="ltx_verbatim ltx_font_typewriter">
+      %./openmx Lead-Chain.dat | tee lead-chain.std
+</pre>
+<p class="ltx_p">The file <code class="ltx_verbatim ltx_font_typewriter">negf-chain.hks</code> is generated by the Step 1 calculation.
+<br class="ltx_break"/></p>
+</div><div class="ltx_para" id="SS1.p14">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Step 2</span></p>
+</div><div class="ltx_para" id="SS1.p15">
+<pre class="ltx_verbatim ltx_font_typewriter">
+      %./openmx NEGF-Chain.dat | tee negf-chain.std
+</pre>
+<p class="ltx_p">The file <code class="ltx_verbatim ltx_font_typewriter">negf-chain.tranb</code> is generated by the Step 2 calculation.
+<br class="ltx_break"/></p>
+</div><div class="ltx_para" id="SS1.p16">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Step 3</span></p>
+</div><div class="ltx_para" id="SS1.p17">
+<p class="ltx_p">After completing the Step 2 calculation, <code class="ltx_verbatim ltx_font_typewriter">openmx</code> automatically proceeds to the Step 3 calculation.
+If you want to perform the Step 2 and Step 3 calculations separately, run <code class="ltx_verbatim ltx_font_typewriter">openmx</code> as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    %./openmx NEGF-Chain.dat | tee negf-chain.std
+</pre>
+</div><div class="ltx_para ltx_noindent" id="SS1.p18">
+<p class="ltx_p">In Step 3, <code class="ltx_verbatim ltx_font_typewriter">openmx</code> reads <code class="ltx_verbatim ltx_font_typewriter">negf-chain.tranb</code> and calculates the transmission, current, and eigenchannels.
+After the calculation finishes, the following files are generated in Step 3.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+  negf-chain.conductance            negf-chain.tranec0_0_0_2_i.cube
+  negf-chain.current                negf-chain.tranec0_0_0_2_r.cube
+  negf-chain.curden1.cube           negf-chain.tranec0_0_0_3_i.cube
+  negf-chain.curden.xsf             negf-chain.tranec0_0_0_3_r.cube
+  negf-chain.curden_atom.xsf        negf-chain.tranec0_0_0_4_i.cube
+  negf-chain.tran0_0                negf-chain.tranec0_0_0_4_r.cube
+  negf-chain.tranec0_0_0_0_i.cube   negf-chain.traneval0_0_0
+  negf-chain.tranec0_0_0_0_r.cube   negf-chain.tranevec0_0_0
+  negf-chain.tranec0_0_0_1_i.cube
+  negf-chain.tranec0_0_0_1_r.cube
+</pre>
+</div><div class="ltx_para ltx_noindent" id="SS1.p19">
+<p class="ltx_p">This calculation can be reproduced using the input files in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.
+By plotting the sixth column of <code class="ltx_verbatim ltx_font_typewriter">negf-chain.tran0_0</code> obtained in the Step 3 calculation
+as a function of the fourth column,
+the transmission curve shown in Fig. <a class="ltx_ref" href="#fig:NEGF-C-Tran" title="Figure 45 &#8227; 46.1 NEGF overview &#8227; 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">45</span></a> is obtained.</p>
+</div><figure class="ltx_figure" id="fig:NEGF-C-Tran"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="393" id="F45.g1" src="x46.png" width="545"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 45: </span><span class="ltx_text" style="font-size:90%;">Energy dependence of the transmission for a carbon chain.
+The zero of energy is set to the chemical potential of the left electrode.
+</span></figcaption>
+</figure></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s46_negf.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s46_negf.html"><span class="openmx_footer_label">Previous:</span> 46 Electronic transport calculations by NEGF</a><a href="s46_2_step1-leads.html"><span class="openmx_footer_label">Next:</span> 46.2 Step 1: Calculation of the lead regions</a></div></div></footer>
+</div>
+</body>
+</html>

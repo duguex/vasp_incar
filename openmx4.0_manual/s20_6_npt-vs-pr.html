@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>20.6 NPT molecular dynamics by the velocity-scaling method and the Parrinello-Rahman method (NPT_VS_PR) ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s20_md.html" rel="up" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_5_constraint-md.html" rel="prev" title="20.5 Constrained molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_7_npt-vs-wv.html" rel="next" title="20.7 NPT molecular dynamics by the velocity-scaling method and the Wentzcovitch method (NPT_VS_WV) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+<meta content="Atoms.SpeciesAndCoordinates, Atoms.UnitVectors, Definition.of.Atomic.Species, MD.AtomGroup, MD.CellPressureControl, MD.Fixed.XYZ, MD.Init.Velocity, MD.TempControl, MD.TempTolerance, MD.Type, MD.applied.pressure.flag, MD.num.AtomGroup, NPT.LatticeRestriction, NPT.Mass.Barostat, System.Name" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s20_md.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s20_5_constraint-md.html"><span class="openmx_nav_label">Previous:</span> 20.5 Constrained molecular dynamics</a><a href="s20_7_npt-vs-wv.html"><span class="openmx_nav_label">Next:</span> 20.7 NPT molecular dynamics by the velocity-scaling method and the Wentzcovitch method (NPT_VS_WV)</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:npt-molecular-dynamics-by-the-velocity-scaling-method-and-the-parrinello-rahman-method-npt-vs-pr">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">20.6 </span>NPT molecular dynamics by the velocity-scaling method and the Parrinello-Rahman method (NPT_VS_PR)</h1><div class="ltx_para" id="SS6.p1">
+<p class="ltx_p">On the basis of the velocity-scaling method <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib31" title="">31</a>]</cite> and the Parrinello-Rahman method <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib33" title="">33</a>]</cite>,
+constant-temperature and constant-pressure molecular dynamics simulations can be performed.
+In NPT molecular dynamics, in addition to the forces acting on atoms,
+the cell degrees of freedom are also evolved in time using the stress tensor calculated from the total energy.
+In an NPT-ensemble molecular dynamics simulation, the fractional coordinates <math alttext="{\bf a}" class="ltx_Math" display="inline" id="SS6.p1.m1"><mi>𝐚</mi></math> of the atoms
+are updated according to the following equation of motion.</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx27">
+<tbody id="E25"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle({\bf\ddot{a}})_{i}=-\sum_{\alpha}\left(K^{T}\right)_{i}^{\alpha}%
+\frac{1}{m_{\bf a}}\frac{\partial E}{\partial({\bf r})_{\alpha}}-\sum_{j}\left%
+(G^{-1}\dot{G}\right)_{ij}({\bf\dot{a}})_{j}," class="ltx_Math" display="inline" id="E25.m1"><mrow><mrow><msub><mrow><mo stretchy="false">(</mo><mover accent="true"><mi>𝐚</mi><mo>¨</mo></mover><mo stretchy="false">)</mo></mrow><mi>i</mi></msub><mo>=</mo><mrow><mrow><mo>−</mo><mrow><mstyle displaystyle="true"><munder><mo movablelimits="false">∑</mo><mi>α</mi></munder></mstyle><mrow><msubsup><mrow><mo>(</mo><msup><mi>K</mi><mi>T</mi></msup><mo>)</mo></mrow><mi>i</mi><mi>α</mi></msubsup><mo>⁢</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><msub><mi>m</mi><mi>𝐚</mi></msub></mfrac></mstyle><mo>⁢</mo><mstyle displaystyle="true"><mfrac><mrow><mo rspace="0em">∂</mo><mi>E</mi></mrow><mrow><mo rspace="0em">∂</mo><msub><mrow><mo stretchy="false">(</mo><mi>𝐫</mi><mo stretchy="false">)</mo></mrow><mi>α</mi></msub></mrow></mfrac></mstyle></mrow></mrow></mrow><mo>−</mo><mrow><mstyle displaystyle="true"><munder><mo movablelimits="false">∑</mo><mi>j</mi></munder></mstyle><mrow><msub><mrow><mo>(</mo><mrow><msup><mi>G</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>⁢</mo><mover accent="true"><mi>G</mi><mo>˙</mo></mover></mrow><mo>)</mo></mrow><mrow><mi>i</mi><mo>⁢</mo><mi>j</mi></mrow></msub><mo>⁢</mo><msub><mrow><mo stretchy="false">(</mo><mover accent="true"><mi>𝐚</mi><mo>˙</mo></mover><mo stretchy="false">)</mo></mrow><mi>j</mi></msub></mrow></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(25)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Here, <math alttext="i=\{a,b,c\}" class="ltx_Math" display="inline" id="SS6.p1.m2"><mrow><mi>i</mi><mo>=</mo><mrow><mo stretchy="false">{</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo>,</mo><mi>c</mi><mo stretchy="false">}</mo></mrow></mrow></math> and <math alttext="\alpha=\{x,y,z\}" class="ltx_Math" display="inline" id="SS6.p1.m3"><mrow><mi>α</mi><mo>=</mo><mrow><mo stretchy="false">{</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>z</mi><mo stretchy="false">}</mo></mrow></mrow></math>,
+and <math alttext="K\equiv\left({\bf K}_{a},{\bf K}_{b},{\bf K}_{c}\right)" class="ltx_Math" display="inline" id="SS6.p1.m4"><mrow><mi>K</mi><mo>≡</mo><mrow><mo>(</mo><msub><mi>𝐊</mi><mi>a</mi></msub><mo>,</mo><msub><mi>𝐊</mi><mi>b</mi></msub><mo>,</mo><msub><mi>𝐊</mi><mi>c</mi></msub><mo>)</mo></mrow></mrow></math> consists of the reciprocal lattice vectors
+<math alttext="{\bf K}_{a},{\bf K}_{b},{\bf K}_{c}" class="ltx_Math" display="inline" id="SS6.p1.m5"><mrow><msub><mi>𝐊</mi><mi>a</mi></msub><mo>,</mo><msub><mi>𝐊</mi><mi>b</mi></msub><mo>,</mo><msub><mi>𝐊</mi><mi>c</mi></msub></mrow></math>.
+In addition, <math alttext="G=L^{T}L" class="ltx_Math" display="inline" id="SS6.p1.m6"><mrow><mi>G</mi><mo>=</mo><mrow><msup><mi>L</mi><mi>T</mi></msup><mo>⁢</mo><mi>L</mi></mrow></mrow></math>, and <math alttext="L\equiv\left({\bf L}_{a},{\bf L}_{b},{\bf L}_{c}\right)" class="ltx_Math" display="inline" id="SS6.p1.m7"><mrow><mi>L</mi><mo>≡</mo><mrow><mo>(</mo><msub><mi>𝐋</mi><mi>a</mi></msub><mo>,</mo><msub><mi>𝐋</mi><mi>b</mi></msub><mo>,</mo><msub><mi>𝐋</mi><mi>c</mi></msub><mo>)</mo></mrow></mrow></math> consists of the
+lattice vectors <math alttext="{\bf L}_{a},{\bf L}_{b},{\bf L}_{c}" class="ltx_Math" display="inline" id="SS6.p1.m8"><mrow><msub><mi>𝐋</mi><mi>a</mi></msub><mo>,</mo><msub><mi>𝐋</mi><mi>b</mi></msub><mo>,</mo><msub><mi>𝐋</mi><mi>c</mi></msub></mrow></math>.
+The lattice vectors are updated according to the following equation of motion.</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx28">
+<tbody id="E26"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle(\ddot{L})_{i}^{\alpha}=\frac{1}{W}\sum_{\beta}\left[\frac{1}{%
+\Omega}\sum_{jk}(L)_{j}^{\alpha}\left[\sum_{{\bf a}}m_{{\bf a}}\left({\bf\dot{%
+a}}\right)_{j}\left({\bf\dot{a}}\right)_{k}\right](L^{T})_{k}^{\beta}+\left(%
+\sigma_{\rm static}\right)^{\alpha\beta}-P_{\rm ext}({\bf I})^{\alpha\beta}%
+\right]{\bf\Sigma}_{i}^{\beta}," class="ltx_Math" display="inline" id="E26.m1"><mrow><mrow><msubsup><mrow><mo stretchy="false">(</mo><mover accent="true"><mi>L</mi><mo>¨</mo></mover><mo stretchy="false">)</mo></mrow><mi>i</mi><mi>α</mi></msubsup><mo>=</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mi>W</mi></mfrac></mstyle><mo>⁢</mo><mrow><mstyle displaystyle="true"><munder><mo movablelimits="false">∑</mo><mi>β</mi></munder></mstyle><mrow><mrow><mo>[</mo><mrow><mrow><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mi mathvariant="normal">Ω</mi></mfrac></mstyle><mo>⁢</mo><mrow><mstyle displaystyle="true"><munder><mo movablelimits="false">∑</mo><mrow><mi>j</mi><mo>⁢</mo><mi>k</mi></mrow></munder></mstyle><mrow><msubsup><mrow><mo stretchy="false">(</mo><mi>L</mi><mo stretchy="false">)</mo></mrow><mi>j</mi><mi>α</mi></msubsup><mo>⁢</mo><mrow><mo>[</mo><mrow><mstyle displaystyle="true"><munder><mo movablelimits="false">∑</mo><mi>𝐚</mi></munder></mstyle><mrow><msub><mi>m</mi><mi>𝐚</mi></msub><mo>⁢</mo><msub><mrow><mo>(</mo><mover accent="true"><mi>𝐚</mi><mo>˙</mo></mover><mo>)</mo></mrow><mi>j</mi></msub><mo>⁢</mo><msub><mrow><mo>(</mo><mover accent="true"><mi>𝐚</mi><mo>˙</mo></mover><mo>)</mo></mrow><mi>k</mi></msub></mrow></mrow><mo>]</mo></mrow><mo>⁢</mo><msubsup><mrow><mo stretchy="false">(</mo><msup><mi>L</mi><mi>T</mi></msup><mo stretchy="false">)</mo></mrow><mi>k</mi><mi>β</mi></msubsup></mrow></mrow></mrow><mo>+</mo><msup><mrow><mo>(</mo><msub><mi>σ</mi><mi>static</mi></msub><mo>)</mo></mrow><mrow><mi>α</mi><mo>⁢</mo><mi>β</mi></mrow></msup></mrow><mo>−</mo><mrow><msub><mi>P</mi><mi>ext</mi></msub><mo>⁢</mo><msup><mrow><mo stretchy="false">(</mo><mi>𝐈</mi><mo stretchy="false">)</mo></mrow><mrow><mi>α</mi><mo>⁢</mo><mi>β</mi></mrow></msup></mrow></mrow><mo>]</mo></mrow><mo>⁢</mo><msubsup><mi>𝚺</mi><mi>i</mi><mi>β</mi></msubsup></mrow></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(26)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Here, <math alttext="\Omega\equiv{\bf L}_{a}\cdot\left({\bf L}_{b}\times{\bf L}_{c}\right)" class="ltx_Math" display="inline" id="SS6.p1.m9"><mrow><mi mathvariant="normal">Ω</mi><mo>≡</mo><mrow><msub><mi>𝐋</mi><mi>a</mi></msub><mo lspace="0.222em" rspace="0.222em">⋅</mo><mrow><mo>(</mo><mrow><msub><mi>𝐋</mi><mi>b</mi></msub><mo lspace="0.222em" rspace="0.222em">×</mo><msub><mi>𝐋</mi><mi>c</mi></msub></mrow><mo>)</mo></mrow></mrow></mrow></math>,
+<math alttext="{\bf\Sigma}=\left({\bf L}_{b}\times{\bf L}_{c},{\bf L}_{c}\times{\bf L}_{a},{%
+\bf L}_{a}\times{\bf L}_{b}\right)" class="ltx_Math" display="inline" id="SS6.p1.m10"><mrow><mi>𝚺</mi><mo>=</mo><mrow><mo>(</mo><mrow><msub><mi>𝐋</mi><mi>b</mi></msub><mo lspace="0.222em" rspace="0.222em">×</mo><msub><mi>𝐋</mi><mi>c</mi></msub></mrow><mo>,</mo><mrow><msub><mi>𝐋</mi><mi>c</mi></msub><mo lspace="0.222em" rspace="0.222em">×</mo><msub><mi>𝐋</mi><mi>a</mi></msub></mrow><mo>,</mo><mrow><msub><mi>𝐋</mi><mi>a</mi></msub><mo lspace="0.222em" rspace="0.222em">×</mo><msub><mi>𝐋</mi><mi>b</mi></msub></mrow><mo>)</mo></mrow></mrow></math>,
+<math alttext="\sigma_{\rm static}" class="ltx_Math" display="inline" id="SS6.p1.m11"><msub><mi>σ</mi><mi>static</mi></msub></math> is the static strain tensor, and <math alttext="W" class="ltx_Math" display="inline" id="SS6.p1.m12"><mi>W</mi></math> is the piston mass in the Parrinello-Rahman method.
+To perform an NPT molecular dynamics simulation, specify the following keyword.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+      MD.Type         NPT_VS_PR
+</pre>
+<p class="ltx_p">The value of the piston mass <math alttext="W" class="ltx_Math" display="inline" id="SS6.p1.m13"><mi>W</mi></math> can be specified by the following keyword.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+      NPT.Mass.Barostat   1.0
+</pre>
+<p class="ltx_p">In this specification, the unified atomic mass unit is used, in which the mass of the major isotope of carbon is taken as 12.0.
+If this keyword is not specified, the default value of the piston mass <math alttext="W" class="ltx_Math" display="inline" id="SS6.p1.m14"><mi>W</mi></math> is given by the following equation.</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx29">
+<tbody id="E27"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle W=\frac{3}{4\pi^{2}}\sum_{{\bf a}}m_{{\bf a}}." class="ltx_Math" display="inline" id="E27.m1"><mrow><mrow><mi>W</mi><mo>=</mo><mrow><mstyle displaystyle="true"><mfrac><mn>3</mn><mrow><mn>4</mn><mo>⁢</mo><msup><mi>π</mi><mn>2</mn></msup></mrow></mfrac></mstyle><mo>⁢</mo><mrow><mstyle displaystyle="true"><munder><mo movablelimits="false">∑</mo><mi>𝐚</mi></munder></mstyle><msub><mi>m</mi><mi>𝐚</mi></msub></mrow></mrow></mrow><mo lspace="0em">.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(27)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">The specified piston mass <math alttext="W" class="ltx_Math" display="inline" id="SS6.p1.m15"><mi>W</mi></math> can be confirmed by examining the standard output,
+where information such as the following is displayed.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+     A default NPT.Mass.Barostat is set to 17.007931865686 (atomic mass unit).
+</pre>
+<p class="ltx_p">As a starting point, please begin with this default value and adjust the piston mass <math alttext="W" class="ltx_Math" display="inline" id="SS6.p1.m16"><mi>W</mi></math> according to your purpose.
+Note that <math alttext="W" class="ltx_Math" display="inline" id="SS6.p1.m17"><mi>W</mi></math> is a quantity representing the fictitious inertia associated with the cell degrees of freedom.
+When <math alttext="W" class="ltx_Math" display="inline" id="SS6.p1.m18"><mi>W</mi></math> is made smaller, the cell responds more rapidly to the pressure difference,
+whereas when <math alttext="W" class="ltx_Math" display="inline" id="SS6.p1.m19"><mi>W</mi></math> is made larger, the response becomes slower.</p>
+</div><div class="ltx_para" id="SS6.p2">
+<p class="ltx_p">The temperature of nuclear motion can be controlled by </p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+      &lt;MD.TempControl
+         1
+         2000    10      1000.0  0.5            # step, interval, temp[K], alpha
+      MD.TempControl&gt;
+</pre>
+<p class="ltx_p">This keyword has exactly the same role as in NVT molecular dynamics by the velocity-scaling method (NVT_VS).
+Please refer to Subsection <a class="ltx_ref" href="s20_2_nvt-vs.html" title="20.2 NVT molecular dynamics by velocity scaling (NVT_VS) ‣ 20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">20.2</span></a>.
+The applied pressure can also be controlled by </p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+      &lt;MD.CellPressureControl
+        3
+        100   10.0
+        400   20.0
+       1000   40.0
+      MD.CellPressureControl&gt;
+</pre>
+<p class="ltx_p">The description must begin with <code class="ltx_verbatim ltx_font_typewriter">&lt;MD.CellPressureControl</code>,
+and must end with <code class="ltx_verbatim ltx_font_typewriter">MD.CellPressureControl&gt;</code>.
+The first number <code class="ltx_verbatim ltx_font_typewriter">3</code> indicates the number of lines that follow for controlling the applied pressure.
+In this case, three lines are specified.
+In each of the following lines, the first column represents the MD step,
+and the second column gives the applied pressure in units of GPa.
+The pressure within each interval is given by linear interpolation.
+Positive pressure corresponds to compression of the cell.
+Note also that constrained molecular dynamics is not compatible with the NPT method.</p>
+</div><div class="ltx_para" id="SS6.p3">
+<p class="ltx_p">In addition, the following two keywords can also be used to control an NPT molecular dynamics simulation.
+
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+      NPT.LatticeRestriction      none       # none, cubic, ortho, default=none
+      MD.TempTolerance            100        # Kelvin, default=100 K
+</pre>
+<p class="ltx_p">The keyword <code class="ltx_verbatim ltx_font_typewriter">NPT.LatticeRestriction</code> can be used to restrict the shape of the unit cell.
+Only the three options “none”, “cubic”, and “ortho” are available.
+The default is “none”, in which case the unit-cell shape is not restricted.
+On the other hand, “cubic” and “ortho” restrict the unit-cell shape to cubic and orthorhombic, respectively.
+The keyword <code class="ltx_verbatim ltx_font_typewriter">MD.TempTolerance</code> controls the condition for applying velocity scaling.
+If the absolute difference between the calculated temperature and the given temperature is smaller than the Kelvin value specified by this keyword,
+velocity scaling is not applied.
+The default value is 100 (K).</p>
+</div><div class="ltx_para" id="SS6.p4">
+<p class="ltx_p">Furthermore, when the unit cell is orthorhombic, anisotropic pressure can also be applied by the following keyword.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   MD.applied.pressure.flag   1 1 1   # default=1 1 1
+</pre>
+<p class="ltx_p">The default setting is “1 1 1”, which means that isotropic pressure is applied equally along the <math alttext="{\bf a}" class="ltx_Math" display="inline" id="SS6.p4.m1"><mi>𝐚</mi></math>, <math alttext="{\bf b}" class="ltx_Math" display="inline" id="SS6.p4.m2"><mi>𝐛</mi></math>, and <math alttext="{\bf c}" class="ltx_Math" display="inline" id="SS6.p4.m3"><mi>𝐜</mi></math> axes.
+For example, if “1 0 0” is specified, the pressure is applied only along the <math alttext="{\bf a}" class="ltx_Math" display="inline" id="SS6.p4.m4"><mi>𝐚</mi></math>-axis direction, that is,
+in the direction perpendicular to the <math alttext="{\bf bc}" class="ltx_Math" display="inline" id="SS6.p4.m5"><mi>𝐛𝐜</mi></math> plane in an orthorhombic system.
+This function is effective for orthorhombic systems, in which case the unit vectors should be given as follows.
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    &lt;Atoms.UnitVectors
+     10.000   0.000   0.000
+      0.000   8.000   0.000
+      0.000   0.000  11.000
+    Atoms.UnitVectors&gt;
+</pre>
+<p class="ltx_p">In this way, the nonzero components should appear only as diagonal components.
+Even in systems other than orthorhombic ones, anisotropic pressure can be applied along the lattice-vector direction perpendicular to the plane spanned by the other two lattice vectors.
+One example is found in a hexagonal system, for which the keyword should be specified as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   MD.applied.pressure.flag   0 0 1   # default=1 1 1
+</pre>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    &lt;Atoms.UnitVectors
+      6.000   0.000   0.000
+     -3.000   5.196   0.000
+      0.000   0.000  10.000
+    Atoms.UnitVectors&gt;
+</pre>
+</div><div class="ltx_para" id="SS6.p5">
+<p class="ltx_p">As an example of the NPT_VS_PR method, Fig. <a class="ltx_ref" href="#fig:Si-NPT" title="Figure 14 ‣ 20.6 NPT molecular dynamics by the velocity-scaling method and the Parrinello-Rahman method (NPT_VS_PR) ‣ 20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">14</span></a> (a) shows the time evolution of the volume of a Si crystal under conditions of 10 GPa and 1000 K.
+This NPT simulation was carried out using the input file
+<code class="ltx_verbatim ltx_font_typewriter"><a href="work/Si_NPT_VS_PR.dat" rel="noopener noreferrer" target="_blank">Si_NPT_VS_PR.dat</a></code> stored in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.
+When the calculation is performed with this input file, the output file <code class="ltx_verbatim ltx_font_typewriter">Si_NPT_VS_PR.npt.ene</code> is obtained.
+The quantities stored in the output file <code class="ltx_verbatim ltx_font_typewriter">Si_NPT_VS_PR.npt.ene</code> are listed below.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+         1:    MD step
+         2:    MD time (fs)
+         3:    Volume (Bohr^3)
+         4:    Calculated temperature (K)
+         5:    Internal pressure = -1/3*Tr(stress tensor)/(volume of cell) (GPa)
+         6:    Utot (Hartree)
+         7:    Ukc (Hartree)
+         8:    Ubaro = kinetic energy of cell (Hartree)
+         9:    Wbaro = (given pressure)*(volume of cell) (Hartree)
+        10:    Utot + Ukc + Ubaro + Wbaro (Hartree)
+</pre>
+<p class="ltx_p">Here, the number in the first column indicates the column number in the output file.
+In Fig. <a class="ltx_ref" href="#fig:Si-NPT" title="Figure 14 ‣ 20.6 NPT molecular dynamics by the velocity-scaling method and the Parrinello-Rahman method (NPT_VS_PR) ‣ 20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">14</span></a> (a), the volume stored in the third column is plotted as a function of the MD time (fs) stored in the second column.
+Figures <a class="ltx_ref" href="#fig:Si-NPT" title="Figure 14 ‣ 20.6 NPT molecular dynamics by the velocity-scaling method and the Parrinello-Rahman method (NPT_VS_PR) ‣ 20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">14</span></a> (b) and (c) show the temperature (K) and pressure (GPa), respectively.
+Since 1000 K and 10 GPa are specified in the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/Si_NPT_VS_PR.dat" rel="noopener noreferrer" target="_blank">Si_NPT_VS_PR.dat</a></code>,
+it can be seen that the temperature and pressure calculated for the system oscillate around the specified values as expected.
+The molecular-dynamics trajectory is stored in the output file <code class="ltx_verbatim ltx_font_typewriter">Si_NPT_VS_PR.md</code>,
+and can be visualized directly using OpenMX Viewer <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib165" title="">165</a>, <a class="ltx_ref" href="bib.html#bib164" title="">164</a>]</cite>.
+Alternatively, the utility <code class="ltx_verbatim ltx_font_typewriter">md2axsf</code> can be used to convert the md file into an axsf file.
+See Subsection <a class="ltx_ref" href="s20_10_md2axsf.html" title="20.10 File-format conversion: md2axsf ‣ 20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">20.10</span></a> for details.</p>
+</div><figure class="ltx_figure" id="fig:Si-NPT"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_portrait" height="978" id="F14.g1" src="x15.png" width="763"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 14: </span>
+MD-time dependence of (a) volume, (b) temperature, and (c) pressure of bulk Si with a unit cell containing 8 Si atoms
+in NPT molecular dynamics simulations by the NPT_VS_PR and NPT_VS_WV methods.
+The input files used in the calculations are <span class="ltx_text ltx_font_typewriter"><a href="work/Si_NPT_VS_PR.dat" rel="noopener noreferrer" target="_blank">Si_NPT_VS_PR.dat</a></span> and
+<span class="ltx_text ltx_font_typewriter"><a href="work/Si_NPT_VS_WV.dat" rel="noopener noreferrer" target="_blank">Si_NPT_VS_WV.dat</a></span> in the directory <span class="ltx_text ltx_font_typewriter">work</span>.
+Note that a minimal basis set was used here for benchmarking purposes.
+</figcaption>
+</figure></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s20_md.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s20_5_constraint-md.html"><span class="openmx_footer_label">Previous:</span> 20.5 Constrained molecular dynamics</a><a href="s20_7_npt-vs-wv.html"><span class="openmx_footer_label">Next:</span> 20.7 NPT molecular dynamics by the velocity-scaling method and the Wentzcovitch method (NPT_VS_WV)</a></div></div></footer>
+</div>
+</body>
+</html>

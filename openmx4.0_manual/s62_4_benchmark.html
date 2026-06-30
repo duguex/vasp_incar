@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>62.4 Benchmark Calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s62_optical-diel.html" rel="up" title="62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s62_3_keywords.html" rel="prev" title="62.3 Related Keywords &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s62_5_code.html" rel="next" title="62.5 Code &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(&#119873;) Methods &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of &#8216;lattice constant vs. energy&#8217; curves &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<meta content="CDDF.FWHM, CDDF.Kgrid, CDDF.additional_maximum_energy, CDDF.frequency.grid.total_number, CDDF.maximum_energy, CDDF.shift_ChemP, CDDF.start" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User&#8217;s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s62_optical-diel.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s62_3_keywords.html"><span class="openmx_nav_label">Previous:</span> 62.3 Related Keywords</a><a href="s62_5_code.html"><span class="openmx_nav_label">Next:</span> 62.5 Code</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:benchmark-calculations">
+
+
+
+
+
+
+
+
+
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">62.4 </span>Benchmark Calculations</h1><div class="ltx_para" id="SS4.p1">
+<p class="ltx_p">Several benchmark calculations are shown below.</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p2">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold ltx_framed ltx_framed_underline">Si</span>
+<br class="ltx_break"/>
+The real part of the dielectric function of crystalline silicon is shown in Fig.&#160;<a class="ltx_ref" href="#fig:CDDF-Fig2" title="Figure 94 &#8227; 62.3 Related Keywords &#8227; 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">94</span></a>.
+To examine the dependence of the dielectric function on the number of k points, calculations were carried out systematically by changing the k-point mesh.
+As the number of k points is increased from <math alttext="10\times 10\times 10" class="ltx_Math" display="inline" id="SS4.p2.m1"><mrow><mn>10</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>10</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>10</mn></mrow></math> to <math alttext="100\times 100\times 100" class="ltx_Math" display="inline" id="SS4.p2.m2"><mrow><mn>100</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>100</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>100</mn></mrow></math>,
+the real part of the dielectric function converges.
+It is found that a fine k-point grid is required to obtain a sufficiently converged result.
+Tables&#160;<a class="ltx_ref" href="#table:CDDF-Table1" title="Table 16 &#8227; 62.4 Benchmark Calculations &#8227; 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">16</span></a> and <a class="ltx_ref" href="#table:CDDF-Table2" title="Table 17 &#8227; 62.4 Benchmark Calculations &#8227; 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">17</span></a> show the computational time and parallel efficiency for the optical conductivity and dielectric function of crystalline silicon.
+These results indicate that, if 1000 CPU cores are available, calculations for systems containing 1000 atoms are feasible.</p>
+</div>
+
+<figure class="ltx_figure" id="fig:CDDF-Fig2"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="579" id="F94.g1" src="x95.png" width="926"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 94: </span>
+Dielectric function of crystalline silicon (the smallest cell containing two atoms).
+Six different k-point meshes are used:
+<math alttext="10\times 10\times 10" class="ltx_Math" display="inline" id="F94.m7"><mrow><mn>10</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>10</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>10</mn></mrow></math>, <math alttext="20\times 20\times 20" class="ltx_Math" display="inline" id="F94.m8"><mrow><mn>20</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>20</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>20</mn></mrow></math>, <math alttext="30\times 30\times 30" class="ltx_Math" display="inline" id="F94.m9"><mrow><mn>30</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>30</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>30</mn></mrow></math>, <math alttext="50\times 50\times 50" class="ltx_Math" display="inline" id="F94.m10"><mrow><mn>50</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>50</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>50</mn></mrow></math>,
+<math alttext="75\times 75\times 75" class="ltx_Math" display="inline" id="F94.m11"><mrow><mn>75</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>75</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>75</mn></mrow></math>, and <math alttext="100\times 100\times 100" class="ltx_Math" display="inline" id="F94.m12"><mrow><mn>100</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>100</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>100</mn></mrow></math>.
+The blue and red lines represent the real and imaginary parts of the dielectric function, respectively. CDDF.FWHM=0.2 eV is used.
+</figcaption>
+</figure>
+
+  <br>
+
+
+
+<figure class="ltx_table" id="table:CDDF-Table1">
+<figcaption class="ltx_caption ltx_centering" style="font-size:100%;"><span class="ltx_tag ltx_tag_table">Table 16: </span>Computation times for the conductivity and dielectric function of crystalline silicon</figcaption>
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<thead class="ltx_thead">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:50%;"># of Si atoms</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:50%;">Supercell</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:50%;">Diagonalization</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:50%;">k-Grid</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:50%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:50%;">(CPUs=128)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:50%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:50%;">(CPUs=256)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:50%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:50%;">(CPUs=512)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:50%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:50%;">(CPUs=1024)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:50%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:50%;">(CPUs=2048)</span></td>
+</tr>
+</table>
+</th>
+</tr>
+</thead>
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:50%;">512 atoms</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:50%;">4x4x4</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:50%;">Cluster</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:50%;">1x1x1</span></th>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:50%;">3367.16826</span></td>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:50%;">1755.60797</span></td>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:50%;">919.21912</span></td>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:50%;">464.27761</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:50%;">253.32210</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_th ltx_th_row"></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">4x4x4</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">ScaLAPACK</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">2x1x1</span></th>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">6819.30193</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">3499.51872</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">1838.64406</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">948.87978</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:50%;">513.79250</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_th ltx_th_row"></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">4x4x4</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">Band</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">2x2x2</span></th>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">15300.58350</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">10217.17765</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">5953.19907</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">3518.84650</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:50%;">1747.20171</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">1000 atoms</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">5x5x5</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">Cluster</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">1x1x1</span></th>
+<td class="ltx_td"></td>
+<td class="ltx_td"></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">6900.35370</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">3511.85143</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:50%;">1778.33693</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_th ltx_th_row"></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">5x5x5</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">ScaLAPACK</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:50%;">2x1x1</span></th>
+<td class="ltx_td"></td>
+<td class="ltx_td"></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">12994.17818</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:50%;">6817.43990</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:50%;">3460.76787</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_th ltx_th_row ltx_border_b"></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b"><span class="ltx_text" style="font-size:50%;">5x5x5</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b"><span class="ltx_text" style="font-size:50%;">Band</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b"><span class="ltx_text" style="font-size:50%;">2x2x2</span></th>
+<td class="ltx_td ltx_border_b"></td>
+<td class="ltx_td ltx_border_b"></td>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:50%;">43676.20392</span></td>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:50%;">26055.12739</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:50%;">13318.14587</span></td>
+</tr>
+</tbody>
+</table>
+</figure>
+
+  <br>
+
+<figure class="ltx_table" id="table:CDDF-Table2">
+<figcaption class="ltx_caption ltx_centering" style="font-size:100%;"><span class="ltx_tag ltx_tag_table">Table 17: </span>Computation times for the conductivity and dielectric function of crystalline silicon (512 atoms, <math alttext="4\times 4\times 4" class="ltx_Math" display="inline" id="T17.m3"><mrow><mn>4</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>4</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>4</mn></mrow></math> supercell, <math alttext="1\times 1\times 1" class="ltx_Math" display="inline" id="T17.m4"><mrow><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn></mrow></math> k-point mesh).
+The speedup with respect to 128 CPUs is given in the last column.</figcaption>
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;"># of CPUs</span></th>
+<td class="ltx_td ltx_align_center ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time of calculating</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">conductivity and dielectric function (s)</span></td>
+</tr>
+</table>
+</td>
+<td class="ltx_td ltx_align_center ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Ratio of</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">total time by # of CPUs</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">to total time by 128 CPUs</span></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;">128</span></th>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">3367.16826</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">1.000</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:80%;">256</span></th>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">1755.60797</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:80%;">1.918</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:80%;">512</span></th>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">919.21912</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:80%;">3.663</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:80%;">1024</span></th>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">464.27761</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:80%;">7.252</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b"><span class="ltx_text" style="font-size:80%;">2048</span></th>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">253.32210</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">13.292</span></td>
+</tr>
+</tbody>
+</table>
+</figure>
+
+
+<div class="ltx_para ltx_noindent" id="SS4.p3">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold ltx_framed ltx_framed_underline"><math alttext="\beta" class="ltx_Math" display="inline" id="SS4.p3.m1"><mi>&#946;</mi></math>-PVDF</span>
+<br class="ltx_break"/>
+The real part of the dielectric function of <math alttext="\beta" class="ltx_Math" display="inline" id="SS4.p3.m2"><mi>&#946;</mi></math>-PVDF (polyvinylidene fluoride) is shown in Fig.&#160;<a class="ltx_ref" href="#fig:CDDF-Fig3A" title="Figure 96 &#8227; 62.4 Benchmark Calculations &#8227; 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">95</span></a>.
+To examine the dependence of the dielectric function on the number of k points, calculations were carried out systematically by changing the k-point mesh.
+It is found that a <math alttext="6\times 9\times 21" class="ltx_Math" display="inline" id="SS4.p3.m3"><mrow><mn>6</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>9</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>21</mn></mrow></math> k-point mesh is required to obtain a converged solution.
+Tables&#160;<a class="ltx_ref" href="#table:CDDF-Table3" title="Table 18 &#8227; 62.4 Benchmark Calculations &#8227; 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">18</span></a> and <a class="ltx_ref" href="#table:CDDF-Table4" title="Table 19 &#8227; 62.4 Benchmark Calculations &#8227; 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">19</span></a> show the computational time and parallel efficiency for the optical conductivity and dielectric function of <math alttext="\beta" class="ltx_Math" display="inline" id="SS4.p3.m4"><mi>&#946;</mi></math>-PVDF.
+The parallel efficiency is good, and it has been confirmed that the elapsed time is less than one hour when 256 CPU cores are used.
+For reference, Fig.&#160;<a class="ltx_ref" href="#fig:CDDF-Fig3B" title="Figure 96 &#8227; 62.4 Benchmark Calculations &#8227; 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">96</span></a> also shows the <math alttext="xx" class="ltx_Math" display="inline" id="SS4.p3.m5"><mrow><mi>x</mi><mo>&#8290;</mo><mi>x</mi></mrow></math>, <math alttext="yy" class="ltx_Math" display="inline" id="SS4.p3.m6"><mrow><mi>y</mi><mo>&#8290;</mo><mi>y</mi></mrow></math>, and <math alttext="zz" class="ltx_Math" display="inline" id="SS4.p3.m7"><mrow><mi>z</mi><mo>&#8290;</mo><mi>z</mi></mrow></math> components of the real part of the dielectric function of <math alttext="\beta" class="ltx_Math" display="inline" id="SS4.p3.m8"><mi>&#946;</mi></math>-PVDF.</p>
+<span id="idx-cddf-fwhm-s62_4_benchmark"></span></div>
+
+<figure class="ltx_figure" id="fig:CDDF-Fig3A">
+<div class="ltx_flex_figure">
+<div class="ltx_flex_cell ltx_flex_size_1"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_figure_panel ltx_img_landscape" height="519" id="F96.g1" src="x96.png" width="764"/></div>
+</div>
+<figcaption class="ltx_caption ltx_centering"><span class="ltx_tag ltx_tag_figure">Figure 95: </span>
+Real part of the dielectric function of <math alttext="\beta" class="ltx_Math" display="inline" id="F96.m3"><mi>&#946;</mi></math>-PVDF (polyvinylidene fluoride) for the <math alttext="1\times 1\times 1" class="ltx_Math" display="inline" id="F96.m4"><mrow><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn></mrow></math> cell (containing 6 atoms).
+The calculation is carried out by systematically changing the k-point mesh. CDDF.FWHM=0.2 eV is used.
+</figcaption><div class="ltx_flex_figure">
+</figure>
+
+
+
+<figure class="ltx_figure" id="fig:CDDF-Fig3B">
+<div class="ltx_flex_figure">
+<div class="ltx_flex_cell ltx_flex_size_1"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_figure_panel ltx_img_landscape" height="519" id="F96.g2" src="x97.png" width="763"/></div>
+</div>
+<figcaption class="ltx_caption ltx_centering"><span class="ltx_tag ltx_tag_figure">Figure 96: </span>
+<math alttext="xx" class="ltx_Math" display="inline" id="F96.m10"><mrow><mi>x</mi><mo>&#8290;</mo><mi>x</mi></mrow></math>, <math alttext="yy" class="ltx_Math" display="inline" id="F96.m11"><mrow><mi>y</mi><mo>&#8290;</mo><mi>y</mi></mrow></math>, and <math alttext="zz" class="ltx_Math" display="inline" id="F96.m12"><mrow><mi>z</mi><mo>&#8290;</mo><mi>z</mi></mrow></math> components of the real part of the dielectric function of <math alttext="\beta" class="ltx_Math" display="inline" id="F96.m13"><mi>&#946;</mi></math>-PVDF (polyvinylidene fluoride) (6 atoms, <math alttext="1\times 1\times 1" class="ltx_Math" display="inline" id="F96.m14"><mrow><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn></mrow></math> cell).
+</figcaption>
+</figure>
+
+<br>
+
+<figure class="ltx_table" id="table:CDDF-Table3">
+<figcaption class="ltx_caption ltx_centering" style="font-size:100%;"><span class="ltx_tag ltx_tag_table">Table 18: </span>Computation times for the optical conductivity and dielectric function of <math alttext="\beta" class="ltx_Math" display="inline" id="T18.m3"><mi>&#946;</mi></math>-PVDF (polyvinylidene fluoride),
+consisting of 540 atoms corresponding to a <math alttext="3\times 3\times 5" class="ltx_Math" display="inline" id="T18.m4"><mrow><mn>3</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>3</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>5</mn></mrow></math> supercell.</figcaption>
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<thead class="ltx_thead">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;">Diagonalization</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;">k-Grid</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">(CPUs=128)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">(CPUs=256)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">(CPUs=512)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">(CPUs=1024)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">(CPUs=2048)</span></td>
+</tr>
+</table>
+</th>
+</tr>
+</thead>
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;">Cluster</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;">1x1x1</span></th>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">4215.67238</span></td>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">2086.76841</span></td>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">1061.06835</span></td>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">565.92209</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">329.42010</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:80%;">ScaLAPACK</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:80%;">1x1x2</span></th>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">3330.66855</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">1711.98413</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">877.61705</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">599.73266</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:80%;">330.11080</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b"><span class="ltx_text" style="font-size:80%;">Band</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b"><span class="ltx_text" style="font-size:80%;">2x2x2</span></th>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">12854.63816</span></td>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">7244.26768</span></td>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">3591.33618</span></td>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">1866.03405</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">998.07756</span></td>
+</tr>
+</tbody>
+</table>
+</figure>
+
+<br>
+
+
+<figure class="ltx_table" id="table:CDDF-Table4">
+<figcaption class="ltx_caption ltx_centering"><span class="ltx_tag ltx_tag_table">Table 19: </span>Computation times for the conductivity and dielectric function of <math alttext="\beta" class="ltx_Math" display="inline" id="T19.m4"><mi>&#946;</mi></math>-PVDF (polyvinylidene fluoride),
+consisting of 540 atoms corresponding to a <math alttext="3\times 3\times 5" class="ltx_Math" display="inline" id="T19.m5"><mrow><mn>3</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>3</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>5</mn></mrow></math> supercell.
+A <math alttext="1\times 1\times 1" class="ltx_Math" display="inline" id="T19.m6"><mrow><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn></mrow></math> k-point mesh is used. The speedup relative to the result for 128 CPU cores is given in the last column.</figcaption>
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"># of CPUs</th>
+<td class="ltx_td ltx_align_center ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center">Total time of calculating</td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center">conductivity and dielectric function (s)</td>
+</tr>
+</table>
+</td>
+<td class="ltx_td ltx_align_center ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center">Ratio of</td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center">total time by # of CPUs</td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center">to total time by 128 CPUs</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t">128</th>
+<td class="ltx_td ltx_align_right ltx_border_t">4215.67238</td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_t">1.000</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row">256</th>
+<td class="ltx_td ltx_align_right">2086.76841</td>
+<td class="ltx_td ltx_nopad_r ltx_align_right">2.020</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row">512</th>
+<td class="ltx_td ltx_align_right">1061.06835</td>
+<td class="ltx_td ltx_nopad_r ltx_align_right">3.973</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row">1024</th>
+<td class="ltx_td ltx_align_right">565.92209</td>
+<td class="ltx_td ltx_nopad_r ltx_align_right">7.449</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b">2048</th>
+<td class="ltx_td ltx_align_right ltx_border_b">329.42010</td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_b">12.797</td>
+</tr>
+</tbody>
+</table>
+</figure>
+
+
+
+
+<div class="ltx_para ltx_noindent" id="SS4.p4">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold ltx_framed ltx_framed_underline">R-phase VO<sub class="ltx_sub"><span class="ltx_text ltx_font_medium">2</span></sub></span>
+<br class="ltx_break"/>
+The real part of the dielectric function of VO<sub class="ltx_sub">2</sub> (R phase) is shown in Fig.&#160;<a class="ltx_ref" href="#fig:CDDF-Fig5" title="Figure 97 &#8227; 62.4 Benchmark Calculations &#8227; 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">97</span></a>.
+To examine the dependence of the dielectric function on the number of k points, calculations were carried out systematically by changing the k-point mesh.
+It is found that a <math alttext="16\times 16\times 16" class="ltx_Math" display="inline" id="SS4.p4.m3"><mrow><mn>16</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>16</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>16</mn></mrow></math> k-point mesh is required to obtain a converged solution.
+Tables&#160;<a class="ltx_ref" href="#table:CDDF-Table5" title="Table 20 &#8227; 62.4 Benchmark Calculations &#8227; 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">20</span></a> and <a class="ltx_ref" href="#table:CDDF-Table6" title="Table 21 &#8227; 62.4 Benchmark Calculations &#8227; 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">21</span></a> show the computational time and parallel efficiency for the conductivity and dielectric function of VO<sub class="ltx_sub">2</sub> (R phase).
+The parallel efficiency is good, and large-scale calculations are achieved with an elapsed time of about one hour.</p>
+</div><figure class="ltx_figure" id="fig:CDDF-Fig5"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="317" id="F97.g1" src="x98.png" width="926"/>
+<figcaption class="ltx_caption ltx_centering"><span class="ltx_tag ltx_tag_figure">Figure 97: </span>
+Real and imaginary parts of the dielectric function of VO<sub class="ltx_sub">2</sub> (R phase) (6 atoms, <math alttext="1\times 1\times 1" class="ltx_Math" display="inline" id="F97.m4"><mrow><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn></mrow></math> unit cell).
+The calculation is carried out by systematically changing the k-point mesh.
+</figcaption>
+</figure>
+
+<br>
+
+<figure class="ltx_table" id="table:CDDF-Table5">
+<figcaption class="ltx_caption ltx_centering" style="font-size:100%;"><span class="ltx_tag ltx_tag_table">Table 20: </span>Computation times for the conductivity and dielectric function of R-phase VO<sub class="ltx_sub">2</sub> (R phase, 384 atoms, <math alttext="4\times 4\times 4" class="ltx_Math" display="inline" id="T20.m4"><mrow><mn>4</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>4</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>4</mn></mrow></math> supercell)</figcaption>
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<thead class="ltx_thead">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;">Diagonalization</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;">k-Grid</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">(CPUs=128)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">(CPUs=256)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">(CPUs=512)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">(CPUs=1024)</span></td>
+</tr>
+</table>
+</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time (s)</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">(CPUs=2048)</span></td>
+</tr>
+</table>
+</th>
+</tr>
+</thead>
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;">Cluster</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;">1x1x1</span></th>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">5328.56778</span></td>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">2719.77511</span></td>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">1382.56556</span></td>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">704.32679</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">360.64294</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:80%;">ScaLAPACK</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:80%;">1x1x2</span></th>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">5276.74287</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">2755.58509</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">1395.48266</span></td>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">718.42770</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:80%;">368.24621</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b"><span class="ltx_text" style="font-size:80%;">Band</span></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b"><span class="ltx_text" style="font-size:80%;">2x2x2</span></th>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">21031.96431</span></td>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">10686.37446</span></td>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">5586.12815</span></td>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">2781.05698</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">1431.91243</span></td>
+</tr>
+</tbody>
+</table>
+</figure>
+
+<br>
+
+<figure class="ltx_table" id="table:CDDF-Table6">
+<figcaption class="ltx_caption ltx_centering" style="font-size:100%;"><span class="ltx_tag ltx_tag_table">Table 21: </span>
+Computation times for the conductivity and dielectric function of R-phase VO<sub class="ltx_sub">2</sub> (R phase, 384 atoms, <math alttext="4\times 4\times 4" class="ltx_Math" display="inline" id="T21.m5"><mrow><mn>4</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>4</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>4</mn></mrow></math> supercell, <math alttext="1\times 1\times 1" class="ltx_Math" display="inline" id="T21.m6"><mrow><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn><mo lspace="0.222em" rspace="0.222em">&#215;</mo><mn>1</mn></mrow></math> k-point mesh).
+The speedup relative to the result for 128 CPU cores is given in the last column.</figcaption>
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;"># of CPUs</span></th>
+<td class="ltx_td ltx_align_center ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Total time of calculating</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">conductivity and dielectric function (s)</span></td>
+</tr>
+</table>
+</td>
+<td class="ltx_td ltx_align_center ltx_border_t">
+<table class="ltx_tabular ltx_align_middle">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">Ratio of</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">total time by # of CPUs</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_nopad_r ltx_align_center"><span class="ltx_text" style="font-size:80%;">to total time by 128 CPUs</span></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_t"><span class="ltx_text" style="font-size:80%;">128</span></th>
+<td class="ltx_td ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">5328.56778</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_t"><span class="ltx_text" style="font-size:80%;">1.000</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:80%;">256</span></th>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">2719.77511</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:80%;">1.959</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:80%;">512</span></th>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">1382.56556</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:80%;">3.854</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row"><span class="ltx_text" style="font-size:80%;">1024</span></th>
+<td class="ltx_td ltx_align_right"><span class="ltx_text" style="font-size:80%;">704.32679</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right"><span class="ltx_text" style="font-size:80%;">7.565</span></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b"><span class="ltx_text" style="font-size:80%;">2048</span></th>
+<td class="ltx_td ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">360.64294</span></td>
+<td class="ltx_td ltx_nopad_r ltx_align_right ltx_border_b"><span class="ltx_text" style="font-size:80%;">14.775</span></td>
+</tr>
+</tbody>
+</table>
+</figure></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s62_optical-diel.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s62_3_keywords.html"><span class="openmx_footer_label">Previous:</span> 62.3 Related Keywords</a><a href="s62_5_code.html"><span class="openmx_footer_label">Next:</span> 62.5 Code</a></div></div></footer>
+</div>
+</body>
+</html>

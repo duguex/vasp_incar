@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>22.1 Automatic k -path generation &#8227; User&#8217;s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s22_band.html" rel="up" title="22 Band structure &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="prev" title="22 Band structure &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="next" title="23 Density of states &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(&#119873;) Methods &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of &#8216;lattice constant vs. energy&#8217; curves &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<meta content="Atoms.UnitVectors, Band.KPath.UnitCell, Band.Nkpath, Band.dispersion, Band.kpath, scf.Kgrid" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User&#8217;s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s22_band.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s22_band.html"><span class="openmx_nav_label">Previous:</span> 22 Band structure</a><a href="s23_dos.html"><span class="openmx_nav_label">Next:</span> 23 Density of states</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:automatic-k-path-generation">
+
+
+
+
+
+
+
+
+
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">22.1 </span>Automatic <span class="ltx_text ltx_font_bold">k</span>-path generation</h1><div class="ltx_para" id="SS1.p1">
+<p class="ltx_p">In a standard band-structure calculation, the choice of which high-symmetry <span class="ltx_text ltx_font_bold">k</span> points should be connected and in what order strongly affects both the readability of the resulting plot and the ease of comparison with the literature.
+Performing this task manually every time is cumbersome, and depending on the choice of unit cell, the names of high-symmetry points and the path itself can easily be misunderstood.
+In OpenMX, one can readily prepare a standard and reproducible <span class="ltx_text ltx_font_bold">k</span>-path based on crystal symmetry by using the automatic generation function of OpenMX Viewer <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib165" title="">165</a>, <a class="ltx_ref" href="bib.html#bib164" title="">164</a>]</cite> or <code class="ltx_verbatim ltx_font_typewriter">cif2omx</code>.
+In particular, OpenMX Viewer is very useful as a starting point for ordinary band calculations, because the first Brillouin zone and the suggested path can be visualized simultaneously while checking the path.
+The idea of the suggested path is based on the standard proposal by Setyawan and Curtarolo
+<cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib167" title="">167</a>]</cite>.</p>
+</div><div class="ltx_para" id="SS1.p2">
+<p class="ltx_p">For the selection of a <span class="ltx_text ltx_font_bold">k</span>-path in an ordinary band-structure calculation, we recommend using the automatic generation function of OpenMX Viewer <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib165" title="">165</a>, <a class="ltx_ref" href="bib.html#bib164" title="">164</a>]</cite>.
+After loading a crystal structure, OpenMX Viewer can display the first Brillouin zone and superimpose the suggested <span class="ltx_text ltx_font_bold">k</span>-path inside it.
+Therefore, one can determine the path for the band-structure calculation while visually checking which high-symmetry points should be connected and in what order.
+This is particularly useful for face-centered, body-centered, base-centered, and rhombohedral lattices, where the names of high-symmetry points and the appearance of the path may depend on the choice of unit cell.
+Figure <a class="ltx_ref" href="#fig:BZ-kpath" title="Figure 17 &#8227; 22.1 Automatic k-path generation &#8227; 22 Band structure &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">17</span></a> shows examples of the first Brillouin zone and the suggested <span class="ltx_text ltx_font_bold">k</span>-path displayed by OpenMX Viewer.
+The red lines represent the suggested path, allowing one to grasp the positional relationships among the high-symmetry <span class="ltx_text ltx_font_bold">k</span> points intuitively.</p>
+</div><figure class="ltx_figure" id="fig:BZ-kpath"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_square" height="572" id="F17.g1" src="x18.png" width="654"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 17: </span><span class="ltx_text" style="font-size:90%;">Examples of the first Brillouin zone and the suggested <span class="ltx_text ltx_font_bold">k</span>-path displayed by OpenMX Viewer.
+(a) FCC, (b) BCC, (c) hexagonal, and (d) cubic systems.
+The red lines indicate the automatically generated suggested <span class="ltx_text ltx_font_bold">k</span>-path.
+</span></figcaption>
+</figure><div class="ltx_para" id="SS1.p3">
+<p class="ltx_p">OpenMX Viewer not only displays the suggested <span class="ltx_text ltx_font_bold">k</span>-path,
+but can also output the corresponding path information to a file.
+In addition, in the OpenMX input file generated by OpenMX Viewer,
+the keywords for band calculations containing the corresponding path information are automatically set.
+Therefore, it is no longer necessary to look up high-symmetry <span class="ltx_text ltx_font_bold">k</span> points manually and write <code class="ltx_verbatim ltx_font_typewriter">Band.kpath</code> from scratch,
+and the input required for an ordinary band-structure calculation can be prepared in a short time.
+In practice, it is useful first to obtain a standard path using the automatic generation function of OpenMX Viewer,
+and then, depending on the target system and comparison with the existing literature, to adjust the number of division points in each segment and the path itself as needed.
+Since the suggested path may also change depending on which unit cell is adopted,
+please finally check the contents of <code class="ltx_verbatim ltx_font_typewriter">Band.KPath.UnitCell</code> and <code class="ltx_verbatim ltx_font_typewriter">Band.kpath</code> to confirm that the path corresponds to the intended unit cell.<span id="idx-band-kpath-unitcell-s22_1_auto-k-path"></span><span id="idx-band-kpath-s22_1_auto-k-path"></span></p>
+</div><div class="ltx_para" id="SS1.p4">
+<p class="ltx_p">The tool <code class="ltx_verbatim ltx_font_typewriter">cif2omx</code> introduced in Sec.&#160;<a class="ltx_ref" href="s8_3_gen-dat-files.html" title="8.3 Generation of dat files from CIF files: cif2omx &#8227; 8 Input File &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">8.3</span></a> can also be used
+to automatically generate a <span class="ltx_text ltx_font_bold">k</span>-path when an OpenMX <code class="ltx_verbatim ltx_font_typewriter">dat</code> file is created from a CIF file.
+When the crystal structure is given as a CIF file, it is efficient first to generate an initial <code class="ltx_verbatim ltx_font_typewriter">dat</code> file with <code class="ltx_verbatim ltx_font_typewriter">cif2omx</code>
+and then to use the automatically generated <span class="ltx_text ltx_font_bold">k</span>-path as a starting point.
+This is particularly useful when one wants to prepare inputs for band-structure calculations for many crystal structures according to the same policy.
+On the other hand, the automatically generated path is a standard candidate based on crystal symmetry,
+and it is not always optimal as it stands for every research purpose.
+For example, if one wants to examine in detail how degeneracies are lifted,
+to sample densely around a specific crossing point or extremum,
+or to reproduce exactly the same path as in an existing paper,
+please modify the segments and the number of division points in <code class="ltx_verbatim ltx_font_typewriter">Band.kpath</code> as appropriate on the basis of the automatically generated path.
+Thus, the automatic generation functions provided by OpenMX Viewer and <code class="ltx_verbatim ltx_font_typewriter">cif2omx</code> are very useful because they quickly provide a reliable starting point for ordinary band-structure calculations,
+but it is important that the validity of the final path always be checked in light of the purpose of the calculation.</p>
+</div><div class="ltx_pagination ltx_role_newpage"></div></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s22_band.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s22_band.html"><span class="openmx_footer_label">Previous:</span> 22 Band structure</a><a href="s23_dos.html"><span class="openmx_footer_label">Next:</span> 23 Density of states</a></div></div></footer>
+</div>
+</body>
+</html>

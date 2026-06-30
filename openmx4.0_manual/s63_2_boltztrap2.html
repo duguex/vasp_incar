@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>63.2 Interface with BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s63_boltztrap.html" rel="up" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_1_boltztrap.html" rel="prev" title="63.1 Interface with BoltzTraP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="next" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s63_boltztrap.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s63_1_boltztrap.html"><span class="openmx_nav_label">Previous:</span> 63.1 Interface with BoltzTraP</a><a href="s64_lattice-energy.html"><span class="openmx_nav_label">Next:</span> 64 Calculations of &#8220;lattice constant vs. energy&#8221; curves</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:interface-with-boltztrap2">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">63.2 </span>Interface with BoltzTraP2</h1><div class="ltx_para" id="SS2.p1">
+<p class="ltx_p">OpenMX Ver. 4.0 provides an interface <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib112" title="">112</a>]</cite> to BoltzTraP2
+<cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib110" title="">110</a>, <a class="ltx_ref" href="bib.html#bib111" title="">111</a>]</cite>.
+BoltzTraP2 is a program for calculating electronic transport coefficients within the semiclassical Boltzmann transport theory based on the <math alttext="k" class="ltx_Math" display="inline" id="SS2.p1.m1"><mi>k</mi></math>-dependence of the energy eigenvalues of the Kohn-Sham equation.
+This functionality supports non-spin-polarized, collinear spin-polarized, and non-collinear calculations.
+When publishing results obtained using this functionality, we would appreciate it if you cite Ref. <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib112" title="">112</a>]</cite>.</p>
+</div><div class="ltx_para" id="SS2.p2">
+<p class="ltx_p">First, install BoltzTraP2.
+An example is shown below.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p3">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  % conda create --name boltztrap2 -c conda-forge
+  % conda activate boltztrap2
+  % conda install -c conda-forge boltztrap2
+  % pip install pyfftw
+  % pip install vtk
+  % conda info --envs
+</pre>
+<p class="ltx_p">Use the last command, <code class="ltx_verbatim ltx_font_typewriter">conda info --envs</code>, to identify the directory of the environment where BoltzTraP2 has been installed.
+In the following, this directory is denoted by <code class="ltx_verbatim ltx_font_typewriter">PATH_BTP2</code>.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p4">
+<p class="ltx_p">To allow BoltzTraP2 to read OpenMX output files directly, it is necessary to introduce an OpenMX loader.
+Copy <code class="ltx_verbatim ltx_font_typewriter">dft_forOpenMXloader.py</code> and <code class="ltx_verbatim ltx_font_typewriter">io_forOpenMXloader.py</code> to</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+  PATH_BTP2/lib/python3.11/site-packages/BoltzTraP2
+</pre>
+<p class="ltx_p">Here, the <code class="ltx_verbatim ltx_font_typewriter">python3.11</code> part may change depending on the Python version.
+Also, the python scripts can be found in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p5">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  % cp dft_forOpenMXloader.py io_forOpenMXloader.py \
+      PATH_BTP2/lib/python3.11/site-packages/BoltzTraP2
+  % cd PATH_BTP2/lib/python3.11/site-packages/BoltzTraP2
+</pre>
+<p class="ltx_p">Then, replace the existing <code class="ltx_verbatim ltx_font_typewriter">dft.py</code> and <code class="ltx_verbatim ltx_font_typewriter">io.py</code> included in BoltzTraP2.
+If you would like to keep the original files, for example, back them up and then replace them as follows.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p6">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  % cp dft.py dft.py.orig
+  % cp io.py  io.py.orig
+  % cp dft_forOpenMXloader.py dft.py
+  % cp io_forOpenMXloader.py  io.py
+</pre>
+<p class="ltx_p">In environments using NumPy 2.x, an error may occur due to <code class="ltx_verbatim ltx_font_typewriter">np.infty</code> in <code class="ltx_verbatim ltx_font_typewriter">io.py</code>.
+In that case, replace it with <code class="ltx_verbatim ltx_font_typewriter">np.inf</code> as follows.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p7">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  % sed -i ’s/np\.infty/np.inf/g’ io.py
+</pre>
+<p class="ltx_p">In this OpenMX loader, in order to avoid conflicts with other loaders, the input file extensions are <code class="ltx_verbatim ltx_font_typewriter">.MXenergy</code> and <code class="ltx_verbatim ltx_font_typewriter">.MXstructure</code> instead of <code class="ltx_verbatim ltx_font_typewriter">.energy</code> and <code class="ltx_verbatim ltx_font_typewriter">.structure</code>.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p8">
+<p class="ltx_p">As an example, let us consider undoped diamond-structure Si.
+For the calculation, the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/Si_BoltzTraP.dat" rel="noopener noreferrer" target="_blank">Si_BoltzTraP.dat</a></code> in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code> is used.
+First, perform the SCF calculation as usual.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+  % mpirun -np 28 ./openmx Si_BoltzTraP
+</pre>
+<p class="ltx_p">When the calculation finishes normally, the output file <code class="ltx_verbatim ltx_font_typewriter">Si_BoltzTraP.out</code> is obtained.
+Next, copy the conversion script <code class="ltx_verbatim ltx_font_typewriter">MX_TRAP2.sh</code> included in the <code class="ltx_verbatim ltx_font_typewriter">work</code> directory
+to the working directory, and execute it as follows.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p9">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  % bash MX_TRAP2.sh
+</pre>
+<p class="ltx_p">When executed, a list of <code class="ltx_verbatim ltx_font_typewriter">*.out</code> files in the current directory is displayed, and you are prompted to enter the name of the <code class="ltx_verbatim ltx_font_typewriter">out</code> file to be analyzed.
+In this example, enter</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p10">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  Please enter the outputfile name ; Outputfile name = Si_BoltzTraP.out
+</pre>
+<p class="ltx_p">as shown above.
+If the conversion is completed normally, a directory named <code class="ltx_verbatim ltx_font_typewriter">Si_BoltzTraP</code> is created, and at least the following three files are stored in it.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p11">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  Si_BoltzTraP.MXenergy
+  Si_BoltzTraP.MXstructure
+  Si_BoltzTraP.out
+</pre>
+<p class="ltx_p"><code class="ltx_verbatim ltx_font_typewriter">Si_BoltzTraP.out</code> is a backup of the original OpenMX output file.
+<code class="ltx_verbatim ltx_font_typewriter">Si_BoltzTraP.MXstructure</code> stores the lattice vectors of the unit cell and the atomic coordinates, while <code class="ltx_verbatim ltx_font_typewriter">Si_BoltzTraP.MXenergy</code> stores the eigenvalues on irreducible <math alttext="k" class="ltx_Math" display="inline" id="SS2.p11.m1"><mi>k</mi></math> points, the chemical potential, and other information required by BoltzTraP2.</p>
+</div><div class="ltx_para" id="SS2.p12">
+<p class="ltx_p">Next, perform the Fourier interpolation in the working directory.
+For example, if the Fourier interpolation factor is set to 25, execute the following command.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p13">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  % PATH_BTP2/bin/btp2 interpolate -m 25 Si_BoltzTraP
+</pre>
+<p class="ltx_p">Here, <code class="ltx_verbatim ltx_font_typewriter">-m</code> is the option for specifying the Fourier interpolation factor.
+In the above example, <code class="ltx_verbatim ltx_font_typewriter">-m 25</code> sets the interpolation factor to 25.
+If the calculation finishes normally, <code class="ltx_verbatim ltx_font_typewriter">interpolation.bt2</code> is generated.
+If necessary, it is convenient to rename the file as follows.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p14">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  % cp interpolation.bt2 Si_BoltzTraP.bt2
+</pre>
+<p class="ltx_p">Next, perform the integration for the transport coefficients.
+An example for calculating the transport coefficients at 300 K within the constant relaxation-time approximation is shown below.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p15">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  % PATH_BTP2/bin/btp2 integrate -t Si_BoltzTraP.bt2 300
+</pre>
+<p class="ltx_p">Here, <code class="ltx_verbatim ltx_font_typewriter">-t</code> indicates that the calculation is carried out within the constant relaxation-time approximation.
+The final <code class="ltx_verbatim ltx_font_typewriter">300</code> denotes the temperature in Kelvin.
+In addition to the constant relaxation-time approximation, BoltzTraP2 also supports the constant mean free path approximation.
+For details, refer to the BoltzTraP2 manual <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib111" title="">111</a>]</cite>.</p>
+</div><div class="ltx_para" id="SS2.p16">
+<p class="ltx_p">When <code class="ltx_verbatim ltx_font_typewriter">btp2 integrate</code> finishes normally, for example, the following files are output in the execution directory.</p>
+</div><div class="ltx_para ltx_noindent" id="SS2.p17">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  Si_BoltzTraP.trace
+  Si_BoltzTraP.condtens
+  Si_BoltzTraP.halltens
+  Si_BoltzTraP.btj
+</pre>
+<p class="ltx_p">The meanings of these files are as follows.</p>
+</div><div class="ltx_para" id="SS2.p18">
+<ul class="ltx_itemize" id="I1">
+<li class="ltx_item" id="I1.i1" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i1.p1">
+<p class="ltx_p"><code class="ltx_verbatim ltx_font_typewriter">Si_BoltzTraP.trace</code>: averages of the <math alttext="xx" class="ltx_Math" display="inline" id="I1.i1.p1.m1"><mrow><mi>x</mi><mo>⁢</mo><mi>x</mi></mrow></math>, <math alttext="yy" class="ltx_Math" display="inline" id="I1.i1.p1.m2"><mrow><mi>y</mi><mo>⁢</mo><mi>y</mi></mrow></math>, and <math alttext="zz" class="ltx_Math" display="inline" id="I1.i1.p1.m3"><mrow><mi>z</mi><mo>⁢</mo><mi>z</mi></mrow></math> components of the transport properties</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i2" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i2.p1">
+<p class="ltx_p"><code class="ltx_verbatim ltx_font_typewriter">Si_BoltzTraP.condtens</code>: electrical conductivity tensor</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i3" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i3.p1">
+<p class="ltx_p"><code class="ltx_verbatim ltx_font_typewriter">Si_BoltzTraP.halltens</code>: Hall conductivity tensor</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i4" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i4.p1">
+<p class="ltx_p"><code class="ltx_verbatim ltx_font_typewriter">Si_BoltzTraP.btj</code>: auxiliary file used when plotting transport properties with the <code class="ltx_verbatim ltx_font_typewriter">btp2</code> module</p>
+</div>
+</li>
+</ul>
+</div><div class="ltx_para" id="SS2.p19">
+<p class="ltx_p">In the BoltzTraP version, the interpolation factor and temperature conditions were specified through the <code class="ltx_verbatim ltx_font_typewriter">.intrans</code> file, whereas in the BoltzTraP2 version they are mainly specified by the command-line arguments of <code class="ltx_verbatim ltx_font_typewriter">btp2 interpolate</code> and <code class="ltx_verbatim ltx_font_typewriter">btp2 integrate</code>.</p>
+</div><div class="ltx_para" id="SS2.p20">
+<p class="ltx_p">Figure <a class="ltx_ref" href="#fig:Si_BoltzTraP2" title="Figure 101 ‣ 63.2 Interface with BoltzTraP2 ‣ 63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">101</span></a> shows the benchmark calculation for undoped diamond-structure Si.
+The figure shows the chemical-potential dependence of the Seebeck coefficient <math alttext="S" class="ltx_Math" display="inline" id="SS2.p20.m1"><mi>S</mi></math> and the electrical conductivity <math alttext="\sigma\tau^{-1}_{\rm el}" class="ltx_Math" display="inline" id="SS2.p20.m2"><mrow><mi>σ</mi><mo>⁢</mo><msubsup><mi>τ</mi><mi>el</mi><mrow><mo>−</mo><mn>1</mn></mrow></msubsup></mrow></math> at 300 K.
+The Fourier interpolation factor was set to 25, and the calculation was carried out within the constant relaxation-time approximation.
+Here, <math alttext="\mu=0" class="ltx_Math" display="inline" id="SS2.p20.m3"><mrow><mi>μ</mi><mo>=</mo><mn>0</mn></mrow></math> eV is aligned to the OpenMX chemical potential at 300 K.
+The input file used in the calculation is <code class="ltx_verbatim ltx_font_typewriter"><a href="work/Si_BoltzTraP.dat" rel="noopener noreferrer" target="_blank">Si_BoltzTraP.dat</a></code> stored in the <code class="ltx_verbatim ltx_font_typewriter">work</code> directory.</p>
+</div>
+
+
+<div class="ltx_para" id="SS2.p21">
+<p class="ltx_p">As described above, the SCF results of OpenMX can be connected to the transport-coefficient calculation by BoltzTraP2 in a small number of steps.
+  Since the results depend on the choice of the Fourier interpolation factor, temperature, and approximation, appropriate conditions should be selected for practical applications while carefully checking the convergence.</p>
+
+<figure class="ltx_figure" id="fig:Si_BoltzTraP2"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="359" id="F101.g1" src="x102.png" width="763"/>
+<br>  
+<figcaption class="ltx_caption ltx_centering"><span class="ltx_tag ltx_tag_figure">Figure 101: </span>Benchmark calculation for undoped diamond-structure Si.
+The figure shows the chemical-potential dependence of the Seebeck coefficient <math alttext="S" class="ltx_Math" display="inline" id="F101.m3"><mi>S</mi></math> and the electrical conductivity <math alttext="\sigma\tau^{-1}_{\rm el}" class="ltx_Math" display="inline" id="F101.m4"><mrow><mi>σ</mi><mo>⁢</mo><msubsup><mi>τ</mi><mi>el</mi><mrow><mo>−</mo><mn>1</mn></mrow></msubsup></mrow></math> at 300 K.
+The Fourier interpolation factor was set to 25, and the constant relaxation-time approximation was used.</figcaption>
+</figure>
+
+</div><div class="ltx_pagination ltx_role_newpage"></div></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s63_boltztrap.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s63_1_boltztrap.html"><span class="openmx_footer_label">Previous:</span> 63.1 Interface with BoltzTraP</a><a href="s64_lattice-energy.html"><span class="openmx_footer_label">Next:</span> 64 Calculations of &#8220;lattice constant vs. energy&#8221; curves</a></div></div></footer>
+</div>
+</body>
+</html>

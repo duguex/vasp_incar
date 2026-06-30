@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 # ── Data version ───────────────────────────────────────────────────────
 
-DATA_VERSION = "0.2.0"
+from dft_utils import DATA_VERSION, debug_log, get_debug_log, clear_debug_log
 
 
 # ── Pydantic models ────────────────────────────────────────────────────
@@ -209,19 +209,6 @@ def format_stats_human(entry: dict, tag: str) -> str:
 
 import difflib
 
-_DEBUG_LOG: list[str] = []
-
-
-def debug_log(msg: str) -> None:
-    _DEBUG_LOG.append(msg)
-
-
-def get_debug_log() -> list[str]:
-    return _DEBUG_LOG
-
-
-def clear_debug_log() -> None:
-    _DEBUG_LOG.clear()
 
 
 # Built-in fallback for the alias map. Used when data/aliases.json is missing

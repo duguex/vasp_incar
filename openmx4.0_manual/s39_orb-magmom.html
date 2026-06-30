@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="index.html" rel="up" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_3_scalar-rel.html" rel="prev" title="38.3 Scalar-relativistic treatment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="next" title="40 DFT+ U method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+<meta content="System.Name" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s38_3_scalar-rel.html"><span class="openmx_nav_label">Previous:</span> 38.3 Scalar-relativistic treatment</a><a href="s40_dft-plus-u.html"><span class="openmx_nav_label">Next:</span> 40 DFT+ U method</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_section">39 </span>Orbital magnetic moment</h1>
+<div class="ltx_para ltx_noindent" id="p1">
+<p class="ltx_p">The orbital magnetic moment at each atomic site is calculated by default in non-collinear DFT calculations.
+Since the local orbital magnetic moment appears as a consequence of spin-orbit interaction, this value becomes finite only when spin-orbit interaction is taken into account <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib129" title="">129</a>, <a class="ltx_ref" href="bib.html#bib130" title="">130</a>]</cite>.
+As an example, we explain the non-collinear LDA+<math alttext="U" class="ltx_Math" display="inline" id="p1.m1"><mi>U</mi></math> calculation (U=5eV) for bulk iron oxide using the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/FeO_NC.dat" rel="noopener noreferrer" target="_blank">FeO_NC.dat</a></code> in the <code class="ltx_verbatim ltx_font_typewriter">work</code> directory.
+For LDA+<math alttext="U" class="ltx_Math" display="inline" id="p1.m2"><mi>U</mi></math> calculations, see Section <a class="ltx_ref" href="s40_dft-plus-u.html" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">40</span></a>.
+The calculated orbital magnetic moments and spin magnetic moments at the Fe sites are shown in Table <a class="ltx_ref" href="#table:Ms-Mo-TMO" title="Table 7 ‣ 39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">7</span></a>.
+In OpenMX, the expectation value of the orbital angular momentum at each atomic site is evaluated on the basis of local basis functions,
+and not only the total orbital magnetic moment but also the contributions decomposed into <math alttext="s" class="ltx_Math" display="inline" id="p1.m3"><mi>s</mi></math>, <math alttext="p" class="ltx_Math" display="inline" id="p1.m4"><mi>p</mi></math>, <math alttext="d" class="ltx_Math" display="inline" id="p1.m5"><mi>d</mi></math>, and <math alttext="f" class="ltx_Math" display="inline" id="p1.m6"><mi>f</mi></math> orbitals and each multiplicity are output.
+Therefore, it is possible to analyze which localized orbitals are the main origin of the orbital magnetic moment.
+In general, in <math alttext="3d" class="ltx_Math" display="inline" id="p1.m7"><mrow><mn>3</mn><mo>⁢</mo><mi>d</mi></mrow></math> transition metals the orbital magnetic moment is partially quenched by the crystal field,
+but a finite value can be recovered when spin-orbit interaction and orbital polarization by DFT+<math alttext="U" class="ltx_Math" display="inline" id="p1.m8"><mi>U</mi></math> are taken into account.
+The orbital magnetic moments decomposed into orbital components are output in <code class="ltx_verbatim ltx_font_typewriter">System.Name.out</code> as follows.
+  Here <span class="ltx_text ltx_font_italic">System.Name</span> means the keyword
+  <span class="ltx_text ltx_font_italic">System.Name</span>.</p>
+<pre class="ltx_verbatim ltx_font_typewriter" style="font-size:90%;">
+***********************************************************
+***********************************************************
+                     Orbital moments
+***********************************************************
+***********************************************************
+
+   Total Orbital Moment (muB)   0.000004428   Angles  (Deg) 93.694323930  227.728482678
+
+          Orbital moment (muB)   theta (Deg)  phi (Deg)
+    1   Fe   0.79515           102.74430   49.56158
+    2   Fe   0.79515            77.25580  229.56157
+    3    O   0.00000            60.13276  228.25738
+    4    O   0.00000            60.17242  228.31400
+
+
+  Decomposed Orbital Moments
+
+    1   Fe         Orbital Moment(muB)    Angles (Deg)
+            multiple
+  s           0    0.000000000           90.0000    0.0000
+   sum over m      0.000000000           90.0000    0.0000
+  s           1    0.000000000           90.0000    0.0000
+   sum over m      0.000000000           90.0000    0.0000
+  px          0    0.000044996           37.7921  -90.0000
+  py          0    0.000037542           18.7122  180.0000
+  pz          0    0.000030089           90.0000  246.4043
+   sum over m      0.000093161           40.2381  246.4043
+  px          1    0.002532604           16.0264   90.0000
+  py          1    0.002603212           20.7613    0.0000
+  pz          1    0.001157753           90.0000   37.1518
+   sum over m      0.005390954           25.4369   37.1518
+  d3z^2-r^2   0    0.096904020           90.0000  222.1510
+  dx^2-y^2    0    0.003485899          161.2946  118.1753
+  dxy         0    0.471672035           90.4011   48.0851
+  dxz         0    0.337009228          107.4358  -11.4898
+  dyz         0    0.372319325          105.7368  101.6508
+   sum over m      0.780038478          105.5082   49.7729
+  d3z^2-r^2   1    0.000644144           90.0000  214.2465
+  dx^2-y^2    1    0.000353106          162.1436   64.1506
+  dxy         1    0.004494127           94.2889   47.5923
+  dxz         1    0.003042238           94.2279   -5.0119
+  dyz         1    0.003351916           93.8367   98.3428
+   sum over m      0.008004145           98.0492   50.1892
+  f5z^2-3r^2  0    0.003683325           90.0000   40.1115
+  f5xz^2-xr^2 0    0.007027500           13.7416   49.3167
+  f5yz^2-yr^2 0    0.007031633           13.8786   30.2288
+  fzx^2-zy^2  0    0.006952277            2.2765   46.7588
+  fxyz        0    0.007582763           23.6334   39.0607
+  fx^3-3*xy^2 0    0.002032287           63.8879   45.8040
+  f3yx^2-y^3  0    0.002082345           64.5610   34.5466
+   sum over m      0.032502070           25.5027   39.9167
+  .....
+  ...
+</pre>
+<p class="ltx_p">As shown in Table <a class="ltx_ref" href="#table:Ms-Mo-TMO" title="Table 7 ‣ 39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">7</span></a>, the OpenMX results are consistent with other calculations for the spin and orbital magnetic moments of a series of <math alttext="3d" class="ltx_Math" display="inline" id="p1.m9"><mrow><mn>3</mn><mo>⁢</mo><mi>d</mi></mrow></math> transition-metal oxides.
+However, the absolute value of the orbital magnetic moment is strongly affected by computational conditions such as the basis functions and the onsite <math alttext="U" class="ltx_Math" display="inline" id="p1.m10"><mi>U</mi></math> in the DFT+<math alttext="U" class="ltx_Math" display="inline" id="p1.m11"><mi>U</mi></math> method.
+It should also be noted that rather large basis functions including polarization functions are necessary for converged calculations of orbital magnetic moments.
+For quantitative comparison, we recommend interpreting the results together with the spin magnetic moments only after sufficiently converging the basis functions, <math alttext="U" class="ltx_Math" display="inline" id="p1.m12"><mi>U</mi></math>, the number of <span class="ltx_text ltx_font_bold">k</span> points, and the electronic temperature.
+  On the other hand, it is empirically known that the spin magnetic moment is relatively insensitive to computational conditions.</p>
+
+<p>
+  Here, the orbital magnetic moment output by OpenMX (OpenMX convention) has the opposite sign to
+  the physical orbital magnetic moment of the electron.
+  Similarly, the spin magnetic moment output by OpenMX (OpenMX convention) also has the opposite
+  sign to the physical spin magnetic moment of the electron.
+  For the spin magnetic moment, see also Sec. 
+  <a class="ltx_ref" href="s37_ncl-dft.html" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">37</span></a> 'Non-collinear DFT'.
+</p>
+
+
+</div>
+<figure class="ltx_table" id="table:Ms-Mo-TMO">
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_table">Table 7: </span><span class="ltx_text" style="font-size:90%;">Spin magnetic moments <math alttext="M_{s}(\mu_{\rm B})" class="ltx_Math" display="inline" id="T7.m6"><mrow><msub><mi>M</mi><mi>s</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><msub><mi>μ</mi><mi mathvariant="normal">B</mi></msub><mo stretchy="false">)</mo></mrow></mrow></math> and orbital magnetic moments <math alttext="M_{o}(\mu_{\rm B})" class="ltx_Math" display="inline" id="T7.m7"><mrow><msub><mi>M</mi><mi>o</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><msub><mi>μ</mi><mi mathvariant="normal">B</mi></msub><mo stretchy="false">)</mo></mrow></mrow></math> of transition-metal oxides MO (M=Mn, Fe, Co, Ni).
+The calculations were performed using the LDA+<math alttext="U" class="ltx_Math" display="inline" id="T7.m8"><mi>U</mi></math> method <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib21" title="">21</a>]</cite>, and the effective <math alttext="U" class="ltx_Math" display="inline" id="T7.m9"><mi>U</mi></math> values applied to the first <math alttext="d" class="ltx_Math" display="inline" id="T7.m10"><mi>d</mi></math> orbital of M were 3.0 (eV) for Mn, 5.0 (eV) for Fe, 7.0 (eV) for Co, and 7.0 (eV) for Ni.
+Since Mulliken analysis tends to give somewhat larger spin moments when multiple basis functions are used, the local spin moments were calculated by Voronoi partitioning.
+The input files are <span class="ltx_text ltx_font_typewriter"><a href="work/MnO_NC.dat" rel="noopener noreferrer" target="_blank">MnO_NC.dat</a></span>, <span class="ltx_text ltx_font_typewriter"><a href="work/FeO_NC.dat" rel="noopener noreferrer" target="_blank">FeO_NC.dat</a></span>, <span class="ltx_text ltx_font_typewriter"><a href="work/CoO_NC.dat" rel="noopener noreferrer" target="_blank">CoO_NC.dat</a></span>, and <span class="ltx_text ltx_font_typewriter"><a href="work/NiO_NC.dat" rel="noopener noreferrer" target="_blank">NiO_NC.dat</a></span> in the <span class="ltx_text ltx_font_typewriter">work</span> directory.
+Other theoretical values <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib76" title="">76</a>]</cite> and experimental values <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib76" title="">76</a>]</cite> are also listed for comparison.
+</span></figcaption>
+<br>
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_border_tt"></td>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_tt"><math alttext="M_{s}" class="ltx_Math" display="inline" id="T7.m11"><msub><mi>M</mi><mi>s</mi></msub></math></th>
+<th class="ltx_td ltx_th ltx_th_column ltx_border_tt"></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_tt"><math alttext="M_{o}" class="ltx_Math" display="inline" id="T7.m12"><msub><mi>M</mi><mi>o</mi></msub></math></th>
+<th class="ltx_td ltx_th ltx_th_column ltx_border_tt"></th>
+<td class="ltx_td ltx_border_tt"></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column">Compound</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column">OpenMX</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column">Other calc.</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column">OpenMX</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column">Other calc.</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column">Expt. in total</th>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_align_center ltx_border_t">MnO</td>
+<td class="ltx_td ltx_align_center ltx_border_t">4.563</td>
+<td class="ltx_td ltx_align_center ltx_border_t">4.49</td>
+<td class="ltx_td ltx_align_center ltx_border_t">0.004</td>
+<td class="ltx_td ltx_align_center ltx_border_t">0.00</td>
+<td class="ltx_td ltx_align_center ltx_border_t">4.79,4.58</td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_align_center">FeO</td>
+<td class="ltx_td ltx_align_center">3.649</td>
+<td class="ltx_td ltx_align_center">3.54</td>
+<td class="ltx_td ltx_align_center">0.795</td>
+<td class="ltx_td ltx_align_center">1.01</td>
+<td class="ltx_td ltx_align_center">3.32</td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_align_center">CoO</td>
+<td class="ltx_td ltx_align_center">2.714</td>
+<td class="ltx_td ltx_align_center">2.53</td>
+<td class="ltx_td ltx_align_center">0.626</td>
+<td class="ltx_td ltx_align_center">1.19</td>
+<td class="ltx_td ltx_align_center">3.35,3.8</td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_align_center ltx_border_b">NiO</td>
+<td class="ltx_td ltx_align_center ltx_border_b">1.685</td>
+<td class="ltx_td ltx_align_center ltx_border_b">1.53</td>
+<td class="ltx_td ltx_align_center ltx_border_b">0.259</td>
+<td class="ltx_td ltx_align_center ltx_border_b">0.27</td>
+<td class="ltx_td ltx_align_center ltx_border_b">1.77,1.64,1.90</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<div class="ltx_pagination ltx_role_newpage"></div>
+</section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s38_3_scalar-rel.html"><span class="openmx_footer_label">Previous:</span> 38.3 Scalar-relativistic treatment</a><a href="s40_dft-plus-u.html"><span class="openmx_footer_label">Next:</span> 40 DFT+ U method</a></div></div></footer>
+</div>
+</body>
+</html>

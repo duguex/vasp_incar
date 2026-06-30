@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="index.html" rel="up" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_11_deb-install.html" rel="prev" title="4.11 Installation via a Debian package ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="next" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s4_11_deb-install.html"><span class="openmx_nav_label">Previous:</span> 4.11 Installation via a Debian package</a><a href="s6_auto-test.html"><span class="openmx_nav_label">Next:</span> 6 Automatic Test Execution</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_section">5 </span>Test calculation</h1>
+<div class="ltx_para" id="p1">
+<p class="ltx_p">This section is for users who have completed the installation and want to confirm that a first calculation runs correctly.
+Start with <code class="ltx_verbatim ltx_font_typewriter"><a href="work/Methane.dat" rel="noopener noreferrer" target="_blank">Methane.dat</a></code>, and check not only that the run finishes but also that the main output files are created.
+If the calculation does not finish normally, first return to Section <a class="ltx_ref" href="s4_installation.html" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">4</span></a>.</p>
+</div>
+<div class="ltx_para" id="p2">
+<p class="ltx_p">After the installation has been completed successfully, move to the <code class="ltx_verbatim ltx_font_typewriter">work</code> directory,
+and execute <code class="ltx_verbatim ltx_font_typewriter">openmx</code> as follows using <code class="ltx_verbatim ltx_font_typewriter"><a href="work/Methane.dat" rel="noopener noreferrer" target="_blank">Methane.dat</a></code> as the input file.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+     % mpirun -np 1 openmx Methane.dat | tee met.std
+</pre>
+<p class="ltx_p">If you use the OpenMP/MPI hybrid version, execute it with the following command.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+     % mpirun -np 1 openmx Methane.dat -nt 1 | tee met.std
+</pre>
+</div>
+<div class="ltx_para ltx_noindent" id="p3">
+<p class="ltx_p"><code class="ltx_verbatim ltx_font_typewriter"><a href="work/Methane.dat" rel="noopener noreferrer" target="_blank">Methane.dat</a></code> used in this calculation is an input file for performing an SCF calculation for a methane molecule. No structural optimization is carried out.
+This calculation finishes in about 5 seconds when it is run on a single core of a 3.6 GHz Xeon machine,
+although the actual execution time depends on the computer environment.
+If the calculation terminates normally, the following 11 files and 1 directory are created in the <code class="ltx_verbatim ltx_font_typewriter">work</code> directory.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+      met.std               standard output of the SCF calculation
+      met.out               input file and standard output
+      met.xyz               final geometry
+      met.ene               calculated values at each MD step
+      met.md                geometry at each MD step
+      met.md2               geometry at the final MD step
+      met.cif               CIF file of the initial structure
+      met.tden.cube         total electron density in Gaussian cube format
+      met.v0.cube           Kohn-Sham potential in Gaussian cube format
+      met.vhart.cube        Hartree potential in Gaussian cube format
+      met.dden.cube         difference electron density calculated from atomic densities
+      met_rst/              directory for storing restart files
+</pre>
+<p class="ltx_p">The data written to the standard output are stored in the <code class="ltx_verbatim ltx_font_typewriter">met.std</code> file.
+This file is useful for understanding the computational process of the SCF calculation.
+The <code class="ltx_verbatim ltx_font_typewriter">met.out</code> file contains results such as the total energy, forces, Kohn-Sham eigenvalues, Mulliken charges, the convergence history of the SCF calculation,
+and the computational time.
+For reference, a part of the <code class="ltx_verbatim ltx_font_typewriter">met.out</code> file is excerpted below.
+It can be seen that the change in the energy eigenvalues converges to less than 1.0e-10 hartree after 16 SCF iterations.</p>
+</div>
+<div class="ltx_para" id="p4">
+<pre class="ltx_verbatim ltx_font_typewriter">
+***********************************************************
+***********************************************************
+                  SCF history at MD= 1
+***********************************************************
+***********************************************************
+
+   SCF=   1  NormRD=  1.000000000000  Uele= -3.523169099737
+   SCF=   2  NormRD=  0.181517404414  Uele= -3.686855123752
+   SCF=   3  NormRD=  0.449067381090  Uele= -4.193062144936
+   SCF=   4  NormRD=  0.541215648302  Uele= -4.381387140207
+   SCF=   5  NormRD=  0.509921689499  Uele= -4.352426233395
+   SCF=   6  NormRD=  0.004026023232  Uele= -3.886371199734
+   SCF=   7  NormRD=  0.000838640097  Uele= -3.889312346886
+   SCF=   8  NormRD=  0.000420666756  Uele= -3.889396659138
+   SCF=   9  NormRD=  0.000241013392  Uele= -3.889362708872
+   SCF=  10  NormRD=  0.000554730429  Uele= -3.889423539626
+   SCF=  11  NormRD=  0.000001004556  Uele= -3.889316208880
+   SCF=  12  NormRD=  0.000000002034  Uele= -3.889316013774
+   SCF=  13  NormRD=  0.000000000004  Uele= -3.889316014156
+   SCF=  14  NormRD=  0.000000000158  Uele= -3.889316014871
+   SCF=  15  NormRD=  0.000000000001  Uele= -3.889316014159
+   SCF=  16  NormRD=  0.000000000008  Uele= -3.889316014119
+</pre>
+<p class="ltx_p">The total energy, chemical potential, Kohn-Sham eigenvalues, Mulliken charges, dipole moment, forces, fractional coordinates,
+and computational time are also written to the <code class="ltx_verbatim ltx_font_typewriter">met.out</code> file as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+*******************************************************
+        Total energy (Hartree) at MD = 1
+*******************************************************
+
+  Uele.         -3.889316014119
+
+  Ukin.          5.533759381311
+  UH0.         -14.855519969177
+  UH1.           0.041396138421
+  Una.          -5.040606545157
+  Unl.          -0.134650846423
+  Uxc0.         -1.564720262809
+  Uxc1.         -1.564720262809
+  Ucore.         9.551521413583
+  Uhub.          0.000000000000
+  Ucs.           0.000000000000
+  Uzs.           0.000000000000
+  Uzo.           0.000000000000
+  Uef.           0.000000000000
+  UvdW.          0.000000000000
+  Uch.           0.000000000000
+  Utot.         -8.033540953061
+
+  UpV.           0.000000000000
+  Enpy.         -8.033540953061
+  Note:
+
+  Utot = Ukin+UH0+UH1+Una+Unl+Uxc0+Uxc1+Ucore+Uhub+Ucs+Uzs+Uzo+Uef+UvdW
+
+  Uene:   band energy
+  Ukin:   kinetic energy
+  UH0:    electric part of screened Coulomb energy
+  UH1:    difference electron-electron Coulomb energy
+  Una:    neutral atom potential energy
+  Unl:    non-local potential energy
+  Uxc0:   exchange-correlation energy for alpha spin
+  Uxc1:   exchange-correlation energy for beta spin
+  Ucore:  core-core Coulomb energy
+  Uhub:   DFT+U energy
+  Ucs:    constraint energy for spin orientation
+  Uzs:    Zeeman term for spin magnetic moment
+  Uzo:    Zeeman term for orbital magnetic moment
+  Uef:    electric energy by electric field
+  UvdW:   semi-empirical vdW energy
+
+  (see also PRB 72, 045121(2005) for the energy contributions)
+
+
+  Chemical potential (Hartree)       0.000000000000
+
+***********************************************************
+***********************************************************
+           Eigenvalues (Hartree) for SCF KS-eq.
+***********************************************************
+***********************************************************
+
+   Chemical Potential (Hartree) =   0.00000000000000
+   Number of States             =   8.00000000000000
+   HOMO =  4
+   Eigenvalues
+                Up-spin            Down-spin
+          1  -0.69897506409419  -0.69897506409419
+          2  -0.41523055770122  -0.41523055770122
+          3  -0.41523055765756  -0.41523055765756
+          4  -0.41522182760629  -0.41522182760629
+          5   0.21221759601986   0.21221759601986
+          6   0.21221759681705   0.21221759681705
+          7   0.21230533061537   0.21230533061537
+          8   0.24741918445722   0.24741918445722
+
+***********************************************************
+***********************************************************
+                   Mulliken populations
+***********************************************************
+***********************************************************
+
+  Total spin S =  0.000000000000
+
+                    Up spin      Down spin     Sum           Diff
+      1    C      2.509748760  2.509748760   5.019497520   0.000000000
+      2    H      0.372562810  0.372562810   0.745125620   0.000000000
+      3    H      0.372562810  0.372562810   0.745125620   0.000000000
+      4    H      0.372562810  0.372562810   0.745125620   0.000000000
+      5    H      0.372562810  0.372562810   0.745125620   0.000000000
+
+ Sum of MulP: up   =     4.00000 down          =     4.00000
+              total=     8.00000 ideal(neutral)=     8.00000
+
+  Decomposed Mulliken populations
+
+    1    C          Up spin      Down spin     Sum           Diff
+            multiple
+  s           0    0.681737894  0.681737894   1.363475787   0.000000000
+   sum over m      0.681737894  0.681737894   1.363475787   0.000000000
+   sum over m+mul  0.681737894  0.681737894   1.363475787   0.000000000
+  px          0    0.609352701  0.609352701   1.218705403   0.000000000
+  py          0    0.609305463  0.609305463   1.218610926   0.000000000
+  pz          0    0.609352702  0.609352702   1.218705404   0.000000000
+   sum over m      1.828010866  1.828010866   3.656021733   0.000000000
+   sum over m+mul  1.828010866  1.828010866   3.656021733   0.000000000
+
+
+    2    H          Up spin      Down spin     Sum           Diff
+            multiple
+  s           0    0.372562810  0.372562810   0.745125620   0.000000000
+   sum over m      0.372562810  0.372562810   0.745125620   0.000000000
+   sum over m+mul  0.372562810  0.372562810   0.745125620   0.000000000
+
+
+    3    H          Up spin      Down spin     Sum           Diff
+            multiple
+  s           0    0.372562810  0.372562810   0.745125620   0.000000000
+   sum over m      0.372562810  0.372562810   0.745125620   0.000000000
+   sum over m+mul  0.372562810  0.372562810   0.745125620   0.000000000
+
+    4    H          Up spin      Down spin     Sum           Diff
+            multiple
+  s           0    0.372562810  0.372562810   0.745125620   0.000000000
+   sum over m      0.372562810  0.372562810   0.745125620   0.000000000
+   sum over m+mul  0.372562810  0.372562810   0.745125620   0.000000000
+
+    5    H          Up spin      Down spin     Sum           Diff
+            multiple
+  s           0    0.372562810  0.372562810   0.745125620   0.000000000
+   sum over m      0.372562810  0.372562810   0.745125620   0.000000000
+   sum over m+mul  0.372562810  0.372562810   0.745125620   0.000000000
+
+
+***********************************************************
+***********************************************************
+                    Dipole moment (Debye)
+***********************************************************
+***********************************************************
+
+ Absolute D        0.00000000
+
+                      Dx                Dy                Dz
+ Total              0.00000000        0.00000000       -0.00000000
+ Core               0.00000000        0.00000000        0.00000000
+ Electron           0.00000000        0.00000000       -0.00000000
+ Back ground       -0.00000000       -0.00000000       -0.00000000
+
+***********************************************************
+***********************************************************
+       xyz-coordinates (Ang) and forces (Hartree/Bohr)
+***********************************************************
+***********************************************************
+
+&lt;coordinates.forces
+  5
+    1     C     0.00000   0.00000   0.00000   0.000000000000  0.00...
+    2     H    -0.88998  -0.62931   0.00000  -0.064890985687 -0.04...
+    3     H     0.00000   0.62931  -0.88998   0.000000000002  0.04...
+    4     H     0.00000   0.62931   0.88998   0.000000000002  0.04...
+    5     H     0.88998  -0.62931   0.00000   0.064890985682 -0.04...
+coordinates.forces&gt;
+
+***********************************************************
+***********************************************************
+       Fractional coordinates of the final structure
+***********************************************************
+***********************************************************
+
+     1      C     0.00000000000000   0.00000000000000   0.00000000000000
+     2      H     0.91100190000000   0.93706880000000   0.00000000000000
+     3      H     0.00000000000000   0.06293120000000   0.91100190000000
+     4      H     0.00000000000000   0.06293120000000   0.08899810000000
+     5      H     0.08899810000000   0.93706880000000   0.00000000000000
+
+***********************************************************
+***********************************************************
+               Computational Time (second)
+***********************************************************
+***********************************************************
+
+   Elapsed.Time.         4.984
+
+                               Min_ID   Min_Time       Max_ID   Max_Time
+   Total Computational Time =     0        4.984          0        4.984
+   readfile                 =     0        1.762          0        1.762
+   truncation               =     0        0.151          0        0.151
+   MD_pac                   =     0        0.003          0        0.003
+   OutData                  =     0        1.017          0        1.017
+   HWF                      =     0        0.000          0        0.000
+   DFT                      =     0        1.871          0        1.871
+
+*** In DFT ***
+
+   Set_OLP_Kin              =     0        0.053          0        0.053
+   Set_Nonlocal             =     0        0.042          0        0.042
+   Set_ProExpn_VNA          =     0        0.137          0        0.137
+   Set_Hamiltonian          =     0        0.779          0        0.779
+   Poisson                  =     0        0.298          0        0.298
+   Diagonalization          =     0        0.027          0        0.027
+   Mixing_DM                =     0        0.001          0        0.001
+   Force                    =     0        0.039          0        0.039
+   Total_Energy             =     0        0.265          0        0.265
+   Set_Aden_Grid            =     0        0.019          0        0.019
+   Set_Orbitals_Grid        =     0        0.016          0        0.016
+   Set_Density_Grid         =     0        0.116          0        0.116
+   RestartFileDFT           =     0        0.057          0        0.057
+   Mulliken_Charge          =     0        0.002          0        0.002
+   FFT(2D)_Density          =     0        0.000          0        0.000
+   Others                   =     0        0.021          0        0.021
+</pre>
+</div>
+<div class="ltx_para ltx_noindent" id="p5">
+<p class="ltx_p">The output files <code class="ltx_verbatim ltx_font_typewriter">met.tden.cube</code>, <code class="ltx_verbatim ltx_font_typewriter">met.v0.cube</code>, <code class="ltx_verbatim ltx_font_typewriter">met.vhart.cube</code>, and <code class="ltx_verbatim ltx_font_typewriter">met.dden.cube</code> contain,
+respectively, the total electron density, the Kohn-Sham potential, the Hartree potential,
+and the difference electron density with respect to the superposition of the electron densities of the constituent isolated atoms,
+in Gaussian cube format.
+Since the Gaussian cube format is a widely used grid format,
+they can be visualized using free molecular modeling software such as
+OpenMX Viewer <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib164" title="">164</a>]</cite>, VESTA <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib115" title="">115</a>]</cite>, and XCrySDen <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib116" title="">116</a>]</cite>.
+Examples of visualization are shown in a later section.</p>
+</div>
+<div class="ltx_pagination ltx_role_newpage"></div>
+</section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s4_11_deb-install.html"><span class="openmx_footer_label">Previous:</span> 4.11 Installation via a Debian package</a><a href="s6_auto-test.html"><span class="openmx_footer_label">Next:</span> 6 Automatic Test Execution</a></div></div></footer>
+</div>
+</body>
+</html>

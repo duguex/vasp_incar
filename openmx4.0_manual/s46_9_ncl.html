@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>46.9 NEGF method for non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s46_negf.html" rel="up" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_8_parallel.html" rel="prev" title="46.8 Parallelization of NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_10_examples.html" rel="next" title="46.10 NEGF Examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+<meta content="Atoms.Number, Atoms.SpeciesAndCoordinates, Atoms.SpeciesAndCoordinates.Unit, Dos.fileout, LeftLeadAtoms.Number, LeftLeadAtoms.SpeciesAndCoordinates, NEGF.Channel.Nenergy, NEGF.Channel.Nkpoint, NEGF.Channel.Num, NEGF.Channel.energy, NEGF.Channel.kpoint, NEGF.Dos.Kgrid, NEGF.Dos.energy.div, NEGF.Dos.energyrange, NEGF.Num.Poles, NEGF.OffDiagonalCurrent, NEGF.Output.for.TranMain, NEGF.Poisson.Solver, NEGF.bias.neq.energy.step, NEGF.bias.neq.im.energy, NEGF.bias.voltage, NEGF.filename.hks, NEGF.filename.hks.l, NEGF.filename.hks.r, NEGF.gate.voltage, NEGF.output_hks, NEGF.scf.Iter.Band, NEGF.scf.Kgrid, NEGF.tran.Analysis, NEGF.tran.Channel, NEGF.tran.CurrentDensity, NEGF.tran.Kgrid, NEGF.tran.SCF.skip, NEGF.tran.energydiv, NEGF.tran.energyrange, NEGF.tran.interpolate, NEGF.tran.interpolate.coes, NEGF.tran.interpolate.file1, NEGF.tran.interpolate.file2, RightLeadAtoms.Number, RightLeadAtoms.SpeciesAndCoordinates, scf.EigenvalueSolver, scf.Kgrid, scf.criterion" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s46_negf.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s46_8_parallel.html"><span class="openmx_nav_label">Previous:</span> 46.8 Parallelization of NEGF</a><a href="s46_10_examples.html"><span class="openmx_nav_label">Next:</span> 46.10 NEGF Examples</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:negf-method-for-non-collinear-dft">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">46.9 </span>NEGF method for non-collinear DFT</h1><div class="ltx_para" id="SS9.p1">
+<p class="ltx_p">OpenMX Ver. 4.0 supports the NEGF method combined with non-collinear DFT.
+All functionalities of the non-collinear DFT method and the NEGF method are implemented in a mutually consistent manner.
+All functions, including spin-orbit interaction, the DFT+<math alttext="U" class="ltx_Math" display="inline" id="SS9.p1.m1"><mi>U</mi></math> method,
+and the constraint method for the directions of the spin magnetic moment and orbital magnetic moment,
+are compatible with the NEGF implementation.
+Therefore, it is expected that a wide range of problems can be treated,
+such as electron transport through domain walls with helical magnetic structures.
+The procedure for running an NEGF calculation is basically the same as in the collinear DFT case.</p>
+</div><div class="ltx_para" id="SS9.p2">
+<p class="ltx_p">As an example of an NEGF calculation combined with non-collinear DFT,
+Fig. <a class="ltx_ref" href="#fig:NEGF-ZGNR-NC" title="Figure 51 ‣ 46.9 NEGF method for non-collinear DFT ‣ 46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">51</span></a> shows the calculated transmission of a zigzag graphene nanoribbon.
+The spin magnetic moments at the zigzag edges are aligned upward and rightward in the left and right electrode regions, respectively.
+The electrode calculations were carried out in Step 1 by a non-collinear band-structure calculation using the constraint method for the spin magnetic moment.
+In the Step 2 calculation, no constraint was imposed.
+As a result of the Step 2 SCF calculation, it is found that the spin direction in the central region gradually rotates, as shown in Fig. <a class="ltx_ref" href="#fig:NEGF-ZGNR-NC" title="Figure 51 ‣ 46.9 NEGF method for non-collinear DFT ‣ 46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">51</span></a> (a).
+This calculation can be reproduced by the input files <code class="ltx_verbatim ltx_font_typewriter"><a href="work/negf_example/Lead-L-8ZGNR-NC.dat" rel="noopener noreferrer" target="_blank">Lead-L-8ZGNR-NC.dat</a></code>,
+<code class="ltx_verbatim ltx_font_typewriter"><a href="work/negf_example/Lead-R-8ZGNR-NC.dat" rel="noopener noreferrer" target="_blank">Lead-R-8ZGNR-NC.dat</a></code>, and <code class="ltx_verbatim ltx_font_typewriter"><a href="work/negf_example/NEGF-8ZGNR-NC.dat" rel="noopener noreferrer" target="_blank">NEGF-8ZGNR-NC.dat</a></code> stored in the <code class="ltx_verbatim ltx_font_typewriter">work/negf_example</code> directory.
+Input files for non-collinear NEGF calculations of a one-dimensional gold chain are also stored in the same directory and may be used as a reference.</p>
+</div><figure class="ltx_figure" id="fig:NEGF-ZGNR-NC"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="409" id="F51.g1" src="x52.png" width="817"/>
+<br>
+  <figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 51: </span><span class="ltx_text" style="font-size:90%;">(a) Zigzag graphene nanoribbon with non-collinear spin orientations represented by arrows.
+The arrow length corresponds to the magnitude of the spin magnetic moment.
+In the Step 1 calculation, the constraint method for the direction of the spin magnetic moment was applied.
+The method was applied so that the spin magnetic moments at the zigzag edge point upward in the left electrode and rightward in the right electrode.
+(b) Transmission of electrons passing through the channel region <math alttext="C" class="ltx_Math" display="inline" id="F51.m2"><mi>C</mi></math> shown in Fig. (a).
+</span></figcaption>
+</figure></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s46_negf.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s46_8_parallel.html"><span class="openmx_footer_label">Previous:</span> 46.8 Parallelization of NEGF</a><a href="s46_10_examples.html"><span class="openmx_footer_label">Next:</span> 46.10 NEGF Examples</a></div></div></footer>
+</div>
+</body>
+</html>

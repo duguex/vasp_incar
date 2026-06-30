@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>56.4 BandDispersion: Calculation of Band Dispersion ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s56_spin-texture-k.html" rel="up" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_3_gridcalc.html" rel="prev" title="56.3 GridCalc: Calculation on a k -Point Grid ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_5_mulponly.html" rel="next" title="56.5 MulPOnly: Calculation at User-Specified k Points ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+<meta content="Band.Nkpath, Band.kpath, Calc.Band.Max, Calc.Band.Min, Calc.Bandbyband, Calc.Type, Calc.Type.3mesh, Data.Reduction, Eigen.Brent, Energy.Range, Extract.Atom, Filename.atomMulP, Filename.kpointdata, Filename.outdata, Filename.scfout, Filename.xyzdata, HS.fileout, MulP.Vec.Scale, Num.of.Extract.Atom, Search.kCentral, Trial.Brent, k-plane.1stStep, k-plane.2ndStep, kRange.3mesh, scf.SpinOrbit.Coupling, scf.SpinPolarization" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s56_spin-texture-k.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s56_3_gridcalc.html"><span class="openmx_nav_label">Previous:</span> 56.3 GridCalc: Calculation on a k -Point Grid</a><a href="s56_5_mulponly.html"><span class="openmx_nav_label">Next:</span> 56.5 MulPOnly: Calculation at User-Specified k Points</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:banddispersion-calculation-of-band-dispersion">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">56.4 </span>BandDispersion: Calculation of Band Dispersion</h1><div class="ltx_para" id="SS4.p1">
+<p class="ltx_p">The post-process code <code class="ltx_verbatim ltx_font_typewriter">kSpin</code> provides four methods for calculating the momentum-space spin density matrix.
+This is specified by the keyword <code class="ltx_verbatim ltx_font_typewriter">Calc.Type</code>.
+Here we explain <span class="ltx_text ltx_font_italic">BandDispersion</span> among the four methods.
+Using the functionality of <span class="ltx_text ltx_font_italic">BandDispersion</span>,
+the momentum-space spin density matrix decomposed into individual atoms can be calculated on a band-dispersion path within a user-specified energy range.
+As an example of spin-texture analysis using <span class="ltx_text ltx_font_italic">BandDispersion</span>,
+we describe here a model of the Au(111) surface.
+First, perform an OpenMX calculation using the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/Au111Surface_BD.dat" rel="noopener noreferrer" target="_blank">Au111Surface_BD.dat</a></code> stored in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.
+Next, the spin texture can be analyzed by using the functionality of <span class="ltx_text ltx_font_italic">MulPCalc</span> (Sec. <a class="ltx_ref" href="s56_6_mulpcalc.html" title="56.6 MulPCalc: Atomically Decomposed Momentum-Space Spin Density Matrix ‣ 56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">56.6</span></a>).
+The keywords relevant to the execution of <code class="ltx_verbatim ltx_font_typewriter">kSpin</code> are listed below.
+These keywords are written in the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/Au111Surface_BD.dat" rel="noopener noreferrer" target="_blank">Au111Surface_BD.dat</a></code>.
+The input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/Au111Surface_BD.dat" rel="noopener noreferrer" target="_blank">Au111Surface_BD.dat</a></code> is stored in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p2">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold ltx_framed ltx_framed_underline" style="font-size:120%;">List of keywords related to kSpin</span>
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    Filename.scfout      Au111Surface.scfout
+    Filename.outdata     Au111Surface_BD
+    Calc.Type            BandDispersion    # FermiLoop, GridCalc,
+                                             BandDispersion, or MulPOnly
+                                             default: MulPOnly
+    Energy.Range        -1.0  1.0          # eV; default: 0.0  0.0
+    Band.Nkpath                2
+    &lt;Band.kpath
+      135  0.0  0.500000  0.000000    0.0   0.000000  0.000000     M  G
+      135  0.0  0.000000  0.000000    0.0  -0.500000  0.000000     G -M
+    Band.kpath&gt;
+</pre>
+</div><div class="ltx_para ltx_noindent" id="SS4.p3">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold ltx_framed ltx_framed_underline" style="font-size:120%;">Specifications of the keywords</span>
+<br class="ltx_break"/></p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p4">
+<p class="ltx_p">The specifications of the keywords are explained below.
+<br class="ltx_break"/></p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p5">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Filename.scfout
+<br class="ltx_break"/></span>
+Specifies the name of the scfout file to be read by <code class="ltx_verbatim ltx_font_typewriter">kSpin</code>.</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p6">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Filename.outdata
+<br class="ltx_break"/></span>
+Specifies the name of the output files.
+This keyword corresponds to the OpenMX keyword <code class="ltx_verbatim ltx_font_typewriter">System.Name</code>.<span id="idx-system-name-s56_4_banddisp"></span></p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p7">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Calc.Type
+<br class="ltx_break"/></span>
+Choose one of <span class="ltx_text ltx_font_italic">FermiLoop</span>, <span class="ltx_text ltx_font_italic">GridCalc</span>, <span class="ltx_text ltx_font_italic">BandDispersion</span>, or <span class="ltx_text ltx_font_italic">MulPOnly</span>.
+The default setting is <span class="ltx_text ltx_font_italic">MulPOnly</span>.
+Here we choose <span class="ltx_text ltx_font_italic">BandDispersion</span>.</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p8">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Energy.Range
+<br class="ltx_break"/></span>
+Specifies the energy range used to search for the bands to be analyzed.
+The unit is eV.
+The default value is <code class="ltx_verbatim ltx_font_typewriter">-0.5 0.5</code>.
+That is, the lower energy limit is -0.5 (eV), and the upper energy limit is 0.5 (eV).</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p9">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Band.Nkpath
+<br class="ltx_break"/></span>
+Specifies the number of <span class="ltx_text ltx_font_bold">k</span>-point paths used to calculate the band dispersion.
+The notation is the same as in a standard OpenMX calculation.</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p10">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Band.kpath
+<br class="ltx_break"/></span>
+Specifies the <span class="ltx_text ltx_font_bold">k</span>-point paths used to calculate the band dispersion.
+The notation is the same as in a standard OpenMX calculation.</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p11">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold ltx_framed ltx_framed_underline" style="font-size:120%;">Calculation</span>
+<br class="ltx_break"/></p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p12">
+<p class="ltx_p">The atomically decomposed momentum-space spin density matrix is calculated by the post-process code <code class="ltx_verbatim ltx_font_typewriter">kSpin</code>.
+Here we assume that the post-process code <code class="ltx_verbatim ltx_font_typewriter">kSpin</code> is located in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.
+Move to the directory <code class="ltx_verbatim ltx_font_typewriter">work</code> and run the calculation as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    % ./kSpin Au111Surface_BD.dat
+</pre>
+<p class="ltx_p">Alternatively, for an MPI calculation, for example with 4 MPI processes, run as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    % mpirun -np 4 ./kSpin Au111Surface_BD.dat
+</pre>
+</div><div class="ltx_para ltx_noindent" id="SS4.p13">
+<p class="ltx_p">As the calculation proceeds, the following standard output is obtained.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    ******************************************************************
+    ******************************************************************
+     kSpin:
+     code for evaluating spin related properties
+     in momentum space of solid state materials.
+     Copyright (C), 2019,
+     Hiroki Kotaka, Naoya Yamaguchi and Fumiyuki Ishii.
+     This software includes the work that is distributed
+     in version 3 of the GPL (GPLv3).
+
+     Please cite the following article:
+     H. Kotaka, F. Ishii, and M. Saito,
+     Jpn. J. Appl. Phys. 52, 035204 (2013).
+     DOI: 10.7567/JJAP.52.035204.
+    ******************************************************************
+    ******************************************************************
+
+
+    Input filename is "Au111Surface.scfout"
+
+
+    Start "BandDispersion" Calculation (3).
+    line_Nk[1]:  0.665829
+    ( 0.000000,  0.500000,  0.000000 ) -&gt; ( 0.000000,  0.000000,  0.000000 )
+    line_Nk[2]:  1.331658
+    ( 0.000000,  0.000000,  0.000000 ) -&gt; ( 0.000000, -0.500000,  0.000000 )
+    ########### ORBITAL DATA ##################
+    ClaOrb_MAX[0]:   2
+    ClaOrb_MAX[1]:   8
+    Total Band (2*n): 124
+    ###########################################
+    Band.Nkpath: 2
+    135 ( 0.000000,  0.500000,  0.000000 ) &gt;&gt;&gt; ( 0.000000,  0.000000,  0.000000 ) M G
+    135 ( 0.000000,  0.000000,  0.000000 ) &gt;&gt;&gt; ( 0.000000, -0.500000,  0.000000 ) G -M
+    l_min:  49   l_max:  56   l_cal:   8
+    Au111Surface_BD.Band49_1
+    Au111Surface_BD.Band50_1
+    Au111Surface_BD.Band51_1
+    Au111Surface_BD.Band52_1
+    Au111Surface_BD.Band53_1
+    Au111Surface_BD.Band54_1
+    Au111Surface_BD.Band55_1
+    Au111Surface_BD.Band56_1
+    l_min:  49   l_max:  56   l_cal:   8
+    Au111Surface_BD.Band49_2
+    Au111Surface_BD.Band50_2
+    Au111Surface_BD.Band51_2
+    Au111Surface_BD.Band52_2
+    Au111Surface_BD.Band53_2
+    Au111Surface_BD.Band54_2
+    Au111Surface_BD.Band55_2
+    Au111Surface_BD.Band56_2
+    ###########################################
+    Total MulP data:2176
+    ############ CALC TIME ####################
+      Total Calculation Time:  4.772406 (s)
+    ###########################################
+</pre>
+</div><div class="ltx_para ltx_noindent" id="SS4.p14">
+<p class="ltx_p">If the calculation completes normally as above,
+the following output files are generated in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    Au111Surface_BD.BAND
+    Au111Surface_BD.Band49_1
+    Au111Surface_BD.Band50_1
+    Au111Surface_BD.Band51_1
+    Au111Surface_BD.Band52_1
+    Au111Surface_BD.Band53_1
+    Au111Surface_BD.Band54_1
+    Au111Surface_BD.Band55_1
+    Au111Surface_BD.Band56_1
+    Au111Surface_BD.Band49_2
+    Au111Surface_BD.Band50_2
+    Au111Surface_BD.Band51_2
+    Au111Surface_BD.Band52_2
+    Au111Surface_BD.Band53_2
+    Au111Surface_BD.Band54_2
+    Au111Surface_BD.Band55_2
+    Au111Surface_BD.Band56_2
+    Au111Surface_BD.AMulPBand
+    Au111Surface_BD.AMulPBand_s
+    Au111Surface_BD.AMulPBand_p
+    Au111Surface_BD.AMulPBand_p1
+    Au111Surface_BD.AMulPBand_p2
+    Au111Surface_BD.AMulPBand_p3
+    Au111Surface_BD.AMulPBand_d
+    Au111Surface_BD.AMulPBand_d1
+    Au111Surface_BD.AMulPBand_d2
+    Au111Surface_BD.AMulPBand_d3
+    Au111Surface_BD.AMulPBand_d4
+    Au111Surface_BD.AMulPBand_d5
+    Au111Surface_BD.plotexample
+    Au111Surface_BD.atominfo
+    temporal_12345.input
+</pre>
+</div><div class="ltx_para ltx_noindent" id="SS4.p15">
+<p class="ltx_p">As an example, by running the following command,
+the band dispersion showing the Rashba spin splitting on the Au(111) surface shown in Fig. <a class="ltx_ref" href="#fig:Rashba-Fig4" title="Figure 80 ‣ 56.4 BandDispersion: Calculation of Band Dispersion ‣ 56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">80</span></a>(a) is obtained.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    % gnuplot Au111Surface_BD.plotexample
+</pre>
+<p class="ltx_p">To obtain the information on the spin texture in the band dispersion,
+perform the analysis as follows. For details, see <span class="ltx_text ltx_font_italic">MulPCalc</span> (Sec. <a class="ltx_ref" href="#subsec:mulpcalc-atomically-decomposed-momentum-space-spin-density-matrix" title="56.6 MulPCalc: Atomically Decomposed Momentum-Space Spin Density Matrix ‣ 56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">56.6</span></a>).</p>
+</div><figure class="ltx_figure" id="fig:Rashba-Fig4"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="296" id="F80.g1" src="x81.png" width="872"/>
+<br>
+  
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 80: </span>
+(a) Band dispersion showing the Rashba spin splitting on the Au(111) surface.
+This figure was generated from the band file <span class="ltx_text ltx_font_typewriter">Au111Surface_BD.BAND</span> and the example plot file <span class="ltx_text ltx_font_typewriter">Au111Surface_BD.plotexample</span>.
+(b) Momentum-space spin density matrix decomposed into individual atoms on the Au(111) surface.
+This figure was generated from the MulPop file <span class="ltx_text ltx_font_typewriter">Au111Surface_BD_MC.MulPop</span>.
+The circles represent the difference between the numbers of electrons with <math alttext="\alpha" class="ltx_Math" display="inline" id="F80.m3"><mi>α</mi></math> and <math alttext="\beta" class="ltx_Math" display="inline" id="F80.m4"><mi>β</mi></math> spins at each <span class="ltx_text ltx_font_bold">k</span> point.
+Their radii and colors reflect the magnitude and sign, respectively.
+This figure was generated from the example plot file <span class="ltx_text ltx_font_typewriter">Au111Surface_BD_MC.plotexample</span>.
+</figcaption>
+</figure>
+
+<br>
+<div class="ltx_para ltx_noindent" id="SS4.p16">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold ltx_framed ltx_framed_underline" style="font-size:120%;">Output files</span>
+<br class="ltx_break"/></p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p17">
+<p class="ltx_p">The contents of the output files are explained below.
+<br class="ltx_break"/></p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p18">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">BAND file
+<br class="ltx_break"/></span>
+This file records the band-dispersion data.
+The first and second columns correspond to the distance between <span class="ltx_text ltx_font_bold">k</span> points along the path (in Bohr<sup class="ltx_sup"><span class="ltx_text ltx_font_italic">-1</span></sup>)
+and the eigenenergy (in eV), respectively.</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p19">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Band_YY_Z file
+<br class="ltx_break"/></span>
+This file records the band-dispersion data for each branch (band index YY, <span class="ltx_text ltx_font_bold">k</span>-path index Z).
+The format of this file is the same as that of the BAND file.</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p20">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">AMulPBand file
+<br class="ltx_break"/></span>
+This file records the data of the momentum-space spin density matrix decomposed into individual atoms.
+It can be analyzed by <span class="ltx_text ltx_font_italic">MulPCalc</span> (Sec. <a class="ltx_ref" href="s56_6_mulpcalc.html" title="56.6 MulPCalc: Atomically Decomposed Momentum-Space Spin Density Matrix ‣ 56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">56.6</span></a>).</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p21">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">AMulPBand_xx file
+<br class="ltx_break"/></span>
+This file records the data of the <math alttext="xx" class="ltx_Math" display="inline" id="SS4.p21.m1"><mrow><mi>x</mi><mo>⁢</mo><mi>x</mi></mrow></math> component of the momentum-space spin density matrix decomposed into individual atoms.
+It can be analyzed by <span class="ltx_text ltx_font_italic">MulPCalc</span> (Sec. <a class="ltx_ref" href="s56_6_mulpcalc.html" title="56.6 MulPCalc: Atomically Decomposed Momentum-Space Spin Density Matrix ‣ 56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">56.6</span></a>).</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p22">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">plotexample file
+<br class="ltx_break"/></span>
+This file provides an example gnuplot script.</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p23">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">atominfo file
+<br class="ltx_break"/></span>
+This file provides information on the lattice vectors and the PAOs.</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p24">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">temporal_12345.input
+<br class="ltx_break"/></span>
+This file is a copy of the input file recorded in the scfout file.</p>
+</div><div class="ltx_para ltx_noindent" id="SS4.p25">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold ltx_framed ltx_framed_underline" style="font-size:120%;">(Optional) Analysis of the atomically decomposed momentum-space spin density matrix</span>
+<br class="ltx_break"/></p>
+</div><div class="ltx_para" id="SS4.p26">
+<p class="ltx_p">Using <span class="ltx_text ltx_font_italic">MulPCalc</span>, data for analyzing the atomically decomposed momentum-space spin density matrix can be extracted from the AtomMulP file or the AMulPBand_xx file.
+Compile it in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code> as follows to generate the executable.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    % make MulPCalc
+</pre>
+<p class="ltx_p">If the compilation is successful, the executable <code class="ltx_verbatim ltx_font_typewriter">MulPCalc</code> is generated in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.
+As an example, we focus on the band dispersion of the Rashba spin splitting on the Au(111) surface and analyze the momentum-space spin density matrix decomposed into atomic contributions.
+First, add the following keywords to the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/Au111Surface_BD.dat" rel="noopener noreferrer" target="_blank">Au111Surface_BD.dat</a></code>.
+
+
+
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    Filename.atomMulP Au111Surface_BD.AMulPBand # default: default
+    Filename.xyzdata   Au111Surface_BD_MC       # default: default
+    Num.of.Extract.Atom        3                # default: 1
+    Extract.Atom               1 2 3            # default: 1 2 ... (Num.of.Extract.Atom)
+</pre>
+<p class="ltx_p">After the calculation by the post-process code <code class="ltx_verbatim ltx_font_typewriter">MulPCalc</code>,
+the momentum-space spin density matrix decomposed into atomic contributions can be analyzed as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    % ./MulPCalc Au111Surface_BD.dat
+</pre>
+<p class="ltx_p">In addition, the appearance of the figure can be adjusted by setting the following keywords.
+
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    MulP.Vec.Scale       0.1  0.1  0.1          # default: 1.0  1.0  1.0
+    Data.Reduction             1                # default: 1
+</pre>
+<p class="ltx_p">After running <span class="ltx_text ltx_font_italic">MulPCalc</span>,
+the following output files are obtained in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    Au111Surface_BD_MC.MulPop
+    Au111Surface_BD_MC.MulPop49
+    Au111Surface_BD_MC.MulPop50
+    Au111Surface_BD_MC.MulPop51
+    Au111Surface_BD_MC.MulPop52
+    Au111Surface_BD_MC.MulPop53
+    Au111Surface_BD_MC.MulPop54
+    Au111Surface_BD_MC.MulPop55
+    Au111Surface_BD_MC.MulPop56
+    Au111Surface_BD_MC.plotexample
+</pre>
+<p class="ltx_p">As an example, by running the following command, Fig. <a class="ltx_ref" href="#fig:Rashba-Fig4" title="Figure 80 ‣ 56.4 BandDispersion: Calculation of Band Dispersion ‣ 56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">80</span></a>(b) is obtained.
+This displays the information of the momentum-space spin density matrix decomposed into atomic contributions,
+overlaid on the Rashba spin-split bands of the Au(111) surface.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    % gnuplot Au111Surface_BD_MC.plotexample
+</pre>
+<p class="ltx_p">For further information on <span class="ltx_text ltx_font_italic">MulPCalc</span>, see also Sec. <a class="ltx_ref" href="s56_6_mulpcalc.html" title="56.6 MulPCalc: Atomically Decomposed Momentum-Space Spin Density Matrix ‣ 56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">56.6</span></a>.</p>
+</div></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s56_spin-texture-k.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s56_3_gridcalc.html"><span class="openmx_footer_label">Previous:</span> 56.3 GridCalc: Calculation on a k -Point Grid</a><a href="s56_5_mulponly.html"><span class="openmx_footer_label">Next:</span> 56.5 MulPOnly: Calculation at User-Specified k Points</a></div></div></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="index.html" rel="up" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="prev" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="next" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+<meta content="scf.Restart.Spin.Angle.Phi, scf.Restart.Spin.Angle.Theta, scf.restart, scf.restart.filename" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s41_constraint-ncl.html"><span class="openmx_nav_label">Previous:</span> 41 Constraint DFT for non-collinear spin orientation</a><a href="s43_zeeman.html"><span class="openmx_nav_label">Next:</span> 43 Zeeman term</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_section">42 </span>Second variational method: magnetic anisotropy energy (MAE)</h1>
+<div class="ltx_para" id="p1">
+<p class="ltx_p">In the previous section, we introduced the constraint DFT method for controlling spin orientation.
+The magnetic anisotropy energy of magnetic systems can be evaluated using the constraint DFT method.
+In this case, the magnetic anisotropy energy is calculated from the self-consistently obtained total energies.
+However, the computational cost is high, and for degenerate localized <math alttext="d" class="ltx_Math" display="inline" id="p1.m1"><mi>d</mi></math> orbitals,
+it may fail to give the correct result because the freedom in occupation-number space can trap the calculation in local solutions.
+One way to avoid these problems is to use the second variational method.
+The basic idea of the second variational method is to use the fact that spin-orbit interaction is a relatively small perturbation to the scalar-relativistic base band structure:
+first, the collinear eigenstates without SOC are used as a basis, and then the Hamiltonian including SOC is diagonalized within that subspace.
+In this method, the SCF electron density is first calculated by a collinear DFT calculation. Restart files are generated at this stage.
+Next, using these restart files, only one diagonalization is carried out within the framework of the non-collinear DFT method.
+In that step, spin-orbit interaction (SOI) is taken into account and diagonalization is performed.
+This computational scheme is called the second variational method.
+Since the second variational method is based on the Harris functional <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib14" title="">14</a>]</cite>,
+if the input density is sufficiently good, the total-energy difference can be estimated with high accuracy by only one diagonalization.
+The effects of spin rotation and the perturbation due to spin-orbit interaction appear only in the band energy.
+The total energy can be written as the sum of the band energy and the double-counting terms, but
+by using the Harris functional, the total energy can be evaluated with an error of second order in the difference between the input electron density and the SCF electron density,
+by only one diagonalization.
+In that case, the double-counting terms are calculated only from the input electron density,
+so the perturbation energy due to spin rotation and spin-orbit interaction is included only in the band energy.
+Therefore, when comparing energies, one should focus only on the band energy.
+The double-counting terms in the Harris functional do not depend on the spin rotation angle. In the OpenMX output they may appear to change,
+but this is because each energy term is calculated from the output electrons rather than the input electrons (please be careful not to be misled by the output).
+Using the second variational method, first calculate the ferromagnetic state by the collinear DFT method and obtain the SCF electron density.
+Next, using the restart file that stores the SCF electron density, take spin-orbit interaction into account within the framework of non-collinear DFT,
+and perform only one diagonalization.
+The restart file is read by the following keywords .</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+       scf.restart.filename               FePt
+       scf.restart                        c2n
+</pre>
+<p class="ltx_p">The restart file to be read is specified by the keyword <code class="ltx_verbatim ltx_font_typewriter">scf.restart.filename</code>.
+By <code class="ltx_verbatim ltx_font_typewriter">c2n</code> of the keyword <code class="ltx_verbatim ltx_font_typewriter">scf.restart</code>, the restart file generated by the collinear DFT calculation
+is converted for use in a non-collinear DFT calculation.
+As an example, run the first collinear calculation using the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/FePt.dat" rel="noopener noreferrer" target="_blank">FePt.dat</a></code> available in <code class="ltx_verbatim ltx_font_typewriter">work</code>,
+and generate the restart file. In the second calculation, the spin orientation is specified by the following keywords.
+
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+       scf.Restart.Spin.Angle.Theta       90.0
+       scf.Restart.Spin.Angle.Phi          0.0
+</pre>
+<p class="ltx_p">These two keywords specify the Euler angles (<math alttext="\theta" class="ltx_Math" display="inline" id="p1.m2"><mi>θ</mi></math>, <math alttext="\phi" class="ltx_Math" display="inline" id="p1.m3"><mi>ϕ</mi></math>) of the spin orientation. The spin direction on all real-space grids
+is aligned in the same direction specified by these Euler angles.</p>
+</div>
+
+
+
+<div class="ltx_para" id="p2">
+<p class="ltx_p">Therefore, note that the evaluation of magnetic anisotropy energy (MAE) by the second variational method is applicable only to ferromagnets.
+Here we show one example of how the second variational method is applied to the evaluation of MAE.
+Fig. <a class="ltx_ref" href="#fig:L10-FePt-MAE" title="Figure 41 ‣ 42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">41</span></a> shows the MAE curve as a function of the spin rotation angle in bulk L1<sub class="ltx_sub"><span class="ltx_text ltx_font_italic">0</span></sub> FePt.
+The <code class="ltx_verbatim ltx_font_typewriter">Full SCF</code> result was obtained by the constraint DFT method described in Section <a class="ltx_ref" href="s41_constraint-ncl.html" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">41</span></a>.
+Since the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/FePt-NC-SCF.dat" rel="noopener noreferrer" target="_blank">FePt-NC-SCF.dat</a></code> is stored in the <code class="ltx_verbatim ltx_font_typewriter">work</code> directory, the user can perform the same calculation.
+Using non-collinear DFT calculations including spin-orbit interaction, fully self-consistent calculations were performed
+for each spin rotation angle.
+Here the electronic temperature was 300 K and the number of <span class="ltx_text ltx_font_bold">k</span> points was <math alttext="17^{3}" class="ltx_Math" display="inline" id="p2.m2"><msup><mn>17</mn><mn>3</mn></msup></math>.
+As a result, the <code class="ltx_verbatim ltx_font_typewriter">Full SCF</code> calculation yielded an MAE of 2.78 meV/f.u.
+The two results obtained by the second variational method are also shown in Fig. <a class="ltx_ref" href="#fig:L10-FePt-MAE" title="Figure 41 ‣ 42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">41</span></a>.
+First, the collinear calculation is performed using the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/FePt.dat" rel="noopener noreferrer" target="_blank">FePt.dat</a></code> in the <code class="ltx_verbatim ltx_font_typewriter">work</code> directory to generate the restart file.
+Next, only one diagonalization is performed using the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/FePt-NC.dat" rel="noopener noreferrer" target="_blank">FePt-NC.dat</a></code> in the <code class="ltx_verbatim ltx_font_typewriter">work</code> directory.
+In one of the two calculations by the second variational method, the same electronic temperature (300 K) and the same number of <span class="ltx_text ltx_font_bold">k</span> points as in <code class="ltx_verbatim ltx_font_typewriter">Full SCF</code> were used.
+In this case, the MAE was 2.89 meV/f.u.
+In the other case, the electronic temperatures (<span class="ltx_text ltx_font_bold">k</span>-point grids) in the first SCF calculation and the second calculation were 800 K (<math alttext="9^{3}" class="ltx_Math" display="inline" id="p2.m3"><msup><mn>9</mn><mn>3</mn></msup></math>) and 300 K (<math alttext="17^{3}" class="ltx_Math" display="inline" id="p2.m4"><msup><mn>17</mn><mn>3</mn></msup></math>), respectively.
+In this case, the MAE was 2.90 meV/f.u.
+Since these two calculations by the second variational method give almost the same result,
+it is likely acceptable to use different electronic temperatures and numbers of <span class="ltx_text ltx_font_bold">k</span> points in the collinear SCF calculation for generating the SCF electron density and in the non-collinear calculation (including spin-orbit interaction).
+By assigning a high electronic temperature and a small number of <span class="ltx_text ltx_font_bold">k</span> points to the SCF calculation,
+computational efficiency can be improved, while for the second non-collinear calculation, the accuracy can be improved by using a low electronic temperature and a large number of <span class="ltx_text ltx_font_bold">k</span> points.
+We note again that in the second variational method one should focus on <code class="ltx_verbatim ltx_font_typewriter">Uele</code> rather than <code class="ltx_verbatim ltx_font_typewriter">Utot</code> in the output file.
+Since MAE is generally a tiny energy difference on the order of meV, it is important in the second-stage non-collinear calculation to use a low electronic temperature and a sufficiently dense <span class="ltx_text ltx_font_bold">k</span>-point mesh,
+and to carefully confirm the convergence of <code class="ltx_verbatim ltx_font_typewriter">Uele</code>.
+Because the second variational method is based on the Harris functional, MAE should be evaluated using <code class="ltx_verbatim ltx_font_typewriter">Uele</code>.
+On the other hand, MAE in the <code class="ltx_verbatim ltx_font_typewriter">full SCF</code> calculation is evaluated using the total energy <code class="ltx_verbatim ltx_font_typewriter">Utot</code>.
+The difference between <code class="ltx_verbatim ltx_font_typewriter">full SCF</code> and the second variational method in the evaluation of MAE is about 0.1 meV/f.u.
+Therefore, the second variational method is considered to be an efficient approach to MAE evaluation from the viewpoints of both accuracy and efficiency.</p>
+</div>
+<div class="ltx_para" id="p3">
+<p class="ltx_p">The second variational method can be used not only for evaluating MAE but also for investigating how spin-orbit interaction changes the band structure.
+That is, it may also be applicable to the analysis of band structures of large-scale systems for which direct SCF calculations by the non-collinear DFT method are difficult.</p>
+</div>
+
+<figure class="ltx_figure" id="fig:L10-FePt-MAE"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_square" height="674" id="F41.g1" src="x42.png" width="763"/>
+<br>
+  <figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 41: </span>
+MAE curve as a function of spin rotation angle for bulk L1<sub class="ltx_sub"><span class="ltx_text ltx_font_italic">0</span></sub> FePt.
+The input file used for <code class="ltx_verbatim ltx_font_typewriter">Full SCF</code> was <span class="ltx_text ltx_font_typewriter"><a href="work/FePt-NC-SCF.dat" rel="noopener noreferrer" target="_blank">FePt-NC-SCF.dat</a></span>, and the input files <span class="ltx_text ltx_font_typewriter"><a href="work/FePt.dat" rel="noopener noreferrer" target="_blank">FePt.dat</a></span> and <span class="ltx_text ltx_font_typewriter"><a href="work/FePt-NC.dat" rel="noopener noreferrer" target="_blank">FePt-NC.dat</a></span> were
+used for the two calculations by the second variational method. These input files are in the <span class="ltx_text ltx_font_typewriter">work</span> directory.
+</figcaption>
+</figure>
+
+<div class="ltx_pagination ltx_role_newpage"></div>
+<div class="ltx_pagination ltx_role_newpage"></div>
+</section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s41_constraint-ncl.html"><span class="openmx_footer_label">Previous:</span> 41 Constraint DFT for non-collinear spin orientation</a><a href="s43_zeeman.html"><span class="openmx_footer_label">Next:</span> 43 Zeeman term</a></div></div></footer>
+</div>
+</body>
+</html>

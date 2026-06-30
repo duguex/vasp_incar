@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>60.3 Bulk Systems ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s60_xps-core-binding.html" rel="up" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_2_gas.html" rel="prev" title="60.2 Gaseous Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_4_esm.html" rel="next" title="60.4 Combined use with the ESM method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+<meta content="Definition.of.Atomic.Species, core.hole.state, scf.SpinOrbit.Coupling, scf.SpinPolarization, scf.core.hole, scf.coulomb.cutoff, scf.restart, scf.restart.filename, scf.system.charge" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s60_xps-core-binding.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s60_2_gas.html"><span class="openmx_nav_label">Previous:</span> 60.2 Gaseous Systems</a><a href="s60_4_esm.html"><span class="openmx_nav_label">Next:</span> 60.4 Combined use with the ESM method</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:bulk-systems">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">60.3 </span>Bulk Systems</h1><div class="ltx_para" id="SS3.p1">
+<p class="ltx_p">Here, we explain how to calculate the absolute binding energy of a core level in a bulk system by taking TiC crystal as an example.</p>
+</div><div class="ltx_para" id="SS3.p2">
+The calculation of the <span class="ltx_text ltx_font_bold">initial state</span> is performed as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    % mpirun -np 112 ./openmx TiC216.dat | tee TiC216.std
+</pre>
+<p class="ltx_p">Here, no XPS-specific keyword is specified, but
+<code class="ltx_verbatim ltx_font_typewriter">scf.SpinPolarization=on</code> is used to perform a spin-polarized calculation. The spin-polarized calculation here is carried out to ensure consistency with the final-state calculation. However, the calculation result is nonmagnetic.
+The input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/TiC216.dat" rel="noopener noreferrer" target="_blank">TiC216.dat</a></code> used here is located in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.</p>
+</div><div class="ltx_para" id="SS3.p3">
+The <span class="ltx_text ltx_font_bold">final-state</span> calculation is performed as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    % mpirun -np 112 ./openmx TiC216-CH3.dat | tee TiC216-CH3.std
+</pre>
+<p class="ltx_p">The input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/TiC216-CH3.dat" rel="noopener noreferrer" target="_blank">TiC216-CH3.dat</a></code> used here is located in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.
+In this input file, the atomic species are defined as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   &lt;Definition.of.Atomic.Species
+     Ti  Ti7.0-s3p2d2        Ti_PBE19
+     C   C6.0_1s-s3p2d1      C_PBE19_1s
+     C1  C6.0_1s_CH-s3p2d1   C_PBE19_1s
+   Definition.of.Atomic.Species&gt;
+</pre><span id="idx-definition-of-atomic-species-s60_3_bulk"></span>
+<p class="ltx_p">Then, the atomic species <code class="ltx_verbatim ltx_font_typewriter">C1</code> is assigned to atom 5 as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   Atoms.Number         216
+   Atoms.SpeciesAndCoordinates.Unit   Ang # Ang|AU
+   &lt;Atoms.SpeciesAndCoordinates
+      1  Ti   0.000000000000  0.000000000000  0.000000000000   6.0 6.0
+      2  Ti   2.163500000000  2.163500000000  0.000000000000   6.0 6.0
+      3  Ti   0.000000000000  2.163500000000  2.163500000000   6.0 6.0
+      4  Ti   2.163500000000  0.000000000000  2.163500000000   6.0 6.0
+      5  C1   2.163500000000  0.000000000000  0.000000000000   3.0 3.0
+      6  C    0.000000000000  2.163500000000  0.000000000000   3.0 3.0
+      7  C    0.000000000000  0.000000000000  2.163500000000   3.0 3.0
+      8  C    2.163500000000  2.163500000000  2.163500000000   3.0 3.0
+      ....
+      ..
+   Atoms.SpeciesAndCoordinates&gt;
+</pre><span id="idx-atoms-number-s60_3_bulk"></span><span id="idx-atoms-speciesandcoordinates-s60_3_bulk"></span><span id="idx-atoms-speciesandcoordinates-unit-s60_3_bulk"></span>
+<p class="ltx_p">By specifying the following keywords, a core hole is created in the <math alttext="1s" class="ltx_Math" display="inline" id="SS3.p3.m1"><mrow><mn>1</mn><mo>⁢</mo><mi>s</mi></mrow></math> state of atom 5.
+
+
+
+
+
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    scf.restart                 on
+    scf.restart.filename        TiC216
+    scf.coulomb.cutoff          on
+    scf.core.hole               on
+    scf.system.charge          0.0       # default=0.0
+
+    &lt;core.hole.state
+      5 s 1
+    core.hole.state&gt;
+</pre>
+<p class="ltx_p">In the final-state calculation, the Hartree potential <math alttext="V_{H}" class="ltx_Math" display="inline" id="SS3.p3.m2"><msub><mi>V</mi><mi>H</mi></msub></math> consists of two contributions <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib97" title="">97</a>]</cite>.
+They are the periodic part <math alttext="V_{H}^{\rm(P)}" class="ltx_Math" display="inline" id="SS3.p3.m3"><msubsup><mi>V</mi><mi>H</mi><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">P</mi><mo stretchy="false">)</mo></mrow></msubsup></math> and the nonperiodic part <math alttext="V_{H}^{\rm(NP)}" class="ltx_Math" display="inline" id="SS3.p3.m4"><msubsup><mi>V</mi><mi>H</mi><mrow><mo stretchy="false">(</mo><mi>NP</mi><mo stretchy="false">)</mo></mrow></msubsup></math> defined by</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx83">
+<tbody id="E68"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle V_{H}({\bf r})=V_{H}^{\rm(P)}({\bf r})+V_{H}^{\rm(NP)}({\bf r})," class="ltx_Math" display="inline" id="E68.m1"><mrow><mrow><mrow><msub><mi>V</mi><mi>H</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐫</mi><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mrow><msubsup><mi>V</mi><mi>H</mi><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">P</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐫</mi><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><msubsup><mi>V</mi><mi>H</mi><mrow><mo stretchy="false">(</mo><mi>NP</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐫</mi><mo stretchy="false">)</mo></mrow></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(68)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">The periodic part <math alttext="V_{H}^{\rm(P)}" class="ltx_Math" display="inline" id="SS3.p3.m5"><msubsup><mi>V</mi><mi>H</mi><mrow><mo stretchy="false">(</mo><mi mathvariant="normal">P</mi><mo stretchy="false">)</mo></mrow></msubsup></math> is calculated
+from the charge density obtained in the initial-state calculation through the Poisson equation under periodic boundary conditions.
+The charge density obtained in the initial-state calculation is specified by the keywords <code class="ltx_verbatim ltx_font_typewriter">scf.restart</code> and <code class="ltx_verbatim ltx_font_typewriter">scf.restart.filename</code>.
+The nonperiodic part <math alttext="V_{H}^{\rm(NP)}" class="ltx_Math" display="inline" id="SS3.p3.m6"><msubsup><mi>V</mi><mi>H</mi><mrow><mo stretchy="false">(</mo><mi>NP</mi><mo stretchy="false">)</mo></mrow></msubsup></math> is calculated for the difference charge density <math alttext="\Delta\rho({\bf r})=\rho_{\rm f}({\bf r})-\rho_{\rm i}({\bf r})" class="ltx_Math" display="inline" id="SS3.p3.m7"><mrow><mrow><mi mathvariant="normal">Δ</mi><mo>⁢</mo><mi>ρ</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐫</mi><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mrow><msub><mi>ρ</mi><mi mathvariant="normal">f</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐫</mi><mo stretchy="false">)</mo></mrow></mrow><mo>−</mo><mrow><msub><mi>ρ</mi><mi mathvariant="normal">i</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐫</mi><mo stretchy="false">)</mo></mrow></mrow></mrow></mrow></math>
+by using the exact Coulomb cutoff method <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib101" title="">101</a>]</cite>.
+Here, <math alttext="\rho_{\rm f}({\bf r})" class="ltx_Math" display="inline" id="SS3.p3.m8"><mrow><msub><mi>ρ</mi><mi mathvariant="normal">f</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐫</mi><mo stretchy="false">)</mo></mrow></mrow></math> and <math alttext="\rho_{\rm i}({\bf r})" class="ltx_Math" display="inline" id="SS3.p3.m9"><mrow><msub><mi>ρ</mi><mi mathvariant="normal">i</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐫</mi><mo stretchy="false">)</mo></mrow></mrow></math> are the charge densities of the final and initial states, respectively.
+The cutoff radius of the Coulomb interaction is set to half the length of the shortest lattice vector.
+To activate the exact Coulomb cutoff method, set the keyword <code class="ltx_verbatim ltx_font_typewriter">scf.coulomb.cutoff</code> to <code class="ltx_verbatim ltx_font_typewriter">on</code>.
+The core hole is created by the keywords <code class="ltx_verbatim ltx_font_typewriter">scf.core.hole</code> and <code class="ltx_verbatim ltx_font_typewriter">core.hole.state</code>.
+In the present case, a core hole is created in the 1s state of atom 5.
+Since TiC crystal is metallic, note that the keyword <code class="ltx_verbatim ltx_font_typewriter">scf.system.charge</code> is set to <code class="ltx_verbatim ltx_font_typewriter">0.0</code>.
+When treating a gapped system, <code class="ltx_verbatim ltx_font_typewriter">scf.system.charge</code> must be set to <code class="ltx_verbatim ltx_font_typewriter">1</code>.</p>
+</div><div class="ltx_para" id="SS3.p4">
+<p class="ltx_p">After completing the initial-state and final-state calculations, the total energies are obtained from the output files.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+     Initial state: -10499.900104007471 (Hartree)
+     Final state:   -10489.553360141708 (Hartree)
+</pre>
+<p class="ltx_p">Then, using Eq. (<a class="ltx_ref" href="s60_1_xps-core-binding.html#eq:XPS-Eq3" title="In 60.1 XPS core-level overview ‣ 60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">67</span></a>), the binding energy can be calculated as follows.</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx84">
+<tbody id="Ex50">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle E^{\rm(metal)}_{\rm b}" class="ltx_Math" display="inline" id="Ex48.m1"><msubsup><mi>E</mi><mi mathvariant="normal">b</mi><mrow><mo stretchy="false">(</mo><mi>metal</mi><mo stretchy="false">)</mo></mrow></msubsup></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math alttext="\displaystyle=" class="ltx_Math" display="inline" id="Ex48.m2"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math alttext="\displaystyle E^{(0)}_{\rm f}(N)-E^{(0)}_{\rm i}(N)," class="ltx_Math" display="inline" id="Ex48.m3"><mrow><mrow><mrow><msubsup><mi>E</mi><mi mathvariant="normal">f</mi><mrow><mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow></mrow><mo>−</mo><mrow><msubsup><mi>E</mi><mi mathvariant="normal">i</mi><mrow><mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math alttext="\displaystyle=" class="ltx_Math" display="inline" id="Ex49.m1"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math alttext="\displaystyle-10489.553360141708-(-10499.900104007471)=10.346743865763({\rm
+Hartree%
+})," class="ltx_Math" display="inline" id="Ex49.m2"><mrow><mrow><mrow><mrow><mo>−</mo><mn>10489.553360141708</mn></mrow><mo>−</mo><mrow><mo stretchy="false">(</mo><mrow><mo>−</mo><mn>10499.900104007471</mn></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mn>10.346743865763</mn><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>Hartree</mi><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math alttext="\displaystyle\approx" class="ltx_Math" display="inline" id="Ex50.m1"><mo>≈</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math alttext="\displaystyle 281.55({\rm eV})." class="ltx_Math" display="inline" id="Ex50.m2"><mrow><mrow><mn>281.55</mn><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>eV</mi><mo stretchy="false">)</mo></mrow></mrow><mo lspace="0em">.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+</table>
+<p class="ltx_p">The obtained value, 281.55 eV, is found to agree well with the experimental value of 281.5 eV <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib102" title="">102</a>]</cite>.</p>
+</div>
+
+
+<div class="ltx_para" id="SS3.p5">
+<p class="ltx_p">As an example of a gapped system, let us explain the calculation for crystalline silicon.
+The initial-state and final-state calculations are performed as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    % mpirun -np 256 ./openmx Si-4-SOI.dat | tee Si-4-SOI.std
+    % mpirun -np 256 ./openmx Si-4-CH-SOI1.dat | tee Si-4-CH-SOI1.std
+    % mpirun -np 256 ./openmx Si-4-CH-SOI6.dat | tee Si-4-CH-SOI6.std
+</pre>
+<p class="ltx_p"><code class="ltx_verbatim ltx_font_typewriter"><a href="work/Si-4-SOI.dat" rel="noopener noreferrer" target="_blank">Si-4-SOI.dat</a></code> is the input file for the initial-state calculation, while
+<code class="ltx_verbatim ltx_font_typewriter"><a href="work/Si-4-CH-SOI1.dat" rel="noopener noreferrer" target="_blank">Si-4-CH-SOI1.dat</a></code> and <code class="ltx_verbatim ltx_font_typewriter"><a href="work/Si-4-CH-SOI6.dat" rel="noopener noreferrer" target="_blank">Si-4-CH-SOI6.dat</a></code> are the input files for the final-state calculations,
+in which holes are introduced into the core levels specified by <math alttext="2p_{3/2}(J=3/2,M=3/2)" class="ltx_Math" display="inline" id="SS3.p5.m1"><mrow><mn>2</mn><mo>⁢</mo><msub><mi>p</mi><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><mi>J</mi><mo>=</mo><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></mrow><mo>,</mo><mrow><mi>M</mi><mo>=</mo><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></mrow></mrow><mo stretchy="false">)</mo></mrow></mrow></math> and <math alttext="2p_{1/2}(J=1/2,M=-1/2)" class="ltx_Math" display="inline" id="SS3.p5.m2"><mrow><mn>2</mn><mo>⁢</mo><msub><mi>p</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><mi>J</mi><mo>=</mo><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></mrow><mo>,</mo><mrow><mi>M</mi><mo>=</mo><mrow><mo>−</mo><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></mrow></mrow></mrow><mo stretchy="false">)</mo></mrow></mrow></math>, respectively.
+To take the spin-orbit interaction of the <math alttext="2p" class="ltx_Math" display="inline" id="SS3.p5.m3"><mrow><mn>2</mn><mo>⁢</mo><mi>p</mi></mrow></math> state of Si atoms into account,
+specify the following keywords and perform a noncollinear calculation.
+
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    scf.SpinPolarization        nc         # On|Off|NC
+    scf.SpinOrbit.Coupling      on         # On|Off, default=off
+</pre>
+</div><div class="ltx_para ltx_noindent" id="SS3.p6">
+<p class="ltx_p">After completing the initial-state and final-state calculations, the total energies are obtained from the output files.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+     Initial state:          -34820.483255130872 (Hartree)
+     Final state for SOI1:   -34816.628201335407 (Hartree)
+     Final state for SOI6:   -34816.601864921540 (Hartree)
+</pre>
+<p class="ltx_p">The chemical potential is obtained from the initial-state calculation.
+Using Eq. (<a class="ltx_ref" href="s60_1_xps-core-binding.html#eq:XPS-Eq2" title="In 60.1 XPS core-level overview ‣ 60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">66</span></a>), the binding energies of <code class="ltx_verbatim ltx_font_typewriter">Si-4-CH-SOI1.dat</code> and <code class="ltx_verbatim ltx_font_typewriter">Si-4-CH-SOI6.dat</code> can be calculated as follows.</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx85">
+<tbody id="Ex51"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle{\rm For}~2p_{3/2}" class="ltx_Math" display="inline" id="Ex51.m1"><mrow><mi>For</mi><mo lspace="0.330em">⁢</mo><mn>2</mn><mo>⁢</mo><msub><mi>p</mi><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msub></mrow></math></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="Ex54">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle E^{\rm(bulk)}_{\rm b}" class="ltx_Math" display="inline" id="Ex52.m1"><msubsup><mi>E</mi><mi mathvariant="normal">b</mi><mrow><mo stretchy="false">(</mo><mi>bulk</mi><mo stretchy="false">)</mo></mrow></msubsup></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math alttext="\displaystyle=" class="ltx_Math" display="inline" id="Ex52.m2"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math alttext="\displaystyle E^{(0)}_{\rm f}(N-1)-E^{(0)}_{\rm i}(N)+\mu_{0}," class="ltx_Math" display="inline" id="Ex52.m3"><mrow><mrow><mrow><mrow><msubsup><mi>E</mi><mi mathvariant="normal">f</mi><mrow><mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>−</mo><mrow><msubsup><mi>E</mi><mi mathvariant="normal">i</mi><mrow><mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>+</mo><msub><mi>μ</mi><mn>0</mn></msub></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math alttext="\displaystyle=" class="ltx_Math" display="inline" id="Ex53.m1"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math alttext="\displaystyle-34816.628201335-(-34820.483255131)-0.201641583=3.65341221({\rm
+Hartree%
+})," class="ltx_Math" display="inline" id="Ex53.m2"><mrow><mrow><mrow><mrow><mo>−</mo><mn>34816.628201335</mn></mrow><mo>−</mo><mrow><mo stretchy="false">(</mo><mrow><mo>−</mo><mn>34820.483255131</mn></mrow><mo stretchy="false">)</mo></mrow><mo>−</mo><mn>0.201641583</mn></mrow><mo>=</mo><mrow><mn>3.65341221</mn><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>Hartree</mi><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math alttext="\displaystyle\approx" class="ltx_Math" display="inline" id="Ex54.m1"><mo>≈</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math alttext="\displaystyle 99.41({\rm eV})," class="ltx_Math" display="inline" id="Ex54.m2"><mrow><mrow><mn>99.41</mn><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>eV</mi><mo stretchy="false">)</mo></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+<tbody id="Ex55"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle{\rm For}~2p_{1/2}" class="ltx_Math" display="inline" id="Ex55.m1"><mrow><mi>For</mi><mo lspace="0.330em">⁢</mo><mn>2</mn><mo>⁢</mo><msub><mi>p</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msub></mrow></math></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="Ex58">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle E^{\rm(bulk)}_{\rm b}" class="ltx_Math" display="inline" id="Ex56.m1"><msubsup><mi>E</mi><mi mathvariant="normal">b</mi><mrow><mo stretchy="false">(</mo><mi>bulk</mi><mo stretchy="false">)</mo></mrow></msubsup></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math alttext="\displaystyle=" class="ltx_Math" display="inline" id="Ex56.m2"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math alttext="\displaystyle E^{(0)}_{\rm f}(N-1)-E^{(0)}_{\rm i}(N)+\mu_{0}," class="ltx_Math" display="inline" id="Ex56.m3"><mrow><mrow><mrow><mrow><msubsup><mi>E</mi><mi mathvariant="normal">f</mi><mrow><mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>−</mo><mrow><msubsup><mi>E</mi><mi mathvariant="normal">i</mi><mrow><mo stretchy="false">(</mo><mn>0</mn><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>N</mi><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>+</mo><msub><mi>μ</mi><mn>0</mn></msub></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math alttext="\displaystyle=" class="ltx_Math" display="inline" id="Ex57.m1"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math alttext="\displaystyle-34816.601864922-(-34820.483255131)-0.201641583=3.6797486({\rm
+Hartree%
+})," class="ltx_Math" display="inline" id="Ex57.m2"><mrow><mrow><mrow><mrow><mo>−</mo><mn>34816.601864922</mn></mrow><mo>−</mo><mrow><mo stretchy="false">(</mo><mrow><mo>−</mo><mn>34820.483255131</mn></mrow><mo stretchy="false">)</mo></mrow><mo>−</mo><mn>0.201641583</mn></mrow><mo>=</mo><mrow><mn>3.6797486</mn><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>Hartree</mi><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math alttext="\displaystyle\approx" class="ltx_Math" display="inline" id="Ex58.m1"><mo>≈</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math alttext="\displaystyle 100.13({\rm eV})." class="ltx_Math" display="inline" id="Ex58.m2"><mrow><mrow><mn>100.13</mn><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>eV</mi><mo stretchy="false">)</mo></mrow></mrow><mo lspace="0em">.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+</table>
+</div><div class="ltx_para ltx_noindent" id="SS3.p7">
+<p class="ltx_p">The binding energies 99.41 eV and 100.13 eV for <math alttext="2p_{3/2}" class="ltx_Math" display="inline" id="SS3.p7.m1"><mrow><mn>2</mn><mo>⁢</mo><msub><mi>p</mi><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msub></mrow></math> and <math alttext="2p_{1/2}" class="ltx_Math" display="inline" id="SS3.p7.m2"><mrow><mn>2</mn><mo>⁢</mo><msub><mi>p</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msub></mrow></math>, respectively, show good agreement with the experimental values of 99.2 eV and 99.8 eV <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib102" title="">102</a>]</cite>.
+Here, as listed in Table <a class="ltx_ref" href="s60_2_gas.html#table:XPS-Col-orbitals" title="Table 13 ‣ 60.2 Gaseous Systems ‣ 60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">13</span></a>, the degeneracies of <math alttext="2p_{3/2}" class="ltx_Math" display="inline" id="SS3.p7.m3"><mrow><mn>2</mn><mo>⁢</mo><msub><mi>p</mi><mrow><mn>3</mn><mo>/</mo><mn>2</mn></mrow></msub></mrow></math> and <math alttext="2p_{1/2}" class="ltx_Math" display="inline" id="SS3.p7.m4"><mrow><mn>2</mn><mo>⁢</mo><msub><mi>p</mi><mrow><mn>1</mn><mo>/</mo><mn>2</mn></mrow></msub></mrow></math> are 4 and 2, respectively.
+In gapped systems, the convergence of the absolute binding energy with respect to the unit-cell size is slow.
+Figures <a class="ltx_ref" href="#fig:XPS-Fig2" title="Figure 92 ‣ 60.3 Bulk Systems ‣ 60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">92</span></a>(a) and (b) show the relative binding energies in gapped systems and metals, respectively, as functions of the distance between core holes.
+These results indicate that convergence is slow in gapped systems and that a large supercell is required to obtain a converged value.
+On the other hand, in metals, the binding energy converges rapidly even at short core-hole distances.
+Figure <a class="ltx_ref" href="#fig:XPS-Fig2" title="Figure 92 ‣ 60.3 Bulk Systems ‣ 60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">92</span></a>(c) shows the difference charge density in crystalline silicon induced by the creation of a core hole in the <math alttext="2p" class="ltx_Math" display="inline" id="SS3.p7.m5"><mrow><mn>2</mn><mo>⁢</mo><mi>p</mi></mrow></math> state.
+In order to screen the potential generated by the core hole, charge redistribution occurs over a range of approximately <math alttext="7" class="ltx_Math" display="inline" id="SS3.p7.m6"><mn>7</mn></math> Å from the core hole.
+The slow convergence observed in gapped systems is caused by this long-range charge redistribution.
+By contrast, in metals the charge redistribution is confined to a relatively narrow region,
+and therefore rapid convergence is achieved, as shown in Fig. <a class="ltx_ref" href="#fig:XPS-Fig2" title="Figure 92 ‣ 60.3 Bulk Systems ‣ 60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">92</span></a>(b).</p>
+</div><div class="ltx_para" id="SS3.p8">
+<p class="ltx_p">Other calculation examples and the input files used in the calculations are available at the website
+<br class="ltx_break"/><a class="ltx_ref ltx_url ltx_font_typewriter" href="https://www.openmx-square.org/vps_pao_core2019/" title="">https://www.openmx-square.org/vps_pao_core2019/</a>
+for reference.
+In addition, applications of the present method to silicon, borophene, and Pt single atoms dispersed on graphene are discussed in Refs. <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib103" title="">103</a>, <a class="ltx_ref" href="bib.html#bib104" title="">104</a>, <a class="ltx_ref" href="bib.html#bib105" title="">105</a>]</cite>.</p>
+
+<figure class="ltx_figure" id="fig:XPS-Fig2"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="518" id="F92.g1" src="x93.png" width="872"/>
+<br>  
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 92: </span>
+(a) Binding energies calculated as relative values from the most converged result, shown as functions of the distance between core holes for (a) gapped systems and (b) semimetals (graphene) and metals.
+The reference binding energies for (a) and (b) are calculated by Eqs. (<a class="ltx_ref" href="s60_1_xps-core-binding.html#eq:XPS-Eq2" title="In 60.1 XPS core-level overview ‣ 60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">66</span></a>) and (<a class="ltx_ref" href="s60_1_xps-core-binding.html#eq:XPS-Eq3" title="In 60.1 XPS core-level overview ‣ 60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">67</span></a>), respectively, for the largest unit cell of each system.
+In the figure, Eq. (B) and Eq. (M) correspond to Eqs. (<a class="ltx_ref" href="s60_1_xps-core-binding.html#eq:XPS-Eq2" title="In 60.1 XPS core-level overview ‣ 60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">66</span></a>) and (<a class="ltx_ref" href="s60_1_xps-core-binding.html#eq:XPS-Eq3" title="In 60.1 XPS core-level overview ‣ 60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">67</span></a>), respectively.
+(c) Difference charge density induced by the creation of a core hole in the 2p state of silicon.
+The unit cell contains 1000 atoms, and the distance between core holes is 27.15 Å.
+</figcaption>
+</figure>
+
+
+</div></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s60_xps-core-binding.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s60_2_gas.html"><span class="openmx_footer_label">Previous:</span> 60.2 Gaseous Systems</a><a href="s60_4_esm.html"><span class="openmx_footer_label">Next:</span> 60.4 Combined use with the ESM method</a></div></div></footer>
+</div>
+</body>
+</html>

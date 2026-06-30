@@ -1,0 +1,3781 @@
+{
+  "&lt;Atoms.Cont.Orbitals": {
+    "ase_key": "&lt;atoms_cont_orbitals",
+    "type": null,
+    "default": 1,
+    "valid_values": null,
+    "description": null,
+    "section": null,
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "&lt;Atoms.SpeciesAndCoordinates": {
+    "ase_key": "&lt;atoms_speciesandcoordinates",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": null,
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "1DFFT.EnergyCutoff": {
+    "ase_key": "onedfft_energycutoff",
+    "type": "float",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§8.2; §14.1",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "1DFFT.NumGridK": {
+    "ase_key": "onedfft_numgridk",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": "The energy region from 0 to 1DFFT.EnergyCutoff is discretized using the number of grid points specified by the keyword 1DFFT.NumGridK .",
+    "section": "§8.2",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "1DFFT.NumGridR": {
+    "ase_key": "onedfft_numgridr",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the number of radial grid points in real space by the keyword 1DFFT.NumGridR .",
+    "section": "§8.2",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Atoms.Cont.Orbitals": {
+    "ase_key": "atoms_cont_orbitals",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": "Using the serial numbers of atoms defined in the first column of the keyword Atoms.SpeciesAndCoordinates , specify the atoms for which the optimized basis is to be output by the keyword Atoms.Cont.Orbitals as follows.",
+    "section": "§8.2; §26",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Atoms.Number": {
+    "ase_key": "atoms_number",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§8.1; §8.2; §19.1; §22; §46.3; §52.4; §55.1; §55.2; §60.2; §60.3",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "Atoms.SpeciesAndCoordinates": {
+    "ase_key": "atoms_speciesandcoordinates",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the atomic coordinates and the number of electrons for each spin by the keyword Atoms.SpeciesAndCoordinates as in the following example.",
+    "section": "§8.1; §8.2; §8.3; §12.5; §13.1; §18.1; §18.4; §19.1; §20.4; §20.8; §22; §26; §27.4; §36; §37; §40.1.3; §41; §43.1; §43.2; §46.3; §47.1.4; §47.1.6; §51.3; §52.4; §54.1; §54.2; §55.1; §55.2; §57; §60.2; §60.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Atoms.SpeciesAndCoordinates.Unit": {
+    "ase_key": "atoms_speciesandcoordinates_unit",
+    "type": "string",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the unit of atomic coordinates with the keyword Atoms.SpeciesAndCoordinates.Unit .",
+    "section": "§8.1; §8.2; §19.1; §22; §46.3; §52.4; §55.1; §55.2; §60.2; §60.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Atoms.UnitVectors": {
+    "ase_key": "atoms_unitvectors",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the unit-cell vectors &#119834; , &#119835; , and &#119836; by the keyword Atoms.UnitVectors as follows.",
+    "section": "§8.1; §8.2; §8.3; §19.1; §19.4; §20.6; §20.7; §22; §34; §46.2; §52.4; §55.1; §55.2; §69",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Atoms.UnitVectors.Unit": {
+    "ase_key": "atoms_unitvectors_unit",
+    "type": "string",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the unit of the vectors in the unit cell by the keyword Atoms.UnitVectors.Unit .",
+    "section": "§8.1; §8.2; §19.1; §22; §52.4; §55.1; §55.2; §55.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Band.Dispersion": {
+    "ase_key": "band_dispersion",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": null,
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "Band.KPath.UnitCell": {
+    "ase_key": "band_kpath_unitcell",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the unit-cell vectors used in band-dispersion calculations with the keyword Band.KPath.UnitCell as in the following example.",
+    "section": "§8.2; §22.1; §22",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Band.Nkpath": {
+    "ase_key": "band_nkpath",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the number of paths in the band-dispersion calculation by Band.Nkpath .",
+    "section": "§8.2; §9; §10.2; §10.4; §22; §55.1; §56.4; §56.6",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Band.dispersion": {
+    "ase_key": "band_dispersion",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§8.2; §22; §47.2.2; §55.1",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Band.kpath": {
+    "ase_key": "band_kpath",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the band-dispersion paths with the keyword Band.kpath as follows.",
+    "section": "§8.2; §10.2; §10.4; §22.1; §22; §55.1; §56.2; §56.3; §56.4; §56.6",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Bunch.ij.pairs": {
+    "ase_key": "bunch_ij_pairs",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§45.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CDDF.FWHM": {
+    "ase_key": "cddf_fwhm",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§62.3; §62.4",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CDDF.Kgrid": {
+    "ase_key": "cddf_kgrid",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§62.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CDDF.additional_maximum_energy": {
+    "ase_key": "cddf_additional_maximum_energy",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§62.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CDDF.frequency.grid.total_number": {
+    "ase_key": "cddf_frequency_grid_total_number",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§62.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CDDF.maximum_energy": {
+    "ase_key": "cddf_maximum_energy",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§62.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CDDF.shift_ChemP": {
+    "ase_key": "cddf_shift_chemp",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§62.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CDDF.start": {
+    "ase_key": "cddf_start",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§62.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "COHP.calc.flag": {
+    "ase_key": "cohp_calc_flag",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§24.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "COHP.num.pairs": {
+    "ase_key": "cohp_num_pairs",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§24.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "COHP.pairs": {
+    "ase_key": "cohp_pairs",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§24.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.Calc": {
+    "ase_key": "cwf_calc",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.Dis.vs.H": {
+    "ase_key": "cwf_dis_vs_h",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.Guiding.AOs": {
+    "ase_key": "cwf_guiding_aos",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1; §47.1.3; §47.1.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.Guiding.Orbitals": {
+    "ase_key": "cwf_guiding_orbitals",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1; §47.1.2; §47.1.3; §47.1.5; §47.1.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.MO.Grouped.Atoms": {
+    "ase_key": "cwf_mo_grouped_atoms",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1; §47.1.4; §47.1.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.MO.Selection": {
+    "ase_key": "cwf_mo_selection",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1; §47.1.4",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.Plot.SuperCells": {
+    "ase_key": "cwf_plot_supercells",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1; §47.1.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.Wannier90.fileout": {
+    "ase_key": "cwf_wannier90_fileout",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1; §47.1.10",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.disentangling.Erange": {
+    "ase_key": "cwf_disentangling_erange",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1; §47.1.3; §47.1.4; §47.1.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.disentangling.smearing.bound": {
+    "ase_key": "cwf_disentangling_smearing_bound",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.disentangling.smearing.kBT": {
+    "ase_key": "cwf_disentangling_smearing_kbt",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.fileout.Num": {
+    "ase_key": "cwf_fileout_num",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1; §47.1.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.fileout.cube": {
+    "ase_key": "cwf_fileout_cube",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1; §47.1.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.fileout.flag": {
+    "ase_key": "cwf_fileout_flag",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§10.3; §47.1.1; §47.1.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "CWF.window.function": {
+    "ase_key": "cwf_window_function",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.1.1; §47.1.3; §47.1.4; §47.1.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Calc.Band.Max": {
+    "ase_key": "calc_band_max",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Calc.Band.Min": {
+    "ase_key": "calc_band_min",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Calc.Bandbyband": {
+    "ase_key": "calc_bandbyband",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Calc.Type": {
+    "ase_key": "calc_type",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3; §56.4; §56.5; §56.6",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Calc.Type.3mesh": {
+    "ase_key": "calc_type_3mesh",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3; §56.5; §56.6",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "CntOrb.fileout": {
+    "ase_key": "cntorb_fileout",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": "If you want to output the optimized radial functions to files, the keyword CntOrb.fileout must be set to ON .",
+    "section": "§8.2; §26",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "CntOrb.fileout Num.CntOrb.Atoms": {
+    "ase_key": "cntorb_fileout num_cntorb_atoms",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": null,
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "DATA.PATH": {
+    "ase_key": "data_path",
+    "type": "string",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the path to the VPS and PAO directories as follows.",
+    "section": "§8.2; §8.3; §12.1; §12.6; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "DFTD.IntDirection": {
+    "ase_key": "dftd_intdirection",
+    "type": null,
+    "default": 1,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.1; §54.2",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "DFTD.Unit": {
+    "ase_key": "dftd_unit",
+    "type": null,
+    "default": null,
+    "valid_values": [
+      "Ang",
+      "AU"
+    ],
+    "description": null,
+    "section": "§54.1; §54.2",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "DFTD.a1": {
+    "ase_key": "dftd_a1",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "DFTD.a2": {
+    "ase_key": "dftd_a2",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "DFTD.cncut_dftD": {
+    "ase_key": "dftd_cncut_dftd",
+    "type": null,
+    "default": 40,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.2",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "DFTD.d": {
+    "ase_key": "dftd_d",
+    "type": null,
+    "default": 20,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.1",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "DFTD.periodicity": {
+    "ase_key": "dftd_periodicity",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.1; §54.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "DFTD.rcut_dftD": {
+    "ase_key": "dftd_rcut_dftd",
+    "type": null,
+    "default": 100,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.1; §54.2",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "DFTD.scale6": {
+    "ase_key": "dftd_scale6",
+    "type": null,
+    "default": 0.75,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.1; §54.2",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "DFTD.scale8": {
+    "ase_key": "dftd_scale8",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "DFTD.sr6": {
+    "ase_key": "dftd_sr6",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "DFTD3.damp": {
+    "ase_key": "dftd3_damp",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.2",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "DM.energy.range": {
+    "ase_key": "dm_energy_range",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§52.4.3; §52.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "DM.export": {
+    "ase_key": "dm_export",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§52.4.2; §52.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "DM.specify.energy.range": {
+    "ase_key": "dm_specify_energy_range",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§52.4.3; §52.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Data.Reduction": {
+    "ase_key": "data_reduction",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.4; §56.5; §56.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Definition.of.Atomic.Species": {
+    "ase_key": "definition_of_atomic_species",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": "Please specify each atomic species by explicitly giving the file names of both the pseudo-atomic basis functions and the pseudopotential.",
+    "section": "§8.1; §8.2; §8.3; §12.1; §12.5; §13.1; §13.2; §20.9; §26; §27.2; §38.1; §38.2; §40.1; §40.2; §47.1.1; §47.1.3; §47.1.5; §47.2.1; §52.4; §55.1; §60.2; §60.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Dos.Erange": {
+    "ase_key": "dos_erange",
+    "type": "list_float",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the energy range in the DOS calculation with the keyword Dos.Erange as follows.",
+    "section": "§8.2; §23.1; §23.2; §24.2; §53; §65",
+    "unit": "eV",
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Dos.Kgrid": {
+    "ase_key": "dos_kgrid",
+    "type": "tuple_integer",
+    "default": null,
+    "valid_values": null,
+    "description": "To perform the DOS calculation, specify the grid points (n1, n2, n3) for discretizing the first Brillouin zone with the keyword Dos.Kgrid .",
+    "section": "§8.2; §8.3; §23.1; §23.2; §24.2; §53; §65",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Dos.fileout": {
+    "ase_key": "dos_fileout",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§8.2; §8.3; §9; §23.1; §23.2; §24.1; §24.2; §46.3; §53; §65",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "DosGauss.Num.Mesh": {
+    "ase_key": "dosgauss_num_mesh",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§23.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "DosGauss.Width": {
+    "ase_key": "dosgauss_width",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§23.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "DosGauss.fileout": {
+    "ase_key": "dosgauss_fileout",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§23.2; §65",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "ESM.buffer.range": {
+    "ase_key": "esm_buffer_range",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§49.1; §60.4",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "ESM.direction": {
+    "ase_key": "esm_direction",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§49.1; §60.4",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "ESM.potential.diff": {
+    "ase_key": "esm_potential_diff",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§49.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "ESM.switch": {
+    "ase_key": "esm_switch",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§49.1; §49.2; §50; §60.4",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "ESM.wall.height": {
+    "ase_key": "esm_wall_height",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§49.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "ESM.wall.position": {
+    "ase_key": "esm_wall_position",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§49.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Eigen.Brent": {
+    "ase_key": "eigen_brent",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Energy.Decomposition": {
+    "ase_key": "energy_decomposition",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§25",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "Energy.Range": {
+    "ase_key": "energy_range",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3; §56.4; §56.6",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Extract.Atom": {
+    "ase_key": "extract_atom",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.4; §56.5; §56.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "FermiSurfer.fileout": {
+    "ase_key": "fermisurfer_fileout",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§65",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Filename.atomMulP": {
+    "ase_key": "filename_atommulp",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.4; §56.5; §56.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Filename.kpointdata": {
+    "ase_key": "filename_kpointdata",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Filename.outdata": {
+    "ase_key": "filename_outdata",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3; §56.4; §56.5; §56.6",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Filename.scfout": {
+    "ase_key": "filename_scfout",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3; §56.4; §56.5; §56.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Filename.xyzdata": {
+    "ase_key": "filename_xyzdata",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.4; §56.5; §56.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Filename.xyzdata Au111Surface_MO_MC": {
+    "ase_key": "filename_xyzdata au111surface_mo_mc",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": null,
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Flag.PeriodicSum": {
+    "ase_key": "flag_periodicsum",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§45.1; §45.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "HS.fileout": {
+    "ase_key": "hs_fileout",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§8.2; §44; §45.4; §56.1; §58.2; §59.2; §70.1",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "Hubbard.U.values": {
+    "ase_key": "hubbard_u_values",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": "Define the effective U value for the orbitals of each atomic species by the following keyword.",
+    "section": "§8.2; §40.1.1; §40.2.2",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Hund.J.values": {
+    "ase_key": "hund_j_values",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§40.1.1; §40.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "LNOs.Num": {
+    "ase_key": "lnos_num",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§27.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "LeftLeadAtoms.Number": {
+    "ase_key": "leftleadatoms_number",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "LeftLeadAtoms.SpeciesAndCoordinates": {
+    "ase_key": "leftleadatoms_speciesandcoordinates",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.AtomGroup": {
+    "ase_key": "md_atomgroup",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§20.4",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.CellPressureControl": {
+    "ase_key": "md_cellpressurecontrol",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§20.6; §20.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.Current.Iter": {
+    "ase_key": "md_current_iter",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": null,
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "MD.EvsLC.Step": {
+    "ase_key": "md_evslc_step",
+    "type": null,
+    "default": 0.4,
+    "valid_values": null,
+    "description": null,
+    "section": "§64.1",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "MD.EvsLC.flag": {
+    "ase_key": "md_evslc_flag",
+    "type": null,
+    "default": 1,
+    "valid_values": null,
+    "description": null,
+    "section": "§64.1",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "MD.Fixed.Cell.Vectors": {
+    "ase_key": "md_fixed_cell_vectors",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§19.1; §19.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.Fixed.XYZ": {
+    "ase_key": "md_fixed_xyz",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": "By specifying the following keyword, arbitrary atomic coordinates can be fixed to their initial values during structural optimization and molecular-dynamics simulations.",
+    "section": "§8.2; §18.4; §20.8; §51.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "MD.Init.Velocity": {
+    "ase_key": "md_init_velocity",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": "In molecular-dynamics simulations, initial velocities can be assigned to each atom by the following description.",
+    "section": "§8.2; §20.8",
+    "unit": "m/s",
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "MD.NEB.Number.Images": {
+    "ase_key": "md_neb_number_images",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§51.3; §51.5; §51.6; §51.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.NEB.Parallel.Number": {
+    "ase_key": "md_neb_parallel_number",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§51.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.NEB.Spring.Const": {
+    "ase_key": "md_neb_spring_const",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§51.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.Opt.DIIS.History": {
+    "ase_key": "md_opt_diis_history",
+    "type": "integer",
+    "default": 7,
+    "valid_values": null,
+    "description": "When structural optimization is performed using DIIS , EF , or RF , the keyword MD.Opt.DIIS.History specifies the number of past steps referred to for structural optimization.",
+    "section": "§8.2; §18.2; §19.1; §51.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "MD.Opt.EveryDIIS": {
+    "ase_key": "md_opt_everydiis",
+    "type": null,
+    "default": 200,
+    "valid_values": null,
+    "description": null,
+    "section": "§18.2; §19.1",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "MD.Opt.Init.Hessian": {
+    "ase_key": "md_opt_init_hessian",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§18.3; §19.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.Opt.StartDIIS": {
+    "ase_key": "md_opt_startdiis",
+    "type": "integer",
+    "default": 5,
+    "valid_values": null,
+    "description": "Specify the step at which structural optimization by DIIS , EF , or RF starts with the keyword MD.Opt.StartDIIS .",
+    "section": "§8.2; §18.2; §19.1; §51.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "MD.Opt.StartDIIS MD.Opt.EveryDIIS": {
+    "ase_key": "md_opt_startdiis md_opt_everydiis",
+    "type": null,
+    "default": 200,
+    "valid_values": null,
+    "description": null,
+    "section": null,
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "MD.Opt.criterion": {
+    "ase_key": "md_opt_criterion",
+    "type": "float",
+    "default": 0.0003,
+    "valid_values": null,
+    "description": "If a structural-optimization method is selected by the keyword MD.Type , set its convergence criterion (Hartree/Bohr) with the keyword MD.Opt.criterion .",
+    "section": "§8.1; §8.2; §18.2; §19.1; §51.3; §52.4",
+    "unit": "Ha/Bohr",
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "MD.TempControl": {
+    "ase_key": "md_tempcontrol",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": "The keyword MD.TempControl specifies the temperature of atomic motion in molecular-dynamics calculations for the NVT ensemble.",
+    "section": "§8.2; §20.2; §20.3; §20.4; §20.6; §20.7",
+    "unit": "K",
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "MD.TempTolerance": {
+    "ase_key": "md_temptolerance",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§20.6; §20.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.TimeStep": {
+    "ase_key": "md_timestep",
+    "type": "float",
+    "default": 0.5,
+    "valid_values": null,
+    "description": "Specify the time step (fs) with the keyword MD.TimeStep .",
+    "section": "§8.1; §8.2; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "MD.Type": {
+    "ase_key": "md_type",
+    "type": "string",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§8.1; §8.2; §8.3; §17.1; §18.2; §19.1; §19.2; §19.3; §19.4; §20.1; §20.2; §20.3; §20.4; §20.6; §20.7; §51.3; §52.4; §64.1; §64.2",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru"
+    ]
+  },
+  "MD.applied.pressure": {
+    "ase_key": "md_applied_pressure",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§19.4",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.applied.pressure.flag": {
+    "ase_key": "md_applied_pressure_flag",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§19.4; §20.6; §20.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.maxIter": {
+    "ase_key": "md_maxiter",
+    "type": "integer",
+    "default": 1,
+    "valid_values": null,
+    "description": "Specify the maximum number of iterations in MD calculations or structural optimization calculations with the keyword MD.maxIter .",
+    "section": "§8.1; §8.2; §18.1; §18.2; §19.1; §51.3; §52.4; §64.1",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "MD.num.AtomGroup": {
+    "ase_key": "md_num_atomgroup",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§20.4",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MD.type": {
+    "ase_key": "md_type",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§18.1; §52.4; §52.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "MO.Nkpoint": {
+    "ase_key": "mo_nkpoint",
+    "type": "integer",
+    "default": 1,
+    "valid_values": null,
+    "description": "If MO.fileout=ON and scf.EigenvalueSolver=Band are set, specify the number of",
+    "section": "§8.2; §29.2; §34",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "MO.fileout": {
+    "ase_key": "mo_fileout",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§8.2; §9; §29.2; §33; §34",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru"
+    ]
+  },
+  "MO.kpoint": {
+    "ase_key": "mo_kpoint",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the",
+    "section": "§8.2; §9; §29.2; §33; §34",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "MulP.Vec.Scale": {
+    "ase_key": "mulp_vec_scale",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3; §56.4; §56.5; §56.6",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "NAO.threshold": {
+    "ase_key": "nao_threshold",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§36",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NBO.CenterAtoms": {
+    "ase_key": "nbo_centeratoms",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§36",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NBO.Num.CenterAtoms": {
+    "ase_key": "nbo_num_centeratoms",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§36",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NBO.switch": {
+    "ase_key": "nbo_switch",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§36",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEB.Atoms.SpeciesAndCoordinates": {
+    "ase_key": "neb_atoms_speciesandcoordinates",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§51.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEB1.Atoms.SpeciesAndCoordinates": {
+    "ase_key": "neb1_atoms_speciesandcoordinates",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§51.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEB2.Atoms.SpeciesAndCoordinates": {
+    "ase_key": "neb2_atoms_speciesandcoordinates",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§51.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.Channel.Nenergy": {
+    "ase_key": "negf_channel_nenergy",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.Channel.Nkpoint": {
+    "ase_key": "negf_channel_nkpoint",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.Channel.Num": {
+    "ase_key": "negf_channel_num",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.Channel.energy": {
+    "ase_key": "negf_channel_energy",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.Channel.kpoint": {
+    "ase_key": "negf_channel_kpoint",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.Dos.Kgrid": {
+    "ase_key": "negf_dos_kgrid",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.Dos.energy.div": {
+    "ase_key": "negf_dos_energy_div",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.Dos.energyrange": {
+    "ase_key": "negf_dos_energyrange",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.Num.Poles": {
+    "ase_key": "negf_num_poles",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.OffDiagonalCurrent": {
+    "ase_key": "negf_offdiagonalcurrent",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.Output.for.TranMain": {
+    "ase_key": "negf_output_for_tranmain",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.6",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.Poisson.Solver": {
+    "ase_key": "negf_poisson_solver",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.bias.neq.energy.step": {
+    "ase_key": "negf_bias_neq_energy_step",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.bias.neq.im.energy": {
+    "ase_key": "negf_bias_neq_im_energy",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.bias.voltage": {
+    "ase_key": "negf_bias_voltage",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.filename.hks": {
+    "ase_key": "negf_filename_hks",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.2; §46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.filename.hks.l": {
+    "ase_key": "negf_filename_hks_l",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.filename.hks.r": {
+    "ase_key": "negf_filename_hks_r",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.gate.voltage": {
+    "ase_key": "negf_gate_voltage",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.output_hks": {
+    "ase_key": "negf_output_hks",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.scf.Iter.Band": {
+    "ase_key": "negf_scf_iter_band",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.scf.Kgrid": {
+    "ase_key": "negf_scf_kgrid",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3; §46.4.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.tran.Analysis": {
+    "ase_key": "negf_tran_analysis",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.1; §46.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.tran.Channel": {
+    "ase_key": "negf_tran_channel",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.3; §46.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.tran.CurrentDensity": {
+    "ase_key": "negf_tran_currentdensity",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.tran.Kgrid": {
+    "ase_key": "negf_tran_kgrid",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.tran.SCF.skip": {
+    "ase_key": "negf_tran_scf_skip",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.tran.energydiv": {
+    "ase_key": "negf_tran_energydiv",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.tran.energyrange": {
+    "ase_key": "negf_tran_energyrange",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.4.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.tran.interpolate": {
+    "ase_key": "negf_tran_interpolate",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.tran.interpolate.coes": {
+    "ase_key": "negf_tran_interpolate_coes",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.tran.interpolate.file1": {
+    "ase_key": "negf_tran_interpolate_file1",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NEGF.tran.interpolate.file2": {
+    "ase_key": "negf_tran_interpolate_file2",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NH.Mass.HeatBath": {
+    "ase_key": "nh_mass_heatbath",
+    "type": "float",
+    "default": null,
+    "valid_values": null,
+    "description": "If NVT_NH is selected by the keyword MD.Type , this keyword sets the mass of the heat bath.",
+    "section": "§8.2; §20.3",
+    "unit": "_amu",
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "NPT.LatticeRestriction": {
+    "ase_key": "npt_latticerestriction",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§20.6; §20.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "NPT.Mass.Barostat": {
+    "ase_key": "npt_mass_barostat",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§20.6; §20.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Num.CntOrb.Atoms": {
+    "ase_key": "num_cntorb_atoms",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the number of atoms for which the optimized radial functions are to be output by the keyword Num.CntOrb.Atoms .",
+    "section": "§8.2; §26",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Num.Kgrid": {
+    "ase_key": "num_kgrid",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§45.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Num.Poles": {
+    "ase_key": "num_poles",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§45.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Num.ij.pairs": {
+    "ase_key": "num_ij_pairs",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§45.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Num.of.Extract.Atom": {
+    "ase_key": "num_of_extract_atom",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.4; §56.5; §56.6",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "OutData.bin.flag": {
+    "ase_key": "outdata_bin_flag",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§76",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "RightLeadAtoms.Number": {
+    "ase_key": "rightleadatoms_number",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "RightLeadAtoms.SpeciesAndCoordinates": {
+    "ase_key": "rightleadatoms_speciesandcoordinates",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§46.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Search.kCentral": {
+    "ase_key": "search_kcentral",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3; §56.6",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Species.Number": {
+    "ase_key": "species_number",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§8.1; §8.2; §47.2.1; §52.4; §55.1",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "Spin.Spiral.Vector": {
+    "ase_key": "spin_spiral_vector",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§57",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "System.CurrentDirectory": {
+    "ase_key": "system_currentdirectory",
+    "type": "string",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": null,
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "System.CurrrentDirectory": {
+    "ase_key": "system_currrentdirectory",
+    "type": null,
+    "default": ".",
+    "valid_values": null,
+    "description": null,
+    "section": "§8.1; §8.2; §8.3; §16.3; §52.4",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "System.Name": {
+    "ase_key": "system_name",
+    "type": "string",
+    "default": null,
+    "valid_values": null,
+    "description": "This keyword specifies the file name of the output files.",
+    "section": "§8.1; §8.2; §8.3; §9; §16.3; §17.1; §18.2; §20.1; §20.2; §34; §37; §39; §46.4; §46.5; §47.2.1; §47.2.7; §50; §51.3; §52.4; §56.2; §56.3; §56.4; §56.5; §56.6; §64.1; §64.2; §65; §70.1; §75",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "Trial.Brent": {
+    "ase_key": "trial_brent",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Unfolding.Electronic.Band": {
+    "ase_key": "unfolding_electronic_band",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§55.1",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Unfolding.LowerBound": {
+    "ase_key": "unfolding_lowerbound",
+    "type": null,
+    "default": -10,
+    "valid_values": null,
+    "description": null,
+    "section": "§55.1",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Unfolding.Map": {
+    "ase_key": "unfolding_map",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§55.2; §55.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Unfolding.Nkpoint": {
+    "ase_key": "unfolding_nkpoint",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§55.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Unfolding.ReferenceOrigin": {
+    "ase_key": "unfolding_referenceorigin",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§55.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Unfolding.ReferenceVectors": {
+    "ase_key": "unfolding_referencevectors",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§55.1; §55.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Unfolding.UpperBound": {
+    "ase_key": "unfolding_upperbound",
+    "type": null,
+    "default": 10,
+    "valid_values": null,
+    "description": null,
+    "section": "§55.1",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "Unfolding.desired_totalnkpt": {
+    "ase_key": "unfolding_desired_totalnkpt",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§55.1; §55.4",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Unfolding.kpoint": {
+    "ase_key": "unfolding_kpoint",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§55.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Voronoi.charge": {
+    "ase_key": "voronoi_charge",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§8.2; §35.2",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "Wannier.Dis.Conv.Criterion": {
+    "ase_key": "wannier_dis_conv_criterion",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1; §47.2.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Dis.Mixing.Para": {
+    "ase_key": "wannier_dis_mixing_para",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Dis.SCF.Max.Steps": {
+    "ase_key": "wannier_dis_scf_max_steps",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Func.Calc": {
+    "ase_key": "wannier_func_calc",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1; §47.2.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Func.Num": {
+    "ase_key": "wannier_func_num",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Function.Plot": {
+    "ase_key": "wannier_function_plot",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Function.Plot.SuperCells": {
+    "ase_key": "wannier_function_plot_supercells",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Initial.Guess": {
+    "ase_key": "wannier_initial_guess",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Initial.Projectors": {
+    "ase_key": "wannier_initial_projectors",
+    "type": "matrix",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "Wannier.Initial.Projectors.Unit": {
+    "ase_key": "wannier_initial_projectors_unit",
+    "type": "string",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "Wannier.Inner.Window.Bottom": {
+    "ase_key": "wannier_inner_window_bottom",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Inner.Window.Top": {
+    "ase_key": "wannier_inner_window_top",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Interpolated.Bands": {
+    "ase_key": "wannier_interpolated_bands",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Kgrid": {
+    "ase_key": "wannier_kgrid",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.MaxShells": {
+    "ase_key": "wannier_maxshells",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Minimizing.Conv.Criterion": {
+    "ase_key": "wannier_minimizing_conv_criterion",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1; §47.2.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Minimizing.Max.Steps": {
+    "ase_key": "wannier_minimizing_max_steps",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Minimizing.Scheme": {
+    "ase_key": "wannier_minimizing_scheme",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Minimizing.Secant.StepLength": {
+    "ase_key": "wannier_minimizing_secant_steplength",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Minimizing.Secant.Steps": {
+    "ase_key": "wannier_minimizing_secant_steps",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Minimizing.StepLength": {
+    "ase_key": "wannier_minimizing_steplength",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Outer.Window.Bottom": {
+    "ase_key": "wannier_outer_window_bottom",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Outer.Window.Top": {
+    "ase_key": "wannier_outer_window_top",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier.Readin.Overlap.Matrix": {
+    "ase_key": "wannier_readin_overlap_matrix",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "Wannier90.fileout": {
+    "ase_key": "wannier90_fileout",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§47.2.7",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "core.hole.state": {
+    "ase_key": "core_hole_state",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§60.2; §60.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "ijpairs.cellid": {
+    "ase_key": "ijpairs_cellid",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§45.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "ijpairs.nocellid": {
+    "ase_key": "ijpairs_nocellid",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§45.5",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "k": {
+    "ase_key": "k",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": "points at which MOs are output with the keyword MO.kpoint as follows.",
+    "section": null,
+    "unit": null,
+    "source": [
+      "html"
+    ]
+  },
+  "k-plane.1stStep": {
+    "ase_key": "k-plane_1ststep",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3; §56.7",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "k-plane.2ndStep": {
+    "ase_key": "k-plane_2ndstep",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.7",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "kRange.3mesh": {
+    "ase_key": "krange_3mesh",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§56.2; §56.3",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "level.of.fileout": {
+    "ase_key": "level_of_fileout",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": "This keyword controls the level of information written to output files.",
+    "section": "§8.1; §8.2; §9; §33; §35.3; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "level.of.stdout": {
+    "ase_key": "level_of_stdout",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": "This keyword controls the level of information printed to standard output.",
+    "section": "§8.1; §8.2; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "memory.usage.fileout": {
+    "ase_key": "memory_usage_fileout",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§75",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "num.HOMOs": {
+    "ase_key": "num_homos",
+    "type": "integer",
+    "default": 2,
+    "valid_values": null,
+    "description": "Specify the number of highest occupied molecular orbitals (HOMOs) to be output with the keyword num.HOMOs .",
+    "section": "§8.2; §29.2; §34",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "num.LUMOs": {
+    "ase_key": "num_lumos",
+    "type": "integer",
+    "default": 2,
+    "valid_values": null,
+    "description": "Specify the number of lowest unoccupied molecular orbitals (LUMOs) to be output with the keyword num.LUMOs .",
+    "section": "§8.2; §29.2; §34",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "orbitalOpt.HistoryPulay": {
+    "ase_key": "orbitalopt_historypulay",
+    "type": "integer",
+    "default": 15,
+    "valid_values": null,
+    "description": "In the quasi-Newton EF and DIIS methods, the number of past steps referred to in order to estimate the contraction coefficients at the next step is specified by the keyword orbitalOpt.HistoryPulay .",
+    "section": "§8.2; §26",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "orbitalOpt.Method": {
+    "ase_key": "orbitalopt_method",
+    "type": "string",
+    "default": null,
+    "valid_values": [
+      "Off/Species",
+      "Atoms"
+    ],
+    "description": null,
+    "section": "§8.2; §26",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru"
+    ]
+  },
+  "orbitalOpt.Opt.Method": {
+    "ase_key": "orbitalopt_opt_method",
+    "type": "integer",
+    "default": null,
+    "valid_values": [
+      "DIIS",
+      "EF"
+    ],
+    "description": "Two methods are supported as convergence methods for orbital optimization.",
+    "section": "§8.2; §26",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "orbitalOpt.Opt.maxIter": {
+    "ase_key": "orbitalopt_opt_maxiter",
+    "type": "integer",
+    "default": 100,
+    "valid_values": null,
+    "description": "Specify the maximum number of orbital-optimization iterations with the keyword orbitalOpt.Opt.maxIter .",
+    "section": "§8.2; §26",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "orbitalOpt.SD.step": {
+    "ase_key": "orbitalopt_sd_step",
+    "type": "float",
+    "default": 0.001,
+    "valid_values": null,
+    "description": "The steepest-descent method is applied in the optimization steps before the quasi-Newton EF and DIIS methods start.",
+    "section": "§8.2; §26",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "orbitalOpt.StartPulay": {
+    "ase_key": "orbitalopt_startpulay",
+    "type": "string",
+    "default": 1,
+    "valid_values": null,
+    "description": "The quasi-Newton EF or DIIS method starts from the optimization step specified by the keyword orbitalOpt.StartPulay .",
+    "section": "§8.2; §26",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "orbitalOpt.criterion": {
+    "ase_key": "orbitalopt_criterion",
+    "type": "float",
+    "default": 0.0001,
+    "valid_values": null,
+    "description": "Specify the convergence criterion for orbital optimization ((Hartree/bohr) 2 ) with the keyword orbitalOpt.criterion .",
+    "section": "§8.2; §26",
+    "unit": "(Ha/Borg)**2",
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "orbitalOpt.per.MDIter": {
+    "ase_key": "orbitalopt_per_mditer",
+    "type": null,
+    "default": 1000000,
+    "valid_values": null,
+    "description": null,
+    "section": "§26",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "orbitalOpt.scf.maxIter": {
+    "ase_key": "orbitalopt_scf_maxiter",
+    "type": "integer",
+    "default": 40,
+    "valid_values": null,
+    "description": "Specify the maximum number of SCF iterations in orbital optimization with the keyword orbitalOpt.scf.maxIter .",
+    "section": "§8.2; §26",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "orderN.Exact.Inverse.S": {
+    "ase_key": "ordern_exact_inverse_s",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": "If the keyword orderN.Exact.Inverse.S is set to on , the inverse of the overlap matrix of each truncated cluster is evaluated exactly.",
+    "section": "§8.2; §27.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "orderN.Expand.Core": {
+    "ase_key": "ordern_expand_core",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": "If the keyword orderN.Expand.Core is set to on , the core region consists of atoms within a sphere of radius 1.2 &#215; r min .",
+    "section": "§8.2; §27.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "orderN.FNAN+SNAN": {
+    "ase_key": "ordern_fnan+snan",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§27.4",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "orderN.HoppingRanges": {
+    "ase_key": "ordern_hoppingranges",
+    "type": "float",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§8.2; §27.1; §27.2; §27.3; §27.4; §29.2",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "orderN.KrylovH.order": {
+    "ase_key": "ordern_krylovh_order",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the dimension of the Krylov subspace for the Hamiltonian of each truncated cluster by the keyword orderN.KrylovH.order .",
+    "section": "§8.2; §27.3; §29.2",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "orderN.KrylovS.order": {
+    "ase_key": "ordern_krylovs_order",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": "If orderN.Exact.Inverse.S=off is set by the keyword described later, the inverse of the overlap matrix is approximated by the Krylov subspace method.",
+    "section": "§8.2; §27.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "orderN.LNO.Buffer": {
+    "ase_key": "ordern_lno_buffer",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§27.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "orderN.LNO.Occ.Cutoff": {
+    "ase_key": "ordern_lno_occ_cutoff",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§27.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "orderN.Recalc.Buffer": {
+    "ase_key": "ordern_recalc_buffer",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": "If the keyword orderN.Recalc.Buffer is set to on , the buffer matrix is recalculated at every SCF iteration.",
+    "section": "§8.2; §27.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "partial.charge": {
+    "ase_key": "partial_charge",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§53",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "partial.charge.energy.window": {
+    "ase_key": "partial_charge_energy_window",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§53",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.Constraint.NC.Spin": {
+    "ase_key": "scf_constraint_nc_spin",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": "If you perform a constrained DFT calculation to control the noncollinear orientation of the spin magnetic moment, set the keyword scf.Constraint.NC.Spin to ON .",
+    "section": "§8.2; §37; §41; §43.1",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "scf.Constraint.NC.Spin.v": {
+    "ase_key": "scf_constraint_nc_spin_v",
+    "type": "float",
+    "default": null,
+    "valid_values": null,
+    "description": "When performing a constrained DFT calculation to control the noncollinear orientation of the spin magnetic moment, specify the prefactor (eV) of the penalty function by the keyword scf.Constraint.NC.Spin.v .",
+    "section": "§8.2; §41",
+    "unit": "eV",
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "scf.DFTU.Type": {
+    "ase_key": "scf_dftu_type",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§40.1.1; §40.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.EigenvalueSolver": {
+    "ase_key": "scf_eigenvaluesolver",
+    "type": "string",
+    "default": null,
+    "valid_values": [
+      "DC",
+      "Cluster",
+      "Band"
+    ],
+    "description": "Specify the method used to solve the eigenvalue problem with scf.EigenvalueSolver .",
+    "section": "§8.1; §8.2; §9; §27.1; §27.3; §29.2; §34; §36; §46.3; §48; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.Electric.Field": {
+    "ase_key": "scf_electric_field",
+    "type": "tuple_float",
+    "default": null,
+    "valid_values": null,
+    "description": "The keyword scf.Electric.Field makes it possible to introduce an external uniform electric field represented by a sawtooth waveform.",
+    "section": "§8.2; §30",
+    "unit": "GV / m",
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "scf.ElectronicTemperature": {
+    "ase_key": "scf_electronictemperature",
+    "type": "float",
+    "default": 300,
+    "valid_values": null,
+    "description": "Set the electronic temperature (K) by the keyword scf.ElectronicTemperature .",
+    "section": "§8.1; §8.2; §16.1; §52.4; §63.1",
+    "unit": "K",
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.ExtCharge.History": {
+    "ase_key": "scf_extcharge_history",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§17.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.Generalized.Bloch": {
+    "ase_key": "scf_generalized_bloch",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§57",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.Generation.Kpoint": {
+    "ase_key": "scf_generation_kpoint",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§15; §28.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.Hubbard.Occupation": {
+    "ase_key": "scf_hubbard_occupation",
+    "type": "string",
+    "default": null,
+    "valid_values": null,
+    "description": "In the LDA+ U method, three occupation operators, onsite , full , and dual , can be selected by specifying the keyword scf.Hubbard.Occupation .",
+    "section": "§8.2; §40.1.1",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "scf.Hubbard.U": {
+    "ase_key": "scf_hubbard_u",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": "For LDA+ U and GGA+ U calculations, set the keyword scf.Hubbard.U to ON (ON | OFF).",
+    "section": "§8.2; §40.1.1",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "scf.Init.Mixing.Weight": {
+    "ase_key": "scf_init_mixing_weight",
+    "type": "float",
+    "default": 0.3,
+    "valid_values": null,
+    "description": "Specify the initial mixing weight used in the simple mixing, GR-Pulay, RMM-DIIS, Kerker, RMM-DIISK, RMM-DIISV, and RMM-DIISH methods with the keyword scf.Init.Mixing.Weight .",
+    "section": "§8.1; §8.2; §16.1; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.Kerker.factor": {
+    "ase_key": "scf_kerker_factor",
+    "type": "float",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the Kerker factor used in the Kerker and RMM-DIISK mixing methods.",
+    "section": "§8.2; §16.1; §16.2; §16.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "scf.Kgrid": {
+    "ase_key": "scf_kgrid",
+    "type": "tuple_integer",
+    "default": null,
+    "valid_values": null,
+    "description": "In OpenMX, the first Brillouin zone in k space is discretized by a uniform mesh.",
+    "section": "§8.1; §8.2; §8.3; §10.1; §15; §22; §28.1; §29.2; §38.1; §46.2; §47.1.7; §52.4; §62.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.Max.Mixing.Weight": {
+    "ase_key": "scf_max_mixing_weight",
+    "type": "float",
+    "default": 0.4,
+    "valid_values": null,
+    "description": "Specify the upper bound of the mixing weight in the simple mixing and Kerker mixing methods with scf.Max.Mixing.Weight .",
+    "section": "§8.1; §8.2; §16.1; §16.3; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.Min.Mixing.Weight": {
+    "ase_key": "scf_min_mixing_weight",
+    "type": "float",
+    "default": 0.001,
+    "valid_values": null,
+    "description": "Specify the lower bound of the mixing weight in the simple mixing and Kerker mixing methods with scf.Min.Mixing.Weight .",
+    "section": "§8.1; §8.2; §16.1; §16.3; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.Mixing.EveryPulay": {
+    "ase_key": "scf_mixing_everypulay",
+    "type": "integer",
+    "default": null,
+    "valid_values": null,
+    "description": "In Pulay-type mixing methods, the residual vectors tend to become linearly dependent on one another as the SCF steps proceed, making convergence difficult.",
+    "section": "§8.2; §16.1",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "scf.Mixing.History": {
+    "ase_key": "scf_mixing_history",
+    "type": "integer",
+    "default": 5,
+    "valid_values": null,
+    "description": "In GR-Pulay [ 60 ] , RMM-DIIS [ 61 ] , RMM-DIISK [ 61 ] , RMM-DIISV [ 61 ] , and RMM-DIISH [ 61 ] , the input electronic density (Hamiltonian) for the next SCF iteration step is estimated on the basis of the electronic density (Hamiltonian) from previous SCF iterations.",
+    "section": "§8.1; §8.2; §16.1; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.Mixing.StartPulay": {
+    "ase_key": "scf_mixing_startpulay",
+    "type": "integer",
+    "default": 6,
+    "valid_values": null,
+    "description": "Specify the SCF step at which GR-Pulay, RMM-DIIS, Kerker, RMM-DIISK, RMM-DIISV, and RMM-DIISH are started with scf.Mixing.StartPulay .",
+    "section": "§8.1; §8.2; §16.1; §16.3; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.Mixing.Type": {
+    "ase_key": "scf_mixing_type",
+    "type": "string",
+    "default": null,
+    "valid_values": [
+      "Simple",
+      "Rmm-Diis/Gr-Pulay",
+      "Kerker",
+      "Rmm-Diisk"
+    ],
+    "description": "The keyword scf.Mixing.Type specifies the electronic-density mixing scheme used to generate the electronic density (or density matrix) to be input to the next iteration step of the SCF calculation.",
+    "section": "§8.1; §8.2; §16.1; §52.4; §57",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.NC.Mag.Field.Orbital": {
+    "ase_key": "scf_nc_mag_field_orbital",
+    "type": "float",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§43.2",
+    "unit": "Tesla",
+    "source": [
+      "ase"
+    ]
+  },
+  "scf.NC.Mag.Field.Spin": {
+    "ase_key": "scf_nc_mag_field_spin",
+    "type": "float",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§43.1",
+    "unit": "Tesla",
+    "source": [
+      "ase"
+    ]
+  },
+  "scf.NC.Zeeman.Orbital": {
+    "ase_key": "scf_nc_zeeman_orbital",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§37; §43.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.NC.Zeeman.Spin": {
+    "ase_key": "scf_nc_zeeman_spin",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§37; §43.1",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "scf.Ngrid": {
+    "ase_key": "scf_ngrid",
+    "type": "tuple_integer",
+    "default": null,
+    "valid_values": null,
+    "description": "The keyword scf.Ngrid specifies the number of grid points used to discretize the",
+    "section": "§8.2; §14.2; §14.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "scf.Npoles.ON2": {
+    "ase_key": "scf_npoles_on2",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§48",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.ProExpn.VNA": {
+    "ase_key": "scf_proexpn_vna",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": "To expand the neutral-atom potential VNA by projection operators [ 45 ] , set the keyword scf.ProExpn.VNA to ON ; otherwise, set it to OFF .",
+    "section": "§8.2; §9; §79",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "scf.Restart.Spin.Angle.Phi": {
+    "ase_key": "scf_restart_spin_angle_phi",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§42",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.Restart.Spin.Angle.Theta": {
+    "ase_key": "scf_restart_spin_angle_theta",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§42",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.SO.factor": {
+    "ase_key": "scf_so_factor",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§38.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.Slater.Ratio": {
+    "ase_key": "scf_slater_ratio",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§40.2.1",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.SpinOrbit.Coupling": {
+    "ase_key": "scf_spinorbit_coupling",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": "Set this keyword to ON to enable spin-orbit interaction; otherwise set it to OFF .",
+    "section": "§8.2; §38.1; §38.3; §56.1; §57; §60.3",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "scf.SpinPolarization": {
+    "ase_key": "scf_spinpolarization",
+    "type": "string",
+    "default": null,
+    "valid_values": [
+      "On",
+      "Off",
+      "NC"
+    ],
+    "description": "Specify whether the electronic system is non-spin-polarized or spin-polarized with the keyword scf.SpinPolarization .",
+    "section": "§8.1; §8.2; §9; §11; §37; §40.1; §52.4; §56.1; §57; §60.2; §60.3; §61; §63.1",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.XcType": {
+    "ase_key": "scf_xctype",
+    "type": "string",
+    "default": null,
+    "valid_values": [
+      "LDA",
+      "LSDA-CA",
+      "LSDA-PW",
+      "GGA-PBE"
+    ],
+    "description": null,
+    "section": "§8.1; §8.2; §8.3; §11; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru"
+    ]
+  },
+  "scf.Yukawa": {
+    "ase_key": "scf_yukawa",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§40.2.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.core.hole": {
+    "ase_key": "scf_core_hole",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§60.2; §60.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.coulomb.cutoff": {
+    "ase_key": "scf_coulomb_cutoff",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§60.2; §60.3; §61",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.criterion": {
+    "ase_key": "scf_criterion",
+    "type": "float",
+    "default": 1e-06,
+    "valid_values": null,
+    "description": "Specify the convergence criterion of the SCF calculation with the keyword scf.criterion (in Hartree units).",
+    "section": "§8.1; §8.2; §16.1; §16.3; §29.2; §46.3; §52.4",
+    "unit": "Ha",
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.dc.Type": {
+    "ase_key": "scf_dc_type",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§40.1.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.dclno.threading": {
+    "ase_key": "scf_dclno_threading",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§27.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.dftD": {
+    "ase_key": "scf_dftd",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§54.1; §54.2",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  },
+  "scf.eigen.lib": {
+    "ase_key": "scf_eigen_lib",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§28.1.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.energycutoff": {
+    "ase_key": "scf_energycutoff",
+    "type": "float",
+    "default": 150,
+    "valid_values": null,
+    "description": "Specify the cutoff energy that determines the integration-grid spacing with the keyword scf.energycutoff .",
+    "section": "§8.1; §8.2; §8.3; §14.1; §14.2; §14.3; §18.2; §29.2; §38.1; §52.4; §79",
+    "unit": "Ry",
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.fixed.grid": {
+    "ase_key": "scf_fixed_grid",
+    "type": "tuple_float",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§14.3; §68",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "scf.maxIter": {
+    "ase_key": "scf_maxiter",
+    "type": "integer",
+    "default": 40,
+    "valid_values": null,
+    "description": "Set the maximum number of SCF iterations with the keyword scf.maxIter .",
+    "section": "§8.1; §8.2; §8.3; §16.3; §17.1; §29.2; §52.4",
+    "unit": null,
+    "source": [
+      "ase",
+      "mineru",
+      "html"
+    ]
+  },
+  "scf.partialCoreCorrection": {
+    "ase_key": "scf_partialcorecorrection",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": "To perform Partial Core Correction (PCC) in the calculation of the exchange-correlation energy and its potential, specify the keyword scf.partialCoreCorrection .",
+    "section": "§8.2",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "scf.pcc.opencore": {
+    "ase_key": "scf_pcc_opencore",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§13.2",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.restart": {
+    "ase_key": "scf_restart",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§8.2; §17.1; §29.2; §42; §51.5; §60.3",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "scf.restart.filename": {
+    "ase_key": "scf_restart_filename",
+    "type": null,
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§17.1; §42; §60.3",
+    "unit": null,
+    "source": [
+      "manual_only"
+    ]
+  },
+  "scf.stress.tensor": {
+    "ase_key": "scf_stress_tensor",
+    "type": "bool",
+    "default": null,
+    "valid_values": null,
+    "description": null,
+    "section": "§19.2",
+    "unit": null,
+    "source": [
+      "ase"
+    ]
+  },
+  "scf.system.charge": {
+    "ase_key": "scf_system_charge",
+    "type": "float",
+    "default": null,
+    "valid_values": null,
+    "description": "Specify the amount of electron and hole doping with the keyword scf.system.charge .",
+    "section": "§8.2; §12.5; §31; §49.1; §60.2; §60.3; §60.4; §61",
+    "unit": null,
+    "source": [
+      "ase",
+      "html"
+    ]
+  },
+  "version.dftD": {
+    "ase_key": "version_dftd",
+    "type": null,
+    "default": 2,
+    "valid_values": [
+      "2"
+    ],
+    "description": null,
+    "section": "§54.2",
+    "unit": null,
+    "source": [
+      "mineru"
+    ]
+  }
+}

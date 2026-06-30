@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>References &#8227; User&#8217;s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="index.html" rel="up" title="User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="prev" title="83 Others &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="next" title="Index &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(&#119873;) Methods &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of &#8216;lattice constant vs. energy&#8217; curves &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User&#8217;s manual of OpenMX Ver. 4.0</span></a><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s83_others.html"><span class="openmx_nav_label">Previous:</span> 83 Others</a><a href="idx.html"><span class="openmx_nav_label">Next:</span> Index</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_bibliography ltx_authors_1line">
+<h1 class="ltx_title ltx_title_bibliography">References</h1>
+<ul class="ltx_biblist">
+<li class="ltx_bibitem" id="bib1">
+<span class="ltx_tag ltx_tag_bibitem">[1]</span>
+<span class="ltx_bibblock">
+P. Hohenberg and W. Kohn, Phys. Rev. <span class="ltx_text ltx_font_bold">136</span>, B864 (1964);
+W. Kohn and L. J. Sham, Phys. Rev. <span class="ltx_text ltx_font_bold">140</span>, A1133 (1965).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib2">
+<span class="ltx_tag ltx_tag_bibitem">[2]</span>
+<span class="ltx_bibblock">
+D. M. Ceperley and B. J. Alder, Phys. Rev. Lett., 45, 566(1980);
+J. P. Perdew and A. Zunger, Phys. Rev. B <span class="ltx_text ltx_font_bold">23,</span> 5048 (1981).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib3">
+<span class="ltx_tag ltx_tag_bibitem">[3]</span>
+<span class="ltx_bibblock">
+J. P. Perdew and A. Zunger, Phys. Rev. B <span class="ltx_text ltx_font_bold">23,</span> 5048 (1981).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib4">
+<span class="ltx_tag ltx_tag_bibitem">[4]</span>
+<span class="ltx_bibblock">
+J. P. Perdew and Y. Wang, Phys.Rev.B <span class="ltx_text ltx_font_bold">45</span>, 13244 (1992).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib5">
+<span class="ltx_tag ltx_tag_bibitem">[5]</span>
+<span class="ltx_bibblock">
+J. P. Perdew, K. Burke, and M. Ernzerhof,
+Phys. Rev. Lett. <span class="ltx_text ltx_font_bold">77</span>, 3865 (1996).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib6">
+<span class="ltx_tag ltx_tag_bibitem">[6]</span>
+<span class="ltx_bibblock">
+A.E. Reed, L.A. Curtiss, and F. Weinhold, Chem. Rev. <span class="ltx_text ltx_font_bold">88</span>, 899 (1988);
+E. D. Glendening, C. R. Landis, and F. Weinhold, WIREs Comput. Mol. Sci. <span class="ltx_text ltx_font_bold">2</span>, 1 (2012).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib7">
+<span class="ltx_tag ltx_tag_bibitem">[7]</span>
+<span class="ltx_bibblock">
+T. Ohwaki, M. Otani, and T. Ozaki, J. Chem. Phys. <span class="ltx_text ltx_font_bold">140</span>, 244105 (2014).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib8">
+<span class="ltx_tag ltx_tag_bibitem">[8]</span>
+<span class="ltx_bibblock">
+U. Von. Barth and L. Hedin,
+J. Phys. C: Solid State Phys. <span class="ltx_text ltx_font_bold">5</span>, 1629 (1972).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib9">
+<span class="ltx_tag ltx_tag_bibitem">[9]</span>
+<span class="ltx_bibblock">
+J. K&#252;bler, K-H. H&#246;ck, J. Sticht, and A. R. Williams,
+J. Phys. F: Met. Phys. <span class="ltx_text ltx_font_bold">18</span>, 469 (1988).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib10">
+<span class="ltx_tag ltx_tag_bibitem">[10]</span>
+<span class="ltx_bibblock">
+J. Sticht, K-H. H&#246;ck, and J. K&#252;bler,
+J. Phys.: Condens. Matter <span class="ltx_text ltx_font_bold">1</span>, 8155 (1989).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib11">
+<span class="ltx_tag ltx_tag_bibitem">[11]</span>
+<span class="ltx_bibblock">
+T. Oda, A. Pasquarello, and R.Car,
+Phys. Rev. Lett. <span class="ltx_text ltx_font_bold">80</span>, 3622 (1998).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib12">
+<span class="ltx_tag ltx_tag_bibitem">[12]</span>
+<span class="ltx_bibblock">
+A. H. MacDonald and S. H. Vosko,
+J. Phys. C: Solid State Phys. 12, 2977 (1979).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib13">
+<span class="ltx_tag ltx_tag_bibitem">[13]</span>
+<span class="ltx_bibblock">
+Ph. Kurz, F. Forster, L. Nordstrom, G, Bihlmayer, and S. Blugel,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">69</span>, 024415 (2004).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib14">
+<span class="ltx_tag ltx_tag_bibitem">[14]</span>
+<span class="ltx_bibblock">
+J. Harris, Phys. Rev. B <span class="ltx_text ltx_font_bold">31</span>, 1770 (1985).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib15">
+<span class="ltx_tag ltx_tag_bibitem">[15]</span>
+<span class="ltx_bibblock">
+R. D. King-Smith and D. Vanderbilt,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">47</span>, 1651 (1993).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib16">
+<span class="ltx_tag ltx_tag_bibitem">[16]</span>
+<span class="ltx_bibblock">
+G. Theurich and N. A. Hill,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">64</span>, 073106 (2001).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib17">
+<span class="ltx_tag ltx_tag_bibitem">[17]</span>
+<span class="ltx_bibblock">
+A. I. Liechtenstein, M. I. Katsnelson, V. P. Antropov, and V. A. Gubanov,
+J. Mag. Mag. Mat. <span class="ltx_text ltx_font_bold">67</span>, 65 (1987).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib18">
+<span class="ltx_tag ltx_tag_bibitem">[18]</span>
+<span class="ltx_bibblock">
+M. J. Han, T. Ozaki, and J. Yu, Phys. Rev. B <span class="ltx_text ltx_font_bold">70</span>, 184421 (2004).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib19">
+<span class="ltx_tag ltx_tag_bibitem">[19]</span>
+<span class="ltx_bibblock">
+S. W. Jang, M. Y. Jeong, H. Yoon, S. Ryee, and M. J. Han,
+Phys. Rev. Materials <span class="ltx_text ltx_font_bold">3</span>, 031001(R) (2019).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib20">
+<span class="ltx_tag ltx_tag_bibitem">[20]</span>
+<span class="ltx_bibblock">
+A. Terasawa, M. Matsumoto, T. Ozaki, and Y. Gohda, J. Phys. Soc. Jpn. <span class="ltx_text ltx_font_bold">88</span>, 114706 (2019).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib21">
+<span class="ltx_tag ltx_tag_bibitem">[21]</span>
+<span class="ltx_bibblock">
+M. J. Han, T. Ozaki, and J. Yu, Phys. Rev. B <span class="ltx_text ltx_font_bold">74</span>, 045110 (2006).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib22">
+<span class="ltx_tag ltx_tag_bibitem">[22]</span>
+<span class="ltx_bibblock">
+S. Ryee and M.J. Han, J. Phys:Condens. Matter <span class="ltx_text ltx_font_bold">30</span>, 275802 (2018).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib23">
+<span class="ltx_tag ltx_tag_bibitem">[23]</span>
+<span class="ltx_bibblock">
+S. Ryee and M.J. Han, Scientific Reports <span class="ltx_text ltx_font_bold">8</span>, 9559 (2018).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib24">
+<span class="ltx_tag ltx_tag_bibitem">[24]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.openmx-square.org/tech_notes/tech6-1_0.pdf" title="">http://www.openmx-square.org/tech_notes/tech6-1_0.pdf</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib25">
+<span class="ltx_tag ltx_tag_bibitem">[25]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.openmx-square.org/tech_notes/DFTU_notes_OpenMX.pdf" title="">http://www.openmx-square.org/tech_notes/DFTU_notes_OpenMX.pdf</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib26">
+<span class="ltx_tag ltx_tag_bibitem">[26]</span>
+<span class="ltx_bibblock">
+S.L. Dudarev, G.A. Botton, S.Y. Savrasov, C.J. Humphreys, and A.P. Sutton,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">57</span>, 1505 (1998).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib27">
+<span class="ltx_tag ltx_tag_bibitem">[27]</span>
+<span class="ltx_bibblock">
+A.I. Liechtenstein, V.I. Anisimov, and J. Zaanen, Phys. Rev. B <span class="ltx_text ltx_font_bold">52</span>, R5467 (1995).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib28">
+<span class="ltx_tag ltx_tag_bibitem">[28]</span>
+<span class="ltx_bibblock">
+A. N. Yaresko, V. N. Antonov, and P. Fulde, Phys. Rev. B <span class="ltx_text ltx_font_bold">67</span>, 155103 (2003).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib29">
+<span class="ltx_tag ltx_tag_bibitem">[29]</span>
+<span class="ltx_bibblock">
+L. Vaugier, H. Jiang, and S. Biermann, Phys. Rev. B <span class="ltx_text ltx_font_bold">86</span>, 165105 (2012).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib30">
+<span class="ltx_tag ltx_tag_bibitem">[30]</span>
+<span class="ltx_bibblock">
+F. Bultmark, F. Cricchio, O. Gr&#229;n&#228;s, and L. Nordstr&#246;m, Phys. Rev. B 80, 035121 (2009).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib31">
+<span class="ltx_tag ltx_tag_bibitem">[31]</span>
+<span class="ltx_bibblock">
+L. V. Woodcock, Chem. Phys. Lett. <span class="ltx_text ltx_font_bold">10</span> ,257 (1971).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib32">
+<span class="ltx_tag ltx_tag_bibitem">[32]</span>
+<span class="ltx_bibblock">
+S. Nose, J. Chem. Phys. <span class="ltx_text ltx_font_bold">81</span>, 511 (1984);
+S. Nose, Mol. Phys. <span class="ltx_text ltx_font_bold">52</span>, 255 (1984);
+G. H. Hoover, Phys. Rev. A <span class="ltx_text ltx_font_bold">31</span>, 1695 (1985)).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib33">
+<span class="ltx_tag ltx_tag_bibitem">[33]</span>
+<span class="ltx_bibblock">
+M. Parrinello and A. Rahman, Phys. Rev. Lett. <span class="ltx_text ltx_font_bold">45</span>, 1196 (1980).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib34">
+<span class="ltx_tag ltx_tag_bibitem">[34]</span>
+<span class="ltx_bibblock">
+R. M. Wentzcovitch, Phys. Rev. B <span class="ltx_text ltx_font_bold">44</span>, 2358 (1991).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib35">
+<span class="ltx_tag ltx_tag_bibitem">[35]</span>
+<span class="ltx_bibblock">
+G. B. Bachelet, D. R. Hamann, and M. Schluter,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">26</span>, 4199 (1982).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib36">
+<span class="ltx_tag ltx_tag_bibitem">[36]</span>
+<span class="ltx_bibblock">
+N. Troullier and J. L. Martine,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">43</span>, 1993 (1991).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib37">
+<span class="ltx_tag ltx_tag_bibitem">[37]</span>
+<span class="ltx_bibblock">
+L. Kleinman and D. M. Bylander,
+Phys. Rev. Lett. <span class="ltx_text ltx_font_bold">48,</span> 1425 (1982).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib38">
+<span class="ltx_tag ltx_tag_bibitem">[38]</span>
+<span class="ltx_bibblock">
+P. E. Blochl, Phys. Rev. B <span class="ltx_text ltx_font_bold">41</span>, 5414 (1990).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib39">
+<span class="ltx_tag ltx_tag_bibitem">[39]</span>
+<span class="ltx_bibblock">
+I. Morrison, D.M. Bylander, L. Kleinman, Phys. Rev. B <span class="ltx_text ltx_font_bold">47</span>, 6728 (1993).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib40">
+<span class="ltx_tag ltx_tag_bibitem">[40]</span>
+<span class="ltx_bibblock">
+D. Vanderbilt, Phys. Rev. B <span class="ltx_text ltx_font_bold">41</span>, 7892 (1990).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib41">
+<span class="ltx_tag ltx_tag_bibitem">[41]</span>
+<span class="ltx_bibblock">
+H.J. Monkhorst and J.D. Pack, Phys. Rev. B <span class="ltx_text ltx_font_bold">13</span>, 5188 (1976).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib42">
+<span class="ltx_tag ltx_tag_bibitem">[42]</span>
+<span class="ltx_bibblock">
+T. Auckenthaler, V. Blum, H.-J. Bungartz, T. Huckle, R. Johanni, L. Kraemer, B. Lang,
+and H. Lederer, P. R. Willems,
+Parallel Computing 27, 783 (2011).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib43">
+<span class="ltx_tag ltx_tag_bibitem">[43]</span>
+<span class="ltx_bibblock">
+K. Lejaeghere, V. Van Speybroeck, G. Van Oost, and S. Cottenier,
+Critical Reviews in Solid State and Materials Sciences 39, 1 (2014);
+K. Lejaeghere et al., Science 351, aad3000 (2016).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib44">
+<span class="ltx_tag ltx_tag_bibitem">[44]</span>
+<span class="ltx_bibblock">
+T. Ozaki, Phys. Rev. B. <span class="ltx_text ltx_font_bold">67</span>, 155108, (2003);
+T. Ozaki and H. Kino, Phys. Rev. B <span class="ltx_text ltx_font_bold">69</span>, 195113 (2004).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib45">
+<span class="ltx_tag ltx_tag_bibitem">[45]</span>
+<span class="ltx_bibblock">
+T. Ozaki and H. Kino, Phys. Rev. B <span class="ltx_text ltx_font_bold">72</span>, 045121 (2005).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib46">
+<span class="ltx_tag ltx_tag_bibitem">[46]</span>
+<span class="ltx_bibblock">
+T. Ozaki, Phys. Rev. B <span class="ltx_text ltx_font_bold">74</span>, 245101 (2006).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib47">
+<span class="ltx_tag ltx_tag_bibitem">[47]</span>
+<span class="ltx_bibblock">
+T.V.T. Duy and T. Ozaki, Comput. Phys. Commun. 185, 777 (2014).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib48">
+<span class="ltx_tag ltx_tag_bibitem">[48]</span>
+<span class="ltx_bibblock">
+T.V.T. Duy and T. Ozaki, Comput. Phys. Commun. 185, 153 (2014).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib49">
+<span class="ltx_tag ltx_tag_bibitem">[49]</span>
+<span class="ltx_bibblock">
+S.F. Boys and F. Bernardi, Mol. Phys. <span class="ltx_text ltx_font_bold">19</span>, 553 (1970).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib50">
+<span class="ltx_tag ltx_tag_bibitem">[50]</span>
+<span class="ltx_bibblock">
+S. Simon, M. Duran, and J.J. Dannenberg, J. Chem. Phys. <span class="ltx_text ltx_font_bold">105</span>, 11024 (1996).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib51">
+<span class="ltx_tag ltx_tag_bibitem">[51]</span>
+<span class="ltx_bibblock">
+M. C. Payne, M. P. Teter, D. C. Allan, T. A. Arias and J. Joannopoulos,
+Rev. Mod. Phys. <span class="ltx_text ltx_font_bold">64</span>, 1045 (1992) and references therein.
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib52">
+<span class="ltx_tag ltx_tag_bibitem">[52]</span>
+<span class="ltx_bibblock">
+O. F. Sankey and D. J. Niklewski, Phys. Rev. B. <span class="ltx_text ltx_font_bold">40</span>, 3979 (1989)
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib53">
+<span class="ltx_tag ltx_tag_bibitem">[53]</span>
+<span class="ltx_bibblock">
+W. Yang, Phys.Rev.Lett. <span class="ltx_text ltx_font_bold">66</span>, 1438 (1991)
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib54">
+<span class="ltx_tag ltx_tag_bibitem">[54]</span>
+<span class="ltx_bibblock">
+T. Ozaki, M. Fukuda, G. Jiang, Phys. Rev. B <span class="ltx_text ltx_font_bold">98</span>, 245137 (2018).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib55">
+<span class="ltx_tag ltx_tag_bibitem">[55]</span>
+<span class="ltx_bibblock">
+J. Behler and M. Parrinello, Phys. Rev. Lett. <span class="ltx_text ltx_font_bold">98</span>, 146401 (2007).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib56">
+<span class="ltx_tag ltx_tag_bibitem">[56]</span>
+<span class="ltx_bibblock">
+V. Recoules and J.-P. Crocombette, Phys. Rev. B <span class="ltx_text ltx_font_bold">72</span>, 104202 (2005).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib57">
+<span class="ltx_tag ltx_tag_bibitem">[57]</span>
+<span class="ltx_bibblock">
+J. A. Anta and P. A. Madden, J. Phys.: Condens. Matter <span class="ltx_text ltx_font_bold">11</span>, 6099 (1999).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib58">
+<span class="ltx_tag ltx_tag_bibitem">[58]</span>
+<span class="ltx_bibblock">
+M. Kim, K. H. Khoo, and J. R. Chelikowsky, Phys. Rev. B <span class="ltx_text ltx_font_bold">86</span>, 054104 (2012).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib59">
+<span class="ltx_tag ltx_tag_bibitem">[59]</span>
+<span class="ltx_bibblock">
+P. Ordejon, E. Artacho, and J. M. Soler, Phys. Rev. B. <span class="ltx_text ltx_font_bold">53</span>, 10441 (1996)
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib60">
+<span class="ltx_tag ltx_tag_bibitem">[60]</span>
+<span class="ltx_bibblock">
+D. R. Bowler and M. J. Gillan, Chem. Phys. Lett. <span class="ltx_text ltx_font_bold">325</span>, 475 (2000).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib61">
+<span class="ltx_tag ltx_tag_bibitem">[61]</span>
+<span class="ltx_bibblock">
+G. Kresse and J. Furthmeuller, Phys. Rev. B. <span class="ltx_text ltx_font_bold">54</span>, 11169 (1996)
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib62">
+<span class="ltx_tag ltx_tag_bibitem">[62]</span>
+<span class="ltx_bibblock">
+G. P. Kerker, Phys. Rev. B <span class="ltx_text ltx_font_bold">23</span>, 3082 (1981).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib63">
+<span class="ltx_tag ltx_tag_bibitem">[63]</span>
+<span class="ltx_bibblock">
+T. A. Arias, M. C. Payne, and J. D. Joannopoulos, Phys. Rev. B <span class="ltx_text ltx_font_bold">45</span>, 1538 (1992).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib64">
+<span class="ltx_tag ltx_tag_bibitem">[64]</span>
+<span class="ltx_bibblock">
+D. Alfe, Comp. Phys. Commun. <span class="ltx_text ltx_font_bold">118</span>, 32 (1999).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib65">
+<span class="ltx_tag ltx_tag_bibitem">[65]</span>
+<span class="ltx_bibblock">
+P. Csaszar and P. Pulay, J. Mol. Struct. (Theochem) <span class="ltx_text ltx_font_bold">114</span>, 31 (1984).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib66">
+<span class="ltx_tag ltx_tag_bibitem">[66]</span>
+<span class="ltx_bibblock">
+J. Baker, J. Comput. Chem. <span class="ltx_text ltx_font_bold">7</span>, 385 (1986)
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib67">
+<span class="ltx_tag ltx_tag_bibitem">[67]</span>
+<span class="ltx_bibblock">
+A. Banerjee, N. Adams, J. Simons, R. Shepard, J. Phys. Chem. <span class="ltx_text ltx_font_bold">89</span>, 52 (1985)
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib68">
+<span class="ltx_tag ltx_tag_bibitem">[68]</span>
+<span class="ltx_bibblock">
+C. G. Broyden, J. Inst. Math. Appl. 6, 76 (1970);
+R. Fletcher, Comput. J. 13, 317 (1970);
+D. Goldrarb, Math. Comp. 24, 23 (1970);
+D. F. Shanno, Math. Comp. 24, 647 (1970).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib69">
+<span class="ltx_tag ltx_tag_bibitem">[69]</span>
+<span class="ltx_bibblock">
+H.B. Schlegel, Theoret. Chim. Acta (Berl.) 66, 333 (1984);
+J.M. Wittbrodt and H.B. Schlegel, J. Mol. Struc. (Theochem) 398-399, 55 (1997).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib70">
+<span class="ltx_tag ltx_tag_bibitem">[70]</span>
+<span class="ltx_bibblock">
+P. E. Blochl, O. Jepsen and O. K. Andersen, Phys. Rev. B <span class="ltx_text ltx_font_bold">49</span>, 16223 (1994).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib71">
+<span class="ltx_tag ltx_tag_bibitem">[71]</span>
+<span class="ltx_bibblock">
+R. Dronskowski and P. E. Bl&#246;chl, J. Phys. Chem. <span class="ltx_text ltx_font_bold">97</span>, 8617 (1993).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib72">
+<span class="ltx_tag ltx_tag_bibitem">[72]</span>
+<span class="ltx_bibblock">
+T. Hughbanks and R. Hoffmann, J. Am. Chem. Soc. <span class="ltx_text ltx_font_bold">105</span>, 3528 (1983).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib73">
+<span class="ltx_tag ltx_tag_bibitem">[73]</span>
+<span class="ltx_bibblock">
+The details of the implementation will be published elsewhere.
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib74">
+<span class="ltx_tag ltx_tag_bibitem">[74]</span>
+<span class="ltx_bibblock">
+R. S. Mulliken, J. Chem. Phys. <span class="ltx_text ltx_font_bold">23</span>, 1833 (1955).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib75">
+<span class="ltx_tag ltx_tag_bibitem">[75]</span>
+<span class="ltx_bibblock">
+A. D. Becke and R. M. Dickson, J. Chem. Phys. <span class="ltx_text ltx_font_bold">89</span>, 2993 (1988).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib76">
+<span class="ltx_tag ltx_tag_bibitem">[76]</span>
+<span class="ltx_bibblock">
+A. Svane and O. Gunnarsson, Phys. Rev. Lett. <span class="ltx_text ltx_font_bold">65</span>, 1148 (1990).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib77">
+<span class="ltx_tag ltx_tag_bibitem">[77]</span>
+<span class="ltx_bibblock">
+M. Fukuda, M. Senami, Y. Sugimoto, and T. Ozaki,
+J. Chem. Phys. <span class="ltx_text ltx_font_bold">164</span>, 084123 (2026).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib78">
+<span class="ltx_tag ltx_tag_bibitem">[78]</span>
+<span class="ltx_bibblock">
+J. Tersoff and D. R. Hamann, Phys. Rev. B <span class="ltx_text ltx_font_bold">31</span>, 805 (1985).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib79">
+<span class="ltx_tag ltx_tag_bibitem">[79]</span>
+<span class="ltx_bibblock">
+G. Henkelman and H. Jonsson, J. Chem. Phys. <span class="ltx_text ltx_font_bold">113</span>, 9978 (2000).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib80">
+<span class="ltx_tag ltx_tag_bibitem">[80]</span>
+<span class="ltx_bibblock">
+K. Nishioka, S. Dekura, T. Fujino, M. Mizuno, R. Kumai, B. Thomsen, M. Shiga, Y. Hori, Y. Shigeta, and H. Mori,
+Angew. Chem. Int. Ed. <span class="ltx_text ltx_font_bold">65</span>, e20785 (2026).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib81">
+<span class="ltx_tag ltx_tag_bibitem">[81]</span>
+<span class="ltx_bibblock">
+T. Ozaki, K. Nishio, and H. Kino, Phys. Rev. <span class="ltx_text ltx_font_bold">81</span>, 035116 (2010).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib82">
+<span class="ltx_tag ltx_tag_bibitem">[82]</span>
+<span class="ltx_bibblock">
+T. Ozaki, Phys. Rev. B <span class="ltx_text ltx_font_bold">75</span>, 035123 (2007).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib83">
+<span class="ltx_tag ltx_tag_bibitem">[83]</span>
+<span class="ltx_bibblock">
+T. Ozaki, K. Nishio, H. Weng, and H. Kino,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">81</span>, 075422 (2010).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib84">
+<span class="ltx_tag ltx_tag_bibitem">[84]</span>
+<span class="ltx_bibblock">
+M. Brandbyge, J.-L. Mozos, P. Ordejon, J. Taylor, and K. Stokbro,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">65</span>, 165401 (2002)
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib85">
+<span class="ltx_tag ltx_tag_bibitem">[85]</span>
+<span class="ltx_bibblock">
+G. C. Liang, A. W. Ghosh, M. Paulsson, and S. Datta,
+Phys. Rev. B. <span class="ltx_text ltx_font_bold">69</span>, 115302 (2004).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib86">
+<span class="ltx_tag ltx_tag_bibitem">[86]</span>
+<span class="ltx_bibblock">
+H. Weng, T. Ozaki, and K. Terakura, Phys. Rev. B <span class="ltx_text ltx_font_bold">79</span>, 235118 (2009).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib87">
+<span class="ltx_tag ltx_tag_bibitem">[87]</span>
+<span class="ltx_bibblock">
+H. Kotaka, F. Ishii, and M. Saito, Jpn. J. Appl. Phys. 52, 035204 (2013).; N. Yamaguchi and F. Ishii, Appl. Phys. Express 10, 123003 (2017).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib88">
+<span class="ltx_tag ltx_tag_bibitem">[88]</span>
+<span class="ltx_bibblock">
+T.B. Prayitno and F. Ishii, J. Phys. Soc. Jpn. <span class="ltx_text ltx_font_bold">87</span>, 114709 (2018).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib89">
+<span class="ltx_tag ltx_tag_bibitem">[89]</span>
+<span class="ltx_bibblock">
+T.B. Prayitno and F. Ishii, J. Phys. Soc. Jpn. <span class="ltx_text ltx_font_bold">88</span>, 054701 (2019).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib90">
+<span class="ltx_tag ltx_tag_bibitem">[90]</span>
+<span class="ltx_bibblock">
+T. Fukui, Y. Hatsugai and H. Suzuki J. Phys. Soc. Jpn. J. Phys. Soc. Jpn. <span class="ltx_text ltx_font_bold">74</span>, 1674 (2005).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib91">
+<span class="ltx_tag ltx_tag_bibitem">[91]</span>
+<span class="ltx_bibblock">
+W. Feng, J. Wen, J. Zhou, D. Xiao, and Y. Yao, Comput. Phys. Commun. <span class="ltx_text ltx_font_bold">183</span>, 1849 (2012).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib92">
+<span class="ltx_tag ltx_tag_bibitem">[92]</span>
+<span class="ltx_bibblock">
+T. Kato, H. Kotaka, and F. Ishii, JPS Conf. Proc. <span class="ltx_text ltx_font_bold">5</span>, 011022 (2015).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib93">
+<span class="ltx_tag ltx_tag_bibitem">[93]</span>
+<span class="ltx_bibblock">
+H. Sawahata, N. Yamaguchi, H. Kotaka, and F. Ishii, Jpn. J. Appl. Phys. 57, 030309 (2018).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib94">
+<span class="ltx_tag ltx_tag_bibitem">[94]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="https://t-ozaki.issp.u-tokyo.ac.jp/meeting16/OMX-Sawahata-2016Nov.pdf" title="">https://t-ozaki.issp.u-tokyo.ac.jp/meeting16/OMX-Sawahata-2016Nov.pdf</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib95">
+<span class="ltx_tag ltx_tag_bibitem">[95]</span>
+<span class="ltx_bibblock">
+L.M. Sandratskii, Adv. Phys. 4&#817;7, 91 (1998).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib96">
+<span class="ltx_tag ltx_tag_bibitem">[96]</span>
+<span class="ltx_bibblock">
+V.M. Garc&#237;a-Su&#225;rez, C.M. Newman, C.J. Lambert, J.M. Pruneda, and J. Ferrer,
+J. Phys.: Condens. Matter <span class="ltx_text ltx_font_bold">16</span>, 5453 (2004).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib97">
+<span class="ltx_tag ltx_tag_bibitem">[97]</span>
+<span class="ltx_bibblock">
+T. Ozaki and C.C. Lee, Phys. Rev. Lett. <span class="ltx_text ltx_font_bold">118</span>, 026401 (2017).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib98">
+<span class="ltx_tag ltx_tag_bibitem">[98]</span>
+<span class="ltx_bibblock">
+W. Osada, M. Hasegawa, Y. Shiozawa, K. Mukai, S. Yoshimoto, S. Tanaka, M. Kawamura, T. Ozaki, and J. Yoshinobu,
+Phys. Chem. Chem. Phys. <span class="ltx_text ltx_font_bold">27</span>, 1978 (2025).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib99">
+<span class="ltx_tag ltx_tag_bibitem">[99]</span>
+<span class="ltx_bibblock">
+J.F. Janak, Phys. Rev. B <span class="ltx_text ltx_font_bold">18</span>, 7165 (1978).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib100">
+<span class="ltx_tag ltx_tag_bibitem">[100]</span>
+<span class="ltx_bibblock">
+W.L. Jolly, K.D. Bomben, C.J. Eyermann, At. Data Nul. Data Tables <span class="ltx_text ltx_font_bold">31</span>, 433 (1984).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib101">
+<span class="ltx_tag ltx_tag_bibitem">[101]</span>
+<span class="ltx_bibblock">
+M. R. Jarvis, I. D. White, R. W. Godby, and M. C. Payne, Phys. Rev. B <span class="ltx_text ltx_font_bold">56</span>, 14972 (1997).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib102">
+<span class="ltx_tag ltx_tag_bibitem">[102]</span>
+<span class="ltx_bibblock">
+C. D. Wagner, W. M. Riggs, L. E. Davis, J. F. Moulder, and G. E. Mullenberg,
+Handbook of X-Ray Photoelectron Spectroscopy (Perkin-Elmer, Minnesota, 1979).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib103">
+<span class="ltx_tag ltx_tag_bibitem">[103]</span>
+<span class="ltx_bibblock">
+C.-C. Lee, J. Yoshinobu, K. Mukai, S. Yoshimoto, H. Ueda, R. Friedlein, A. Fleurence, Y. Yamada-Takamura, and T. Ozaki,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">95</span>, 115437 (2017).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib104">
+<span class="ltx_tag ltx_tag_bibitem">[104]</span>
+<span class="ltx_bibblock">
+C.-C Lee, B. Feng, M. D&#8217;angelo, R. Yukawa, R-Y Liu, T. Kondo, H. Kumigashira, I. Matsuda, and T. Ozaki,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">97</span>, 075430 (2018).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib105">
+<span class="ltx_tag ltx_tag_bibitem">[105]</span>
+<span class="ltx_bibblock">
+K. Yamazaki, Y. Maehara, C-C Lee, J. Yoshinobu, T. Ozaki, and K. Gohara,
+J. Phys. Chem. C <span class="ltx_text ltx_font_bold">122</span>, 27292 (2018).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib106">
+<span class="ltx_tag ltx_tag_bibitem">[106]</span>
+<span class="ltx_bibblock">
+K.B.Snow and T.F. Thomas, Int. J. Mass Spectrom. Ion Processes <span class="ltx_text ltx_font_bold">96</span>, 49 (1990).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib107">
+<span class="ltx_tag ltx_tag_bibitem">[107]</span>
+<span class="ltx_bibblock">
+M. Ernzerhof and G.E. Scuseria, J. Chem. Phys. <span class="ltx_text ltx_font_bold">110</span>, 5029 (1999).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib108">
+<span class="ltx_tag ltx_tag_bibitem">[108]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.openmx-square.org/tech_notes/Dielectric_Function_YTL.pdf" title="">http://www.openmx-square.org/tech_notes/Dielectric_Function_YTL.pdf</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib109">
+<span class="ltx_tag ltx_tag_bibitem">[109]</span>
+<span class="ltx_bibblock">
+S. Yokomori, S. Dekura, A. Ueda, R. Kumai, Y. Murakami, and H. Mori,
+J. Mater. Chem. C <span class="ltx_text ltx_font_bold">9</span>, 10718 (2021).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib110">
+<span class="ltx_tag ltx_tag_bibitem">[110]</span>
+<span class="ltx_bibblock">
+G.K.H. Madsen and D.J. Singh, Comput. Phys. Commun. 175, <span class="ltx_text ltx_font_bold">67</span> (2006).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib111">
+<span class="ltx_tag ltx_tag_bibitem">[111]</span>
+<span class="ltx_bibblock">
+G. K. H. Madsen, J. Carrete, and M. J. Verstraete,
+Comput. Phys. Commun. <span class="ltx_text ltx_font_bold">231</span>, 140 (2018).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib112">
+<span class="ltx_tag ltx_tag_bibitem">[112]</span>
+<span class="ltx_bibblock">
+M. Miyata, T. Ozaki, T. Takeuchi, S. Nishino, M. Inukai, and M. Koyano,
+J. Elec. Mater.<span class="ltx_text ltx_font_bold">47</span>, 3254 (2017).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib113">
+<span class="ltx_tag ltx_tag_bibitem">[113]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="https://www.imc.tuwien.ac.at//forschungsbereich_theoretische_chemie/forschungsgruppen/prof_dr_gkh_madsen_theoretical_materials_chemistry/boltztrap/" title="">https://www.imc.tuwien.ac.at//forschungsbereich_theoretische_chemie/forschungsgruppen/prof_dr_gkh_madsen_theoretical_materials_chemistry/boltztrap/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib114">
+<span class="ltx_tag ltx_tag_bibitem">[114]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.gnu.org/" title="">http://www.gnu.org/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib115">
+<span class="ltx_tag ltx_tag_bibitem">[115]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://jp-minerals.org/vesta/en/" title="">http://jp-minerals.org/vesta/en/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib116">
+<span class="ltx_tag ltx_tag_bibitem">[116]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.xcrysden.org/" title="">http://www.xcrysden.org/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib117">
+<span class="ltx_tag ltx_tag_bibitem">[117]</span>
+<span class="ltx_bibblock">
+T. Lis, Acta Crystallogra. B <span class="ltx_text ltx_font_bold">36</span>, 2042 (1980).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib118">
+<span class="ltx_tag ltx_tag_bibitem">[118]</span>
+<span class="ltx_bibblock">
+T. P. Davis T. J. Gillespie, F. Porreca, Peptides <span class="ltx_text ltx_font_bold">10</span>, 747 (1989).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib119">
+<span class="ltx_tag ltx_tag_bibitem">[119]</span>
+<span class="ltx_bibblock">
+A. Goldstein, S. Tachibana, L. I. Lowney, M. Hunkapiller, and L. Hood,
+Proc. Natl. Acad. Sci. U. S. A. <span class="ltx_text ltx_font_bold">76</span>, 6666 (1979).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib120">
+<span class="ltx_tag ltx_tag_bibitem">[120]</span>
+<span class="ltx_bibblock">
+U. C. Singh and P. A. Kollman, J. Comp. Chem. <span class="ltx_text ltx_font_bold">5</span>, 129(1984).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib121">
+<span class="ltx_tag ltx_tag_bibitem">[121]</span>
+<span class="ltx_bibblock">
+L. E. Chirlian and M. M. Francl, J. Com. Chem. <span class="ltx_text ltx_font_bold">8</span>, 894(1987).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib122">
+<span class="ltx_tag ltx_tag_bibitem">[122]</span>
+<span class="ltx_bibblock">
+B. H. Besler, K. M. Merz Jr. and P. A. Kollman,
+J. Comp. Chem. <span class="ltx_text ltx_font_bold">11</span>, 431(1990).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib123">
+<span class="ltx_tag ltx_tag_bibitem">[123]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.webelements.com/" title="">http://www.webelements.com/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib124">
+<span class="ltx_tag ltx_tag_bibitem">[124]</span>
+<span class="ltx_bibblock">
+M. Cardona, N. E. Christensen, and G. Gasol,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">38</span>, 1806 (1988).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib125">
+<span class="ltx_tag ltx_tag_bibitem">[125]</span>
+<span class="ltx_bibblock">
+G. Theurich and N. A. Hill,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">64</span>, 073106 (2001).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib126">
+<span class="ltx_tag ltx_tag_bibitem">[126]</span>
+<span class="ltx_bibblock">
+<span class="ltx_text ltx_font_italic">Physics of Group IV Elements and III-V Compounds</span>,
+edited by O.Madelung, M.Schulz, and H. Weiss, Landolt-B&#252;ornstein,
+New Series, Group 3, Vol. 17, Pt.a (Springer, Berlin, 1982).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib127">
+<span class="ltx_tag ltx_tag_bibitem">[127]</span>
+<span class="ltx_bibblock">
+T. Ono and K. Hirose,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">72</span>, 085105 (2005).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib128">
+<span class="ltx_tag ltx_tag_bibitem">[128]</span>
+<span class="ltx_bibblock">
+W. N. Mei, L. L. Boyer, M. J. Mehl, M. M. Ossowski, and H. T. Stokes,
+Phys. Rev. B <span class="ltx_text ltx_font_bold">61</span>, 11425 (2000).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib129">
+<span class="ltx_tag ltx_tag_bibitem">[129]</span>
+<span class="ltx_bibblock">
+I. V. Solovyev. A. I. Liechtenstein, K. Terakura,
+Phys. Rev. Lett. <span class="ltx_text ltx_font_bold">80</span>, 5758.
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib130">
+<span class="ltx_tag ltx_tag_bibitem">[130]</span>
+<span class="ltx_bibblock">
+K. Knopfle, L. M. Sandratskii, and J. Kubler,
+J. Phys:Condens. Matter <span class="ltx_text ltx_font_bold">9</span>, 7095 (1997).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib131">
+<span class="ltx_tag ltx_tag_bibitem">[131]</span>
+<span class="ltx_bibblock">
+I. S. Dhillon and B. N. Parlett,
+SIAM J. Matrix Anal. Appl. <span class="ltx_text ltx_font_bold">25</span>, 858 (2004).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib132">
+<span class="ltx_tag ltx_tag_bibitem">[132]</span>
+<span class="ltx_bibblock">
+J. J. M. Cuppen, Numer. Math. <span class="ltx_text ltx_font_bold">36</span>, 177 (1981);
+M. Gu and S. C. Eisenstat,
+SIAM J. Mat. Anal. Appl. <span class="ltx_text ltx_font_bold">16</span>, 172 (1995).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib133">
+<span class="ltx_tag ltx_tag_bibitem">[133]</span>
+<span class="ltx_bibblock">
+T. Ozaki, Phys. Rev. B <span class="ltx_text ltx_font_bold">110</span>, 125115 (2024).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib134">
+<span class="ltx_tag ltx_tag_bibitem">[134]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="https://www.openmx-square.org/cwf/" title="">https://www.openmx-square.org/cwf/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib135">
+<span class="ltx_tag ltx_tag_bibitem">[135]</span>
+<span class="ltx_bibblock">
+N. Mazari and D. Vanderbilt, Phys. Rev. B <span class="ltx_text ltx_font_bold">56</span>, 12 847 (1997).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib136">
+<span class="ltx_tag ltx_tag_bibitem">[136]</span>
+<span class="ltx_bibblock">
+I. Souza, N. Marzari and D. Vanderbilt, Phys. Rev. B <span class="ltx_text ltx_font_bold">65</span>, 035109 (2001).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib137">
+<span class="ltx_tag ltx_tag_bibitem">[137]</span>
+<span class="ltx_bibblock">
+T. Ozaki, Phys. Rev. B <span class="ltx_text ltx_font_bold">82</span>, 075131 (2010).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib138">
+<span class="ltx_tag ltx_tag_bibitem">[138]</span>
+<span class="ltx_bibblock">
+M. Otani and O. Sugino, Phys. Rev. B <span class="ltx_text ltx_font_bold">73</span>, 115407 (2006).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib139">
+<span class="ltx_tag ltx_tag_bibitem">[139]</span>
+<span class="ltx_bibblock">
+O. Sugino, I. Hamada, M. Otani, Y. Morikawa, T. Ikeshoji, and Y. Okamoto,
+Surf. Sci. <span class="ltx_text ltx_font_bold">601</span>, 5237 (2007).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib140">
+<span class="ltx_tag ltx_tag_bibitem">[140]</span>
+<span class="ltx_bibblock">
+M. Otani, I. Hamada, O. Sugino, Y. Morioka, Y. Okamoto, and T. Ikeshoji,
+J. Phys. Soc. Jpn. <span class="ltx_text ltx_font_bold">77</span>, 024802 (2008).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib141">
+<span class="ltx_tag ltx_tag_bibitem">[141]</span>
+<span class="ltx_bibblock">
+T. Ohwaki, M. Otani, T. Ikeshoji, and T. Ozaki, J. Chem. Phys. <span class="ltx_text ltx_font_bold">136</span>, 134101 (2012).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib142">
+<span class="ltx_tag ltx_tag_bibitem">[142]</span>
+<span class="ltx_bibblock">
+R.M. Eastment and C.H.B. Mee, J. Phys. F: Metal Phys. <span class="ltx_text ltx_font_bold">3</span>, 1738 (1973).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib143">
+<span class="ltx_tag ltx_tag_bibitem">[143]</span>
+<span class="ltx_bibblock">
+P.O. Gartland, S. Berge, and B.J. Slagsvold, Phys. Rev. Lett. <span class="ltx_text ltx_font_bold">28</span>, 738 (1972).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib144">
+<span class="ltx_tag ltx_tag_bibitem">[144]</span>
+<span class="ltx_bibblock">
+M. Chelvayohan and C.H.B. Mee, J. Phys. C: Solid State Phys. <span class="ltx_text ltx_font_bold">15</span>, 2305 (1982).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib145">
+<span class="ltx_tag ltx_tag_bibitem">[145]</span>
+<span class="ltx_bibblock">
+G.V. Hansson and S.A. Flodstr&#246;m, Phys. Rev. B <span class="ltx_text ltx_font_bold">18</span>, 1572 (1978).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib146">
+<span class="ltx_tag ltx_tag_bibitem">[146]</span>
+<span class="ltx_bibblock">
+G.D. Kubiak, J. Vac. Sci. Technol. A <span class="ltx_text ltx_font_bold">5</span>, 731 (1987).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib147">
+<span class="ltx_tag ltx_tag_bibitem">[147]</span>
+<span class="ltx_bibblock">
+G. Henkelman and H. Jonsson, J. Chem. Phys. <span class="ltx_text ltx_font_bold">113</span>, 9978 (2000).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib148">
+<span class="ltx_tag ltx_tag_bibitem">[148]</span>
+<span class="ltx_bibblock">
+S. Grimme, J. Comput. Chem. <span class="ltx_text ltx_font_bold">27</span>, 1787 (2006).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib149">
+<span class="ltx_tag ltx_tag_bibitem">[149]</span>
+<span class="ltx_bibblock">
+S. Grimme, J. Antony, S. Ehrlich, and H. Krieg,
+J. Chem. Phys. 132, 154104 (2010).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib150">
+<span class="ltx_tag ltx_tag_bibitem">[150]</span>
+<span class="ltx_bibblock">
+S. Grimme, S. Ehrlich and L. Goerigk,
+J. Comput. Chem. 32, 1456 (2011).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib151">
+<span class="ltx_tag ltx_tag_bibitem">[151]</span>
+<span class="ltx_bibblock">
+J.G. Hill, J.A. Platts, and H.-J. Werner,
+Phys. Chem. Chem. Phys. 8, 4072 (2006).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib152">
+<span class="ltx_tag ltx_tag_bibitem">[152]</span>
+<span class="ltx_bibblock">
+C. Li, L. Wan, Y. Wei, and J. Wang, Nanotechnology <span class="ltx_text ltx_font_bold">19</span>, 155401 (2008).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib153">
+<span class="ltx_tag ltx_tag_bibitem">[153]</span>
+<span class="ltx_bibblock">
+L. Zhang, B. Wang, and J. Wang, Phys. Rev. B <span class="ltx_text ltx_font_bold">84</span>, 115412 (2011).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib154">
+<span class="ltx_tag ltx_tag_bibitem">[154]</span>
+<span class="ltx_bibblock">
+M. Paulsson and M. Brandbyge, Phys. Rev. B <span class="ltx_text ltx_font_bold">76</span>, 115117 (2007).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib155">
+<span class="ltx_tag ltx_tag_bibitem">[155]</span>
+<span class="ltx_bibblock">
+C.-C. Lee, Y. Yamada-Takamura, and T. Ozaki,
+J. Phys.: Condens. Matter <span class="ltx_text ltx_font_bold">25</span>, 345501 (2013).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib156">
+<span class="ltx_tag ltx_tag_bibitem">[156]</span>
+<span class="ltx_bibblock">
+M. Kawamura, Comp. Phys. Comm. <span class="ltx_text ltx_font_bold">239</span>, 197 (2019).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib157">
+<span class="ltx_tag ltx_tag_bibitem">[157]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="https://mitsuaki1987.github.io/fermisurfer/" title="">https://mitsuaki1987.github.io/fermisurfer/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib158">
+<span class="ltx_tag ltx_tag_bibitem">[158]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.wannier.org/" title="">http://www.wannier.org/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib159">
+<span class="ltx_tag ltx_tag_bibitem">[159]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="https://github.com/Ncmexp2717/OMXTool" title="">https://github.com/Ncmexp2717/OMXTool</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib160">
+<span class="ltx_tag ltx_tag_bibitem">[160]</span>
+<span class="ltx_bibblock">
+H. Makino, I. H. Inoue, M. J. Rozenberg, I. Hase, Y. Aiura, and S. Onari, Phys. Rev. B 58, 4384 (1998).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib161">
+<span class="ltx_tag ltx_tag_bibitem">[161]</span>
+<span class="ltx_bibblock">
+  <a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.fhi-berlin.mpg.de/th/fhi98md/Murn/readme_murn.html" title="">http://www.fhi-berlin.mpg.de/th/fhi98md/Murn/readme_murn.html</a>
+ Note that the website is not available anymore as of April 23rd, 2026.  
+</span>
+</li>
+<li class="ltx_bibitem" id="bib162">
+<span class="ltx_tag ltx_tag_bibitem">[162]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.openmx-square.org/" title="">http://www.openmx-square.org/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib163">
+<span class="ltx_tag ltx_tag_bibitem">[163]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.netlib.org/lapack/" title="">http://www.netlib.org/lapack/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib164">
+<span class="ltx_tag ltx_tag_bibitem">[164]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.openmx-square.org/viewer/" title="">http://www.openmx-square.org/viewer/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib165">
+<span class="ltx_tag ltx_tag_bibitem">[165]</span>
+<span class="ltx_bibblock">
+Y.-T Lee and T. Ozaki, Journal of Molecular Graphics and Modelling <span class="ltx_text ltx_font_bold">89</span>, 192 (2019).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib166">
+<span class="ltx_tag ltx_tag_bibitem">[166]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="https://github.com/deepmodeling/deepmd-kit" title="">https://github.com/deepmodeling/deepmd-kit</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib167">
+<span class="ltx_tag ltx_tag_bibitem">[167]</span>
+<span class="ltx_bibblock">
+W. Setyawan and S. Curtarolo, Comp. Mater. Sci. <span class="ltx_text ltx_font_bold">49</span>, 299 (2010).
+
+</span>
+</li>
+<li class="ltx_bibitem" id="bib168">
+<span class="ltx_tag ltx_tag_bibitem">[168]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="https://www.wsxm.eu/download.html" title="">https://www.wsxm.eu/download.html</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib169">
+<span class="ltx_tag ltx_tag_bibitem">[169]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.nanoworld.jp/synaf/" title="">http://www.nanoworld.jp/synaf/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib170">
+<span class="ltx_tag ltx_tag_bibitem">[170]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://act.jst.go.jp/" title="">http://act.jst.go.jp/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib171">
+<span class="ltx_tag ltx_tag_bibitem">[171]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://ccinfo.ims.ac.jp/nanogrid/" title="">http://ccinfo.ims.ac.jp/nanogrid/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib172">
+<span class="ltx_tag ltx_tag_bibitem">[172]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.jst.go.jp/" title="">http://www.jst.go.jp/</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib173">
+<span class="ltx_tag ltx_tag_bibitem">[173]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://computics-material.jp/index-e.html" title="">http://computics-material.jp/index-e.html</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib174">
+<span class="ltx_tag ltx_tag_bibitem">[174]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="http://www.cms-initiative.jp/ja" title="">http://www.cms-initiative.jp/ja</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib175">
+<span class="ltx_tag ltx_tag_bibitem">[175]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="https://www.nedo.go.jp/english/activities/activities_ZZJP_100119.html" title="">https://www.nedo.go.jp/english/activities/activities_ZZJP_100119.html</a>
+</span>
+</li>
+<li class="ltx_bibitem" id="bib176">
+<span class="ltx_tag ltx_tag_bibitem">[176]</span>
+<span class="ltx_bibblock">
+<a class="ltx_ref ltx_url ltx_font_typewriter" href="https://cdmsi.issp.u-tokyo.ac.jp/" title="">https://cdmsi.issp.u-tokyo.ac.jp/</a>
+</span>
+</li>
+</ul>
+</section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s83_others.html"><span class="openmx_footer_label">Previous:</span> 83 Others</a><a href="idx.html"><span class="openmx_footer_label">Next:</span> Index</a></div></div></footer>
+</div>
+</body>
+</html>

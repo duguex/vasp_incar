@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>51.3 Examples and Related Keywords ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s51_neb.html" rel="up" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_2_how-to.html" rel="prev" title="51.2 How to Perform a Calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_4_restart.html" rel="next" title="51.4 Restarting an NEB Calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+<meta content="MD.NEB.Number.Images, MD.NEB.Parallel.Number, MD.NEB.Spring.Const, MD.Opt.DIIS.History, MD.Opt.StartDIIS, MD.Opt.criterion, MD.Type, MD.maxIter, scf.restart" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s51_neb.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s51_2_how-to.html"><span class="openmx_nav_label">Previous:</span> 51.2 How to Perform a Calculation</a><a href="s51_4_restart.html"><span class="openmx_nav_label">Next:</span> 51.4 Restarting an NEB Calculation</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:examples-and-related-keywords">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">51.3 </span>Examples and Related Keywords</h1><div class="ltx_para" id="SS3.p1">
+<p class="ltx_p">As examples, two input files are provided.</p>
+</div><div class="ltx_para" id="SS3.p2">
+<ul class="ltx_itemize" id="I3">
+<li class="ltx_item" id="I3.i1" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I3.i1.p1">
+<p class="ltx_p"><a href="work/C2H4_NEB.dat" rel="noopener noreferrer" target="_blank">C2H4_NEB.dat</a></p>
+</div>
+<div class="ltx_para" id="I3.i1.p2">
+<p class="ltx_p">Formation of cyclobutane via the cycloaddition reaction of two ethylene molecules</p>
+</div>
+</li>
+<li class="ltx_item" id="I3.i2" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I3.i2.p1">
+<p class="ltx_p"><a href="work/Si8_NEB.dat" rel="noopener noreferrer" target="_blank">Si8_NEB.dat</a></p>
+</div>
+<div class="ltx_para" id="I3.i2.p2">
+<p class="ltx_p">Diffusion of an interstitial hydrogen atom in diamond-structure Si</p>
+</div>
+</li>
+</ul>
+</div><div class="ltx_para ltx_noindent" id="SS3.p3">
+<p class="ltx_p">In the following, an NEB calculation using the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/C2H4_NEB.dat" rel="noopener noreferrer" target="_blank">C2H4_NEB.dat</a></code> is explained as an example.</p>
+</div><div class="ltx_para ltx_noindent" id="SS3.p4">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Specify the Structures of the Reactant and Product</span></p>
+</div><div class="ltx_para ltx_noindent" id="SS3.p5">
+<p class="ltx_p">The atomic coordinates of the reactant are specified in the input file as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter" style="font-size:90%;">
+ &lt;Atoms.SpeciesAndCoordinates
+    1    C   -0.66829065594143    0.00000000101783   -2.19961193219289     2.0     2.0
+    2    C    0.66817412917689   -0.00000000316062   -2.19961215251205     2.0     2.0
+    3    H    1.24159214112072   -0.92942544650857   -2.19953308980064     0.5     0.5
+    4    H    1.24159212192367    0.92942544733979   -2.19953308820323     0.5     0.5
+    5    H   -1.24165800644131   -0.92944748269232   -2.19953309891389     0.5     0.5
+    6    H   -1.24165801380425    0.92944749402510   -2.19953309747076     0.5     0.5
+    7    C   -0.66829065113509    0.00000000341499    2.19961191775648     2.0     2.0
+    8    C    0.66817411530651   -0.00000000006073    2.19961215383949     2.0     2.0
+    9    H    1.24159211310925   -0.92942539308841    2.19953308889301     0.5     0.5
+   10    H    1.24159212332935    0.92942539212392    2.19953308816332     0.5     0.5
+   11    H   -1.24165799549343   -0.92944744948986    2.19953310195071     0.5     0.5
+   12    H   -1.24165801426648    0.92944744880542    2.19953310162389     0.5     0.5
+ Atoms.SpeciesAndCoordinates&gt;
+</pre><span id="idx-atoms-speciesandcoordinates-s51_3_examples"></span>
+<p class="ltx_p">The atomic coordinates of the product are specified in the input file as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter" style="font-size:90%;">
+ &lt;NEB.Atoms.SpeciesAndCoordinates
+    1    C   -0.77755846408657   -0.00000003553856   -0.77730141035137     2.0     2.0
+    2    C    0.77681707294741   -0.00000002413166   -0.77729608216595     2.0     2.0
+    3    H    1.23451821718817   -0.88763832172374   -1.23464057728123     0.5     0.5
+    4    H    1.23451823170776    0.88763828275851   -1.23464059022330     0.5     0.5
+    5    H   -1.23506432458023   -0.88767426830774   -1.23470899088096     0.5     0.5
+    6    H   -1.23506425800395    0.88767424658723   -1.23470896874564     0.5     0.5
+    7    C   -0.77755854665393    0.00000000908006    0.77730136931056     2.0     2.0
+    8    C    0.77681705017323   -0.00000000970885    0.77729611199476     2.0     2.0
+    9    H    1.23451826851556   -0.88763828740000    1.23464060936812     0.5     0.5
+   10    H    1.23451821324627    0.88763830875131    1.23464061208483     0.5     0.5
+   11    H   -1.23506431230451   -0.88767430754577    1.23470894717613     0.5     0.5
+   12    H   -1.23506433587007    0.88767428525317    1.23470902573029     0.5     0.5
+ NEB.Atoms.SpeciesAndCoordinates&gt;
+</pre><span id="idx-neb-atoms-speciesandcoordinates-s51_3_examples"></span>
+</div><div class="ltx_para ltx_noindent" id="SS3.p6">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Keywords for an NEB Calculation</span></p>
+</div><div class="ltx_para ltx_noindent" id="SS3.p7">
+<p class="ltx_p">An NEB calculation is performed by setting the keyword <code class="ltx_verbatim ltx_font_typewriter">MD.Type</code> as follows. </p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   MD.Type                NEB
+</pre>
+</div><div class="ltx_para ltx_noindent" id="SS3.p8">
+<p class="ltx_p">The number of images along the path is specified by the following keyword.
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   MD.NEB.Number.Images        8            # default=10
+</pre>
+<p class="ltx_p">Here, the two terminal structures (the reactant and product) are excluded from the number of images.</p>
+</div><div class="ltx_para ltx_noindent" id="SS3.p9">
+<p class="ltx_p">The spring constant is given as follows.
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   MD.NEB.Spring.Const         0.1          # default=0.1 (Hartree/Bohr^2)
+</pre>
+<p class="ltx_p">In most cases, the resulting path does not depend strongly on this value.</p>
+</div><div class="ltx_para ltx_noindent" id="SS3.p10">
+<p class="ltx_p">Optimization of the MEP is performed using a hybrid optimization method (DIIS+BFGS).
+This optimization method is controlled by the following keywords.
+
+
+
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   MD.Opt.DIIS.History           4          # default=7
+   MD.Opt.StartDIIS             10          # default=5
+   MD.maxIter                  100          # default=1
+   MD.Opt.criterion         1.0e-4          # default=0.0003 (Hartree/Bohr)
+</pre>
+<p class="ltx_p">The specifications of these keywords are the same as those for structural optimization, so for details,
+please refer to Section <a class="ltx_ref" href="s18_geom-opt.html" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">18</span></a>.
+It is also possible to fix atomic positions using the keyword <code class="ltx_verbatim ltx_font_typewriter">MD.Fixed.XYZ</code>.<span id="idx-md-fixed-xyz-s51_3_examples"></span></p>
+</div><div class="ltx_para ltx_noindent" id="SS3.p11">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Execution of an NEB Calculation</span></p>
+</div><div class="ltx_para ltx_noindent" id="SS3.p12">
+<p class="ltx_p">As shown below, an NEB calculation can be performed using the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/C2H4_NEB.dat" rel="noopener noreferrer" target="_blank">C2H4_NEB.dat</a></code>.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   % mpirun -np 16 openmx C2H4_NEB.dat
+</pre>
+<p class="ltx_p">If the calculation finishes normally, 24 or more files will be generated. These output files are listed below.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   c2h4.neb.opt          history of optimization for finding MEP
+   c2h4.neb.ene          total energy of each image
+   c2h4.neb.xyz          atomic coordinates of each image in XYZ format
+   C2H4_NEB.dat#         input file for restarting.
+   C2H4_NEB.dat_0        input file for the reactant
+   C2H4_NEB.dat_1        input file for the image 1
+   C2H4_NEB.dat_2        input file for the image 2
+   C2H4_NEB.dat_3        input file for the image 3
+   C2H4_NEB.dat_4        input file for the image 4
+   C2H4_NEB.dat_5        input file for the image 5
+   C2H4_NEB.dat_6        input file for the image 6
+   C2H4_NEB.dat_7        input file for the image 7
+   C2H4_NEB.dat_8        input file for the image 8
+   C2H4_NEB.dat_9        input file for the product
+   c2h4_0.out            output file for the reactant
+   c2h4_1.out            output file for the image 1
+   c2h4_2.out            output file for the image 2
+   c2h4_3.out            output file for the image 3
+   c2h4_4.out            output file for the image 4
+   c2h4_5.out            output file for the image 5
+   c2h4_6.out            output file for the image 6
+   c2h4_7.out            output file for the image 7
+   c2h4_8.out            output file for the image 8
+   c2h4_9.out            output file for the product
+</pre>
+<p class="ltx_p">The file <code class="ltx_verbatim ltx_font_typewriter">c2h4.neb.opt</code> stores the history of the MEP optimization process, as shown in Fig. <a class="ltx_ref" href="#fig:NEB1" title="Figure 69 ‣ 51.3 Examples and Related Keywords ‣ 51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">69</span></a>(a).
+As shown below, an explanation is given at the beginning of this file.</p>
+</div><div class="ltx_para" id="SS3.p13">
+<pre class="ltx_verbatim ltx_font_typewriter" style="font-size:80%;">
+***********************************************************
+***********************************************************
+        History of optimization by the NEB method
+***********************************************************
+***********************************************************
+
+  iter   SD_scaling     |Maximum force|   Maximum step        Norm        Sum of Total Energy of Images
+                        (Hartree/Bohr)        (Ang)       (Hartree/Bohr)       (Hartree)
+
+ 1       0.37794520       0.12552029       0.04582872       0.49503564      -223.77727270
+ 2       0.37794520       0.08684326       0.03163568       0.35379138      -223.85742178
+ 3       0.37794520       0.05494170       0.01922109       0.25668987      -223.89831315
+ 4       0.37794520       0.03790756       0.01234783       0.20282701      -223.92042214
+ 5       0.45353424       0.02936267       0.01326992       0.17349182      -223.93482684
+ 6       0.45353424       0.02588324       0.01169326       0.15249816      -223.94772373
+ 7       0.45353424       0.02303237       0.01039732       0.13836351      -223.95785381
+ .....
+ ...
+ .
+</pre>
+</div><div class="ltx_para ltx_noindent" id="SS3.p14">
+<p class="ltx_p">In addition, <code class="ltx_verbatim ltx_font_typewriter">c2h4.neb.ene</code> and <code class="ltx_verbatim ltx_font_typewriter">c2h4.neb.xyz</code> store, as shown in Fig. <a class="ltx_ref" href="#fig:NEB1" title="Figure 69 ‣ 51.3 Examples and Related Keywords ‣ 51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">69</span></a>(b),
+the variation of the total energy as a function of the distance from the reactant (Bohr) and
+the structural evolution, respectively, and can therefore be used to analyze the MEP.
+The contents of <code class="ltx_verbatim ltx_font_typewriter">c2h4.neb.ene</code> are as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+#
+# 1st column: index of images, where 0 and MD.NEB.Number.Images+1 are the terminals
+# 2nd column: Total energy (Hartree) of each image
+# 3rd column: distance (Bohr) between neighbors
+# 4th column: distance (Bohr) from the image of the index 0
+#
+    0     -28.02185123       0.00000000       0.00000000       1.33646479
+    1     -28.02178504       0.82118983       0.82118983       1.33567758
+    2     -28.02140085       0.82112465       1.64231448       1.33523545
+    3     -28.02029263       0.82111494       2.46342943       1.33463925
+    4     -28.01779520       0.82113132       3.28456075       1.33375884
+    5     -28.01261510       0.82135679       4.10591754       1.33262666
+    6     -27.98761569       0.82169303       4.92761057       1.34184332
+    7     -27.91797753       0.82218700       5.74979757       1.51281873
+    8     -28.02565233       0.82256566       6.57236323       1.55582522
+    9     -28.06263668       0.82263968       7.39500291       1.55437554
+</pre>
+<p class="ltx_p">Here, the first column is the serial index of the image, where 0 and 9 correspond to the reactant and product, respectively.
+The second column is the total energy of each image.
+The third and fourth columns are the distance (Bohr) between two neighboring images in geometrical phase space and the distance (Bohr) from the reactant, respectively.</p>
+</div><figure class="ltx_figure" id="fig:NEB1"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="425" id="F69.g1" src="x70.png" width="763"/>
+  <br>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 69: </span><span class="ltx_text" style="font-size:90%;">(a) Optimization history of the NEB calculation for the cycloaddition reaction of two ethylene molecules (formation of cyclobutane) (c2h4.neb.opt),
+(b) variation of the total energy of the two ethylene molecules as a function of the distance from the reactant (Bohr) (c2h4.neb.ene), and
+the corresponding geometrical structures of the images on the minimum energy path (c2h4.neb.xyz).
+The input file for this NEB calculation is <span class="ltx_text ltx_font_typewriter"><a href="work/C2H4_NEB.dat" rel="noopener noreferrer" target="_blank">C2H4_NEB.dat</a></span> in the <span class="ltx_text ltx_font_typewriter">work</span> directory.
+</span></figcaption>
+</figure><div class="ltx_para" id="SS3.p15">
+<p class="ltx_p">Since the calculation for each image is basically carried out as an independent OpenMX calculation with a different input file,
+the <code class="ltx_verbatim ltx_font_typewriter">System.Name.dat_#</code> files are generated automatically.
+Here, <code class="ltx_verbatim ltx_font_typewriter">System.Name</code> denotes <code class="ltx_verbatim ltx_font_typewriter">System.Name</code>, and <code class="ltx_verbatim ltx_font_typewriter">#</code> denotes the serial number of each image.
+The corresponding output files <code class="ltx_verbatim ltx_font_typewriter">System.Name_#.out</code> are also generated,
+which will be useful for analyzing how the electronic structure changes along the MEP.<span id="idx-system-name-s51_3_examples"></span></p>
+</div><div class="ltx_para" id="SS3.p16">
+<p class="ltx_p">As in <code class="ltx_verbatim ltx_font_typewriter">C2H4_NEB.dat</code>, an NEB calculation can also be performed for <code class="ltx_verbatim ltx_font_typewriter">Si8_NEB.dat</code>.
+If the calculation finishes successfully, the optimization history and the total energy change along the MEP shown in Fig. <a class="ltx_ref" href="#fig:NEB2" title="Figure 70 ‣ 51.3 Examples and Related Keywords ‣ 51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">70</span></a> will be obtained.</p>
+</div><figure class="ltx_figure" id="fig:NEB2"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="429" id="F70.g1" src="x71.png" width="763"/>
+  <br>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 70: </span><span class="ltx_text" style="font-size:90%;">(a) Optimization history of the NEB calculation for diffusion of an interstitial hydrogen atom in diamond Si (si8_neb.neb.opt),
+(b) variation of the total energy as a function of the distance from the reactant (Bohr) (si8_neb.neb.ene), and the corresponding geometrical structures of the
+images on the minimum energy path (si8_neb.neb.xyz).
+The input file for this NEB calculation is <span class="ltx_text ltx_font_typewriter"><a href="work/Si8_NEB.dat" rel="noopener noreferrer" target="_blank">Si8_NEB.dat</a></span> in the <span class="ltx_text ltx_font_typewriter">work</span> directory.
+</span></figcaption>
+</figure></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s51_neb.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s51_2_how-to.html"><span class="openmx_footer_label">Previous:</span> 51.2 How to Perform a Calculation</a><a href="s51_4_restart.html"><span class="openmx_footer_label">Next:</span> 51.4 Restarting an NEB Calculation</a></div></div></footer>
+</div>
+</body>
+</html>

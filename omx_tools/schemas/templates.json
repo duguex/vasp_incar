@@ -1,0 +1,91 @@
+{
+  "scf_band": {
+    "description": "SCF single-point with band structure (default for crystalline solids)",
+    "keywords": {
+      "scf_eigenvaluesolver": "Band",
+      "scf_xctype": "GGA-PBE",
+      "kpts": null,
+      "scf_maxiter": 100,
+      "scf_energycutoff": 300.0,
+      "scf_criterion": 1.0e-6,
+      "scf_electronictemperature": 300.0,
+      "scf_mixing_type": "Rmm-Diis",
+      "scf_mixing_history": 20,
+      "scf_spinpolarization": "Off",
+      "md_type": "Nomd",
+      "md_maxiter": 1
+    },
+    "auto_kpoints": true
+  },
+  "scf_band_metal": {
+    "description": "SCF for metallic system with Kerker mixing and higher smearing",
+    "keywords": {
+      "scf_eigenvaluesolver": "Band",
+      "scf_xctype": "GGA-PBE",
+      "kpts": null,
+      "scf_maxiter": 200,
+      "scf_energycutoff": 350.0,
+      "scf_criterion": 1.0e-6,
+      "scf_electronictemperature": 1500.0,
+      "scf_mixing_type": "Rmm-Diisk",
+      "scf_kerker_factor": 10.0,
+      "scf_mixing_history": 30,
+      "scf_max_mixing_weight": 0.1,
+      "scf_spinpolarization": "Off",
+      "md_type": "Nomd",
+      "md_maxiter": 1
+    },
+    "auto_kpoints": true
+  },
+  "scf_cluster": {
+    "description": "SCF for molecule/cluster (no k-points, cluster solver)",
+    "keywords": {
+      "scf_eigenvaluesolver": "Cluster",
+      "scf_xctype": "GGA-PBE",
+      "scf_maxiter": 100,
+      "scf_energycutoff": 200.0,
+      "scf_criterion": 1.0e-8,
+      "scf_electronictemperature": 0.0,
+      "scf_mixing_type": "Rmm-Diis",
+      "scf_mixing_history": 10,
+      "scf_spinpolarization": "Off",
+      "md_type": "Nomd",
+      "md_maxiter": 1
+    },
+    "auto_kpoints": false
+  },
+  "geom_opt": {
+    "description": "Geometry optimization with DIIS",
+    "keywords": {
+      "scf_eigenvaluesolver": "Band",
+      "scf_xctype": "GGA-PBE",
+      "kpts": null,
+      "scf_maxiter": 100,
+      "scf_energycutoff": 300.0,
+      "scf_criterion": 1.0e-6,
+      "scf_electronictemperature": 300.0,
+      "scf_mixing_type": "Rmm-Diis",
+      "scf_mixing_history": 20,
+      "scf_spinpolarization": "Off",
+      "md_type": "Opt",
+      "md_maxiter": 50,
+      "md_timestep": 1.0,
+      "md_opt_criterion": 1.0e-4
+    },
+    "auto_kpoints": true
+  },
+  "band_dispersion": {
+    "description": "Post-SCF band structure calculation along k-path (requires prior SCF)",
+    "keywords": {
+      "scf_eigenvaluesolver": "Band",
+      "scf_maxiter": 1,
+      "scf_restart": true,
+      "md_type": "Nomd",
+      "md_maxiter": 1,
+      "band_dispersion": true,
+      "band_nkpath": 200
+    },
+    "auto_kpoints": false,
+    "requires_prior_scf": true
+  }
+}

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>40.1 Standard settings ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s40_dft-plus-u.html" rel="up" title="40 DFT+ U method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="prev" title="40 DFT+ U method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_2_extras.html" rel="next" title="40.2 Additional functionalities ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+<meta content="Atoms.SpeciesAndCoordinates, Hund.J.values, Hubbard.U.values, scf.DFTU.Type, scf.Hubbard.Occupation, scf.Hubbard.U, scf.Slater.Ratio, scf.Yukawa, scf.dc.Type" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s40_dft-plus-u.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s40_dft-plus-u.html"><span class="openmx_nav_label">Previous:</span> 40 DFT+ U method</a><a href="s40_2_extras.html"><span class="openmx_nav_label">Next:</span> 40.2 Additional functionalities</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:standard-settings">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">40.1 </span>Standard settings</h1><section class="ltx_subsubsection" id="subsubsec:choice-of-dft-plus-u-method-simplified-or-generalized">
+<h3 class="ltx_title ltx_title_subsubsection">
+<span class="ltx_tag ltx_tag_subsubsection">40.1.1 </span>Choice of DFT+<math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.m1"><mi>U</mi></math> method: simplified or generalized</h3>
+<div class="ltx_para" id="SS1.SSS1.p1">
+<p class="ltx_p">The following two keywords are used to select the occupation-number operator, functional form, and double-counting term in the DFT+<math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.p1.m1"><mi>U</mi></math> method.
+
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+  scf.Hubbard.U                 on  # on|off, default=off
+  scf.DFTU.Type                 2   # 1:Simplified(Dudarev)|2:General, default=1
+</pre>
+<p class="ltx_p">These keywords are common to both collinear and non-collinear calculations <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib22" title="">22</a>, <a class="ltx_ref" href="bib.html#bib23" title="">23</a>]</cite>.
+<code class="ltx_verbatim ltx_font_typewriter">scf.DFTU.Type=1</code> corresponds to the so-called <code class="ltx_verbatim ltx_font_typewriter">simplified rotationally invariant form</code> proposed by Dudarev et al. <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib26" title="">26</a>]</cite>,
+where only <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.p1.m2"><mi>U</mi></math> (Hubbard <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.p1.m3"><mi>U</mi></math>) plays a role <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib21" title="">21</a>]</cite>.
+In the more general DFT+<math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.p1.m4"><mi>U</mi></math> method, not only <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.p1.m5"><mi>U</mi></math> but also <math alttext="J" class="ltx_Math" display="inline" id="SS1.SSS1.p1.m6"><mi>J</mi></math> (Hund’s exchange interaction <math alttext="J" class="ltx_Math" display="inline" id="SS1.SSS1.p1.m7"><mi>J</mi></math>) is an input parameter.
+When using the DFT+<math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.p1.m8"><mi>U</mi></math> method, set the keyword <code class="ltx_verbatim ltx_font_typewriter">scf.SpinPolarization</code> to either <code class="ltx_verbatim ltx_font_typewriter">on</code> or <code class="ltx_verbatim ltx_font_typewriter">nc</code>.<span id="idx-scf-spinpolarization-s40_1_standard"></span></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p2">
+<p class="ltx_p">The occupation-number operator <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib21" title="">21</a>]</cite> is specified by the following keyword .</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+  scf.Hubbard.Occupation        dual  # onsite|full|dual, default=dual
+</pre>
+<p class="ltx_p">Among the three occupation-number operators (onsite, full, dual), only the dual operator satisfies the sum rule
+(the trace of the occupation-number matrix gives the total number of electrons).
+For details of the <code class="ltx_verbatim ltx_font_typewriter">onsite</code>, <code class="ltx_verbatim ltx_font_typewriter">full</code>, and <code class="ltx_verbatim ltx_font_typewriter">dual</code> operators, refer to Ref. <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib21" title="">21</a>]</cite>.</p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p3">
+<p class="ltx_p">If atomic species are defined by the keyword <code class="ltx_verbatim ltx_font_typewriter">Definition.of.Atomic.Species</code> as follows,<span id="idx-definition-of-atomic-species-s40_1_standard"></span></p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+  &lt;Definition.of.Atomic.Species
+    Ni Ni6.0S-s2p2d2f1  Ni_CA19S
+    O  O5.0-s2p2d1      O_CA19
+  Definition.of.Atomic.Species&gt;
+</pre>
+<p class="ltx_p">the values of <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.p3.m1"><mi>U</mi></math> and <math alttext="J" class="ltx_Math" display="inline" id="SS1.SSS1.p3.m2"><mi>J</mi></math> for each orbital (in eV) are specified by the keyword <code class="ltx_verbatim ltx_font_typewriter">Hubbard.U.values</code> as follows.
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+  &lt;Hubbard.U.values   # eV
+    Ni 1s 0.0 2s 0.0 1p 0.0 2p 0.0 1d 5.0 2d 0.0 1f 0.0
+    O  1s 0.0 2s 0.0 1p 0.0 2p 0.0 1d 0.0
+  Hubbard.U.values&gt;
+</pre>
+</div>
+<div class="ltx_para" id="SS1.SSS1.p4">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  &lt;Hund.J.values      # eV
+    Ni 1s 0.0 2s 0.0 1p 0.0 2p 0.0 1d 0.9 2d 0.0 1f 0.0
+    O  1s 0.0 2s 0.0 1p 0.0 2p 0.0 1d 0.0
+  Hund.J.values&gt;
+</pre>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p5">
+<p class="ltx_p">The specification of <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m1"><mi>U</mi></math> (<math alttext="J" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m2"><mi>J</mi></math>) starts with <code class="ltx_verbatim ltx_font_typewriter">&lt;Hubbard.U.values</code> (<code class="ltx_verbatim ltx_font_typewriter">&lt;Hund.J.values</code>),
+and ends with <code class="ltx_verbatim ltx_font_typewriter">Hubbard.U.values&gt;</code> (<code class="ltx_verbatim ltx_font_typewriter">Hund.J.values&gt;</code>).
+Please provide <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m3"><mi>U</mi></math> and <math alttext="J" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m4"><mi>J</mi></math> in eV for all basis functions in the above format.
+<code class="ltx_verbatim ltx_font_typewriter">1s</code> and <code class="ltx_verbatim ltx_font_typewriter">2s</code> mean the first <math alttext="s" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m5"><mi>s</mi></math> orbital and the second <math alttext="s" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m6"><mi>s</mi></math> orbital, respectively.
+The number after <code class="ltx_verbatim ltx_font_typewriter">1s</code> is the value of <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m7"><mi>U</mi></math> (or <math alttext="J" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m8"><mi>J</mi></math>) for the first <math alttext="s" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m9"><mi>s</mi></math> orbital.
+The same rule applies to the <math alttext="p" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m10"><mi>p</mi></math> and <math alttext="d" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m11"><mi>d</mi></math> orbitals.
+If <code class="ltx_verbatim ltx_font_typewriter">scf.DFTU.Type=1</code>, only the values of <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m12"><mi>U</mi></math> are read, and in that case it is not necessary to specify the values of <math alttext="J" class="ltx_Math" display="inline" id="SS1.SSS1.p5.m13"><mi>J</mi></math>.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:choice-of-the-correction-term-for-double-counting">
+<h3 class="ltx_title ltx_title_subsubsection">
+<span class="ltx_tag ltx_tag_subsubsection">40.1.2 </span>Choice of the correction term for double counting</h3>
+<div class="ltx_para" id="SS1.SSS2.p1">
+<p class="ltx_p">The correction for double counting (DC) is common to <code class="ltx_verbatim ltx_font_typewriter">embedding</code> methods including the DFT+<math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS2.p1.m1"><mi>U</mi></math> method.
+When <code class="ltx_verbatim ltx_font_typewriter">scf.DFTU.Type=2</code> is used, the DC term must be specified by the following keyword.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+  scf.dc.Type                 cFLL\t   # sFLL|sAMF|cFLL|cAMF, default=sFLL
+</pre>
+<p class="ltx_p">In the above example, the <code class="ltx_verbatim ltx_font_typewriter">cFLL</code> DC term is selected.
+In the choices <code class="ltx_verbatim ltx_font_typewriter">sFLL</code>, <code class="ltx_verbatim ltx_font_typewriter">sAMF</code>, <code class="ltx_verbatim ltx_font_typewriter">cFLL</code>, and <code class="ltx_verbatim ltx_font_typewriter">cAMF</code>,
+<code class="ltx_verbatim ltx_font_typewriter">c</code> and <code class="ltx_verbatim ltx_font_typewriter">s</code> mean density functional theory based on charge (spin-unpolarized) density and spin density LDA/GGA, respectively.
+Meanwhile, <code class="ltx_verbatim ltx_font_typewriter">FLL</code> and <code class="ltx_verbatim ltx_font_typewriter">AMF</code> correspond to the fully localized limit (FLL)
+and around mean-field (AMF) treatments of the double-counting term.
+For detailed definitions and behaviors of each method, refer to Refs. <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib22" title="">22</a>, <a class="ltx_ref" href="bib.html#bib23" title="">23</a>]</cite>.
+When the DC term <code class="ltx_verbatim ltx_font_typewriter">cFLL</code> or <code class="ltx_verbatim ltx_font_typewriter">cAMF</code> is selected,
+note that the spin-density exchange-correlation potential in LDA (or GGA) is not taken into account in the SCF loop <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib22" title="">22</a>, <a class="ltx_ref" href="bib.html#bib23" title="">23</a>]</cite>.
+<code class="ltx_verbatim ltx_font_typewriter">scf.dc.Type=sFLL</code> corresponds to the form proposed by Liechtenstein et al. <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib27" title="">27</a>]</cite>.
+Also note that when the simplified rotationally invariant form (<code class="ltx_verbatim ltx_font_typewriter">scf.DFTU.Type=1</code>) is specified, the <code class="ltx_verbatim ltx_font_typewriter">sFLL</code> DC term is implicitly assumed.
+Which type of DFT+<math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS2.p1.m2"><mi>U</mi></math> method has been specified can be confirmed from the following messages in the standard output (before the start of the SCF loop).</p>
+</div>
+<div class="ltx_para" id="SS1.SSS2.p2">
+<pre class="ltx_verbatim ltx_font_typewriter">
+  For scf.DFTU.Type=1,
+
+  *******************************************************
+                     DFT+U Type and DC
+  *******************************************************
+                scf.DFTU.Type: 1(Simplified)
+
+
+  For scf.DFTU.Type=2 and scf.dc.Type=cFLL,
+
+  *******************************************************
+                     DFT+U Type and DC
+  *******************************************************
+       scf.DFTU.Type: 2(General)   scf.dc.Type: cFLL
+</pre>
+</div>
+<div class="ltx_para" id="SS1.SSS2.p3">
+<p class="ltx_p">As an example of a DFT+<math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS2.p3.m1"><mi>U</mi></math> calculation, the density of states of bulk NiO is shown in Fig. <a class="ltx_ref" href="#DFTU_FIG1" title="Figure 39 ‣ 40.1.2 Choice of the correction term for double counting ‣ 40.1 Standard settings ‣ 40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">39</span></a>.
+In this calculation, <math alttext="U=5" class="ltx_Math" display="inline" id="SS1.SSS2.p3.m2"><mrow><mi>U</mi><mo>=</mo><mn>5</mn></mrow></math> eV was applied to the first <math alttext="d" class="ltx_Math" display="inline" id="SS1.SSS2.p3.m3"><mi>d</mi></math> orbital of Ni,
+and <math alttext="J" class="ltx_Math" display="inline" id="SS1.SSS2.p3.m4"><mi>J</mi></math> values of 0.5 or 1.0 eV were assigned.</p>
+</div>
+
+<br>
+<figure class="ltx_figure" id="DFTU_FIG1"><img alt="Refer to caption" class="ltx_graphics ltx_img_landscape" height="248" id="F39.g1" src="x40.png" width="926"/>
+<br>
+  <figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 39: </span>
+Density of states for up spin in NiO. (a) LDA, (b) DFT+<math alttext="U" class="ltx_Math" display="inline" id="F39.m6"><mi>U</mi></math> with <code class="ltx_verbatim ltx_font_typewriter">scf.dc.Type=cFLL</code>,
+(c) DFT+<math alttext="U" class="ltx_Math" display="inline" id="F39.m7"><mi>U</mi></math> with <code class="ltx_verbatim ltx_font_typewriter">scf.dc.Type=sFLL</code>.
+<math alttext="U" class="ltx_Math" display="inline" id="F39.m8"><mi>U</mi></math> is fixed at 5 eV. The blue curves correspond to <math alttext="J=0.5" class="ltx_Math" display="inline" id="F39.m9"><mrow><mi>J</mi><mo>=</mo><mn>0.5</mn></mrow></math> eV, and the red curves to <math alttext="J=1.0" class="ltx_Math" display="inline" id="F39.m10"><mrow><mi>J</mi><mo>=</mo><mn>1.0</mn></mrow></math> eV.</figcaption>
+</figure>
+<br>
+
+
+
+<div class="ltx_para" id="SS1.SSS2.p4">
+<p class="ltx_p">The input files are <code class="ltx_verbatim ltx_font_typewriter"><a href="work/NiO-cFLL.dat" rel="noopener noreferrer" target="_blank">NiO-cFLL.dat</a></code> and <code class="ltx_verbatim ltx_font_typewriter"><a href="work/NiO-sFLL.dat" rel="noopener noreferrer" target="_blank">NiO-sFLL.dat</a></code> in the <code class="ltx_verbatim ltx_font_typewriter">work</code> directory.
+By introducing <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS2.p4.m1"><mi>U</mi></math> to the <math alttext="d" class="ltx_Math" display="inline" id="SS1.SSS2.p4.m2"><mi>d</mi></math> orbitals, the gap becomes larger, and the effect of <math alttext="J" class="ltx_Math" display="inline" id="SS1.SSS2.p4.m3"><mi>J</mi></math> depends on the choice of <code class="ltx_verbatim ltx_font_typewriter">scf.dc.Type</code>.
+The occupation numbers of each orbital are output in the file <code class="ltx_verbatim ltx_font_typewriter">System.Name.out</code>.
+The output format is the same as that of the orbital-decomposed Mulliken occupation numbers beginning with the title &#8220;Occupation Number in LDA+<math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS2.p4.m4"><mi>U</mi></math>&#8221;.
+An example for bulk NiO (<code class="ltx_verbatim ltx_font_typewriter">scf.dc.Type=cFLL</code>, <math alttext="U=5" class="ltx_Math" display="inline" id="SS1.SSS2.p4.m5"><mrow><mi>U</mi><mo>=</mo><mn>5</mn></mrow></math> eV, <math alttext="J=0.5" class="ltx_Math" display="inline" id="SS1.SSS2.p4.m6"><mrow><mi>J</mi><mo>=</mo><mn>0.5</mn></mrow></math> eV) is shown below.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+***********************************************************
+***********************************************************
+       Occupation Number in LDA+U and Constraint DFT
+
+    Eigenvalues and eigenvectors for a matrix consisting
+           of occupation numbers on each site
+***********************************************************
+***********************************************************
+
+    1   Ni
+
+     spin= 0
+
+  Sum =  8.708572022602
+
+                    1       2       3       4       5       6       7       8
+  Individual     -0.0041  0.0012  0.0012  0.0022  0.0040  0.0040  0.0044  0.0064
+
+  s           0   0.1792 -0.0008 -0.0000  0.0015 -0.0000  0.0003  0.0124 -0.0000
+  s           1  -0.9756  0.0052  0.0000  0.0026  0.0000 -0.0041 -0.1251  0.0000
+  px          0   0.0006  0.0007 -0.0012 -0.0123  0.0003  0.0006 -0.0033 -0.0000
+  py          0   0.0006 -0.0013 -0.0000 -0.0122  0.0000  0.0000 -0.0033  0.0000
+  pz          0   0.0006  0.0007  0.0012 -0.0123 -0.0003  0.0006 -0.0033  0.0000
+  px          1   0.0091  0.0053 -0.0095 -0.0867  0.0205  0.0152 -0.0206  0.0026
+  py          1   0.0093 -0.0116 -0.0000 -0.0870 -0.0000 -0.0207 -0.0236 -0.0000
+  pz          1   0.0091  0.0052  0.0095 -0.0867 -0.0205  0.0152 -0.0206 -0.0026
+  d3z^2-r^2   0   0.0002  0.0348  0.0604 -0.0000 -0.0020  0.0012  0.0001 -0.0005
+  dx^2-y^2    0   0.0004  0.0604 -0.0348 -0.0000  0.0011  0.0020  0.0001  0.0003
+  dxy         0  -0.0001  0.0007  0.0012  0.0151  0.0367 -0.0218  0.0097 -0.0003
+  dxz         0  -0.0006 -0.0015 -0.0000  0.0167  0.0000  0.0417  0.0112  0.0000
+  dyz         0  -0.0001  0.0007 -0.0012  0.0151 -0.0367 -0.0218  0.0097  0.0003
+  d3z^2-r^2   1  -0.0025 -0.4966 -0.8626 -0.0006  0.0295 -0.0174 -0.0006  0.0056
+  dx^2-y^2    1  -0.0042 -0.8625  0.4967 -0.0010 -0.0170 -0.0301 -0.0010 -0.0033
+  dxy         1   0.0136 -0.0160 -0.0276 -0.5343 -0.7016  0.4220 -0.1326  0.0055
+  dxz         1   0.0225  0.0332  0.0000 -0.5657 -0.0000 -0.7918 -0.1607 -0.0000
+  dyz         1   0.0136 -0.0161  0.0275 -0.5343  0.7016  0.4219 -0.1325 -0.0055
+  f5z^2-3r^2  0  -0.0029  0.0032  0.0065 -0.0804 -0.0514  0.0334 -0.0282 -0.0069
+  f5xz^2-xr^2 0   0.0017 -0.0304 -0.0148  0.0467 -0.0113 -0.0653  0.0174 -0.4673
+  f5yz^2-yr^2 0   0.0013  0.0057 -0.0294  0.0479  0.0517  0.0341  0.0272  0.4428
+  fzx^2-zy^2  0  -0.0001 -0.0360  0.0237 -0.0031 -0.0256 -0.0567  0.0001  0.5857
+  fxyz        0   0.1218 -0.0003 -0.0000  0.2573  0.0000  0.0172 -0.9581  0.0000
+  fx^3-3*xy^2 0  -0.0023 -0.0195 -0.0197 -0.0655  0.0563 -0.0083 -0.0223 -0.3532
+  f3yx^2-y^3  0   0.0017  0.0072  0.0228  0.0618 -0.0401  0.0441  0.0352 -0.3430
+
+                    9      10      11      12      13      14      15      16
+  Individual      0.0116  0.0117  0.0207  0.0207  0.0238  0.0972  0.1112  0.1114
+
+  s           0  -0.0003 -0.0000  0.0000 -0.0005 -0.0075 -0.0206 -0.0000 -0.0000
+  s           1   0.0001  0.0000  0.0000 -0.0013  0.0076  0.0102  0.0000 -0.0000
+  px          0  -0.0005  0.0006 -0.0024  0.0014  0.0043 -0.0270  0.0291  0.0170
+  py          0   0.0006  0.0000  0.0000 -0.0027  0.0044 -0.0279 -0.0000 -0.0338
+  pz          0  -0.0005 -0.0006  0.0024  0.0014  0.0043 -0.0270 -0.0291  0.0171
+  px          1   0.0229 -0.0402  0.1442 -0.0832 -0.1073  0.5479 -0.6901 -0.4038
+  py          1  -0.0437  0.0000 -0.0005  0.1632 -0.1127  0.5594  0.0003  0.7916
+  pz          1   0.0229  0.0402 -0.1437 -0.0841 -0.1073  0.5478  0.6898 -0.4043
+  d3z^2-r^2   0   0.0053  0.0093  0.0012  0.0006 -0.0001  0.0003 -0.0202  0.0115
+  dx^2-y^2    0   0.0092 -0.0053 -0.0007  0.0011 -0.0002  0.0006  0.0117  0.0199
+  dxy         0  -0.0033 -0.0056 -0.0049 -0.0032 -0.0237  0.0916  0.0095 -0.0067
+  dxz         0   0.0069 -0.0000 -0.0000  0.0054 -0.0236  0.0915  0.0000  0.0102
+  dyz         0  -0.0033  0.0056  0.0049 -0.0031 -0.0237  0.0916 -0.0095 -0.0067
+  d3z^2-r^2   1  -0.0241 -0.0404 -0.0230 -0.0138  0.0011 -0.0001  0.0089 -0.0052
+  dx^2-y^2    1  -0.0418  0.0233  0.0134 -0.0238  0.0018 -0.0002 -0.0051 -0.0090
+  dxy         1   0.0224  0.0367  0.0645  0.0399  0.1012 -0.0657 -0.0086  0.0058
+  dxz         1  -0.0489  0.0000  0.0002 -0.0737  0.1010 -0.0652 -0.0000 -0.0096
+  dyz         1   0.0224 -0.0367 -0.0648  0.0395  0.1011 -0.0657  0.0086  0.0058
+  f5z^2-3r^2  0   0.0928  0.1648 -0.6676 -0.3997 -0.5498 -0.1226 -0.1505  0.0868
+  f5xz^2-xr^2 0   0.4854  0.4030 -0.3328  0.3674  0.3359  0.0744 -0.0944 -0.0506
+  f5yz^2-yr^2 0   0.1112  0.6352  0.1497 -0.4674  0.3502  0.0772 -0.0023  0.1046
+  fzx^2-zy^2  0   0.6859 -0.3821 -0.0991  0.1577 -0.0010 -0.0008  0.0028  0.0032
+  fxyz        0   0.0052  0.0000  0.0000 -0.0109  0.0195  0.0064  0.0000  0.0007
+  fx^3-3*xy^2 0   0.4934  0.1037  0.5899 -0.2158 -0.4352 -0.0974  0.1173  0.0705
+  f3yx^2-y^3  0   0.1435 -0.4920 -0.1130 -0.6043  0.4520  0.0997  0.0019  0.1351
+
+                   17      18      19      20      21      22      23      24
+  Individual      0.2342  0.9866  0.9949  0.9950  1.0070  1.0070  1.0101  1.0101
+
+  s           0   0.9835 -0.0030 -0.0001  0.0000 -0.0000  0.0001  0.0003  0.0000
+  s           1   0.1796 -0.0015 -0.0000  0.0000  0.0000 -0.0000 -0.0000 -0.0000
+  px          0  -0.0023 -0.5138 -0.3934 -0.6753 -0.0494 -0.0317  0.1133 -0.2016
+  py          0  -0.0021 -0.5218  0.7787 -0.0000 -0.0000  0.0587 -0.2264 -0.0000
+  pz          0  -0.0023 -0.5138 -0.3933  0.6753  0.0494 -0.0317  0.1132  0.2017
+  px          1   0.0092 -0.0625 -0.0195 -0.0329  0.0012  0.0006 -0.0049  0.0083
+  py          1   0.0095 -0.0631  0.0376 -0.0000  0.0000 -0.0016  0.0097  0.0000
+  pz          1   0.0092 -0.0625 -0.0195  0.0329 -0.0012  0.0006 -0.0049 -0.0083
+  .....
+  ...
+</pre>
+<p class="ltx_p">By diagonalizing the occupation-number matrix at each atomic site, eigenvalues and eigenvectors are obtained.
+The eigenvalues of the occupation-number matrix physically correspond to electron occupations on localized orbitals.
+The eigenvectors correspond to those localized orbitals.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:orbital-polarization">
+<h3 class="ltx_title ltx_title_subsubsection">
+<span class="ltx_tag ltx_tag_subsubsection">40.1.3 </span>Orbital polarization</h3>
+<div class="ltx_para" id="SS1.SSS3.p1">
+<p class="ltx_p">The DFT+<math alttext="U" class="ltx_Math" display="inline" id="SS1.SSS3.p1.m1"><mi>U</mi></math> functional has multiple extrema in the degrees of freedom of orbital occupation, and the result of an SCF calculation may converge to a local extremum
+near the initial occupation numbers.
+Therefore, the converged electronic state is not necessarily the ground state with the lowest energy.
+When the self-interaction is sufficiently removed, occupations close to integers are favored over fractional occupations,
+and in partially occupied degenerate systems such as CoO, multiple local solutions corresponding to the presence or absence of orbital polarization can appear.
+To find a ground state with orbital polarization, it is possible to explicitly promote orbital polarization by the following flag.
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+  For collinear calculations
+
+  &lt;Atoms.SpeciesAndCoordinates   # Unit=AU
+    1 Ni 0.0     0.0     0.0     10.0 6.0  on
+    2 Ni 3.94955 3.94955 0.0     6.0  10.0 on
+    3 O  3.94955 0.0     0.0     3.0  3.0  on
+    4 O  3.94955 3.94955 3.94955 3.0  3.0  on
+  Atoms.SpeciesAndCoordinates&gt;
+
+  For non-collinear calculations
+
+  &lt;Atoms.SpeciesAndCoordinates   # Unit=AU
+    1 Ni 0.0     0.0     0.0     10.0 6.0  40.0 10.0 0 on
+    2 Ni 3.94955 3.94955 0.0     6.0  10.0 40.0 10.0 0 on
+    3 O  3.94955 0.0     0.0     3.0  3.0  10.0 40.0 0 on
+    4 O  3.94955 3.94955 3.94955 3.0  3.0  10.0 40.0 0 on
+  Atoms.SpeciesAndCoordinates&gt;
+</pre>
+<p class="ltx_p">When orbital polarization is to be promoted, specify <code class="ltx_verbatim ltx_font_typewriter">on</code> in the last column. For ordinary calculations, specify <code class="ltx_verbatim ltx_font_typewriter">off</code>.
+Since the promotion of orbital polarization is applied to each atomic site, <code class="ltx_verbatim ltx_font_typewriter">on</code> or <code class="ltx_verbatim ltx_font_typewriter">off</code> must be specified for all atoms.
+If no explicit specification is given, <code class="ltx_verbatim ltx_font_typewriter">off</code> is set. When <code class="ltx_verbatim ltx_font_typewriter">on</code> is specified,
+orbital polarization is promoted during the first few SCF steps, after which ordinary calculations are carried out in the subsequent SCF steps.
+This treatment promotes orbital polarization and often yields the ground state,
+but it may also lead convergence toward an unstable direction and is therefore not a universal method.
+For details, see Ref. <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib21" title="">21</a>]</cite>.
+The use of the orbital-polarization flag is also not recommended when <code class="ltx_verbatim ltx_font_typewriter">scf.dc.Type=cFLL</code> and <code class="ltx_verbatim ltx_font_typewriter">cAMF</code> are used.</p>
+</div>
+</section></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s40_dft-plus-u.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s40_dft-plus-u.html"><span class="openmx_footer_label">Previous:</span> 40 DFT+ U method</a><a href="s40_2_extras.html"><span class="openmx_footer_label">Next:</span> 40.2 Additional functionalities</a></div></div></footer>
+</div>
+</body>
+</html>

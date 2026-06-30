@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>47.1.1 PAO guiding functions ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s47_1_cwf.html" rel="up" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_1_cwf.html" rel="prev" title="47.1 Closest Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_1_2_hybrid-guiding.html" rel="next" title="47.1.2 Hybrid-orbital guiding functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+<meta content="Band.dispersion, CWF.Calc, CWF.Dis.vs.H, CWF.Guiding.AOs, CWF.Guiding.Orbitals, CWF.MO.Grouped.Atoms, CWF.MO.Selection, CWF.Plot.SuperCells, CWF.Wannier90.fileout, CWF.disentangling.Erange, CWF.disentangling.smearing.bound, CWF.disentangling.smearing.kBT, CWF.fileout.Num, CWF.fileout.cube, CWF.fileout.flag, CWF.window.function, Definition.of.Atomic.Species, System.Name, Wannier.Dis.Conv.Criterion, Wannier.Dis.Mixing.Para, Wannier.Dis.SCF.Max.Steps, Wannier.Func.Calc, Wannier.Func.Num, Wannier.Function.Plot, Wannier.Function.Plot.SuperCells, Wannier.Initial.Guess, Wannier.Initial.Projectors, Wannier.Initial.Projectors.Unit, Wannier.Inner.Window.Bottom, Wannier.Inner.Window.Top, Wannier.Interpolated.Bands, Wannier.Kgrid, Wannier.MaxShells, Wannier.Minimizing.Conv.Criterion, Wannier.Minimizing.Max.Steps, Wannier.Minimizing.Scheme, Wannier.Minimizing.Secant.StepLength, Wannier.Minimizing.Secant.Steps, Wannier.Minimizing.StepLength, Wannier.Outer.Window.Bottom, Wannier.Outer.Window.Top, Wannier.Readin.Overlap.Matrix, Wannier90.fileout, berry_task" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s47_1_cwf.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s47_1_cwf.html"><span class="openmx_nav_label">Previous:</span> 47.1 Closest Wannier Functions</a><a href="s47_1_2_hybrid-guiding.html"><span class="openmx_nav_label">Next:</span> 47.1.2 Hybrid-orbital guiding functions</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsubsec:pao-guiding-functions">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsubsection">47.1.1 </span>PAO guiding functions</h1>
+<div class="ltx_para" id="SS1.SSS1.p1">
+<p class="ltx_p">OpenMX Ver. 4.0 can generate Closest Wannier Functions (CWFs)<cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib133" title="">133</a>]</cite>.
+As guiding functions, PAOs (pseudoatomic orbitals), hybrid orbitals, and molecular-like orbitals can be selected.
+In addition, by using a window function, CWFs can be generated with emphasis on a specific energy region.
+Since the resulting tight-binding model has a smaller dimension than the Hamiltonian expressed in PAOs,
+the computational cost of diagonalization is reduced,
+and physical quantities can be calculated while taking many <span class="ltx_text ltx_font_bold">k</span> points into account.
+This approach is known as Wannier interpolation,
+and is useful for calculating physical quantities that require many <span class="ltx_text ltx_font_bold">k</span> points for convergence.</p>
+</div>
+<div class="ltx_para" id="SS1.SSS1.p2">
+<p class="ltx_p">First, let us perform a CWF calculation for GaAs using PAOs as the guiding functions.
+Run the calculation using the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/GaAs-CWF1.dat" rel="noopener noreferrer" target="_blank">GaAs-CWF1.dat</a></code> in the <code class="ltx_verbatim ltx_font_typewriter">work</code> directory.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+     % mpirun -np 8 openmx GaAs-CWF1.dat | tee GaAs-CWF1.std
+</pre>
+<p class="ltx_p">If the calculation finishes normally, <code class="ltx_verbatim ltx_font_typewriter">GaAs-CWF1.Band</code> and <code class="ltx_verbatim ltx_font_typewriter">GaAs-CWF1.CWF.Band</code>
+are output. By following the procedure in Sec. <a class="ltx_ref" href="s22_band.html" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">22</span></a>, &#8220;Band dispersion&#8221;,
+the band dispersion shown in Fig. <a class="ltx_ref" href="#fig:GaAs-CWF" title="Figure 52 ‣ 47.1.1 PAO guiding functions ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">52</span></a>(a) is obtained.
+It can be seen that the Wannier-interpolated bands reproduce the original bands well.
+The minimized distance measure function <math alttext="F" class="ltx_Math" display="inline" id="SS1.SSS1.p2.m1"><mi>F</mi></math> (a dimensionless quantity) is written in the out file,
+and in this calculation it is <math alttext="F=0.16" class="ltx_Math" display="inline" id="SS1.SSS1.p2.m2"><mrow><mi>F</mi><mo>=</mo><mn>0.16</mn></mrow></math> (per CWF).
+From the magnitude of this value,
+one can judge how much the CWFs are deformed from the guiding functions.
+From a relative comparison, <math alttext="F=0.16" class="ltx_Math" display="inline" id="SS1.SSS1.p2.m3"><mrow><mi>F</mi><mo>=</mo><mn>0.16</mn></mrow></math> can be regarded as sufficiently small,
+whereas when <math alttext="F" class="ltx_Math" display="inline" id="SS1.SSS1.p2.m4"><mi>F</mi></math> exceeds 0.7 it suggests that the chosen guiding functions deviate significantly
+from the symmetry of the Bloch functions.
+The obtained CWFs are shown in Fig. <a class="ltx_ref" href="#fig:GaAs-CWF" title="Figure 52 ‣ 47.1.1 PAO guiding functions ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">52</span></a>(d).
+They retain well the shape of the atomic-like orbitals of the PAOs used as guiding functions,
+confirming the closest property.
+In addition, Fig. <a class="ltx_ref" href="#fig:GaAs-CWF" title="Figure 52 ‣ 47.1.1 PAO guiding functions ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">52</span></a>(c) shows the tight-binding parameter <math alttext="t" class="ltx_Math" display="inline" id="SS1.SSS1.p2.m5"><mi>t</mi></math>
+calculated from the CWFs as a function of distance.
+Since <math alttext="t" class="ltx_Math" display="inline" id="SS1.SSS1.p2.m6"><mi>t</mi></math> is short ranged,
+the locality of the CWFs is confirmed.
+Although the CWFs are constructed based on the closest principle,
+and no localization principle is imposed,
+the guiding functions themselves are localized,
+and as a result the CWFs are localized in real space.
+This figure was obtained by plotting <code class="ltx_verbatim ltx_font_typewriter">GaAs-CWF1.CWF.Dis_vs_H</code>.</p>
+</div>
+<figure class="ltx_figure" id="fig:GaAs-CWF"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="592" id="F52.g1" src="x53.png" width="872"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 52: </span><span class="ltx_text" style="font-size:90%;">Example of a CWF calculation using PAOs as guiding functions.
+(a) Comparison between the interpolated band structure of GaAs (red circles) and the original band structure (solid lines).
+(b) Comparison between the interpolated band structure of GaAs (red circles) and the original band structure (solid lines)
+when the Ga-3<math alttext="d" class="ltx_Math" display="inline" id="F52.m10"><mi>d</mi></math>, As-3<math alttext="d" class="ltx_Math" display="inline" id="F52.m11"><mi>d</mi></math>, and As-4<math alttext="s" class="ltx_Math" display="inline" id="F52.m12"><mi>s</mi></math> bands are excluded.
+(c) Distance dependence of the tight-binding parameter <math alttext="t" class="ltx_Math" display="inline" id="F52.m13"><mi>t</mi></math>.
+(d) CWFs on a Ga atom (case (a)).
+They correspond to the guiding <math alttext="s" class="ltx_Math" display="inline" id="F52.m14"><mi>s</mi></math>, <math alttext="p_{x}" class="ltx_Math" display="inline" id="F52.m15"><msub><mi>p</mi><mi>x</mi></msub></math>, <math alttext="p_{y}" class="ltx_Math" display="inline" id="F52.m16"><msub><mi>p</mi><mi>y</mi></msub></math>, and <math alttext="p_{z}" class="ltx_Math" display="inline" id="F52.m17"><msub><mi>p</mi><mi>z</mi></msub></math> orbitals.
+Drawn with isovalues of <math alttext="\pm 0.05" class="ltx_Math" display="inline" id="F52.m18"><mrow><mo>±</mo><mn>0.05</mn></mrow></math>.
+The present calculations were carried out using the input files <span class="ltx_text ltx_font_typewriter"><a href="work/GaAs-CWF1.dat" rel="noopener noreferrer" target="_blank">GaAs-CWF1.dat</a></span>
+and <span class="ltx_text ltx_font_typewriter"><a href="work/GaAs-CWF2.dat" rel="noopener noreferrer" target="_blank">GaAs-CWF2.dat</a></span> in the <span class="ltx_text ltx_font_typewriter">work</span> directory.
+</span></figcaption>
+</figure>
+<div class="ltx_para" id="SS1.SSS1.p3">
+<br>  
+In this calculation, the basis functions were specified as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   &lt;Definition.of.Atomic.Species
+     Ga   Ga7.0-s3p2d2f1   Ga_PBE19
+     As   As7.0-s3p2d2f1   As_PBE19
+   Definition.of.Atomic.Species&gt;
+</pre><span id="idx-definition-of-atomic-species-s47_1_1_pao-guiding"></span>
+<p class="ltx_p">The following keywords related to CWFs were then specified.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   CWF.Calc                 on
+   CWF.Wannier90.fileout    off
+   CWF.Dis.vs.H             on
+   CWF.Guiding.Orbitals     AO
+
+   &lt;CWF.Guiding.AOs
+    Ga  1s 1 2s 0 3s 0 1p 1 2p 0 1d 1 2d 0 1f 0
+    As  1s 1 2s 0 3s 0 1p 1 2p 0 1d 1 2d 0 1f 0
+   CWF.Guiding.AOs&gt;
+
+   CWF.window.function               Poly
+   CWF.disentangling.Erange      -45.0 -43.0 1.0 10.0
+
+   CWF.fileout.flag         on
+   CWF.Plot.SuperCells    1 1 1
+   CWF.fileout.Num           2
+   &lt;CWF.fileout.cube
+    1
+    2
+   CWF.fileout.cube&gt;
+</pre><span id="idx-cwf-fileout-num-s47_1_1_pao-guiding"></span><span id="idx-cwf-fileout-cube-s47_1_1_pao-guiding"></span><span id="idx-cwf-plot-supercells-s47_1_1_pao-guiding"></span><span id="idx-cwf-fileout-flag-s47_1_1_pao-guiding"></span>
+<span class="ltx_rule ltx_align_center" style="width:303.5pt;height:0.4pt;--ltx-bg-color:black;display:inline-block;"> </span>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p4">
+<p class="ltx_p">The meaning of each keyword is explained below.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p5">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">CWF.Calc
+<br class="ltx_break"/></span>Set to <code class="ltx_verbatim ltx_font_typewriter">on</code> when performing a CWF calculation. The default value is <code class="ltx_verbatim ltx_font_typewriter">off</code>.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p6">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">CWF.Wannier90.fileout
+<br class="ltx_break"/></span>Set to <code class="ltx_verbatim ltx_font_typewriter">on</code> to output interface files for Wannier90.
+The default value is <code class="ltx_verbatim ltx_font_typewriter">off</code>. When it is set to <code class="ltx_verbatim ltx_font_typewriter">on</code>, the mmn, amn, eig, and win files
+are output.
+See Sec. <a class="ltx_ref" href="s47_1_10_interface-w90.html" title="47.1.10 CWF-Wannier90 interface ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">47.1.10</span></a> for the interface.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p7">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">CWF.Dis.vs.H
+<br class="ltx_break"/></span>Set to <code class="ltx_verbatim ltx_font_typewriter">on</code> to output the Hamiltonian in text format.
+The default value is <code class="ltx_verbatim ltx_font_typewriter">off</code>.
+The output file has the extension <code class="ltx_verbatim ltx_font_typewriter">CWF.Dis_vs_H</code>.
+The information for each column is described in the header of the file as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   #
+   # spin, GA, GB, l1, l2, l3, i, j, distance (Ang.), Hopping integral (eV)
+   #
+    0  1  1 -6 -6 -6  0  0  58.716522376584940 -0.000022195182447
+    0  1  1 -6 -6 -6  0  1  58.716522376584940  0.000002501704500
+    0  1  1 -6 -6 -6  0  2  58.716522376584940  0.000002501704188
+    ...
+    ..
+</pre>
+<p class="ltx_p">This means that <code class="ltx_verbatim ltx_font_typewriter">spin</code>, <code class="ltx_verbatim ltx_font_typewriter">GA</code>, <code class="ltx_verbatim ltx_font_typewriter">GB</code>, <code class="ltx_verbatim ltx_font_typewriter">l1</code>, <code class="ltx_verbatim ltx_font_typewriter">l2</code>, <code class="ltx_verbatim ltx_font_typewriter">l3</code>, <code class="ltx_verbatim ltx_font_typewriter">i</code>, <code class="ltx_verbatim ltx_font_typewriter">j</code>, <code class="ltx_verbatim ltx_font_typewriter">distance (Ang.)</code>, and
+<code class="ltx_verbatim ltx_font_typewriter">Hopping integral (eV)</code> are stored in the following format.</p>
+<ul class="ltx_itemize" id="I1">
+<li class="ltx_item" id="I1.i1" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i1.p1">
+<p class="ltx_p">1st column: spin index (0 or 1)</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i2" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i2.p1">
+<p class="ltx_p">2nd column: serial number of atom</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i3" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i3.p1">
+<p class="ltx_p">3rd column: serial number of atom</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i4" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i4.p1">
+<p class="ltx_p">4th column: <math alttext="l_{1}\times\mathbf{a}_{1}" class="ltx_Math" display="inline" id="I1.i4.p1.m1"><mrow><msub><mi>l</mi><mn>1</mn></msub><mo lspace="0.222em" rspace="0.222em">×</mo><msub><mi>𝐚</mi><mn>1</mn></msub></mrow></math> (where <math alttext="\mathbf{a}_{1}" class="ltx_Math" display="inline" id="I1.i4.p1.m2"><msub><mi>𝐚</mi><mn>1</mn></msub></math> is the lattice vector <math alttext="\mathbf{a}_{1}" class="ltx_Math" display="inline" id="I1.i4.p1.m3"><msub><mi>𝐚</mi><mn>1</mn></msub></math>)</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i5" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i5.p1">
+<p class="ltx_p">5th column: <math alttext="l_{2}\times\mathbf{a}_{2}" class="ltx_Math" display="inline" id="I1.i5.p1.m1"><mrow><msub><mi>l</mi><mn>2</mn></msub><mo lspace="0.222em" rspace="0.222em">×</mo><msub><mi>𝐚</mi><mn>2</mn></msub></mrow></math> (where <math alttext="\mathbf{a}_{2}" class="ltx_Math" display="inline" id="I1.i5.p1.m2"><msub><mi>𝐚</mi><mn>2</mn></msub></math> is the lattice vector <math alttext="\mathbf{a}_{2}" class="ltx_Math" display="inline" id="I1.i5.p1.m3"><msub><mi>𝐚</mi><mn>2</mn></msub></math>)</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i6" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i6.p1">
+<p class="ltx_p">6th column: <math alttext="l_{3}\times\mathbf{a}_{3}" class="ltx_Math" display="inline" id="I1.i6.p1.m1"><mrow><msub><mi>l</mi><mn>3</mn></msub><mo lspace="0.222em" rspace="0.222em">×</mo><msub><mi>𝐚</mi><mn>3</mn></msub></mrow></math> (where <math alttext="\mathbf{a}_{3}" class="ltx_Math" display="inline" id="I1.i6.p1.m2"><msub><mi>𝐚</mi><mn>3</mn></msub></math> is the lattice vector <math alttext="\mathbf{a}_{3}" class="ltx_Math" display="inline" id="I1.i6.p1.m3"><msub><mi>𝐚</mi><mn>3</mn></msub></math>)</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i7" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i7.p1">
+<p class="ltx_p">7th column: CWF index</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i8" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i8.p1">
+<p class="ltx_p">8th column: CWF index</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i9" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i9.p1">
+<p class="ltx_p">9th column: center-to-center distance between two CWFs</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i10" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i10.p1">
+<p class="ltx_p">10th column: hopping integral (eV)</p>
+</div>
+</li>
+</ul>
+<p class="ltx_p">For example, from the following line in the data part,</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   0  1  1  0  0  0  0  0   0.000000000000000 -7.038661143545355
+</pre>
+<p class="ltx_p">it can be seen that the on-site energy of the <math alttext="s" class="ltx_Math" display="inline" id="SS1.SSS1.p7.m1"><mi>s</mi></math>-like CWF on atom 1 (a Ga atom)
+is about -7.039 eV.
+The above format is for collinear calculations.
+Note that in non-collinear calculations there is no spin-index column.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p8">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">CWF.Guiding.Orbitals
+<br class="ltx_break"/></span>Select the guiding functions from AO (atomic-like orbitals, PAOs), HO (hybrid orbitals), and MO (molecular-like orbitals).
+For AO and HO, the keyword <code class="ltx_verbatim ltx_font_typewriter">CWF.Guiding.AOs</code> is used to select guiding functions from the PAOs.
+For MO, the keywords <code class="ltx_verbatim ltx_font_typewriter">CWF.MO.Selection</code> and <code class="ltx_verbatim ltx_font_typewriter">CWF.MO.Grouped.Atoms</code>
+are used. They are explained in Sec. <a class="ltx_ref" href="s47_1_4_mol-guiding.html" title="47.1.4 Molecular-orbital guiding functions ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">47.1.4</span></a>.
+<br class="ltx_break"/><span id="idx-cwf-mo-grouped-atoms-s47_1_1_pao-guiding"></span><span id="idx-cwf-mo-selection-s47_1_1_pao-guiding"></span></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p9">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">CWF.Guiding.AOs
+<br class="ltx_break"/></span>When AO or HO guiding functions are selected by the keyword <code class="ltx_verbatim ltx_font_typewriter">CWF.Guiding.Orbitals</code>,
+this keyword is used to select the guiding functions from the PAOs.
+In <code class="ltx_verbatim ltx_font_typewriter">GaAs-CWF1.dat</code>, it is set as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   &lt;CWF.Guiding.AOs
+    Ga  1s 1 2s 0 3s 0 1p 1 2p 0 1d 1 2d 0 1f 0
+    As  1s 1 2s 0 3s 0 1p 1 2p 0 1d 1 2d 0 1f 0
+   CWF.Guiding.AOs&gt;
+</pre>
+<p class="ltx_p"><code class="ltx_verbatim ltx_font_typewriter">1</code> means included and <code class="ltx_verbatim ltx_font_typewriter">0</code> means not included.
+Corresponding to the basis functions specified by the keyword <code class="ltx_verbatim ltx_font_typewriter">Definition.of.Atomic.Species</code>,
+all entries must be explicitly given as either 0 or 1.
+In the above example, all occupied-state orbitals included in the pseudopotentials
+are selected.
+Namely, they are the Ga-<math alttext="3d" class="ltx_Math" display="inline" id="SS1.SSS1.p9.m1"><mrow><mn>3</mn><mo>⁢</mo><mi>d</mi></mrow></math>, Ga-<math alttext="4s" class="ltx_Math" display="inline" id="SS1.SSS1.p9.m2"><mrow><mn>4</mn><mo>⁢</mo><mi>s</mi></mrow></math>, Ga-<math alttext="4p" class="ltx_Math" display="inline" id="SS1.SSS1.p9.m3"><mrow><mn>4</mn><mo>⁢</mo><mi>p</mi></mrow></math>, As-<math alttext="3d" class="ltx_Math" display="inline" id="SS1.SSS1.p9.m4"><mrow><mn>3</mn><mo>⁢</mo><mi>d</mi></mrow></math>,
+As-<math alttext="4s" class="ltx_Math" display="inline" id="SS1.SSS1.p9.m5"><mrow><mn>4</mn><mo>⁢</mo><mi>s</mi></mrow></math>, and As-<math alttext="4p" class="ltx_Math" display="inline" id="SS1.SSS1.p9.m6"><mrow><mn>4</mn><mo>⁢</mo><mi>p</mi></mrow></math> orbitals.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p10">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">CWF.window.function
+<br class="ltx_break"/></span>As the window function <math alttext="w" class="ltx_Math" display="inline" id="SS1.SSS1.p10.m1"><mi>w</mi></math>, the polynomial window function <math alttext="w_{\rm P}" class="ltx_Math" display="inline" id="SS1.SSS1.p10.m2"><msub><mi>w</mi><mi mathvariant="normal">P</mi></msub></math> and the Fermi window function <math alttext="w_{\rm F}" class="ltx_Math" display="inline" id="SS1.SSS1.p10.m3"><msub><mi>w</mi><mi mathvariant="normal">F</mi></msub></math> are available.
+This keyword specifies the window function <math alttext="w" class="ltx_Math" display="inline" id="SS1.SSS1.p10.m4"><mi>w</mi></math>.
+The polynomial window function <math alttext="w_{\rm P}" class="ltx_Math" display="inline" id="SS1.SSS1.p10.m5"><msub><mi>w</mi><mi mathvariant="normal">P</mi></msub></math> is specified by <code class="ltx_verbatim ltx_font_typewriter">Poly</code>,
+and the Fermi window function <math alttext="w_{\rm F}" class="ltx_Math" display="inline" id="SS1.SSS1.p10.m6"><msub><mi>w</mi><mi mathvariant="normal">F</mi></msub></math> by <code class="ltx_verbatim ltx_font_typewriter">Fermi</code>.
+When calculating the projection matrix <math alttext="A" class="ltx_Math" display="inline" id="SS1.SSS1.p10.m7"><mi>A</mi></math> from the guiding functions <math alttext="Q" class="ltx_Math" display="inline" id="SS1.SSS1.p10.m8"><mi>Q</mi></math>,
+the Bloch functions are weighted by the window function <math alttext="w" class="ltx_Math" display="inline" id="SS1.SSS1.p10.m9"><mi>w</mi></math><cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib133" title="">133</a>]</cite>.
+The matrix element <math alttext="a" class="ltx_Math" display="inline" id="SS1.SSS1.p10.m10"><mi>a</mi></math> of <math alttext="A" class="ltx_Math" display="inline" id="SS1.SSS1.p10.m11"><mi>A</mi></math> is calculated by</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx58">
+<tbody id="eq:adef"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle a_{{\bf k}\mu,p}=w(\varepsilon_{{\bf k}\mu})\langle\phi_{{\bf k}%
+\mu}|Q_{{\bf 0}p}\rangle," class="ltx_Math" display="inline" id="E50.m1"><mrow><mrow><msub><mi>a</mi><mrow><mrow><mi>𝐤</mi><mo>⁢</mo><mi>μ</mi></mrow><mo>,</mo><mi>p</mi></mrow></msub><mo>=</mo><mrow><mi>w</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><msub><mi>ε</mi><mrow><mi>𝐤</mi><mo>⁢</mo><mi>μ</mi></mrow></msub><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">⟨</mo><msub><mi>ϕ</mi><mrow><mi>𝐤</mi><mo>⁢</mo><mi>μ</mi></mrow></msub><mo lspace="0em" rspace="0em">|</mo><msub><mi>Q</mi><mrow><mn>𝟎</mn><mo>⁢</mo><mi>p</mi></mrow></msub><mo stretchy="false">⟩</mo></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(50)</span></td>
+</tr></tbody>
+</table>
+</div>
+<div class="ltx_para" id="SS1.SSS1.p11">
+<p class="ltx_p">The polynomial window function <math alttext="w_{\rm P}" class="ltx_Math" display="inline" id="SS1.SSS1.p11.m1"><msub><mi>w</mi><mi mathvariant="normal">P</mi></msub></math> is defined by</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx59">
+<tbody id="eq:wP"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle w_{\rm P}(\varepsilon)=\left\{\begin{array}[]{ll}0&amp;(\varepsilon%
+\leq\varepsilon_{0}),\\
+\sum_{i=0}^{4}c_{i}x_{0}^{i}&amp;(\varepsilon_{0}&lt;\varepsilon\leq\varepsilon_{1}),%
+\\
+1&amp;(\varepsilon_{1}&lt;\varepsilon\leq\varepsilon_{2}),\\
+\sum_{i=0}^{4}c_{i}x_{1}^{i}&amp;(\varepsilon_{2}&lt;\varepsilon\leq\varepsilon_{3}),%
+\\
+0&amp;(\varepsilon_{3}&lt;\varepsilon).\\
+\end{array}\right.," class="ltx_Math" display="inline" id="E56.m1"><mrow><mrow><mrow><msub><mi>w</mi><mi mathvariant="normal">P</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>ε</mi><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mo>{</mo><mtable columnspacing="5pt" rowspacing="0pt"><mtr><mtd class="ltx_align_left" columnalign="left"><mn>0</mn></mtd><mtd class="ltx_align_left" columnalign="left"><mrow><mrow><mo stretchy="false">(</mo><mrow><mi>ε</mi><mo>≤</mo><msub><mi>ε</mi><mn>0</mn></msub></mrow><mo stretchy="false">)</mo></mrow><mo>,</mo></mrow></mtd></mtr><mtr><mtd class="ltx_align_left" columnalign="left"><mrow><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mn>4</mn></msubsup><mrow><msub><mi>c</mi><mi>i</mi></msub><mo>⁢</mo><msubsup><mi>x</mi><mn>0</mn><mi>i</mi></msubsup></mrow></mrow></mtd><mtd class="ltx_align_left" columnalign="left"><mrow><mrow><mo stretchy="false">(</mo><mrow><msub><mi>ε</mi><mn>0</mn></msub><mo>&lt;</mo><mi>ε</mi><mo>≤</mo><msub><mi>ε</mi><mn>1</mn></msub></mrow><mo stretchy="false">)</mo></mrow><mo>,</mo></mrow></mtd></mtr><mtr><mtd class="ltx_align_left" columnalign="left"><mn>1</mn></mtd><mtd class="ltx_align_left" columnalign="left"><mrow><mrow><mo stretchy="false">(</mo><mrow><msub><mi>ε</mi><mn>1</mn></msub><mo>&lt;</mo><mi>ε</mi><mo>≤</mo><msub><mi>ε</mi><mn>2</mn></msub></mrow><mo stretchy="false">)</mo></mrow><mo>,</mo></mrow></mtd></mtr><mtr><mtd class="ltx_align_left" columnalign="left"><mrow><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mn>4</mn></msubsup><mrow><msub><mi>c</mi><mi>i</mi></msub><mo>⁢</mo><msubsup><mi>x</mi><mn>1</mn><mi>i</mi></msubsup></mrow></mrow></mtd><mtd class="ltx_align_left" columnalign="left"><mrow><mrow><mo stretchy="false">(</mo><mrow><msub><mi>ε</mi><mn>2</mn></msub><mo>&lt;</mo><mi>ε</mi><mo>≤</mo><msub><mi>ε</mi><mn>3</mn></msub></mrow><mo stretchy="false">)</mo></mrow><mo>,</mo></mrow></mtd></mtr><mtr><mtd class="ltx_align_left" columnalign="left"><mn>0</mn></mtd><mtd class="ltx_align_left" columnalign="left"><mrow><mrow><mo stretchy="false">(</mo><mrow><msub><mi>ε</mi><mn>3</mn></msub><mo>&lt;</mo><mi>ε</mi></mrow><mo stretchy="false">)</mo></mrow><mo lspace="0em">.</mo></mrow></mtd></mtr></mtable><mi></mi></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(56)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">where <math alttext="c_{0}=1" class="ltx_Math" display="inline" id="SS1.SSS1.p11.m2"><mrow><msub><mi>c</mi><mn>0</mn></msub><mo>=</mo><mn>1</mn></mrow></math>, <math alttext="c_{1}=0" class="ltx_Math" display="inline" id="SS1.SSS1.p11.m3"><mrow><msub><mi>c</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn></mrow></math>, <math alttext="c_{2}=-6" class="ltx_Math" display="inline" id="SS1.SSS1.p11.m4"><mrow><msub><mi>c</mi><mn>2</mn></msub><mo>=</mo><mrow><mo>−</mo><mn>6</mn></mrow></mrow></math>, <math alttext="c_{3}=8" class="ltx_Math" display="inline" id="SS1.SSS1.p11.m5"><mrow><msub><mi>c</mi><mn>3</mn></msub><mo>=</mo><mn>8</mn></mrow></math>, and <math alttext="c_{4}=-3" class="ltx_Math" display="inline" id="SS1.SSS1.p11.m6"><mrow><msub><mi>c</mi><mn>4</mn></msub><mo>=</mo><mrow><mo>−</mo><mn>3</mn></mrow></mrow></math>,
+and
+<math alttext="x_{0}=\frac{\varepsilon_{1}-\varepsilon+\mu}{\varepsilon_{1}-\varepsilon_{0}}" class="ltx_Math" display="inline" id="SS1.SSS1.p11.m7"><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>=</mo><mfrac><mrow><mrow><msub><mi>ε</mi><mn>1</mn></msub><mo>−</mo><mi>ε</mi></mrow><mo>+</mo><mi>μ</mi></mrow><mrow><msub><mi>ε</mi><mn>1</mn></msub><mo>−</mo><msub><mi>ε</mi><mn>0</mn></msub></mrow></mfrac></mrow></math>,
+<math alttext="x_{1}=\frac{\varepsilon_{2}-\varepsilon+\mu}{\varepsilon_{2}-\varepsilon_{3}}" class="ltx_Math" display="inline" id="SS1.SSS1.p11.m8"><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><mfrac><mrow><mrow><msub><mi>ε</mi><mn>2</mn></msub><mo>−</mo><mi>ε</mi></mrow><mo>+</mo><mi>μ</mi></mrow><mrow><msub><mi>ε</mi><mn>2</mn></msub><mo>−</mo><msub><mi>ε</mi><mn>3</mn></msub></mrow></mfrac></mrow></math>.
+The set <math alttext="\{c\}" class="ltx_Math" display="inline" id="SS1.SSS1.p11.m9"><mrow><mo stretchy="false">{</mo><mi>c</mi><mo stretchy="false">}</mo></mrow></math> is determined so that the value is 1 and the first derivative is 0 at <math alttext="x_{0,1}=0" class="ltx_Math" display="inline" id="SS1.SSS1.p11.m10"><mrow><msub><mi>x</mi><mrow><mn>0</mn><mo>,</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>0</mn></mrow></math>,
+and the value is 0 and the first and second derivatives are 0 at <math alttext="x_{0,1}=1" class="ltx_Math" display="inline" id="SS1.SSS1.p11.m11"><mrow><msub><mi>x</mi><mrow><mn>0</mn><mo>,</mo><mn>1</mn></mrow></msub><mo>=</mo><mn>1</mn></mrow></math>.</p>
+</div>
+<div class="ltx_para" id="SS1.SSS1.p12">
+<p class="ltx_p">On the other hand, the Fermi window function <math alttext="w_{\rm F}" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m1"><msub><mi>w</mi><mi mathvariant="normal">F</mi></msub></math> is defined by</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx60">
+<tbody id="eq:wF"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle w_{\rm F}(\varepsilon)=\frac{1}{\left(1+\exp(x_{0})\right)\left(%
+1+\exp(x_{1})\right)}+\delta," class="ltx_Math" display="inline" id="E57.m1"><mrow><mrow><mrow><msub><mi>w</mi><mi mathvariant="normal">F</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>ε</mi><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mrow><mrow><mo>(</mo><mrow><mn>1</mn><mo>+</mo><mrow><mi>exp</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>0</mn></msub><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>)</mo></mrow><mo>⁢</mo><mrow><mo>(</mo><mrow><mn>1</mn><mo>+</mo><mrow><mi>exp</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>1</mn></msub><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>)</mo></mrow></mrow></mfrac></mstyle><mo>+</mo><mi>δ</mi></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(57)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">where <math alttext="x_{0}=\beta_{0}(\varepsilon_{0}-\varepsilon+\mu)" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m2"><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>=</mo><mrow><msub><mi>β</mi><mn>0</mn></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><msub><mi>ε</mi><mn>0</mn></msub><mo>−</mo><mi>ε</mi></mrow><mo>+</mo><mi>μ</mi></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></math>,
+<math alttext="x_{1}=\beta_{1}(\varepsilon-\mu-\varepsilon_{1})" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m3"><mrow><msub><mi>x</mi><mn>1</mn></msub><mo>=</mo><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mi>ε</mi><mo>−</mo><mi>μ</mi><mo>−</mo><msub><mi>ε</mi><mn>1</mn></msub></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></math>, <math alttext="\beta_{0,1}=\frac{1}{k_{\rm B}T_{0,1}}" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m4"><mrow><msub><mi>β</mi><mrow><mn>0</mn><mo>,</mo><mn>1</mn></mrow></msub><mo>=</mo><mfrac><mn>1</mn><mrow><msub><mi>k</mi><mi mathvariant="normal">B</mi></msub><mo>⁢</mo><msub><mi>T</mi><mrow><mn>0</mn><mo>,</mo><mn>1</mn></mrow></msub></mrow></mfrac></mrow></math>,
+and <math alttext="\mu" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m5"><mi>μ</mi></math> is the chemical potential.
+<math alttext="\varepsilon_{0}" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m6"><msub><mi>ε</mi><mn>0</mn></msub></math> and <math alttext="\varepsilon_{1}" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m7"><msub><mi>ε</mi><mn>1</mn></msub></math> are specified by the keyword <code class="ltx_verbatim ltx_font_typewriter">CWF.disentangling.Erange</code>.
+<math alttext="k_{\rm B}T_{0,1}" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m8"><mrow><msub><mi>k</mi><mi mathvariant="normal">B</mi></msub><mo>⁢</mo><msub><mi>T</mi><mrow><mn>0</mn><mo>,</mo><mn>1</mn></mrow></msub></mrow></math> is specified by the keyword <code class="ltx_verbatim ltx_font_typewriter">CWF.disentangling.smearing.kBT</code>.
+<math alttext="\delta" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m9"><mi>δ</mi></math> is specified by the keyword <code class="ltx_verbatim ltx_font_typewriter">CWF.disentangling.smearing.bound</code>.
+See the following items for these keywords.
+A comparison of the two window functions is shown in Fig. <a class="ltx_ref" href="#fig:WF-CWF" title="Figure 53 ‣ 47.1.1 PAO guiding functions ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">53</span></a>.
+By tuning the parameters, the two window functions become similar,
+and as a result almost the same CWFs are obtained.
+However, the polynomial window function <math alttext="w_{\rm P}" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m10"><msub><mi>w</mi><mi mathvariant="normal">P</mi></msub></math>
+is exactly zero for
+<math alttext="\varepsilon\leq\varepsilon_{0}" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m11"><mrow><mi>ε</mi><mo>≤</mo><msub><mi>ε</mi><mn>0</mn></msub></mrow></math>
+and <math alttext="\varepsilon_{3}&lt;\varepsilon" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m12"><mrow><msub><mi>ε</mi><mn>3</mn></msub><mo>&lt;</mo><mi>ε</mi></mrow></math>,
+so Bloch functions in those energy regions are excluded from the construction of the projection matrix <math alttext="A" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m13"><mi>A</mi></math>.
+Therefore, the sizes of the mmn and amn files used for the interface to Wannier90 can be reduced.
+This is a major advantage of the polynomial window function <math alttext="w_{\rm P}" class="ltx_Math" display="inline" id="SS1.SSS1.p12.m14"><msub><mi>w</mi><mi mathvariant="normal">P</mi></msub></math>.
+This point will be explained again in Sec. <a class="ltx_ref" href="s47_1_10_interface-w90.html" title="47.1.10 CWF-Wannier90 interface ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">47.1.10</span></a>.</p>
+</div>
+<div class="ltx_para" id="SS1.SSS1.p13">
+<p class="ltx_p">The polynomial and Fermi window functions are different from the window functions used in the paper<cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib133" title="">133</a>]</cite>,
+but they function in almost the same way.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p14">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">CWF.disentangling.Erange
+<br class="ltx_break"/></span>When the polynomial window function <math alttext="w_{\rm P}" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m1"><msub><mi>w</mi><mi mathvariant="normal">P</mi></msub></math> is selected,
+<math alttext="\varepsilon_{0}" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m2"><msub><mi>ε</mi><mn>0</mn></msub></math>, <math alttext="\varepsilon_{1}" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m3"><msub><mi>ε</mi><mn>1</mn></msub></math>, <math alttext="\varepsilon_{2}" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m4"><msub><mi>ε</mi><mn>2</mn></msub></math>, and <math alttext="\varepsilon_{3}" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m5"><msub><mi>ε</mi><mn>3</mn></msub></math> are specified as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   CWF.disentangling.Erange      -45.0 -43.0 1.0 10.0   # in eV
+</pre>
+<p class="ltx_p">In this specification,
+<math alttext="\varepsilon_{0}=-45" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m6"><mrow><msub><mi>ε</mi><mn>0</mn></msub><mo>=</mo><mrow><mo>−</mo><mn>45</mn></mrow></mrow></math> eV, <math alttext="\varepsilon_{1}=-43" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m7"><mrow><msub><mi>ε</mi><mn>1</mn></msub><mo>=</mo><mrow><mo>−</mo><mn>43</mn></mrow></mrow></math> eV, <math alttext="\varepsilon_{2}=1" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m8"><mrow><msub><mi>ε</mi><mn>2</mn></msub><mo>=</mo><mn>1</mn></mrow></math> eV,
+and <math alttext="\varepsilon_{3}=10" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m9"><mrow><msub><mi>ε</mi><mn>3</mn></msub><mo>=</mo><mn>10</mn></mrow></math> eV. Note that the chemical potential
+is taken as the energy reference.
+As can be seen from Fig. <a class="ltx_ref" href="#fig:GaAs-CWF" title="Figure 52 ‣ 47.1.1 PAO guiding functions ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">52</span></a>(a), the occupied states lie in the range <math alttext="-45\sim 0" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m10"><mrow><mrow><mo>−</mo><mn>45</mn></mrow><mo>∼</mo><mn>0</mn></mrow></math> eV.
+Therefore,
+we set <math alttext="\varepsilon_{0}=-45" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m11"><mrow><msub><mi>ε</mi><mn>0</mn></msub><mo>=</mo><mrow><mo>−</mo><mn>45</mn></mrow></mrow></math> eV, <math alttext="\varepsilon_{1}=-43" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m12"><mrow><msub><mi>ε</mi><mn>1</mn></msub><mo>=</mo><mrow><mo>−</mo><mn>43</mn></mrow></mrow></math> eV, and <math alttext="\varepsilon_{2}=1" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m13"><mrow><msub><mi>ε</mi><mn>2</mn></msub><mo>=</mo><mn>1</mn></mrow></math> eV
+(the choice <math alttext="\varepsilon_{2}=1" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m14"><mrow><msub><mi>ε</mi><mn>2</mn></msub><mo>=</mo><mn>1</mn></mrow></math> eV includes a small buffer, although
+there may be no significant difference even if <math alttext="\varepsilon_{2}=0" class="ltx_Math" display="inline" id="SS1.SSS1.p14.m15"><mrow><msub><mi>ε</mi><mn>2</mn></msub><mo>=</mo><mn>0</mn></mrow></math> eV).
+The contribution in the range 1–10 eV is then included with a small weight.</p>
+</div>
+<div class="ltx_para" id="SS1.SSS1.p15">
+<p class="ltx_p">On the other hand, when the Fermi window function <math alttext="w_{\rm F}" class="ltx_Math" display="inline" id="SS1.SSS1.p15.m1"><msub><mi>w</mi><mi mathvariant="normal">F</mi></msub></math> is selected,
+<math alttext="\varepsilon_{0}" class="ltx_Math" display="inline" id="SS1.SSS1.p15.m2"><msub><mi>ε</mi><mn>0</mn></msub></math> and <math alttext="\varepsilon_{1}" class="ltx_Math" display="inline" id="SS1.SSS1.p15.m3"><msub><mi>ε</mi><mn>1</mn></msub></math> are specified as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   CWF.disentangling.Erange      -44.0 5.0  # in eV
+</pre>
+<p class="ltx_p">Note that although the keyword name is the same,
+the specification method of <code class="ltx_verbatim ltx_font_typewriter">CWF.disentangling.Erange</code> differs depending on whether <code class="ltx_verbatim ltx_font_typewriter">Fermi</code> or <code class="ltx_verbatim ltx_font_typewriter">Poly</code> is selected.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p16">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">CWF.disentangling.smearing.kBT
+<br class="ltx_break"/></span>When <code class="ltx_verbatim ltx_font_typewriter">Fermi</code> is selected by <code class="ltx_verbatim ltx_font_typewriter">CWF.window.function</code>,
+this keyword specifies <math alttext="k_{\rm B}T_{0}" class="ltx_Math" display="inline" id="SS1.SSS1.p16.m1"><mrow><msub><mi>k</mi><mi mathvariant="normal">B</mi></msub><mo>⁢</mo><msub><mi>T</mi><mn>0</mn></msub></mrow></math> and <math alttext="k_{\rm B}T_{1}" class="ltx_Math" display="inline" id="SS1.SSS1.p16.m2"><mrow><msub><mi>k</mi><mi mathvariant="normal">B</mi></msub><mo>⁢</mo><msub><mi>T</mi><mn>1</mn></msub></mrow></math> in Eq. (<a class="ltx_ref" href="#eq:wF" title="In 47.1.1 PAO guiding functions ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">57</span></a>) as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+    CWF.disentangling.smearing.kBT    3.0 3.0  # in eV
+</pre>
+<p class="ltx_p">The first number corresponds to <math alttext="k_{\rm B}T_{0}" class="ltx_Math" display="inline" id="SS1.SSS1.p16.m3"><mrow><msub><mi>k</mi><mi mathvariant="normal">B</mi></msub><mo>⁢</mo><msub><mi>T</mi><mn>0</mn></msub></mrow></math> and the second to <math alttext="k_{\rm B}T_{1}" class="ltx_Math" display="inline" id="SS1.SSS1.p16.m4"><mrow><msub><mi>k</mi><mi mathvariant="normal">B</mi></msub><mo>⁢</mo><msub><mi>T</mi><mn>1</mn></msub></mrow></math>.
+If <math alttext="k_{\rm B}T_{0,1}" class="ltx_Math" display="inline" id="SS1.SSS1.p16.m5"><mrow><msub><mi>k</mi><mi mathvariant="normal">B</mi></msub><mo>⁢</mo><msub><mi>T</mi><mrow><mn>0</mn><mo>,</mo><mn>1</mn></mrow></msub></mrow></math> is set larger, the window function has longer tails,
+and states outside <math alttext="\varepsilon_{0}" class="ltx_Math" display="inline" id="SS1.SSS1.p16.m6"><msub><mi>ε</mi><mn>0</mn></msub></math> and <math alttext="\varepsilon_{1}" class="ltx_Math" display="inline" id="SS1.SSS1.p16.m7"><msub><mi>ε</mi><mn>1</mn></msub></math> are taken into account.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSS1.p17">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">CWF.disentangling.smearing.bound
+<br class="ltx_break"/></span>When <code class="ltx_verbatim ltx_font_typewriter">Fermi</code> is selected by <code class="ltx_verbatim ltx_font_typewriter">CWF.window.function</code>,
+this keyword specifies <math alttext="\delta" class="ltx_Math" display="inline" id="SS1.SSS1.p17.m1"><mi>δ</mi></math> in Eq. (<a class="ltx_ref" href="#eq:wF" title="In 47.1.1 PAO guiding functions ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">57</span></a>).
+The default value is 1.0e-12, and there is usually no need to change it.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para" id="SS1.SSS1.p18">
+<p class="ltx_p">The keywords related to visualization of CWFs, namely <code class="ltx_verbatim ltx_font_typewriter">CWF.fileout.flag</code>, <code class="ltx_verbatim ltx_font_typewriter">CWF.Plot.SuperCells</code>,
+<code class="ltx_verbatim ltx_font_typewriter">CWF.fileout.Num</code>, and <code class="ltx_verbatim ltx_font_typewriter">CWF.fileout.cube</code>,
+are explained in Sec. <a class="ltx_ref" href="s47_1_6_visualization.html" title="47.1.6 Visualization of CWFs ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">47.1.6</span></a>.</p>
+<span class="ltx_rule ltx_align_center" style="width:303.5pt;height:0.4pt;--ltx-bg-color:black;display:inline-block;"> </span>
+</div>
+<figure class="ltx_figure" id="fig:WF-CWF"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="428" id="F53.g1" src="x54.png" width="599"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 53: </span><span class="ltx_text" style="font-size:90%;">Comparison of window functions (red: polynomial window function, blue: Fermi window function).
+For the polynomial window function,
+CWF.disentangling.Erange=(-45.0, -43.0, 1.0, 10.0) was used.
+For the Fermi window function,
+CWF.disentangling.Erange=(-44.0, 5.0) and
+CWF.disentangling.smearing.kBT=(0.2, 1.0) were used.
+</span></figcaption>
+</figure>
+<div class="ltx_para" id="SS1.SSS1.p19">
+
+<br>  
+<p class="ltx_p">As seen in Fig. <a class="ltx_ref" href="#fig:GaAs-CWF" title="Figure 52 ‣ 47.1.1 PAO guiding functions ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">52</span></a>(a), the bands around approximately -36, -15, and -11 eV
+are isolated.
+As the next example, let us construct CWFs excluding these bands.
+Run the calculation using the input file <code class="ltx_verbatim ltx_font_typewriter"><a href="work/GaAs-CWF2.dat" rel="noopener noreferrer" target="_blank">GaAs-CWF2.dat</a></code> in the <code class="ltx_verbatim ltx_font_typewriter">work</code> directory.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+     % mpirun -np 8 openmx GaAs-CWF2.dat | tee GaAs-CWF2.std
+</pre>
+<p class="ltx_p">If the calculation finishes normally, <code class="ltx_verbatim ltx_font_typewriter">GaAs-CWF2.Band</code> and <code class="ltx_verbatim ltx_font_typewriter">GaAs-CWF2.CWF.Band</code>
+are output. By following the procedure in Sec. <a class="ltx_ref" href="s22_band.html" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">22</span></a>, &#8220;Band dispersion&#8221;,
+the band dispersion shown in Fig. <a class="ltx_ref" href="#fig:GaAs-CWF" title="Figure 52 ‣ 47.1.1 PAO guiding functions ‣ 47.1 Closest Wannier Functions ‣ 47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">52</span></a>(b) is obtained.
+It can be seen that, as intended, the bands around -36, -15, and -11 eV
+are not included in the Wannier-interpolated band dispersion.
+From PDOS analysis or from the eigenvalue information in the vps and pao files,
+one finds that the band around -36 eV originates from As-<math alttext="3d" class="ltx_Math" display="inline" id="SS1.SSS1.p19.m1"><mrow><mn>3</mn><mo>⁢</mo><mi>d</mi></mrow></math> orbitals,
+the band around -15 eV from Ga-<math alttext="3d" class="ltx_Math" display="inline" id="SS1.SSS1.p19.m2"><mrow><mn>3</mn><mo>⁢</mo><mi>d</mi></mrow></math> orbitals,
+and the band around -11 eV from As-<math alttext="4s" class="ltx_Math" display="inline" id="SS1.SSS1.p19.m3"><mrow><mn>4</mn><mo>⁢</mo><mi>s</mi></mrow></math> orbitals.
+Therefore, the guiding functions are specified as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   &lt;CWF.Guiding.AOs
+    Ga  1s 1 2s 0 3s 0 1p 1 2p 0 1d 0 2d 0 1f 0
+    As  1s 0 2s 0 3s 0 1p 1 2p 0 1d 0 2d 0 1f 0
+   CWF.Guiding.AOs&gt;
+</pre>
+<p class="ltx_p">The window function is then specified as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   CWF.window.function               Poly
+   CWF.disentangling.Erange     -10.0 -9.0 0.0 10.0
+</pre>
+<p class="ltx_p">Using the polynomial window function, occupied states below -10 eV are excluded,
+and the PAOs that mainly contribute in the energy region <math alttext="-10&lt;\varepsilon" class="ltx_Math" display="inline" id="SS1.SSS1.p19.m4"><mrow><mrow><mo>−</mo><mn>10</mn></mrow><mo>&lt;</mo><mi>ε</mi></mrow></math>
+are used as guiding functions.
+As a result, the bands in the region <math alttext="-10&lt;\varepsilon" class="ltx_Math" display="inline" id="SS1.SSS1.p19.m5"><mrow><mrow><mo>−</mo><mn>10</mn></mrow><mo>&lt;</mo><mi>ε</mi></mrow></math> are reproduced well.
+As in this example,
+by identifying the main PAOs contributing to each band from analyses such as PDOS,
+eigenvalues in the vps and pao files,
+or band-unfolding analyses,
+one can easily construct CWFs restricted to a given energy region.</p>
+</div>
+</section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s47_1_cwf.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s47_1_cwf.html"><span class="openmx_footer_label">Previous:</span> 47.1 Closest Wannier Functions</a><a href="s47_1_2_hybrid-guiding.html"><span class="openmx_footer_label">Next:</span> 47.1.2 Hybrid-orbital guiding functions</a></div></div></footer>
+</div>
+</body>
+</html>

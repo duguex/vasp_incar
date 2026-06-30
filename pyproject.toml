@@ -3,22 +3,39 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "vasp-query"
-version = "0.2.0"
-description = "VASP INCAR parameter knowledge base"
+name = "dft-tools"
+version = "0.3.0"
+description = "DFT calculation knowledge base and input generators (VASP INCAR + OpenMX)"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = ["pydantic"]
 
 [project.optional-dependencies]
+# Shared
 semantic = ["sentence-transformers"]
+# vasp-query
 search = ["tantivy"]
-all = ["sentence-transformers", "tantivy"]
+fetch = ["requests", "beautifulsoup4", "tqdm"]
+# omx-tools
+gen = ["ase>=3.22"]
+vasp2omx = ["pymatgen"]
+# Convenience combos
+vasp = ["sentence-transformers", "tantivy"]
+omx = ["ase>=3.22", "pymatgen"]
+all = ["sentence-transformers", "tantivy", "requests", "beautifulsoup4",
+       "tqdm", "ase>=3.22", "pymatgen"]
 
 [project.scripts]
+# vasp-query
 vasp-query = "vasp_query.query:main"
+# omx-tools
+omx-db = "omx_tools.database:cli"
+omx-gen = "omx_tools.generator:cli"
+vasp2omx = "omx_tools.vasp2omx:cli"
+omp2vasp = "omx_tools.omp2vasp:cli"
 
 [tool.setuptools.packages.find]
-include = ["vasp_query*"]
+include = ["vasp_query*", "omx_tools*", "dft_utils*"]
 
 [tool.setuptools.package-data]
 vasp_query = ["data/**/*"]
+omx_tools = ["schemas/*.json"]

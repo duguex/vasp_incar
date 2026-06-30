@@ -1,25 +1,30 @@
-# VASP INCAR Query Tool — 迁移指南
+# DFT Tools — 迁移指南
+
+> 本文档适用于在新机器上部署 `dft-tools` 项目（合并后的 `vasp_query` + `omx_tools`）。
+> 旧版 MCP server 已在 v0.2.0 移除，所有集成改为通过 Hermes Skill 注册。
 
 ## 文件清单
 
-目标目录需要包含：
+目标目录应包含：
 
 ```
-vasp_incar/
-├── CLAUDE.md                    # Agent 项目文档
-├── vasp_query/
-│   ├── __init__.py
-│   ├── __main__.py
-│   ├── mcp_server.py            # MCP server（6 个工具）
-│   ├── processor.py             # 数据预处理
-│   ├── query.py                 # CLI 查询工具
-│   ├── test_mcp.py              # MCP 工具自测脚本
-│   └── data/
-│       ├── tag_index.json       # 630 个结构化 tag
-│       ├── wiki_full.json       # 1036 页 wiki 内容
-│       └── tag_stats.json       # 207 个 tag 统计
-├── incar_data.json              # 10,176 个 INCAR 配置
-└── vasp_wiki_all_data.json      # 1,186 个 wiki 页面
+dft-tools/
+├── pyproject.toml              # 统一包配置 (name=dft-tools, v0.3.0)
+├── dft_utils/                  # 共享工具
+├── vasp_query/                 # VASP INCAR 查询 CLI
+│   ├── query.py, _common.py, processor.py, fetcher.py
+│   └── data/                   # 676 个 INCAR 标签 + 统计 + 向量
+├── omx_tools/                  # OpenMX 工具链
+│   ├── database.py, generator.py, vasp2omx.py, omp2vasp.py
+│   ├── mapping/, parsers/, writers/, schemas/
+│   └── tests/                  # 110+ 测试
+├── openmx.db                   # v4.0 手册全文数据库 (3.4 MB)
+├── openmx4.0_manual/           # HTML 手册 (263 页)
+├── data/raw/                   # 原始 VASP wiki 数据 + INCAR 配置
+├── skills/
+│   ├── vasp-query/SKILL.md     # VASP agent 接口
+│   └── omx-tools/SKILL.md      # OpenMX agent 接口
+└── aliases.json                # 领域缩写映射
 ```
 
 ## 迁移步骤
@@ -27,62 +32,61 @@ vasp_incar/
 ### 1. 复制目录
 
 ```bash
-rsync -av /源路径/vasp_incar/ /目标路径/vasp_incar/
+rsync -av /源路径/dft-tools/ /目标路径/dft-tools/
 ```
 
 ### 2. 安装依赖
 
 ```bash
-pip install mcp fastmcp
+pip install -e ".[all]"          # 全装
+# 或按需：
+pip install -e ".[vasp]"         # VASP 查询 + 语义搜索
+pip install -e ".[omx]"          # OpenMX 输入生成 + 格式转换
 ```
 
-> 其他依赖都是 Python 标准库（json, pathlib, re, argparse, asyncio），无需安装。
-
-### 3. 全局注册 MCP
+### 3. 注册 Hermes Skill
 
 ```bash
-claude mcp add vasp-query --scope user -- python3 /绝对/路径/vasp_incar/vasp_query/mcp_server.py
+ln -s ~/vasp_wiki/skills/vasp-query/SKILL.md  ~/.hermes/skills/research/vasp-query/SKILL.md
+ln -s ~/vasp_wiki/skills/omx-tools/SKILL.md   ~/.hermes/skills/research/omx-tools/SKILL.md
 ```
 
-**注意**：命令必须带 `python3` 前缀，因为 `mcp_server.py` 没有 shebang 声明。
-
-验证：`claude mcp list` 应显示 `vasp-query` Connected。
-
-### 4. 重启 Claude Code
-
-MCP server 配置在 Claude Code 启动时加载，需要重启。
-
-### 5. 验证
+### 4. 验证
 
 ```bash
-python3 -m vasp_query tag LEFG
+python3 -m vasp_query tag ENCUT          # VASP 标签查询
+omx-db search "SCF convergence"          # OpenMX 手册搜索
+omx-gen --list-templates                 # OpenMX 模板列表
 ```
 
-或通过 MCP 调用 `get_tag(name="LEFG")`。
-
-### 6. 运行 MCP 自测（推荐）
+### 5. 运行测试（可选）
 
 ```bash
-python3 -m vasp_query.test_mcp
+python3 -m vasp_query.test_cli           # 22 个 VASP 测试
+python3 -m pytest tests/ --ignore=tests/test_integration.py  # 109 个 OpenMX 测试
 ```
 
-输出 `75 passed, 0 failed` 表示全部 6 个 MCP 工具功能正常。
+## 项目路径变更历史
 
-可选参数：
-- `--tool get_tag` — 只测单个工具
-- `--quiet` — 只显示失败项
+| 版本 | 根目录 | 说明 |
+|------|--------|------|
+| v0.1.x | `~/vasp_incar/` | 仅 vasp-query，含 MCP server |
+| v0.2.0 | `~/vasp_wiki/` | 移除 MCP，改为 Skill 集成 |
+| v0.3.0 | `~/vasp_wiki/` | 合并 `omx-tools`，重命名为 `dft-tools` |
 
 ## 常见问题
 
-### 工具没加载？
-
-- 确认注册命令带了 `python3` 前缀
-- 确认 `python3` 在 PATH 中
-- 确认依赖已安装：`pip install mcp fastmcp`
-- 重启 Claude Code
-
-### 移除已注册的 MCP
+### 数据库版本不匹配？
 
 ```bash
-claude mcp remove vasp-query
+python3 -m vasp_query preprocess         # 重建 VASP 数据
+# openmx.db 是预构建的，见 scripts/extract_keywords.py
+```
+
+### 安装后命令找不到？
+
+确认 pip 安装的包在 PATH 中，或直接使用：
+```bash
+python3 -m vasp_query <command>
+python3 -m omx_tools.database <command>
 ```

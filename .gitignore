@@ -1,2 +1,21 @@
 __pycache__/
 *.pyc
+*.egg-info/
+.pytest_cache/
+dist/
+build/
+*.log
+.DS_Store
+_.DS_Store
+
+# Personal / loose input files (not part of the package)
+INCAR.good
+input.UCell
+input.cif
+input.xyz
+input_rst/
+mlff_tutorial/
+vasp_mlff_guide.md
+
+# work/ parsed data is large and only needed for DB rebuild
+work/parsed/

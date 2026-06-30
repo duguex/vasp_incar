@@ -1,62 +1,92 @@
-# VASP INCAR Knowledge Base
+# DFT Tools — Natural Language ↔ DFT Program Bridge
 
-A comprehensive VASP parameter knowledge base designed for LLM agents, built around the `vasp-query` CLI tool and Skill interface.
+A framework for connecting natural language queries to DFT program knowledge and input generation. **VASP** and **OpenMX** are the first two integrated codes — the architecture is designed to extend to CASTEP, QE, FHI-aims, etc.
 
-## What's inside
+```
+User / Agent (natural language)
+        │
+        ▼
+   ┌────────────────────┐
+   │  Skill interface   │  ← Hermes-registered SKILL.md per code
+   │  CLI (search, tag, │
+   │  query, rag)       │
+   └────────┬───────────┘
+            │
+    ┌───────┴───────┐
+    ▼               ▼
+┌──────────┐  ┌──────────┐
+│ vasp_    │  │ omx_     │  ← per-code packages
+│ query/   │  │ tools/   │
+│          │  │          │
+│ Tag DB   │  │ Manual   │  ← knowledge indexed from docs
+│ 676 tags │  │ 281 secs │
+│ 10K cfg  │  │ 304 kw   │
+└────┬─────┘  └────┬─────┘
+     │             │
+     └──────┬──────┘
+            ▼
+     ┌──────────────┐
+     │   Mapping    │  ← schemas/vasp_to_ase.json
+     │   Layer      │     + future: omx_to_ase, castep_to_ase, ...
+     └──────┬──────┘
+            ▼
+     ┌──────────────┐
+     │  Cross-code  │  ← vasp2omx, omp2vasp
+     │  Conversion  │     + future: vasp2qe, omx2castep, ...
+     └──────────────┘
+```
 
-- **1,273 VASP Wiki pages** — scraped and structured from the official VASP documentation
-- **10,176 real INCAR configurations** — collected from production calculations across multiple materials systems
-- **Skill interface** (`skills/vasp-query/SKILL.md`) — primary agent integration via registered Skill
-- **CLI tool** (`vasp_query/`) — 12 subcommands for tag lookup, hybrid search, statistics, and more
+## Currently integrated
+
+| Code | Package | Knowledge | Input gen | Conversion |
+|------|---------|-----------|-----------|------------|
+| **VASP** | `vasp_query/` | 676 INCAR tags + 10K configs + wiki | — | vasp2omx |
+| **OpenMX** | `omx_tools/` | 281 manual sections + 304 keywords | ✅ omx-gen | omp2vasp |
+
+## Architecture for adding a new DFT code
+
+1. **Create a package** (e.g. `castep_tools/`)
+2. **Index its manual** — parse HTML/PDF docs into structured JSON + FTS5 db
+3. **Write the parsers** — input file → typed dict (like `parsers/vasp.py`)
+4. **Write the writers** — typed dict → input file (like `writers/openmx.py`)
+5. **Extend the mapping schema** — add CAStep parameters to `schemas/*.json`
+6. **Register a Skill** — `skills/castep-tools/SKILL.md`
+
+Shared infrastructure (`dft_utils/`) handles: version envelope, debug logging, JSON error format, search algorithm.
 
 ## Quick start
 
 ```bash
-# Tag lookup
-python3 -m vasp_query tag ENCUT
+# Natural language search across knowledge bases
+python3 -m vasp_query search "energy cutoff for transition metals"
+omx-db rag "how to tune SCF mixing for metallic systems"
 
-# Hybrid search (BM25 + semantic)
-python3 -m vasp_query search "energy cutoff"
+# Generate inputs
+omx-gen structure.cif -t scf_band -o calc.dat
+
+# Convert between codes
+vasp2omx INCAR POSCAR -o input.dat
+omp2vasp input.dat -o INCAR
 ```
-
-## Skill Registration
-
-The primary agent interface is the Skill file at `skills/vasp-query/SKILL.md`. Register it:
-
-```bash
-mkdir -p ~/.hermes/skills/research/vasp-query
-ln -s ~/vasp_incar/skills/vasp-query/SKILL.md ~/.hermes/skills/research/vasp-query/SKILL.md
-```
-
-## CLI Subcommands
-
-| Subcommand | Purpose |
-|------------|---------|
-| `tag` | Look up a specific INCAR tag with full documentation |
-| `search` | Hybrid search across tags and wiki pages (BM25 + semantic) |
-| `stats` | Real-world usage statistics for each tag (from 10K+ configs) |
-| `incar` | Query INCAR configurations by tag conditions |
-| `related` | Wiki-related tags for a given tag |
-| `list` | All known tag names |
-| `fullwiki` | Full cleaned wiki content for a tag or file-format page |
-| `cooccur` | Co-occurrence analysis from real INCAR configurations |
-| `preprocess` | Rebuild structured data from raw inputs |
-| `fetch` | Fetch latest wiki data from vasp.at |
-
-## Data
-
-Knowledge data lives in `vasp_query/data/` and `data/raw/`:
-
-- `vasp_query/data/tag_index.json` — 676 INCAR tags with descriptions, defaults, related tags
-- `vasp_query/data/non_tag_index.json` — 507 tutorial/how-to/file-format pages
-- `vasp_query/data/tag_stats.json` — Frequency + top values per tag from 10K+ configs
-- `vasp_query/data/search.db` — SQLite FTS5 search index (auto-built, zero-dependency)
-- `data/raw/incar_data.json` — 10,176 real INCAR configurations
-- `data/raw/vasp_wiki_all_data.json` — full VASP Wiki dump
 
 ## Installation
 
 ```bash
-pip install pydantic sentence-transformers   # tag lookup + semantic search
-pip install tantivy                          # optional: BM25 search (sqlite3 stdlib used otherwise)
+pip install -e .                       # core (pydantic)
+pip install -e ".[vasp]"               # VASP search + semantic
+pip install -e ".[omx]"                # OpenMX gen + conversion
+pip install -e ".[all]"                # everything
+```
+
+## Project structure
+
+```
+dft-tools/
+├── dft_utils/          # shared: version, debug_log, die_json
+├── vasp_query/         # VASP package
+├── omx_tools/          # OpenMX package
+├── skills/             # Hermes Skill files (one per code)
+├── schemas/            # cross-code parameter mapping
+├── openmx.db           # OpenMX manual database
+└── aliases.json        # domain abbreviation maps
 ```

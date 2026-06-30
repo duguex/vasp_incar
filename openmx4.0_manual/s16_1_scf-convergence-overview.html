@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>16.1 SCF convergence basics ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s16_scf.html" rel="up" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="prev" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_2_auto-kerker.html" rel="next" title="16.2 Automatic determination of the Kerker factor ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+<meta content="scf.Init.Mixing.Weight, scf.Kerker.factor, scf.Max.Mixing.Weight, scf.Min.Mixing.Weight, scf.Mixing.EveryPulay, scf.Mixing.History, scf.Mixing.StartPulay, scf.Mixing.Type, scf.criterion" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s16_scf.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s16_scf.html"><span class="openmx_nav_label">Previous:</span> 16 SCF convergence</a><a href="s16_2_auto-kerker.html"><span class="openmx_nav_label">Next:</span> 16.2 Automatic determination of the Kerker factor</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:scf-convergence-overview">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">16.1 </span>SCF convergence basics</h1><div class="ltx_para" id="SS1.p1">
+<p class="ltx_p">In a self-consistent field (SCF) calculation, the output obtained by solving the Kohn-Sham equations from a given input
+is iterated until it becomes consistent with the input used for the next iteration.
+If the quantity given as input is written as <math alttext="X_{n}^{({\rm in})}" class="ltx_Math" display="inline" id="SS1.p1.m1"><msubsup><mi>X</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup></math> and the output obtained from it as <math alttext="X_{n}^{({\rm out})}" class="ltx_Math" display="inline" id="SS1.p1.m2"><msubsup><mi>X</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup></math>,
+the goal of SCF convergence is to find a fixed point satisfying</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx3">
+<tbody id="eq:scf_fixed_point"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle X_{n}^{({\rm out})}=X_{n}^{({\rm in})}" class="ltx_Math" display="inline" id="E3.m1"><mrow><msubsup><mi>X</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>=</mo><msubsup><mi>X</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(3)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">In practice, SCF is regarded as converged when the residual</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx4">
+<tbody id="eq:scf_residual_general"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle R_{n}=X_{n}^{({\rm out})}-X_{n}^{({\rm in})}" class="ltx_Math" display="inline" id="E4.m1"><mrow><msub><mi>R</mi><mi>n</mi></msub><mo>=</mo><mrow><msubsup><mi>X</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>−</mo><msubsup><mi>X</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(4)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">becomes sufficiently small.</p>
+</div><div class="ltx_para ltx_noindent" id="SS1.p2">
+<p class="ltx_p">An important point here is that the quantity <math alttext="X" class="ltx_Math" display="inline" id="SS1.p2.m1"><mi>X</mi></math> to be mixed is not always the same.
+In OpenMX, seven methods are implemented depending on the quantity to be mixed.
+The first point to understand is that there are three categories:</p>
+<ul class="ltx_itemize" id="I1">
+<li class="ltx_item" id="I1.i1" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i1.p1">
+<p class="ltx_p">methods that mix the density matrix,</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i2" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i2.p1">
+<p class="ltx_p">methods that mix the electron density in Fourier space,</p>
+</div>
+</li>
+<li class="ltx_item" id="I1.i3" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I1.i3.p1">
+<p class="ltx_p">methods that mix the Kohn-Sham potential or the Kohn-Sham Hamiltonian.</p>
+</div>
+</li>
+</ul>
+<p class="ltx_p">Keeping this distinction in mind makes it easier to understand the role of each keyword
+and what should be changed when convergence is not achieved.</p>
+</div><section class="ltx_subsubsection" id="subsubsec:summary-of-the-mixing-methods-available-in-openmx">
+<h3 class="ltx_title ltx_title_subsubsection">Summary of the mixing methods available in OpenMX</h3>
+<div class="ltx_para" id="SS1.SSSx1.p1">
+<p class="ltx_p">Table <a class="ltx_ref" href="#tab:SCF_methods" title="Table 4 ‣ What an SCF calculation is intended to achieve ‣ 16.1 SCF convergence basics ‣ 16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">4</span></a> summarizes the mixing methods available in OpenMX.
+In the first three methods (Simple, GR-Pulay, and RMM-DIIS), the density matrix is mainly mixed.
+Here, the density matrix is a matrix represented in localized basis functions, from which the electron density is calculated.
+On the other hand, in Kerker and RMM-DIISK, the electron density represented in Fourier space is directly mixed.
+This distinction is important for understanding SCF convergence in metallic systems.
+In metals, long-wavelength charge fluctuations (charge sloshing) hinder convergence,
+and it is effective to suppress small-wavevector components appropriately in Fourier space <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib62" title="">62</a>, <a class="ltx_ref" href="bib.html#bib61" title="">61</a>]</cite>.
+Furthermore, in RMM-DIISV and RMM-DIISH, the quantity to be mixed is not the electron density itself,
+but the Kohn-Sham potential or the Kohn-Sham Hamiltonian.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:what-an-scf-calculation-is-intended-to-achieve">
+
+<figure class="ltx_table" id="tab:SCF_methods">
+<figcaption class="ltx_caption ltx_centering"><span class="ltx_tag ltx_tag_table">Table 4: </span>Classification of the SCF mixing methods available in OpenMX.</figcaption>
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<thead class="ltx_thead">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_column ltx_border_t"><span class="ltx_text" style="font-size:90%;">Method</span></th>
+<th class="ltx_td ltx_align_left ltx_th ltx_th_column ltx_border_t"><span class="ltx_text" style="font-size:90%;">Quantity to mix</span></th>
+<th class="ltx_td ltx_align_left ltx_th ltx_th_column ltx_border_t"><span class="ltx_text" style="font-size:90%;">Representation space</span></th>
+<th class="ltx_td ltx_align_left ltx_th ltx_th_column ltx_border_t"><span class="ltx_text" style="font-size:90%;">Main use</span></th>
+</tr>
+</thead>
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<td class="ltx_td ltx_align_left ltx_border_t"><span class="ltx_text" style="font-size:90%;">Simple</span></td>
+<td class="ltx_td ltx_align_left ltx_border_t"><span class="ltx_text" style="font-size:90%;">Density matrix</span></td>
+<td class="ltx_td ltx_align_left ltx_border_t"><span class="ltx_text" style="font-size:90%;">Real space</span></td>
+<td class="ltx_td ltx_align_left ltx_border_t"><span class="ltx_text" style="font-size:90%;">Small molecules, insulating systems</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">GR-Pulay</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Density matrix</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Real space</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Stabilization using history</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">RMM-DIIS</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Density matrix</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Real space</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">General Pulay-type mixing</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Kerker</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Electron density</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Fourier space</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Suppression of charge sloshing in metals</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">RMM-DIISK</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Electron density</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Fourier space</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">First choice for metallic systems</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">RMM-DIISV</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Kohn-Sham potential</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Fourier space</span></td>
+<td class="ltx_td ltx_align_left"><span class="ltx_text" style="font-size:90%;">Metallic systems and difficult cases</span></td>
+</tr>
+<tr class="ltx_tr">
+<td class="ltx_td ltx_align_left ltx_border_b"><span class="ltx_text" style="font-size:90%;">RMM-DIISH</span></td>
+<td class="ltx_td ltx_align_left ltx_border_b"><span class="ltx_text" style="font-size:90%;">Kohn-Sham Hamiltonian</span></td>
+<td class="ltx_td ltx_align_left ltx_border_b"><span class="ltx_text" style="font-size:90%;">Matrix representation</span></td>
+<td class="ltx_td ltx_align_left ltx_border_b">
+<span class="ltx_text" style="font-size:90%;">plus </span><math alttext="U" class="ltx_Math" display="inline" id="T4.m1"><mi mathsize="0.900em">U</mi></math><span class="ltx_text" style="font-size:90%;"> method, constraint method</span>
+</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<br>
+
+
+
+  
+<h3 class="ltx_title ltx_title_subsubsection">What an SCF calculation is intended to achieve</h3>
+<div class="ltx_para" id="SS1.SSSx2.p1">
+<p class="ltx_p">When the density matrix is mixed, the Kohn-Sham equations are solved using the input density matrix <math alttext="\rho_{n}^{({\rm in})}" class="ltx_Math" display="inline" id="SS1.SSSx2.p1.m1"><msubsup><mi>ρ</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup></math> at the <math alttext="n" class="ltx_Math" display="inline" id="SS1.SSSx2.p1.m2"><mi>n</mi></math>th iteration,
+and the output density matrix <math alttext="\rho_{n}^{({\rm out})}" class="ltx_Math" display="inline" id="SS1.SSSx2.p1.m3"><msubsup><mi>ρ</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup></math> is obtained.
+In this case, the goal of SCF convergence is</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx5">
+<tbody id="eq:scf_densitymatrix_fixed"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle\rho_{n}^{({\rm out})}=\rho_{n}^{({\rm in})}" class="ltx_Math" display="inline" id="E5.m1"><mrow><msubsup><mi>ρ</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>=</mo><msubsup><mi>ρ</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(5)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Therefore, the residual is defined by</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx6">
+<tbody id="eq:scf_densitymatrix_residual"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle R_{n}=\rho_{n}^{({\rm out})}-\rho_{n}^{({\rm in})}" class="ltx_Math" display="inline" id="E6.m1"><mrow><msub><mi>R</mi><mi>n</mi></msub><mo>=</mo><mrow><msubsup><mi>ρ</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>−</mo><msubsup><mi>ρ</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(6)</span></td>
+</tr></tbody>
+</table>
+</div>
+<div class="ltx_para" id="SS1.SSSx2.p2">
+<p class="ltx_p">In methods that mix the electron density in Fourier space, we consider the Fourier transforms
+<math alttext="\tilde{n}_{n}^{({\rm in})}(\mathbf{q})" class="ltx_Math" display="inline" id="SS1.SSSx2.p2.m1"><mrow><msubsup><mover accent="true"><mi>n</mi><mo>~</mo></mover><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow></math> and <math alttext="\tilde{n}_{n}^{({\rm out})}(\mathbf{q})" class="ltx_Math" display="inline" id="SS1.SSSx2.p2.m2"><mrow><msubsup><mover accent="true"><mi>n</mi><mo>~</mo></mover><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow></math>
+of the input electron density <math alttext="n_{n}^{({\rm in})}(\mathbf{r})" class="ltx_Math" display="inline" id="SS1.SSSx2.p2.m3"><mrow><msubsup><mi>n</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐫</mi><mo stretchy="false">)</mo></mrow></mrow></math> and
+the output electron density <math alttext="n_{n}^{({\rm out})}(\mathbf{r})" class="ltx_Math" display="inline" id="SS1.SSSx2.p2.m4"><mrow><msubsup><mi>n</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐫</mi><mo stretchy="false">)</mo></mrow></mrow></math>, and the residual is</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx7">
+<tbody id="eq:scf_density_residual_q"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle R_{n}(\mathbf{q})=\tilde{n}_{n}^{({\rm out})}(\mathbf{q})-\tilde%
+{n}_{n}^{({\rm in})}(\mathbf{q})" class="ltx_Math" display="inline" id="E7.m1"><mrow><mrow><msub><mi>R</mi><mi>n</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mrow><msubsup><mover accent="true"><mi>n</mi><mo>~</mo></mover><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow><mo>−</mo><mrow><msubsup><mover accent="true"><mi>n</mi><mo>~</mo></mover><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(7)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Thus, the first step in understanding SCF convergence schemes is to be aware of
+what quantity is being mixed.
+The quantity <code class="ltx_verbatim ltx_font_typewriter">NormRD</code> output in the <code class="ltx_verbatim ltx_font_typewriter">System.Name.out</code> file also denotes
+the norm of the residual for the density matrix, electron density, potential, or Hamiltonian,
+depending on the mixing method.</p>
+</div>
+
+
+</section><section class="ltx_subsubsection" id="subsubsec:simple-mixing">
+<h3 class="ltx_title ltx_title_subsubsection">Simple mixing</h3>
+<div class="ltx_para" id="SS1.SSSx3.p1">
+<p class="ltx_p">The most basic method is simple mixing (Simple).
+This method constructs the next input by linearly interpolating only the previous input and output
+<cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib61" title="">61</a>, <a class="ltx_ref" href="bib.html#bib65" title="">65</a>]</cite>.
+Written for the density matrix,</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx8">
+<tbody id="eq:scf_simple_mixing"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle\rho_{n+1}^{({\rm in})}=\alpha\rho_{n}^{({\rm in})}+(1-\alpha)%
+\rho_{n}^{({\rm out})}" class="ltx_Math" display="inline" id="E8.m1"><mrow><msubsup><mi>ρ</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>=</mo><mrow><mrow><mi>α</mi><mo>⁢</mo><msubsup><mi>ρ</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup></mrow><mo>+</mo><mrow><mrow><mo stretchy="false">(</mo><mrow><mn>1</mn><mo>−</mo><mi>α</mi></mrow><mo stretchy="false">)</mo></mrow><mo>⁢</mo><msubsup><mi>ρ</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(8)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Here, <math alttext="\alpha" class="ltx_Math" display="inline" id="SS1.SSSx3.p1.m1"><mi>α</mi></math> is the mixing ratio.
+Since Simple mixing uses information from only the immediately preceding step,
+it may work well enough for molecules or insulators with a large gap,
+but in metallic systems or large-scale systems convergence is often slow or tends to oscillate.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:pulay-type-mixing-gr-pulay-and-the-rmm-diis-family">
+<h3 class="ltx_title ltx_title_subsubsection">Pulay-type mixing: GR-Pulay and the RMM-DIIS family</h3>
+<div class="ltx_para" id="SS1.SSSx4.p1">
+<p class="ltx_p">The essential difference between Simple mixing and the RMM-DIIS family is that
+Simple mixing uses only the previous input and output,
+whereas Pulay-type mixing uses the history of multiple previous steps.
+Using this history is based on an idea similar to a quasi-Newton method,
+in the sense that it chooses a direction that makes the residual as small as possible.
+The “approximate Hessian” here means an approximation, obtained from the history,
+to how the residual changes in response to changes in the input,
+and in Pulay-type mixing this information is used implicitly to determine the update direction.</p>
+</div>
+<div class="ltx_para" id="SS1.SSSx4.p2">
+<p class="ltx_p">In RMM-DIIS, one first defines the residual</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx9">
+<tbody id="eq:scf_rmm_residual"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle R_{n}=\rho_{n}^{({\rm out})}-\rho_{n}^{({\rm in})}" class="ltx_Math" display="inline" id="E9.m1"><mrow><msub><mi>R</mi><mi>n</mi></msub><mo>=</mo><mrow><msubsup><mi>ρ</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>−</mo><msubsup><mi>ρ</mi><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(9)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">and approximates the residual in the next SCF step by a linear combination of the previous <math alttext="p" class="ltx_Math" display="inline" id="SS1.SSSx4.p2.m1"><mi>p</mi></math> steps,</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx10">
+<tbody id="eq:scf_rmm_linear_combination"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle\bar{R}_{n+1}=\sum_{m=n-(p-1)}^{n}a_{m}R_{m}" class="ltx_Math" display="inline" id="E10.m1"><mrow><msub><mover accent="true"><mi>R</mi><mo>¯</mo></mover><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mrow><mstyle displaystyle="true"><munderover><mo movablelimits="false">∑</mo><mrow><mi>m</mi><mo>=</mo><mrow><mi>n</mi><mo>−</mo><mrow><mo stretchy="false">(</mo><mrow><mi>p</mi><mo>−</mo><mn>1</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow><mi>n</mi></munderover></mstyle><mrow><msub><mi>a</mi><mi>m</mi></msub><mo>⁢</mo><msub><mi>R</mi><mi>m</mi></msub></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(10)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Then, under the constraint</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx11">
+<tbody id="eq:scf_rmm_constraint"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle\sum_{m=n-(p-1)}^{n}a_{m}=1" class="ltx_Math" display="inline" id="E11.m1"><mrow><mrow><mstyle displaystyle="true"><munderover><mo movablelimits="false">∑</mo><mrow><mi>m</mi><mo>=</mo><mrow><mi>n</mi><mo>−</mo><mrow><mo stretchy="false">(</mo><mrow><mi>p</mi><mo>−</mo><mn>1</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow><mi>n</mi></munderover></mstyle><msub><mi>a</mi><mi>m</mi></msub></mrow><mo>=</mo><mn>1</mn></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(11)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">the coefficients <math alttext="a_{m}" class="ltx_Math" display="inline" id="SS1.SSSx4.p2.m2"><msub><mi>a</mi><mi>m</mi></msub></math> are chosen so that the residual norm</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx12">
+<tbody id="eq:scf_rmm_norm"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle\left\langle\bar{R}_{n+1}\middle|\bar{R}_{n+1}\right\rangle" class="ltx_Math" display="inline" id="E12.m1"><mrow><mo>⟨</mo><msub><mover accent="true"><mi>R</mi><mo>¯</mo></mover><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo lspace="0em" rspace="0em" stretchy="true">|</mo><msub><mover accent="true"><mi>R</mi><mo>¯</mo></mover><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>⟩</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(12)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">is minimized <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib61" title="">61</a>]</cite>.
+As a result, the next input is constructed as</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx13">
+<tbody id="eq:scf_rmm_next_input"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle\rho_{n+1}^{({\rm in})}=\sum_{m=n-(p-1)}^{n}a_{m}\rho_{m}^{({\rm
+in%
+})}" class="ltx_Math" display="inline" id="E13.m1"><mrow><msubsup><mi>ρ</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>=</mo><mrow><mstyle displaystyle="true"><munderover><mo movablelimits="false">∑</mo><mrow><mi>m</mi><mo>=</mo><mrow><mi>n</mi><mo>−</mo><mrow><mo stretchy="false">(</mo><mrow><mi>p</mi><mo>−</mo><mn>1</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow><mi>n</mi></munderover></mstyle><mrow><msub><mi>a</mi><mi>m</mi></msub><mo>⁢</mo><msubsup><mi>ρ</mi><mi>m</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(13)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">That is, the essence of the RMM-DIIS family is to choose,
+from the past history, the direction that most effectively reduces the residual.</p>
+</div>
+<div class="ltx_para" id="SS1.SSSx4.p3">
+<p class="ltx_p">GR-Pulay is likewise a Pulay-type mixing method that uses history,
+but it is designed so that the residual decreases reliably at each update <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib60" title="">60</a>]</cite>.
+RMM-DIIS, RMM-DIISK, RMM-DIISV, and RMM-DIISH are all Pulay-type mixing methods,
+but they differ in what quantity is mixed.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:kerker-mixing-and-rmm-diisk">
+<h3 class="ltx_title ltx_title_subsubsection">Kerker mixing and RMM-DIISK</h3>
+<div class="ltx_para" id="SS1.SSSx5.p1">
+<p class="ltx_p">In metallic systems and small-gap systems, charge sloshing, in which the long-wavelength component of the electron density oscillates strongly, hinders SCF convergence.
+Kerker mixing suppresses this long-wavelength component in Fourier space <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib62" title="">62</a>]</cite>.
+For the Fourier components of the electron-density difference, one may typically write</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx14">
+<tbody id="eq:scf_kerker_mixing"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle\delta\tilde{n}_{n+1}^{({\rm in})}(\mathbf{q})=\alpha w(\mathbf{q%
+})\,\delta\tilde{n}_{n}^{({\rm in})}(\mathbf{q})+\left[1-\alpha w(\mathbf{q})%
+\right]\delta\tilde{n}_{n}^{({\rm out})}(\mathbf{q})" class="ltx_Math" display="inline" id="E14.m1"><mrow><mrow><mi>δ</mi><mo>⁢</mo><msubsup><mover accent="true"><mi>n</mi><mo>~</mo></mover><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mrow><mi>α</mi><mo>⁢</mo><mi>w</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow><mo lspace="0.170em">⁢</mo><mi>δ</mi><mo>⁢</mo><msubsup><mover accent="true"><mi>n</mi><mo>~</mo></mover><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mrow><mo>[</mo><mrow><mn>1</mn><mo>−</mo><mrow><mi>α</mi><mo>⁢</mo><mi>w</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>]</mo></mrow><mo>⁢</mo><mi>δ</mi><mo>⁢</mo><msubsup><mover accent="true"><mi>n</mi><mo>~</mo></mover><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(14)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Here, the Kerker weight is given by</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx15">
+<tbody id="eq:scf_kerker_weight"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle w(\mathbf{q})=\frac{|\mathbf{q}|^{2}}{|\mathbf{q}|^{2}+q_{0}^{2}}," class="ltx_Math" display="inline" id="E15.m1"><mrow><mrow><mrow><mi>w</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mstyle displaystyle="true"><mfrac><msup><mrow><mo stretchy="false">|</mo><mi>𝐪</mi><mo stretchy="false">|</mo></mrow><mn>2</mn></msup><mrow><msup><mrow><mo stretchy="false">|</mo><mi>𝐪</mi><mo stretchy="false">|</mo></mrow><mn>2</mn></msup><mo>+</mo><msubsup><mi>q</mi><mn>0</mn><mn>2</mn></msubsup></mrow></mfrac></mstyle></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(15)</span></td>
+</tr></tbody>
+</table>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx16">
+<tbody id="eq:scf_kerker_q0"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle q_{0}=\alpha_{\rm K}|\mathbf{q}_{\rm min}|" class="ltx_Math" display="inline" id="E16.m1"><mrow><msub><mi>q</mi><mn>0</mn></msub><mo>=</mo><mrow><msub><mi>α</mi><mi mathvariant="normal">K</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">|</mo><msub><mi>𝐪</mi><mi>min</mi></msub><mo stretchy="false">|</mo></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(16)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Since <math alttext="w(\mathbf{q})" class="ltx_Math" display="inline" id="SS1.SSSx5.p1.m1"><mrow><mi>w</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow></math> becomes small for small <math alttext="|\mathbf{q}|" class="ltx_Math" display="inline" id="SS1.SSSx5.p1.m2"><mrow><mo stretchy="false">|</mo><mi>𝐪</mi><mo stretchy="false">|</mo></mrow></math>,
+excessive updates of the long-wavelength components are suppressed.</p>
+</div>
+<div class="ltx_para" id="SS1.SSSx5.p2">
+<p class="ltx_p">RMM-DIISK is a method that incorporates the Kerker idea into Pulay-type mixing.
+That is, for the residual in Fourier space,</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx17">
+<tbody id="eq:scf_rmm_diisk_residual"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle R_{n}(\mathbf{q})=\tilde{n}_{n}^{({\rm out})}(\mathbf{q})-\tilde%
+{n}_{n}^{({\rm in})}(\mathbf{q})" class="ltx_Math" display="inline" id="E17.m1"><mrow><mrow><msub><mi>R</mi><mi>n</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mrow><msubsup><mover accent="true"><mi>n</mi><mo>~</mo></mover><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>out</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow><mo>−</mo><mrow><msubsup><mover accent="true"><mi>n</mi><mo>~</mo></mover><mi>n</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(17)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">the residual norm is minimized using the Kerker metric</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx18">
+<tbody id="eq:scf_rmm_diisk_metric"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle\langle A|B\rangle=\sum_{\mathbf{q}}\frac{A_{\mathbf{q}}^{*}B_{%
+\mathbf{q}}}{w(\mathbf{q})}" class="ltx_Math" display="inline" id="E18.m1"><mrow><mrow><mo stretchy="false">⟨</mo><mi>A</mi><mo lspace="0em" rspace="0em">|</mo><mi>B</mi><mo stretchy="false">⟩</mo></mrow><mo>=</mo><mrow><mstyle displaystyle="true"><munder><mo movablelimits="false">∑</mo><mi>𝐪</mi></munder></mstyle><mstyle displaystyle="true"><mfrac><mrow><msubsup><mi>A</mi><mi>𝐪</mi><mo>∗</mo></msubsup><mo>⁢</mo><msub><mi>B</mi><mi>𝐪</mi></msub></mrow><mrow><mi>w</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>𝐪</mi><mo stretchy="false">)</mo></mrow></mrow></mfrac></mstyle></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(18)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p"><cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib61" title="">61</a>, <a class="ltx_ref" href="bib.html#bib62" title="">62</a>]</cite>.
+Therefore, it is useful to understand that</p>
+<ul class="ltx_itemize" id="I2">
+<li class="ltx_item" id="I2.i1" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I2.i1.p1">
+<p class="ltx_p">Kerker is “Simple mixing in Fourier space,”</p>
+</div>
+</li>
+<li class="ltx_item" id="I2.i2" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I2.i2.p1">
+<p class="ltx_p">RMM-DIISK is “Pulay-type mixing in Fourier space.”</p>
+</div>
+</li>
+</ul>
+<p class="ltx_p">The reason why <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISK</code> is the first choice in many systems is that
+it combines both suppression of charge sloshing and acceleration by using the history.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:rmm-diisv-and-rmm-diish">
+<h3 class="ltx_title ltx_title_subsubsection">RMM-DIISV and RMM-DIISH</h3>
+<div class="ltx_para" id="SS1.SSSx6.p1">
+<p class="ltx_p">RMM-DIISV is a Pulay-type mixing method in which the Kohn-Sham potential, rather than the electron density itself, is the quantity to be mixed.
+On the other hand, RMM-DIISH directly mixes the Kohn-Sham Hamiltonian matrix.
+This difference is particularly important in the plus <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSSx6.p1.m1"><mi>U</mi></math> method and in calculations with constraints.
+In ordinary LDA or GGA, the Kohn-Sham potential is given as a functional of the electron density.
+Therefore, if the electron density or density matrix is mixed appropriately, the potential and Hamiltonian also become consistent indirectly.
+However, the situation is different in the plus <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSSx6.p1.m2"><mi>U</mi></math> method and in constraint methods.
+In these methods, terms depending on the occupation-number matrix or local density matrix are added to the Hamiltonian.
+Therefore, the Hamiltonian is no longer a functional of only the total electron density.
+For example, in the plus <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSSx6.p1.m3"><mi>U</mi></math> method, the energy is conceptually written as</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx19">
+<tbody id="E19"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle E=E_{\rm DFT}[n]+E_{U}[\rho]" class="ltx_Math" display="inline" id="E19.m1"><mrow><mi>E</mi><mo>=</mo><mrow><mrow><msub><mi>E</mi><mi>DFT</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">[</mo><mi>n</mi><mo stretchy="false">]</mo></mrow></mrow><mo>+</mo><mrow><msub><mi>E</mi><mi>U</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">[</mo><mi>ρ</mi><mo stretchy="false">]</mo></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(19)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Thus, it depends not only on the electron density <math alttext="n" class="ltx_Math" display="inline" id="SS1.SSSx6.p1.m4"><mi>n</mi></math>,
+but also on the occupation-number matrix <math alttext="\rho" class="ltx_Math" display="inline" id="SS1.SSSx6.p1.m5"><mi>ρ</mi></math>.
+For this reason, methods that mix only the electron density may not update the Hamiltonian contribution originating from the <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSSx6.p1.m6"><mi>U</mi></math> term sufficiently.
+As a result, mixing only the electron density may be insufficient to update the Hamiltonian containing the <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSSx6.p1.m7"><mi>U</mi></math> term or constraint terms,
+and even when the electron density appears to change only slightly, part of the Hamiltonian matrix
+may still fluctuate strongly.
+For this reason, in the plus <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSSx6.p1.m8"><mi>U</mi></math> method or in constraint methods,
+RMM-DIISH, which mixes the Hamiltonian matrix itself from the history as</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx20">
+<tbody id="eq:scf_hamiltonian_mixing"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle H_{n+1}^{({\rm in})}\leftarrow\sum_{m=n-(p-1)}^{n}a_{m}H_{m}^{({%
+\rm in})}" class="ltx_Math" display="inline" id="E20.m1"><mrow><msubsup><mi>H</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup><mo stretchy="false">←</mo><mrow><mstyle displaystyle="true"><munderover><mo movablelimits="false">∑</mo><mrow><mi>m</mi><mo>=</mo><mrow><mi>n</mi><mo>−</mo><mrow><mo stretchy="false">(</mo><mrow><mi>p</mi><mo>−</mo><mn>1</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow><mi>n</mi></munderover></mstyle><mrow><msub><mi>a</mi><mi>m</mi></msub><mo>⁢</mo><msubsup><mi>H</mi><mi>m</mi><mrow><mo stretchy="false">(</mo><mi>in</mi><mo stretchy="false">)</mo></mrow></msubsup></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(20)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">can be effective.
+In other words, the reason why RMM-DIISH works well with the plus <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSSx6.p1.m9"><mi>U</mi></math> method and with constraint methods is that
+it can directly stabilize not only the electron density but also the Hamiltonian itself including auxiliary degrees of freedom.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:how-to-choose-a-mixing-method">
+<h3 class="ltx_title ltx_title_subsubsection">How to choose a mixing method</h3>
+<div class="ltx_para" id="SS1.SSSx7.p1">
+<p class="ltx_p">A common dead end is to change many keywords simultaneously from the beginning,
+so that one can no longer tell what actually helped.
+We first recommend the following policy:</p>
+<ol class="ltx_enumerate" id="I3">
+<li class="ltx_item" id="I3.i1" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">1.</span>
+<div class="ltx_para" id="I3.i1.p1">
+<p class="ltx_p">For ordinary molecules, insulators, and standard band calculations, first try <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISK</code>.</p>
+</div>
+</li>
+<li class="ltx_item" id="I3.i2" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">2.</span>
+<div class="ltx_para" id="I3.i2.p1">
+<p class="ltx_p">For metallic systems, surface systems, and large clusters as well, first try <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISK</code>.</p>
+</div>
+</li>
+<li class="ltx_item" id="I3.i3" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">3.</span>
+<div class="ltx_para" id="I3.i3.p1">
+<p class="ltx_p">For the plus <math alttext="U" class="ltx_Math" display="inline" id="I3.i3.p1.m1"><mi>U</mi></math> method and calculations with constraints, try <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISH</code> from the outset.</p>
+</div>
+</li>
+<li class="ltx_item" id="I3.i4" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">4.</span>
+<div class="ltx_para" id="I3.i4.p1">
+<p class="ltx_p">Only when convergence is still unstable, try <code class="ltx_verbatim ltx_font_typewriter">Kerker</code> alone.</p>
+</div>
+</li>
+</ol>
+<p class="ltx_p">In general, many mixing methods can achieve convergence in systems with a large gap.
+However, in small-gap systems and metallic systems, charge sloshing tends to become serious,
+and Kerker, RMM-DIISK, and RMM-DIISV are effective.
+In addition, in the plus <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSSx7.p1.m1"><mi>U</mi></math> method and in constraint methods, RMM-DIISH may be a more natural choice.</p>
+</div>
+<figure class="ltx_figure" id="fig:SCF"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_portrait" height="803" id="F8.g1" src="x9.png" width="545"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 8: </span><span class="ltx_text" style="font-size:90%;">SCF convergence processes of the residual norm for the seven mixing methods.
+Depending on the mixing method, the residual is defined for the density matrix, electron density, Kohn-Sham potential,
+or Kohn-Sham Hamiltonian.
+(a) Sialic acid molecule, (b) Pt<sub class="ltx_sub"><span class="ltx_text ltx_font_italic">13</span></sub> cluster, and (c) Pt<sub class="ltx_sub"><span class="ltx_text ltx_font_italic">63</span></sub> cluster.
+The input files are <span class="ltx_text ltx_font_typewriter"><a href="work/SialicAcid.dat" rel="noopener noreferrer" target="_blank">SialicAcid.dat</a></span>, <span class="ltx_text ltx_font_typewriter"><a href="work/Pt13.dat" rel="noopener noreferrer" target="_blank">Pt13.dat</a></span>, and <span class="ltx_text ltx_font_typewriter"><a href="work/Pt63.dat" rel="noopener noreferrer" target="_blank">Pt63.dat</a></span> in the <span class="ltx_text ltx_font_typewriter">work</span> directory.
+</span></figcaption>
+</figure>
+<div class="ltx_para" id="SS1.SSSx7.p2">
+<p class="ltx_p">From Fig. <a class="ltx_ref" href="#fig:SCF" title="Figure 8 ‣ How to choose a mixing method ‣ 16.1 SCF convergence basics ‣ 16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">8</span></a>, one can see that <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISK</code> and <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISV</code> work robustly for many systems.
+Therefore, in ordinary calculations it is practical to regard <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISK</code> as the first choice,
+and in the plus <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSSx7.p2.m1"><mi>U</mi></math> method or in constraint methods to try <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISH</code>.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:practical-tuning-procedure">
+<h3 class="ltx_title ltx_title_subsubsection">Practical tuning procedure</h3>
+<div class="ltx_para" id="SS1.SSSx8.p1">
+<p class="ltx_p">For beginners, we recommend tuning in the following order.</p>
+</div>
+<div class="ltx_para" id="SS1.SSSx8.p2">
+<ol class="ltx_enumerate" id="I4">
+<li class="ltx_item" id="I4.i1" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">1.</span>
+<div class="ltx_para" id="I4.i1.p1">
+<p class="ltx_p">First use <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISK</code> and do not specify <code class="ltx_verbatim ltx_font_typewriter">scf.Kerker.factor</code>.
+In this case, the Kerker factor is automatically estimated.</p>
+</div>
+</li>
+<li class="ltx_item" id="I4.i2" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">2.</span>
+<div class="ltx_para" id="I4.i2.p1">
+<p class="ltx_p">If convergence is slow, increase <code class="ltx_verbatim ltx_font_typewriter">scf.Mixing.History</code> to about 30–40.</p>
+</div>
+</li>
+<li class="ltx_item" id="I4.i3" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">3.</span>
+<div class="ltx_para" id="I4.i3.p1">
+<p class="ltx_p">If divergence or large oscillations are observed, increase <code class="ltx_verbatim ltx_font_typewriter">scf.Mixing.StartPulay</code> from 10 to about 30.</p>
+</div>
+</li>
+<li class="ltx_item" id="I4.i4" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">4.</span>
+<div class="ltx_para" id="I4.i4.p1">
+<p class="ltx_p">In metallic systems or difficult cases, increase <code class="ltx_verbatim ltx_font_typewriter">scf.ElectronicTemperature</code>.<span id="idx-scf-electronictemperature-s16_1_scf-convergence-overview"></span></p>
+</div>
+</li>
+<li class="ltx_item" id="I4.i5" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">5.</span>
+<div class="ltx_para" id="I4.i5.p1">
+<p class="ltx_p">In the plus <math alttext="U" class="ltx_Math" display="inline" id="I4.i5.p1.m1"><mi>U</mi></math> method or in constraint methods, switch to <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISH</code>.</p>
+</div>
+</li>
+<li class="ltx_item" id="I4.i6" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">6.</span>
+<div class="ltx_para" id="I4.i6.p1">
+<p class="ltx_p">If it is still unstable, manually set <code class="ltx_verbatim ltx_font_typewriter">scf.Kerker.factor</code>.</p>
+</div>
+</li>
+</ol>
+<p class="ltx_p">For <code class="ltx_verbatim ltx_font_typewriter">scf.Kerker.factor</code>, first use the automatically determined value.
+Since this value depends on the system size, the anisotropy of the reciprocal lattice vectors,
+and the degree of metallicity, reusing a value that worked for another system without modification
+may slow convergence or even make it unstable.
+First use the automatically estimated value, and adjust it manually only when it is insufficient.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:typical-setting-examples">
+<h3 class="ltx_title ltx_title_subsubsection">Typical setting examples</h3>
+<div class="ltx_para" id="SS1.SSSx9.p1">
+<p class="ltx_p">An example of settings to try first for many systems is shown below.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+scf.Mixing.Type           rmm-diisk
+scf.Init.Mixing.Weight    0.02
+scf.Min.Mixing.Weight     0.01
+scf.Max.Mixing.Weight     0.30
+scf.Mixing.History        30
+scf.Mixing.StartPulay     15
+scf.Mixing.EveryPulay     1
+scf.ElectronicTemperature 300.0
+scf.criterion             1.0e-7
+</pre>
+<p class="ltx_p">At this stage, do not specify <code class="ltx_verbatim ltx_font_typewriter">scf.Kerker.factor</code>; leave it to the automatic estimation.
+For metallic systems that are more difficult to converge, for example, the following settings may be used as a starting point.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+scf.Mixing.Type           rmm-diisk
+scf.Init.Mixing.Weight    0.01
+scf.Min.Mixing.Weight     0.01
+scf.Max.Mixing.Weight     0.20
+scf.Mixing.History        40
+scf.Mixing.StartPulay     20
+scf.Mixing.EveryPulay     1
+scf.ElectronicTemperature 1000.0
+scf.criterion             1.0e-7
+</pre>
+<p class="ltx_p">Only when convergence is still insufficient should <code class="ltx_verbatim ltx_font_typewriter">scf.Kerker.factor</code> be specified manually.
+However, if the value is made too large, the long-wavelength components are strongly suppressed,
+but convergence may become slow.</p>
+</div>
+<div class="ltx_para" id="SS1.SSSx9.p2">
+<p class="ltx_p">In the plus <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSSx9.p2.m1"><mi>U</mi></math> method or in calculations with constraints, it is a good idea to try <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISH</code> as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+scf.Mixing.Type           rmm-diish
+scf.Init.Mixing.Weight    0.02
+scf.Mixing.History        20
+scf.Mixing.StartPulay     10
+scf.criterion             1.0e-7
+</pre>
+<p class="ltx_p">If Hamiltonian mixing seems too strong,
+switch to <code class="ltx_verbatim ltx_font_typewriter">RMM-DIIS</code> and try density-matrix mixing.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:role-of-the-main-keywords">
+<h3 class="ltx_title ltx_title_subsubsection">Role of the main keywords</h3>
+<div class="ltx_para ltx_noindent" id="SS1.SSSx10.p1">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">scf.Mixing.Type
+<br class="ltx_break"/></span>Specifies the mixing method and the quantity to be mixed. For many systems, <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISK</code> is the first choice.
+In the plus <math alttext="U" class="ltx_Math" display="inline" id="SS1.SSSx10.p1.m1"><mi>U</mi></math> method and in calculations with constraints, <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISH</code> or <code class="ltx_verbatim ltx_font_typewriter">RMM-DIIS</code> is also a strong candidate.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSSx10.p2">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">scf.Init.Mixing.Weight
+<br class="ltx_break"/></span>Specifies the initial mixing ratio. A value that is too large causes divergence or oscillation.
+For beginners, it is safe to start from about 0.01–0.05.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSSx10.p3">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">scf.Min.Mixing.Weight
+<br class="ltx_break"/></span>The lower bound of the mixing ratio in Simple mixing and Kerker mixing.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSSx10.p4">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">scf.Max.Mixing.Weight
+<br class="ltx_break"/></span>The upper bound of the mixing ratio in Simple mixing and Kerker mixing.
+If convergence oscillates, setting it to a smaller value may stabilize the calculation.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSSx10.p5">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">scf.Mixing.History
+<br class="ltx_break"/></span>The number of history steps used in Pulay-type mixing.
+A larger value provides more information, but larger is not always better.
+Even so, for many difficult cases, around 30 is a good starting point.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSSx10.p6">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">scf.Mixing.StartPulay
+<br class="ltx_break"/></span>Specifies the SCF step at which Pulay-type mixing starts.
+Since switching to Pulay-type mixing from the very beginning can be unstable,
+a somewhat larger value, about 10 to 30, is effective for difficult cases.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSSx10.p7">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">scf.Mixing.EveryPulay
+<br class="ltx_break"/></span>Specifies how often Pulay-type mixing is applied in <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISK</code>, <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISV</code>, and <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISH</code>.
+For example, if 5 is specified, Pulay-type mixing is applied only once every five steps, and the basic mixing is used in the other steps.
+A value of 1 corresponds to the usual setting in which Pulay-type mixing is applied at every step.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSSx10.p8">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">scf.Kerker.factor
+<br class="ltx_break"/></span>A parameter that determines the degree of suppression of the long-wavelength components in the Kerker method, <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISK</code>, and <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISV</code>.
+If it is not specified, it is automatically estimated. First use the automatic estimate, and specify it manually only when necessary.
+<br class="ltx_break"/></p>
+</div>
+<div class="ltx_para ltx_noindent" id="SS1.SSSx10.p9">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">scf.criterion
+<br class="ltx_break"/></span>The convergence criterion for SCF calculations (in Hartree units).
+The SCF iteration stops when the absolute value of the band-energy difference
+between the current iteration and the previous iteration becomes smaller than this value.
+The default value is 1.0e-6.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:how-to-read-the-output-file">
+<h3 class="ltx_title ltx_title_subsubsection">How to read the output file</h3>
+<div class="ltx_para" id="SS1.SSSx11.p1">
+<p class="ltx_p">In the <code class="ltx_verbatim ltx_font_typewriter">System.Name.out</code> file, the following information is output for each SCF iteration, for example.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+SCF= 1 NormRD= 1.000000000000 Uele= -3.523169099731
+SCF= 2 NormRD= 0.181517404404 Uele= -3.686855123738
+...
+</pre>
+<p class="ltx_p">Here, <code class="ltx_verbatim ltx_font_typewriter">NormRD</code> is the residual norm, and <code class="ltx_verbatim ltx_font_typewriter">Uele</code> is the band energy.
+If the calculation is heading toward convergence, <code class="ltx_verbatim ltx_font_typewriter">NormRD</code> decreases overall and the change in <code class="ltx_verbatim ltx_font_typewriter">Uele</code> also becomes smaller.
+However, in Pulay-type mixing, <code class="ltx_verbatim ltx_font_typewriter">NormRD</code> may temporarily increase during the process.
+Do not immediately judge it as a failure just because it is not monotonically decreasing; instead, look at the trend over several steps.</p>
+</div>
+</section><section class="ltx_subsubsection" id="subsubsec:common-pitfalls">
+<h3 class="ltx_title ltx_title_subsubsection">Common pitfalls</h3>
+<div class="ltx_para" id="SS1.SSSx12.p1">
+<ul class="ltx_itemize" id="I5">
+<li class="ltx_item" id="I5.i1" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I5.i1.p1">
+<p class="ltx_p">Setting the mixing ratio too large from the beginning.
+If the mixing ratio is made large in the hope of speeding up convergence, the calculation may instead diverge.</p>
+</div>
+</li>
+<li class="ltx_item" id="I5.i2" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I5.i2.p1">
+<p class="ltx_p">Fixing <code class="ltx_verbatim ltx_font_typewriter">scf.Kerker.factor</code> from the beginning.
+First use the automatic estimation, and adjust it only when necessary.</p>
+</div>
+</li>
+<li class="ltx_item" id="I5.i3" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I5.i3.p1">
+<p class="ltx_p">Starting Pulay-type mixing too early.
+In the initial stage of convergence, it is more stable first to reduce the residual to some extent by Simple or Kerker-type mixing
+and then switch to Pulay-type mixing.</p>
+</div>
+</li>
+<li class="ltx_item" id="I5.i4" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I5.i4.p1">
+<p class="ltx_p">Setting the electronic temperature too low in metallic systems.
+This causes numerical instability in metallic systems.</p>
+</div>
+</li>
+<li class="ltx_item" id="I5.i5" style="list-style-type:none;">
+<span class="ltx_tag ltx_tag_item">•</span>
+<div class="ltx_para" id="I5.i5.p1">
+<p class="ltx_p">Relying only on electron-density mixing in the plus <math alttext="U" class="ltx_Math" display="inline" id="I5.i5.p1.m1"><mi>U</mi></math> method or in constraint methods.
+Even when the electron density is almost converged, the Hamiltonian containing the <math alttext="U" class="ltx_Math" display="inline" id="I5.i5.p1.m2"><mi>U</mi></math> term or constraint terms may continue to fluctuate.
+In that case, try <code class="ltx_verbatim ltx_font_typewriter">RMM-DIISH</code> or <code class="ltx_verbatim ltx_font_typewriter">RMM-DIIS</code>.</p>
+</div>
+</li>
+</ul>
+</div>
+</section></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s16_scf.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s16_scf.html"><span class="openmx_footer_label">Previous:</span> 16 SCF convergence</a><a href="s16_2_auto-kerker.html"><span class="openmx_footer_label">Next:</span> 16.2 Automatic determination of the Kerker factor</a></div></div></footer>
+</div>
+</body>
+</html>

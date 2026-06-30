@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>User&#8217;s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 26 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 26, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s1_quick-start.html" rel="next" title="1 Quick start for first-time OpenMX users &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(&#119873;) Methods &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of &#8216;lattice constant vs. energy&#8217; curves &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<style>
+.ltx_authors .ltx_inline-block .ltx_p.ltx_align_center { line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="ltx_page_main">
+<header class="ltx_page_header" style="border-bottom:1px solid #ccc;padding:6px 14px;margin-bottom:14px;">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+<div style="display:flex;align-items:center;gap:10px;">
+<a href="../" rel="up" style="display:flex;align-items:center;text-decoration:none;" title="Up">
+<img alt="Up" src="up.png" style="width:38px;height:23px;object-fit:contain;"/>
+</a>
+<a href="index.html" rel="start" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#222;">
+<img alt="OpenMX logo" src="x1.png" style="width:21.6px;height:21.6px;object-fit:contain;"/>
+<span style="font-size:13px;font-weight:600;line-height:1.2;">User&#8217;s manual of OpenMX Ver. 4.0</span>
+</a>
+</div>
+<div style="display:flex;gap:14px;align-items:center;font-size:13px;flex-wrap:wrap;">
+<a href="contents.html" style="text-decoration:none;">Contents</a>
+<a href="idx.html" style="text-decoration:none;">Index</a>
+<a href="contents.html" rel="next" style="text-decoration:none;">Next: Contents</a><span style="display:inline-block;width:12px;"></span><span><a href="https://www.openmx-square.org/openmx_man4.0/index.html" style="text-decoration:none;">ENG</a> | <a href="https://www.openmx-square.org/openmx_man4.0jp/index.html" style="text-decoration:none;">&#26085;&#26412;&#35486;</a></span>
+</div>
+</div>
+</header>
+<div style="line-height:0.5;"><br/></div>
+<div class="ltx_page_content">
+<article class="ltx_document ltx_authors_1line">
+<h1 class="ltx_title ltx_title_document">
+<span class="ltx_text ltx_font_bold" style="font-size:100%;">User&#8217;s manual of OpenMX Ver. 4.0
+<div style="line-height:0.5;"><br/></div>
+</span>
+<span class="ltx_figure" id="fig1"><img alt="[Uncaptioned image]" class="ltx_graphics ltx_centering ltx_img_square" height="236" id="g1" src="x1.png" width="236"/>
+</span>
+<div style="line-height:0.5;"><br/></div>
+</h1>
+<div class="ltx_authors">
+<span class="ltx_creator ltx_role_author">
+<span class="ltx_personname">
+<span class="ltx_text ltx_font_bold">Contributors
+  <br class="ltx_break"/>
+</span>
+<span class="ltx_inline-block ltx_minipage ltx_align_middle" style="width:212.8pt;">
+  <span class="ltx_p ltx_align_center"><span class="ltx_text" style="font-size:80%; line-height:normal;">
+      T. Ozaki (Univ. of Tokyo)
+<br class="ltx_break"/>H. Kino (ISM)
+<br class="ltx_break"/>J. Yu (SNU)
+<br class="ltx_break">M.J. Han (KAIST)
+<br class="ltx_break">M. Ohfuchi (JST-CRDS)
+<br class="ltx_break"/>F. Ishii (Kanazawa Univ.)
+<br class="ltx_break"/>K. Sawada (Kanazawa Univ.)
+<br class="ltx_break"/>Y. Kubota (Kanazawa Univ.)
+<br class="ltx_break"/>Y.P. Mizuta (Kanazawa Univ.)
+<br class="ltx_break"/>H. Kotaka (Matlantis Corp.)
+<br class="ltx_break"/>N. Yamaguchi (Kanazawa Univ.)
+<br class="ltx_break"/>H. Sawahata (Kanazawa Univ.)
+<br class="ltx_break"/>Yaotang Zhang (Kanazawa Univ.)
+<br class="ltx_break"/>S. Yanase (Kanazawa Univ.)
+<br class="ltx_break"/>T.B. Prayitno (Univ. Negeri Jakarta)
+<br class="ltx_break"/>T. Ohwaki (Fujimi Inc.)
+<br class="ltx_break"/>T.V.T Duy (AISIN SEIKI)
+<br class="ltx_break"/>M. Miyata (AIST)
+<br class="ltx_break"/>G. Jiang (Wuhan Univ. of Sci.&amp;Tech.)
+<br class="ltx_break"/>P.-H. Chang (George Mason Univ.)
+<br class="ltx_break"/>H. Kawai (Niigata Univ.)
+<br class="ltx_break"/>Seokkyu An (Daiwa Securities)
+<br class="ltx_break"/></span></span>
+</span>
+<span class="ltx_inline-block ltx_minipage ltx_align_middle" style="width:251.5pt;">
+<span class="ltx_p ltx_align_center"><span class="ltx_text" style="font-size:80%; line-height:normal;">
+T. Iitaka (RIKEN)
+<br class="ltx_break"/>A. Terasawa (RIST)
+<br class="ltx_break"/>Y. Gohda (Tokyo Science Univ.)
+<br class="ltx_break"/>H. Weng (CAS)
+<br class="ltx_break"/>Y. Shiihara (Toyota Tech. Inst.)
+<br class="ltx_break"/>M. Toyoda (Shin-Etsu Chemical Co., Ltd.)
+<br class="ltx_break"/>Y. Okuno (FUJIFILM)
+<br class="ltx_break"/>R. Perez (UAM)
+<br class="ltx_break"/>P.P. Bell (UAM)
+<br class="ltx_break"/>M. Ellner (UAM)
+<br class="ltx_break"/>Yang Xiao (NUAA)
+<br class="ltx_break"/>A.M. Ito (NIFS)
+<br class="ltx_break"/>M. Otani (Univ. of Tsukuba)
+<br class="ltx_break"/>M. Kawamura (Yokohama National Univ.)
+<br class="ltx_break"/>K. Yoshimi (Univ. of Tokyo)
+<br class="ltx_break"/>C.-C. Lee (Tamkang Univ.)
+<br class="ltx_break"/>Y.-T. Lee (National Taitung Univ.)
+<br class="ltx_break"/>M. Fukuda (Univ. of Tokyo)
+<br class="ltx_break"/>Babu Baijnath Prasad (Univ. of Tokyo)
+<br class="ltx_break"/>S. Ryee (Univ. of Hamburg)
+<br class="ltx_break"/>K. Terakura (AIST)
+<br class="ltx_break"/></span></span>
+</span>
+</span></span>
+</div>
+<div class="ltx_dates">(April 26, 2026)</div>
+
+
+<hr align="left" style="width: 100%;">
+
+<nav class="ltx_TOC ltx_list_toc ltx_toc_toc"><h6 class="ltx_title ltx_title_contents">Contents</h6>
+<ol class="ltx_toclist">
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="./openmx4.0.pdf" target="_blank" title="Download the manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">
+</span>Manual (PDF)</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s1_quick-start.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">1 </span>Quick start for first-time OpenMX users</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s2_about-openmx.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">2 </span>About OpenMX</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s3_related-papers.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">3 </span>Related papers</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s4_installation.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4 </span>Installation</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s4_1_required-libraries.html" title="In 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.1 </span>Required libraries</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s4_2_serial-version.html" title="In 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.2 </span>Serial version</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s4_3_mpi-version.html" title="In 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.3 </span>MPI version</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s4_4_mpi-openmp-hybrid.html" title="In 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.4 </span>MPI/OpenMP hybrid parallel version</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s4_5_fftw3.html" title="In 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.5 </span>FFTW3</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection">
+<a class="ltx_ref" href="s4_6_other-options.html" title="In 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.6 </span>Other options</span></a>
+<ol class="ltx_toclist ltx_toclist_subsection">
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s4_6_other-options.html#subsubsec:dnosse" title="In 4.6 Other options &#8227; 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.6.1 </span>-Dnosse</span></a></li>
+
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s4_7_platforms.html" title="In 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.7 </span>Platforms</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s4_8_hints-installation.html" title="In 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.8 </span>Hints for installation</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s4_9_make-options.html" title="In 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.9 </span><span class="ltx_text ltx_font_italic">make</span> options</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s4_10_wsl-install.html" title="In 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.10 </span>Installation from source code on WSL</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s4_11_deb-install.html" title="In 4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">4.11 </span>Installation via a Debian package</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s5_test-calc.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">5 </span>Test calculation</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s6_auto-test.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">6 </span>Automatic Test Execution</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s7_auto-test-large.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">7 </span>Automatic Test Execution for Large-Scale Systems</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s8_input-file.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8 </span>Input File</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s8_1_example-methane-molecule.html" title="In 8 Input File &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.1 </span>Example: Methane Molecule</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s8_2_keywords.html" title="In 8 Input File &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.2 </span>Keywords</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s8_3_gen-dat-files.html" title="In 8 Input File &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">8.3 </span>Generation of dat files from CIF files: cif2omx</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s9_output-files.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">9 </span>Output files</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s10_openmx-viewer.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">10 </span>Integration with OpenMX Viewer</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s10_1_input-from-structure.html" title="In 10 Integration with OpenMX Viewer &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">10.1 </span>Generating OpenMX input files from crystal structures</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s10_2_kpath.html" title="In 10 Integration with OpenMX Viewer &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">10.2 </span>Preparing a <span class="ltx_text ltx_font_bold">k</span>-point path for band calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s10_3_visualize-output.html" title="In 10 Integration with OpenMX Viewer &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">10.3 </span>Visualizing and analyzing OpenMX output files</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s10_4_workflow.html" title="In 10 Integration with OpenMX Viewer &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">10.4 </span>Typical workflow</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s11_functionals.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">11 </span>Functionals</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s12_basis.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">12 </span>Basis functions</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s12_1_basis-func-overview.html" title="In 12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">12.1 </span>Basis-function overview</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s12_2_primitive-basis-func.html" title="In 12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">12.2 </span>Primitive basis functions</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s12_3_basis-db2019.html" title="In 12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">12.3 </span>Optimized basis functions provided by Database Ver. 2019</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s12_4_opt-paos-users.html" title="In 12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">12.4 </span>Optimization of PAOs by users</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s12_5_placement-empty-atoms.html" title="In 12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">12.5 </span>Placement of empty atoms</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s12_6_pao-vps-dir.html" title="In 12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">12.6 </span>Specification of the directory in which PAO and VPS files are stored</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s13_pseudo.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">13 </span>Pseudopotentials</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s13_1_valence-pseudo.html" title="In 13 Pseudopotentials &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">13.1 </span>Ordinary Pseudopotentials for Valence Electrons</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s13_2_open-core.html" title="In 13 Pseudopotentials &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">13.2 </span>Open-Core Pseudopotentials</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s13_3_core-hole-pseudo.html" title="In 13 Pseudopotentials &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">13.3 </span>Pseudopotentials for Core-Level Excitations</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s14_cutoff-grid.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14 </span>Cutoff energy: setting of the computational grid for numerical integration</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s14_1_convergence.html" title="In 14 Cutoff energy: setting of the computational grid for numerical integration &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.1 </span>Convergence</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s14_2_hints-calculating-energy.html" title="In 14 Cutoff energy: setting of the computational grid for numerical integration &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.2 </span>Hints for Calculating Energy Curves of Bulk Systems</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s14_3_fix-lattice-pos.html" title="In 14 Cutoff energy: setting of the computational grid for numerical integration &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">14.3 </span>Fixing the Relative Position of the Structural Lattice</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s15_k-sampling.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">15 </span>k-point sampling</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s16_scf.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16 </span>SCF convergence</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s16_1_scf-convergence-overview.html" title="In 16 SCF convergence &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.1 </span>SCF convergence basics</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s16_2_auto-kerker.html" title="In 16 SCF convergence &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.2 </span>Automatic determination of the Kerker factor</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s16_3_otf-scf.html" title="In 16 SCF convergence &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">16.3 </span>On-the-fly adjustment of SCF convergence parameters</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s17_restart.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17 </span>How to restart SCF and geometry optimization calculations</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s17_1_restarting-general.html" title="In 17 How to restart SCF and geometry optimization calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.1 </span>Restarting SCF calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s17_2_md-geom-extrap.html" title="In 17 How to restart SCF and geometry optimization calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.2 </span>Extrapolation scheme during MD and geometry optimization</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s17_3_restart-input.html" title="In 17 How to restart SCF and geometry optimization calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">17.3 </span>Input file for restarting geometry optimization calculations</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s18_geom-opt.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18 </span>Geometry optimization</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s18_1_steepest-descent-method.html" title="In 18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.1 </span>Steepest Descent Method</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s18_2_ef-bfgs-rf.html" title="In 18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.2 </span>EF, BFGS, RF, and DIIS Optimization</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s18_3_hessian-init.html" title="In 18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.3 </span>Initial Values of the Hessian Matrix in RF and EF Optimization</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s18_4_constraints.html" title="In 18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.4 </span>Geometry Optimization with Constraints</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s18_5_restart.html" title="In 18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.5 </span>Restart of Geometry Optimization</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s18_6_md-format.html" title="In 18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">18.6 </span>Format of the md file</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s19_vcell-opt.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">19 </span>Variable-cell geometry optimization</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s19_1_overview.html" title="In 19 Variable-cell geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">19.1 </span>Variable-cell optimization</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s19_2_stress-tensor.html" title="In 19 Variable-cell geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">19.2 </span>Stress Tensor</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s19_3_lattice-constraints.html" title="In 19 Variable-cell geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">19.3 </span>Constraints on Lattice Vectors</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s19_4_enthalpy-opt.html" title="In 19 Variable-cell geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">19.4 </span>Enthalpy Optimization</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s20_md.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">20 </span>Molecular dynamics</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s20_1_nve.html" title="In 20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">20.1 </span>Microcanonical molecular dynamics (NVE)</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s20_2_nvt-vs.html" title="In 20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">20.2 </span>NVT molecular dynamics by velocity scaling (NVT_VS)</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s20_3_nvt-nh.html" title="In 20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">20.3 </span>NVT molecular dynamics by the Nose-Hoover method (NVT_NH)</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s20_4_nvt-vs4.html" title="In 20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">20.4 </span>Multi-heat-bath molecular dynamics (NVT_VS4)</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s20_5_constraint-md.html" title="In 20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">20.5 </span>Constrained molecular dynamics</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s20_6_npt-vs-pr.html" title="In 20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">20.6 </span>NPT molecular dynamics by the velocity-scaling method and the Parrinello-Rahman method (NPT_VS_PR)</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s20_7_npt-vs-wv.html" title="In 20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">20.7 </span>NPT molecular dynamics by the velocity-scaling method and the Wentzcovitch method (NPT_VS_WV)</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s20_8_initial-velocities.html" title="In 20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">20.8 </span>Initial velocities</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s20_9_atom-masses.html" title="In 20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">20.9 </span>User definition of atomic masses</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s20_10_md2axsf.html" title="In 20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">20.10 </span>File-format conversion: md2axsf</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s21_visualization.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">21 </span>Visualization</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s22_band.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">22 </span>Band structure</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s22_1_auto-k-path.html" title="In 22 Band structure &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">22.1 </span>Automatic <span class="ltx_text ltx_font_bold">k</span>-path generation</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s23_dos.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23 </span>Density of states</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s23_1_standard-method.html" title="In 23 Density of states &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.1 </span>Standard method</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s23_2_many-k.html" title="In 23 Density of states &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">23.2 </span>For calculations with many <span class="ltx_text ltx_font_bold">k</span> points</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s24_cohp-coop.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">24 </span>COHP and COOP</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s24_1_overview.html" title="In 24 COHP and COOP &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">24.1 </span>About COHP and COOP</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s24_2_procedure.html" title="In 24 COHP and COOP &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">24.2 </span>COHP/COOP procedure</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s24_3_code-parts.html" title="In 24 COHP and COOP &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">24.3 </span>Related parts in the program</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s25_orb-energy.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">25 </span>Orbitally decomposed total energy</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s26_orb-opt.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">26 </span>Optimization of basis functions</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s27_on-methods.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27 </span>O(<math alttext="N" class="ltx_Math" display="inline"><mi>N</mi></math>) Methods</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s27_1_dc.html" title="In 27 O(&#119873;) Methods &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.1 </span>Divide-conquer method (DC method)</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s27_2_dc-lno.html" title="In 27 O(&#119873;) Methods &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.2 </span>Divide-conquer method with localized natural orbitals (DC-LNO)</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s27_3_krylov.html" title="In 27 O(&#119873;) Methods &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.3 </span>O(<math alttext="N" class="ltx_Math" display="inline"><mi>N</mi></math>) Krylov subspace method</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s27_4_fnan-snan.html" title="In 27 O(&#119873;) Methods &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">27.4 </span>User definition of FNAN+SNAN</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s28_parallel.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">28 </span>Parallelization</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection">
+<a class="ltx_ref" href="s28_1_mpi-parallel.html" title="In 28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">28.1 </span>MPI Parallelization</span></a>
+<ol class="ltx_toclist ltx_toclist_subsection">
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s28_1_mpi-parallel.html#subsubsec:o-n-calculations" title="In 28.1 MPI Parallelization &#8227; 28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">28.1.1 </span>O(<math alttext="N" class="ltx_Math" display="inline"><mi>N</mi></math>) Calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s28_1_mpi-parallel.html#subsubsec:cluster-calculations" title="In 28.1 MPI Parallelization &#8227; 28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">28.1.2 </span>Cluster Calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s28_1_mpi-parallel.html#subsubsec:band-calculations" title="In 28.1 MPI Parallelization &#8227; 28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">28.1.3 </span>Band Calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s28_1_mpi-parallel.html#subsubsec:full-three-dimensional-parallelization" title="In 28.1 MPI Parallelization &#8227; 28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">28.1.4 </span>Full Three-Dimensional Parallelization</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s28_1_mpi-parallel.html#subsubsec:available-number-of-mpi-processes" title="In 28.1 MPI Parallelization &#8227; 28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">28.1.5 </span>Available Number of MPI Processes</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s28_2_mpi-openmp-hybrid.html" title="In 28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">28.2 </span>MPI/OpenMP Hybrid Parallelization</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s29_large-scale.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">29 </span>Large-Scale Calculations</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s29_1_conventional-eigenvalue.html" title="In 29 Large-Scale Calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">29.1 </span>Conventional Eigenvalue Solver</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s29_2_on-plus-eig.html" title="In 29 Large-Scale Calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">29.2 </span>Combination of the O(<math alttext="N" class="ltx_Math" display="inline"><mi>N</mi></math>) Method and the Conventional Eigenvalue Solver</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s30_electric-field.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">30 </span>Electric Field</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s31_charge-doping.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">31 </span>Charge Doping</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s32_virtual-atoms.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">32 </span>Virtual Atoms with Fractional Nuclear Charge</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s33_lcao-coeff.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">33 </span>LCAO Coefficients</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s34_molecular-orb.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">34 </span>Molecular Orbitals</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s35_charge-analysis.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">35 </span>Charge analysis</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s35_1_mulliken-charges.html" title="In 35 Charge analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">35.1 </span>Mulliken charges</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s35_2_voronoi-charges.html" title="In 35 Charge analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">35.2 </span>Voronoi charges</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s35_3_electrostatic-pot.html" title="In 35 Charge analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">35.3 </span>Electrostatic potential fitting</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s35_4_eff-charges-based.html" title="In 35 Charge analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">35.4 </span>CWF charge analysis</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s36_npa.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">36 </span>Natural population analysis</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s37_ncl-dft.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">37 </span>Non-collinear DFT</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s38_rel-effects.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">38 </span>Relativistic effects</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s38_1_full-rel.html" title="In 38 Relativistic effects &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">38.1 </span>Fully relativistic treatment</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s38_2_so-control.html" title="In 38 Relativistic effects &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">38.2 </span>Control of spin-orbit interaction</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s38_3_scalar-rel.html" title="In 38 Relativistic effects &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">38.3 </span>Scalar-relativistic treatment</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s39_orb-magmom.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">39 </span>Orbital magnetic moment</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s40_dft-plus-u.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">40 </span>DFT+<math alttext="U" class="ltx_Math" display="inline"><mi>U</mi></math> method</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection">
+<a class="ltx_ref" href="s40_1_standard.html" title="In 40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">40.1 </span>Standard settings</span></a>
+<ol class="ltx_toclist ltx_toclist_subsection">
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s40_1_standard.html#subsubsec:choice-of-dft-plus-u-method-simplified-or-generalized" title="In 40.1 Standard settings &#8227; 40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">40.1.1 </span>Choice of DFT+<math alttext="U" class="ltx_Math" display="inline"><mi>U</mi></math> method: simplified or generalized</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s40_1_standard.html#subsubsec:choice-of-the-correction-term-for-double-counting" title="In 40.1 Standard settings &#8227; 40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">40.1.2 </span>Choice of the correction term for double counting</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s40_1_standard.html#subsubsec:orbital-polarization" title="In 40.1 Standard settings &#8227; 40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">40.1.3 </span>Orbital polarization</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_subsection">
+<a class="ltx_ref" href="s40_2_extras.html" title="In 40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">40.2 </span>Additional functionalities</span></a>
+<ol class="ltx_toclist ltx_toclist_subsection">
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s40_2_extras.html#subsubsec:adjustment-of-the-ratio-of-two-slater-integrals-f4-f2" title="In 40.2 Additional functionalities &#8227; 40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">40.2.1 </span>Adjustment of the ratio of two Slater integrals (<math alttext="F^{4}/F^{2}" class="ltx_Math" display="inline"><mrow><msup><mi>F</mi><mn>4</mn></msup><mo>/</mo><msup><mi>F</mi><mn>2</mn></msup></mrow></math>)</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s40_2_extras.html#subsubsec:estimation-of-j-and-f4-f2-from-the-input-parameter-u" title="In 40.2 Additional functionalities &#8227; 40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">40.2.2 </span>Estimation of <math alttext="J" class="ltx_Math" display="inline"><mi>J</mi></math> and <math alttext="F^{4}/F^{2}" class="ltx_Math" display="inline"><mrow><msup><mi>F</mi><mn>4</mn></msup><mo>/</mo><msup><mi>F</mi><mn>2</mn></msup></mrow></math> from the input parameter <math alttext="U" class="ltx_Math" display="inline"><mi>U</mi></math></span></a></li>
+</ol>
+</li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s41_constraint-ncl.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">41 </span>Constraint DFT for non-collinear spin orientation</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s42_mae.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">42 </span>Second variational method: magnetic anisotropy energy (MAE)</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s43_zeeman.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">43 </span>Zeeman term</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s43_1_spin.html" title="In 43 Zeeman term &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">43.1 </span>Zeeman term for spin magnetic moments</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s43_2_orbital.html" title="In 43 Zeeman term &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">43.2 </span>Zeeman term for orbital magnetic moments</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s44_berry-polar.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">44 </span>Macroscopic polarization by the Berry phase method</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s45_jx.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">45 </span>Exchange coupling parameters</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s45_1_overview.html" title="In 45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">45.1 </span>Exchange-coupling overview</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s45_2_jx-calc.html" title="In 45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">45.2 </span>Calculation with jx</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s45_3_procedure.html" title="In 45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">45.3 </span>Exchange-coupling procedure</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s45_4_openmx-scf.html" title="In 45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">45.4 </span>SCF Calculation with OpenMX</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s45_5_jx-config.html" title="In 45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">45.5 </span>Preparation of the jx Configuration File</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s45_6_jx-mpi.html" title="In 45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">45.6 </span>Execution of jx and MPI Parallel Calculation</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s45_7_examples.html" title="In 45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">45.7 </span>Exchange-coupling example</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s46_negf.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46 </span>Electronic transport calculations by NEGF</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s46_1_overview.html" title="In 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.1 </span>NEGF overview</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s46_2_step1-leads.html" title="In 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.2 </span>Step 1: Calculation of the lead regions</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s46_3_step2-negf.html" title="In 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.3 </span>Step 2: NEGF calculation</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection">
+<a class="ltx_ref" href="s46_4_step3-trans.html" title="In 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.4 </span>Step 3: Transmission, current (density), and eigenchannels</span></a>
+<ol class="ltx_toclist ltx_toclist_subsection">
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s46_4_step3-trans.html#subsubsec:transmission-current-and-conductance" title="In 46.4 Step 3: Transmission, current (density), and eigenchannels &#8227; 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.4.1 </span>Transmission, current, and conductance</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s46_4_step3-trans.html#subsubsec:real-space-current-spin-current-density" title="In 46.4 Step 3: Transmission, current (density), and eigenchannels &#8227; 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.4.2 </span>Real-space current/spin-current density</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s46_4_step3-trans.html#subsubsec:eigenchannel-analysis" title="In 46.4 Step 3: Transmission, current (density), and eigenchannels &#8227; 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.4.3 </span>Eigenchannel analysis</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s46_5_recalc-step3.html" title="In 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.5 </span>How to recalculate only Step 3</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s46_6_zero-bias.html" title="In 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.6 </span>Periodic systems under zero bias</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s46_7_bias-interp.html" title="In 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.7 </span>Interpolation method for bias-voltage effects</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s46_8_parallel.html" title="In 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.8 </span>Parallelization of NEGF</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s46_9_ncl.html" title="In 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.9 </span>NEGF method for non-collinear DFT</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s46_10_examples.html" title="In 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.10 </span>NEGF Examples</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s46_11_auto-test.html" title="In 46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">46.11 </span>Automatic execution test for NEGF</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s47_wannier.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47 </span>Generation of Wannier Functions</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection">
+<a class="ltx_ref" href="s47_1_cwf.html" title="In 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1 </span>Closest Wannier Functions</span></a>
+<ol class="ltx_toclist ltx_toclist_subsection">
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_1_pao-guiding.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.1 </span>PAO guiding functions</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_2_hybrid-guiding.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.2 </span>Hybrid-orbital guiding functions</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_3_disentangling.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.3 </span>Disentangling of bands</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_4_mol-guiding.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.4 </span>Molecular-orbital guiding functions</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_5_noncollinear.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.5 </span>Non-collinear calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_6_visualization.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.6 </span>Visualization of CWFs</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_7_kpoints.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.7 </span><span class="ltx_text ltx_font_bold">k</span> points in CWF calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_8_eff-charges.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.8 </span>Charges from CWFs</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_9_aux-interp.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.9 </span>Auxiliary programs for Wannier interpolation</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_10_interface-w90.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.10 </span>CWF-Wannier90 interface</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_11_examples.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.11 </span>Examples of CWF calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_1_12_auto-test.html" title="In 47.1 Closest Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.1.12 </span>Automatic execution test for CWF</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_subsection">
+<a class="ltx_ref" href="s47_2_mlwf.html" title="In 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.2 </span>Maximally Localized Wannier Functions</span></a>
+<ol class="ltx_toclist ltx_toclist_subsection">
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_2_1_generation.html" title="In 47.2 Maximally Localized Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.2.1 </span>Generation procedure</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_2_2_analysis.html" title="In 47.2 Maximally Localized Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.2.2 </span>Analysis</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_2_3_spread-opt.html" title="In 47.2 Maximally Localized Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.2.3 </span>Checking the optimization process of the spread function</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_2_4_examples.html" title="In 47.2 Maximally Localized Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.2.4 </span>Examples of MLWF calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_2_5_output-files.html" title="In 47.2 Maximally Localized Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.2.5 </span>MLWF output files</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_2_6_auto-test.html" title="In 47.2 Maximally Localized Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.2.6 </span>Automatic execution test for MLWF</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s47_2_7_interface-w90.html" title="In 47.2 Maximally Localized Wannier Functions &#8227; 47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">47.2.7 </span>MLWF-Wannier90 interface</span></a></li>
+</ol>
+</li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s48_low-order-diag.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">48 </span>Numerically exact low-order scaling method for diagonalization</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s49_esm.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">49 </span>Effective screening medium method</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s49_1_overview.html" title="In 49 Effective screening medium method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">49.1 </span>ESM overview</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s49_2_test-example.html" title="In 49 Effective screening medium method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">49.2 </span>Example of test calculation</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s50_work-function.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">50 </span>Calculations of work functions</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s51_neb.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">51 </span>NEB (Nudged Elastic Band) Method</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s51_1_overview.html" title="In 51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">51.1 </span>NEB overview</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s51_2_how-to.html" title="In 51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">51.2 </span>How to Perform a Calculation</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s51_3_examples.html" title="In 51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">51.3 </span>Examples and Related Keywords</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s51_4_restart.html" title="In 51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">51.4 </span>Restarting an NEB Calculation</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s51_5_initial-path.html" title="In 51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">51.5 </span>User-Defined Initial Path</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s51_6_scf-check.html" title="In 51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">51.6 </span>Checking the SCF Convergence in an NEB Calculation</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s51_7_parallel.html" title="In 51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">51.7 </span>Parallel Computation</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s51_8_remarks.html" title="In 51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">51.8 </span>Miscellaneous Remarks</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s52_rcp.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">52 </span>Regional chemical potential (RCP) analysis method</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s52_1_overview.html" title="In 52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">52.1 </span>RCP overview</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s52_2_required-codes.html" title="In 52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">52.2 </span>Required Program Codes</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s52_3_procedure.html" title="In 52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">52.3 </span>Procedure for RCP analysis</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection">
+<a class="ltx_ref" href="s52_4_example.html" title="In 52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">52.4 </span>Example of RCP analysis</span></a>
+<ol class="ltx_toclist ltx_toclist_subsection">
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s52_4_example.html#subsubsec:structural-optimization" title="In 52.4 Example of RCP analysis &#8227; 52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">52.4.1 </span>Pre-RCP Optimization</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s52_4_example.html#subsubsec:calculation-of-the-kinetic-energy-density" title="In 52.4 Example of RCP analysis &#8227; 52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">52.4.2 </span>Calculation of the kinetic energy density</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s52_4_example.html#subsubsec:calculation-of-the-rcp" title="In 52.4 Example of RCP analysis &#8227; 52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">52.4.3 </span>Calculation of the RCP</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsubsection"><a class="ltx_ref" href="s52_4_example.html#subsubsec:visualization-with-flpq-viewer" title="In 52.4 Example of RCP analysis &#8227; 52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">52.4.4 </span>Visualization with FLPQ Viewer</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s52_5_auto-script.html" title="In 52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">52.5 </span>Automatic Execution Script</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s53_stm.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">53 </span>STM images based on the Tersoff-Hamann method</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s54_vdw-d2-d3.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">54 </span>DFT-D2 and DFT-D3 methods for vdW interactions</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s54_1_d2.html" title="In 54 DFT-D2 and DFT-D3 methods for vdW interactions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">54.1 </span>DFT-D2 Method</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s54_2_d3.html" title="In 54 DFT-D2 and DFT-D3 methods for vdW interactions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">54.2 </span>DFT-D3 Method</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s55_band-unfolding.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">55 </span>Band unfolding method</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s55_1_analysis.html" title="In 55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">55.1 </span>Analysis of band structures</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s55_2_unfolding.html" title="In 55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">55.2 </span>Unfolding of band structures</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s55_3_ref-cell.html" title="In 55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">55.3 </span>The origin of the reference cell</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s55_4_intensity-map.html" title="In 55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">55.4 </span>Intensity map of unfolded spectral weights</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s55_5_ncl.html" title="In 55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">55.5 </span>In case of non-collinear DFT calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s55_6_examples.html" title="In 55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">55.6 </span>Unfolding input example</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s56_spin-texture-k.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">56 </span>Analysis of spin textures in momentum space</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s56_1_overview.html" title="In 56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">56.1 </span>Spin-texture overview</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s56_2_fermiloop.html" title="In 56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">56.2 </span>FermiLoop: Calculation on a Constant-Energy Surface</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s56_3_gridcalc.html" title="In 56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">56.3 </span>GridCalc: Calculation on a <span class="ltx_text ltx_font_bold">k</span>-Point Grid</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s56_4_banddisp.html" title="In 56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">56.4 </span>BandDispersion: Calculation of Band Dispersion</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s56_5_mulponly.html" title="In 56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">56.5 </span>MulPOnly: Calculation at User-Specified <span class="ltx_text ltx_font_bold">k</span> Points</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s56_6_mulpcalc.html" title="In 56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">56.6 </span>MulPCalc: Atomically Decomposed Momentum-Space Spin Density Matrix</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s56_7_kspin-mpi.html" title="In 56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">56.7 </span>MPI Parallel Calculations of kSpin</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s57_spin-spiral.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">57 </span>Spin spiral calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s58_chern-berry-fhs.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">58 </span>Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s58_1_overview.html" title="In 58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">58.1 </span>Chern/Berry overview</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s58_2_example.html" title="In 58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">58.2 </span>Chern/Berry example</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s59_z2-fh.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">59 </span>Calculation of the Z<sub class="ltx_sub">2</sub> invariant by the Fukui-Hatsugai method</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s59_1_overview.html" title="In 59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">59.1 </span>Z<sub class="ltx_sub">2</sub> overview</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s59_2_example.html" title="In 59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">59.2 </span>Z<sub class="ltx_sub">2</sub> example</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s59_3_input-files.html" title="In 59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">59.3 </span>Z<sub class="ltx_sub">2</sub> input files</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s60_xps-core-binding.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">60 </span>Absolute binding energies of core electrons in XPS</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s60_1_xps-core-binding.html" title="In 60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">60.1 </span>XPS core-level overview</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s60_2_gas.html" title="In 60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">60.2 </span>Gaseous Systems</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s60_3_bulk.html" title="In 60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">60.3 </span>Bulk Systems</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s60_4_esm.html" title="In 60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">60.4 </span>Combined use with the ESM method</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s60_5_input-examples.html" title="In 60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">60.5 </span>XPS input example</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s61_ip-ea.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">61 </span>Ionization potentials and electron affinities of isolated systems</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s62_optical-diel.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">62 </span>Optical conductivity and dielectric function</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s62_1_overview.html" title="In 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">62.1 </span>Optical-response overview</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s62_2_si.html" title="In 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">62.2 </span>Case of Si</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s62_3_keywords.html" title="In 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">62.3 </span>Related Keywords</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s62_4_benchmark.html" title="In 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">62.4 </span>Benchmark Calculations</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s62_5_code.html" title="In 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">62.5 </span>Code</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s62_6_examples.html" title="In 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">62.6 </span>Optical-response example</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s62_7_auto-test.html" title="In 62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">62.7 </span>Automatic Test</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s63_boltztrap.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">63 </span>Interface with BoltzTraP/BoltzTraP2</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s63_1_boltztrap.html" title="In 63 Interface with BoltzTraP/BoltzTraP2 &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">63.1 </span>Interface with BoltzTraP</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s63_2_boltztrap2.html" title="In 63 Interface with BoltzTraP/BoltzTraP2 &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">63.2 </span>Interface with BoltzTraP2</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s64_lattice-energy.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">64 </span>Calculations of &#8220;lattice constant vs. energy&#8221; curves</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s64_1_lattice-energy.html" title="In 64 Calculations of &#8216;lattice constant vs. energy&#8217; curves &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">64.1 </span>&#8220;Lattice constant vs. energy&#8221; curves</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s64_2_delta-factor.html" title="In 64 Calculations of &#8216;lattice constant vs. energy&#8217; curves &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">64.2 </span>Delta factor</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s65_fermi-surface.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">65 </span>Fermi surfaces</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s66_cube-diff.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">66 </span>Analysis of the difference between two gaussian cube files</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s67_geom-diff.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">67 </span>Analysis of the difference between two geometrical structures</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s68_charge-diff.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">68 </span>Analysis of the difference in charge density induced by interaction</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s69_auto-cell-size.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">69 </span>Automatic determination of the cell size</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s70_dev-interface.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">70 </span>Interface for developers</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s70_1_scfout.html" title="In 70 Interface for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">70.1 </span>scfout File</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s70_2_elpa.html" title="In 70 Interface for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">70.2 </span>elpa_col and elpa_noncol</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section">
+<a class="ltx_ref" href="s71_openmx-api.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">71 </span>Interfacing external programs via the OpenMX API</span></a>
+<ol class="ltx_toclist ltx_toclist_section">
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s71_1_overview.html" title="In 71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">71.1 </span>Overview of using the OpenMX API</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s71_2_c-api.html" title="In 71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">71.2 </span>Using the API from C</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s71_3_fortran-api.html" title="In 71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">71.3 </span>Using the API from Fortran</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s71_4_python-api.html" title="In 71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">71.4 </span>Using the API from Python</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_subsection"><a class="ltx_ref" href="s71_5_notes.html" title="In 71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">71.5 </span>Additional remarks</span></a></li>
+</ol>
+</li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s72_force-tester.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">72 </span>Automatic force tester</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s73_memleak-tester.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">73 </span>Automatic Memory Leak Tester</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s74_memleak-tool.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">74 </span>Memory leak analysis tool for developers</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s75_memory-usage.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">75 </span>Analysis of memory usage</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s76_binary-output.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">76 </span>Output of large-sized files in binary mode</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s77_cube-to-xsf.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">77 </span>Conversion from Gaussian cube format to XSF format</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s78_input-examples.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">78 </span>Included input examples</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s79_known-issues.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">79 </span>Known issues</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s80_forum.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">80 </span>OpenMX forum</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s81_openmx-info.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">81 </span>Additional Sources of Information on OpenMX</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s82_tool-links.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">82 </span>Links to Other Tools</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_section"><a class="ltx_ref" href="s83_others.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title"><span class="ltx_tag ltx_tag_ref">83 </span>Others</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_bibliography"><a class="ltx_ref" href="bib.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title">References</span></a></li>
+<li class="ltx_tocentry ltx_tocentry_index"><a class="ltx_ref" href="idx.html" title="In User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_title">Index</span></a></li>
+</ol></nav>
+</article>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="contents.html"><span class="openmx_footer_label">Next:</span> Contents</a></div></div></footer>
+</div>
+</body>
+</html>

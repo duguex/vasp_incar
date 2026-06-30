@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>59.1 Z 2 overview &#8227; User&#8217;s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s59_z2-fh.html" rel="up" title="59 Calculation of the Z 2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="prev" title="59 Calculation of the Z 2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s59_2_example.html" rel="next" title="59.2 Z 2 example &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(&#119873;) Methods &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of &#8216;lattice constant vs. energy&#8217; curves &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<meta content="HS.fileout" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User&#8217;s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s59_z2-fh.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s59_z2-fh.html"><span class="openmx_nav_label">Previous:</span> 59 Calculation of the Z<sub>2</sub> invariant by the Fukui-Hatsugai method</a><a href="s59_2_example.html"><span class="openmx_nav_label">Next:</span> 59.2 Z<sub>2</sub> example</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:calculation-of-the-z-2-invariant-by-the-fukui-hatsugai-method-overview">
+
+
+
+
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">59.1 </span>Z<sub class="ltx_sub">2</sub> overview</h1><div class="ltx_para" id="SS1.p1">
+<p class="ltx_p">The post-process code <code class="ltx_verbatim ltx_font_typewriter">Z2FH</code> can be used to calculate the <math alttext="Z_{2}" class="ltx_Math" display="inline" id="SS1.p1.m1"><msub><mi>Z</mi><mn>2</mn></msub></math> invariant of a system.
+The <math alttext="Z_{2}" class="ltx_Math" display="inline" id="SS1.p1.m2"><msub><mi>Z</mi><mn>2</mn></msub></math> invariant is calculated by the Berry-phase-based method proposed by Fukui and Hatsugai <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib90" title="">90</a>, <a class="ltx_ref" href="bib.html#bib91" title="">91</a>]</cite>.
+Note that this functionality is available only for non-collinear DFT calculations and cannot be used for collinear DFT calculations.
+In addition, magnetic systems cannot be treated in the current implementation.
+If you publish results using this functionality, we would appreciate it if you would cite Ref.&#160;<cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib93" title="">93</a>]</cite>.</p>
+</div><div class="ltx_para" id="SS1.p2">
+<p class="ltx_p">The <math alttext="Z_{2}" class="ltx_Math" display="inline" id="SS1.p2.m1"><msub><mi>Z</mi><mn>2</mn></msub></math> invariant is a topological invariant that takes the value 0 or 1,
+and is defined for non-magnetic systems with time-reversal symmetry.
+<math alttext="Z_{2}=1" class="ltx_Math" display="inline" id="SS1.p2.m2"><mrow><msub><mi>Z</mi><mn>2</mn></msub><mo>=</mo><mn>1</mn></mrow></math> and <math alttext="Z_{2}=0" class="ltx_Math" display="inline" id="SS1.p2.m3"><mrow><msub><mi>Z</mi><mn>2</mn></msub><mo>=</mo><mn>0</mn></mrow></math> correspond to a topological insulator and a trivial insulator, respectively.
+The <math alttext="Z_{2}" class="ltx_Math" display="inline" id="SS1.p2.m4"><msub><mi>Z</mi><mn>2</mn></msub></math> invariant is defined by</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx72">
+<tbody id="Ex36"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle Z_{2}=\frac{1}{2\pi}{\displaystyle\sum_{n}^{\rm occ.}\left(\int_%
+{\partial B}{\bf A}_{n}\cdot d{\bf k}-\int_{B}F_{nz}dk^{2}\right)}\ ({\rm mod}%
+\ 2)" class="ltx_Math" display="inline" id="Ex36.m1"><mrow><msub><mi>Z</mi><mn>2</mn></msub><mo>=</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mrow><mn>2</mn><mo>&#8290;</mo><mi>&#960;</mi></mrow></mfrac></mstyle><mo>&#8290;</mo><mrow><mstyle displaystyle="true"><munderover><mo movablelimits="false">&#8721;</mo><mi>n</mi><mrow><mi>occ</mi><mo lspace="0em">.</mo></mrow></munderover></mstyle><mrow><mrow><mo>(</mo><mrow><mrow><mstyle displaystyle="true"><msub><mo>&#8747;</mo><mrow><mo rspace="0em">&#8706;</mo><mi>B</mi></mrow></msub></mstyle><mrow><msub><mi>&#119808;</mi><mi>n</mi></msub><mo lspace="0.222em">&#8901;</mo><mrow><mo lspace="0.055em" rspace="0em">&#119889;</mo><mi>&#119844;</mi></mrow></mrow></mrow><mo>&#8722;</mo><mrow><mstyle displaystyle="true"><msub><mo>&#8747;</mo><mi>B</mi></msub></mstyle><mrow><msub><mi>F</mi><mrow><mi>n</mi><mo>&#8290;</mo><mi>z</mi></mrow></msub><mo lspace="0em">&#8290;</mo><mrow><mo rspace="0em">&#119889;</mo><msup><mi>k</mi><mn>2</mn></msup></mrow></mrow></mrow></mrow><mo>)</mo></mrow><mo lspace="0.500em">&#8290;</mo><mrow><mo stretchy="false">(</mo><mrow><mi>mod</mi><mo>&#8290;</mo><mn> 2</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">where
+<math alttext="{\bf A}_{n}=-i\langle u_{n{\bf k}}|\frac{\partial}{\partial{\bf k}}|u_{n{\bf k%
+}}\rangle" class="ltx_Math" display="inline" id="SS1.p2.m5"><mrow><msub><mi>&#119808;</mi><mi>n</mi></msub><mo>=</mo><mrow><mo>&#8722;</mo><mrow><mi>i</mi><mo>&#8290;</mo><mrow><mo stretchy="false">&#10216;</mo><msub><mi>u</mi><mrow><mi>n</mi><mo>&#8290;</mo><mi>&#119844;</mi></mrow></msub><mo stretchy="false">|</mo><mfrac><mo>&#8706;</mo><mrow><mo rspace="0em">&#8706;</mo><mi>&#119844;</mi></mrow></mfrac><mo stretchy="false">|</mo><msub><mi>u</mi><mrow><mi>n</mi><mo>&#8290;</mo><mi>&#119844;</mi></mrow></msub><mo stretchy="false">&#10217;</mo></mrow></mrow></mrow></mrow></math>
+is called the Berry connection,
+and
+<math alttext="{\bf F}_{n}=\nabla\times{\bf A}_{n}" class="ltx_Math" display="inline" id="SS1.p2.m6"><mrow><msub><mi>&#119813;</mi><mi>n</mi></msub><mo>=</mo><mrow><mo>&#8711;</mo><mo lspace="0em" rspace="0.222em">&#215;</mo><msub><mi>&#119808;</mi><mi>n</mi></msub></mrow></mrow></math>
+is called the Berry curvature.
+The integration region
+<math alttext="B=[-\frac{{\bf G}_{1}}{2},\frac{{\bf G}_{1}}{2}]\otimes[0,\frac{{\bf G}_{2}}{2}]" class="ltx_Math" display="inline" id="SS1.p2.m7"><mrow><mi>B</mi><mo>=</mo><mrow><mrow><mo stretchy="false">[</mo><mrow><mo>&#8722;</mo><mfrac><msub><mi>&#119814;</mi><mn>1</mn></msub><mn>2</mn></mfrac></mrow><mo>,</mo><mfrac><msub><mi>&#119814;</mi><mn>1</mn></msub><mn>2</mn></mfrac><mo rspace="0.055em" stretchy="false">]</mo></mrow><mo rspace="0.222em">&#8855;</mo><mrow><mo stretchy="false">[</mo><mn>0</mn><mo>,</mo><mfrac><msub><mi>&#119814;</mi><mn>2</mn></msub><mn>2</mn></mfrac><mo stretchy="false">]</mo></mrow></mrow></mrow></math>
+needs only half of the Brillouin zone.
+This is because the topological invariant is defined on half of the Brillouin zone for a system with time-reversal symmetry.
+To perform the integration, the overlap matrix <math alttext="U" class="ltx_Math" display="inline" id="SS1.p2.m8"><mi>U</mi></math> is used.
+It was proposed by Fukui, Hatsugai, and Suzuki and is defined as
+<math alttext="U_{\Delta{\bf k}}=\det\langle u_{n}({\bf k})|u_{m}({\bf k}+\Delta{\bf k})\rangle" class="ltx_Math" display="inline" id="SS1.p2.m9"><mrow><msub><mi>U</mi><mrow><mi mathvariant="normal">&#916;</mi><mo>&#8290;</mo><mi>&#119844;</mi></mrow></msub><mo rspace="0.1389em">=</mo><mrow><mo lspace="0.1389em" rspace="0em">det</mo><mrow><mo stretchy="false">&#10216;</mo><mrow><msub><mi>u</mi><mi>n</mi></msub><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mi>&#119844;</mi><mo stretchy="false">)</mo></mrow></mrow><mo lspace="0em" rspace="0em">|</mo><mrow><msub><mi>u</mi><mi>m</mi></msub><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mrow><mi>&#119844;</mi><mo>+</mo><mrow><mi mathvariant="normal">&#916;</mi><mo>&#8290;</mo><mi>&#119844;</mi></mrow></mrow><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">&#10217;</mo></mrow></mrow></mrow></math> <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib90" title="">90</a>, <a class="ltx_ref" href="bib.html#bib91" title="">91</a>]</cite>.
+The Berry connection and the Berry curvature are calculated on each &#8216;plaquette&#8217; as</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx73">
+<tbody id="Ex37"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle A_{ab}" class="ltx_Math" display="inline" id="Ex37.m1"><msub><mi>A</mi><mrow><mi>a</mi><mo>&#8290;</mo><mi>b</mi></mrow></msub></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math alttext="\displaystyle=" class="ltx_Math" display="inline" id="Ex37.m2"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math alttext="\displaystyle{\rm Im}\log U_{ab}," class="ltx_Math" display="inline" id="Ex37.m3"><mrow><mrow><mi>Im</mi><mo lspace="0.167em">&#8290;</mo><mrow><mi>log</mi><mo lspace="0.167em">&#8289;</mo><msub><mi>U</mi><mrow><mi>a</mi><mo>&#8290;</mo><mi>b</mi></mrow></msub></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="Ex38"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle F" class="ltx_Math" display="inline" id="Ex38.m1"><mi>F</mi></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math alttext="\displaystyle=" class="ltx_Math" display="inline" id="Ex38.m2"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math alttext="\displaystyle{\rm Im}\log U_{12}U_{23}U_{34}U_{41}." class="ltx_Math" display="inline" id="Ex38.m3"><mrow><mrow><mi>Im</mi><mo lspace="0.167em">&#8290;</mo><mrow><mi>log</mi><mo lspace="0.167em">&#8289;</mo><mrow><msub><mi>U</mi><mn>12</mn></msub><mo>&#8290;</mo><msub><mi>U</mi><mn>23</mn></msub><mo>&#8290;</mo><msub><mi>U</mi><mn>34</mn></msub><mo>&#8290;</mo><msub><mi>U</mi><mn>41</mn></msub></mrow></mrow></mrow><mo lspace="0em">.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Then the integer-valued field <math alttext="n(=0,\pm 1)" class="ltx_math_unparsed" display="inline" id="SS1.p2.m10"><mrow><mi>n</mi><mrow><mo stretchy="false">(</mo><mo lspace="0em">=</mo><mn>0</mn><mo rspace="0em">,</mo><mo lspace="0em">&#177;</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></mrow></math> on each plaquette is calculated from</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx74">
+<tbody id="Ex39"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle n({\bf k})=\frac{1}{2\pi}(A_{12}+A_{23}+A_{31}+A_{41}-F)" class="ltx_Math" display="inline" id="Ex39.m1"><mrow><mrow><mi>n</mi><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mi>&#119844;</mi><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mrow><mn>2</mn><mo>&#8290;</mo><mi>&#960;</mi></mrow></mfrac></mstyle><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><msub><mi>A</mi><mn>12</mn></msub><mo>+</mo><msub><mi>A</mi><mn>23</mn></msub><mo>+</mo><msub><mi>A</mi><mn>31</mn></msub><mo>+</mo><msub><mi>A</mi><mn>41</mn></msub></mrow><mo>&#8722;</mo><mi>F</mi></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div><div class="ltx_para ltx_noindent" id="SS1.p3">
+<p class="ltx_p">By summing all values of <math alttext="n" class="ltx_Math" display="inline" id="SS1.p3.m1"><mi>n</mi></math> over half of the Brillouin zone and taking the total modulo 2, one obtains <math alttext="Z_{2}" class="ltx_Math" display="inline" id="SS1.p3.m2"><msub><mi>Z</mi><mn>2</mn></msub></math>.
+It should be noted that the <math alttext="Z_{2}" class="ltx_Math" display="inline" id="SS1.p3.m3"><msub><mi>Z</mi><mn>2</mn></msub></math> invariant is gauge independent.
+However, the value of each <math alttext="n" class="ltx_Math" display="inline" id="SS1.p3.m4"><mi>n</mi></math> is gauge dependent, and can change depending on the computing environment,
+the compiler optimization level, and small differences in the electronic structure.
+For details of the calculation of <math alttext="{\bf A}" class="ltx_Math" display="inline" id="SS1.p3.m5"><mi>&#119808;</mi></math> and <math alttext="F" class="ltx_Math" display="inline" id="SS1.p3.m6"><mi>F</mi></math>,
+see Section <a class="ltx_ref" href="s58_chern-berry-fhs.html" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">58</span></a>.
+Because the calculation of the <math alttext="Z_{2}" class="ltx_Math" display="inline" id="SS1.p3.m7"><msub><mi>Z</mi><mn>2</mn></msub></math> invariant is carried out by a loop integral over half of the Brillouin zone,
+it depends on the arbitrariness of the gauge of the wave function.
+Therefore, the gauge must be corrected on the boundary of half of the Brillouin zone.
+As shown in Fig.&#160;<a class="ltx_ref" href="#fig:Z2-Fig1" title="Figure 88 &#8227; 59.1 Z2 overview &#8227; 59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">88</span></a>,
+we consider the following three kinds of gauge correction on the boundary.</p>
+</div><div class="ltx_para ltx_noindent" id="SS1.p4">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Translational symmetry (red part)</span></p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx75">
+<tbody id="Ex40"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle|u_{n}({\bf k}+\frac{{\bf G}_{1}}{2})\rangle=e^{i{\bf G}_{1}\cdot%
+{\bf r}}|u_{n}({\bf k}-\frac{{\bf G}_{1}}{2})\rangle" class="ltx_Math" display="inline" id="Ex40.m1"><mrow><mrow><mo stretchy="false">|</mo><mrow><msub><mi>u</mi><mi>n</mi></msub><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mrow><mi>&#119844;</mi><mo>+</mo><mstyle displaystyle="true"><mfrac><msub><mi>&#119814;</mi><mn>1</mn></msub><mn>2</mn></mfrac></mstyle></mrow><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">&#10217;</mo></mrow><mo>=</mo><mrow><msup><mi>e</mi><mrow><mrow><mi>i</mi><mo>&#8290;</mo><msub><mi>&#119814;</mi><mn>1</mn></msub></mrow><mo lspace="0.222em" rspace="0.222em">&#8901;</mo><mi>&#119851;</mi></mrow></msup><mo>&#8290;</mo><mrow><mo stretchy="false">|</mo><mrow><msub><mi>u</mi><mi>n</mi></msub><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mrow><mi>&#119844;</mi><mo>&#8722;</mo><mstyle displaystyle="true"><mfrac><msub><mi>&#119814;</mi><mn>1</mn></msub><mn>2</mn></mfrac></mstyle></mrow><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">&#10217;</mo></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div><div class="ltx_para ltx_noindent" id="SS1.p5">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Time-reversal symmetry (blue part)</span></p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx76">
+<tbody id="Ex41"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle|u_{n}({\bf k})\rangle=\Theta|u_{n}(-{\bf k})\rangle=|u^{*\beta}_%
+{n}(-{\bf k})\rangle|\alpha\rangle-|u^{*\alpha}_{n}(-{\bf k})\rangle|\beta\rangle" class="ltx_Math" display="inline" id="Ex41.m1"><mrow><mrow><mo stretchy="false">|</mo><mrow><msub><mi>u</mi><mi>n</mi></msub><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mi>&#119844;</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">&#10217;</mo></mrow><mo>=</mo><mrow><mi mathvariant="normal">&#920;</mi><mo>&#8290;</mo><mrow><mo stretchy="false">|</mo><mrow><msub><mi>u</mi><mi>n</mi></msub><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mrow><mo>&#8722;</mo><mi>&#119844;</mi></mrow><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">&#10217;</mo></mrow></mrow><mo>=</mo><mrow><mrow><mrow><mo stretchy="false">|</mo><mrow><msubsup><mi>u</mi><mi>n</mi><mrow><mi></mi><mo lspace="0.222em" rspace="0.222em">&#8727;</mo><mi>&#946;</mi></mrow></msubsup><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mrow><mo>&#8722;</mo><mi>&#119844;</mi></mrow><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">&#10217;</mo></mrow><mo>&#8290;</mo><mrow><mo stretchy="false">|</mo><mi>&#945;</mi><mo stretchy="false">&#10217;</mo></mrow></mrow><mo>&#8722;</mo><mrow><mrow><mo stretchy="false">|</mo><mrow><msubsup><mi>u</mi><mi>n</mi><mrow><mi></mi><mo lspace="0.222em" rspace="0.222em">&#8727;</mo><mi>&#945;</mi></mrow></msubsup><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mrow><mo>&#8722;</mo><mi>&#119844;</mi></mrow><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">&#10217;</mo></mrow><mo>&#8290;</mo><mrow><mo stretchy="false">|</mo><mi>&#946;</mi><mo stretchy="false">&#10217;</mo></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div><div class="ltx_para ltx_noindent" id="SS1.p6">
+<p class="ltx_p"><span class="ltx_text ltx_font_bold">Kramers degeneracy (yellow part)</span></p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx77">
+<tbody id="Ex42"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle|u_{2n}({\bf k})\rangle=\Theta|u_{2n-1}(-{\bf k})\rangle" class="ltx_Math" display="inline" id="Ex42.m1"><mrow><mrow><mo stretchy="false">|</mo><mrow><msub><mi>u</mi><mrow><mn>2</mn><mo>&#8290;</mo><mi>n</mi></mrow></msub><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mi>&#119844;</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">&#10217;</mo></mrow><mo>=</mo><mrow><mi mathvariant="normal">&#920;</mi><mo>&#8290;</mo><mrow><mo stretchy="false">|</mo><mrow><msub><mi>u</mi><mrow><mrow><mn>2</mn><mo>&#8290;</mo><mi>n</mi></mrow><mo>&#8722;</mo><mn>1</mn></mrow></msub><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mrow><mo>&#8722;</mo><mi>&#119844;</mi></mrow><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">&#10217;</mo></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div><div class="ltx_para ltx_noindent" id="SS1.p7">
+<p class="ltx_p">In this calculation, the eigenvalue problem is solved only on half of the integration region.
+In other words, it is solved on one quarter of the Brillouin zone, as shown in Fig.&#160;<a class="ltx_ref" href="#fig:Z2-Fig1" title="Figure 88 &#8227; 59.1 Z2 overview &#8227; 59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">88</span></a>.</p>
+</div><figure class="ltx_figure" id="fig:Z2-Fig1"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_square" height="457" id="F88.g1" src="x89.png" width="436"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 88: </span>
+Gauge correction on half of the Brillouin zone.
+The gauge of the wave function is corrected.
+In the red part, the gauge is corrected so as to satisfy translational symmetry;
+in the blue part, it is corrected so as to satisfy time-reversal symmetry;
+and in the yellow part, it is corrected so as to satisfy Kramers degeneracy.
+</figcaption>
+</figure><div class="ltx_para ltx_noindent" id="SS1.p8">
+<p class="ltx_p">When performing the integration in other regions, wave functions are generated by fixing the gauge
+of the wave function on the symmetry-related plaquettes, and the integration is then carried out.</p>
+</div><div class="ltx_para" id="SS1.p9">
+<p class="ltx_p">In three-dimensional systems, the Brillouin zone has six time-reversal-invariant planes,
+<math alttext="k_{n}=0" class="ltx_Math" display="inline" id="SS1.p9.m1"><mrow><msub><mi>k</mi><mi>n</mi></msub><mo>=</mo><mn>0</mn></mrow></math> and <math alttext="k_{n}=\frac{{\bf G}_{n}}{2}" class="ltx_Math" display="inline" id="SS1.p9.m2"><mrow><msub><mi>k</mi><mi>n</mi></msub><mo>=</mo><mfrac><msub><mi>&#119814;</mi><mi>n</mi></msub><mn>2</mn></mfrac></mrow></math> (<math alttext="n=1,2,3" class="ltx_Math" display="inline" id="SS1.p9.m3"><mrow><mi>n</mi><mo>=</mo><mrow><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>3</mn></mrow></mrow></math>).
+Therefore, as shown in Fig.&#160;<a class="ltx_ref" href="#fig:Z2-Fig2" title="Figure 89 &#8227; 59.1 Z2 overview &#8227; 59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">89</span></a>, six <math alttext="Z_{2}" class="ltx_Math" display="inline" id="SS1.p9.m4"><msub><mi>Z</mi><mn>2</mn></msub></math> invariants
+(<math alttext="x_{0},x_{\pi},y_{0},y_{\pi},z_{0},z_{\pi}" class="ltx_Math" display="inline" id="SS1.p9.m5"><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>,</mo><msub><mi>x</mi><mi>&#960;</mi></msub><mo>,</mo><msub><mi>y</mi><mn>0</mn></msub><mo>,</mo><msub><mi>y</mi><mi>&#960;</mi></msub><mo>,</mo><msub><mi>z</mi><mn>0</mn></msub><mo>,</mo><msub><mi>z</mi><mi>&#960;</mi></msub></mrow></math>) can be defined.
+Note that these invariants satisfy</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx78">
+<tbody id="Ex43"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle x_{0}+x_{\pi}=y_{0}+y_{\pi}=z_{0}+z_{\pi}\ ({\rm mod}\ 2)" class="ltx_Math" display="inline" id="Ex43.m1"><mrow><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>+</mo><msub><mi>x</mi><mi>&#960;</mi></msub></mrow><mo>=</mo><mrow><msub><mi>y</mi><mn>0</mn></msub><mo>+</mo><msub><mi>y</mi><mi>&#960;</mi></msub></mrow><mo>=</mo><mrow><msub><mi>z</mi><mn>0</mn></msub><mo>+</mo><mrow><msub><mi>z</mi><mi>&#960;</mi></msub><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mrow><mi>mod</mi><mo>&#8290;</mo><mn> 2</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Therefore, only four invariants are independent parameters.
+Based on this fact, the <math alttext="Z_{2}" class="ltx_Math" display="inline" id="SS1.p9.m6"><msub><mi>Z</mi><mn>2</mn></msub></math> invariant of a three-dimensional system is defined as</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx79">
+<tbody id="Ex44"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle Z_{2}=(\nu_{0},\nu_{1},\nu_{2},\nu_{3})=(x_{0}+x_{\pi},x_{\pi},y%
+_{\pi},z_{\pi})" class="ltx_Math" display="inline" id="Ex44.m1"><mrow><msub><mi>Z</mi><mn>2</mn></msub><mo>=</mo><mrow><mo stretchy="false">(</mo><msub><mi>&#957;</mi><mn>0</mn></msub><mo>,</mo><msub><mi>&#957;</mi><mn>1</mn></msub><mo>,</mo><msub><mi>&#957;</mi><mn>2</mn></msub><mo>,</mo><msub><mi>&#957;</mi><mn>3</mn></msub><mo stretchy="false">)</mo></mrow><mo>=</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>+</mo><msub><mi>x</mi><mi>&#960;</mi></msub></mrow><mo>,</mo><msub><mi>x</mi><mi>&#960;</mi></msub><mo>,</mo><msub><mi>y</mi><mi>&#960;</mi></msub><mo>,</mo><msub><mi>z</mi><mi>&#960;</mi></msub><mo stretchy="false">)</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">In particular, a system with <math alttext="\nu_{0}=1" class="ltx_Math" display="inline" id="SS1.p9.m7"><mrow><msub><mi>&#957;</mi><mn>0</mn></msub><mo>=</mo><mn>1</mn></mrow></math> is called a strong topological insulator,
+because the <math alttext="Z_{2}=1" class="ltx_Math" display="inline" id="SS1.p9.m8"><mrow><msub><mi>Z</mi><mn>2</mn></msub><mo>=</mo><mn>1</mn></mrow></math> state appears in all directions of the Brillouin zone.</p>
+</div><figure class="ltx_figure" id="fig:Z2-Fig2"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="493" id="F89.g1" src="x90.png" width="654"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 89: </span>
+Six <math alttext="Z_{2}" class="ltx_Math" display="inline" id="F89.m3"><msub><mi>Z</mi><mn>2</mn></msub></math> invariants defined in three-dimensional reciprocal space.
+These invariants satisfy <math alttext="x_{0}+x_{\pi}=y_{0}+y_{\pi}=z_{0}+z_{\pi}\ ({\rm mod}\ 2)" class="ltx_Math" display="inline" id="F89.m4"><mrow><mrow><msub><mi>x</mi><mn>0</mn></msub><mo>+</mo><msub><mi>x</mi><mi>&#960;</mi></msub></mrow><mo>=</mo><mrow><msub><mi>y</mi><mn>0</mn></msub><mo>+</mo><msub><mi>y</mi><mi>&#960;</mi></msub></mrow><mo>=</mo><mrow><msub><mi>z</mi><mn>0</mn></msub><mo>+</mo><mrow><msub><mi>z</mi><mi>&#960;</mi></msub><mo>&#8290;</mo><mrow><mo stretchy="false">(</mo><mrow><mi>mod</mi><mo>&#8290;</mo><mn> 2</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></mrow></math>.
+As a result, four invariants remain as independent parameters.
+</figcaption>
+</figure></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s59_z2-fh.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s59_z2-fh.html"><span class="openmx_footer_label">Previous:</span> 59 Calculation of the Z<sub>2</sub> invariant by the Fukui-Hatsugai method</a><a href="s59_2_example.html"><span class="openmx_footer_label">Next:</span> 59.2 Z<sub>2</sub> example</a></div></div></footer>
+</div>
+</body>
+</html>

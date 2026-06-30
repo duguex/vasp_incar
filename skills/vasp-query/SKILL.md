@@ -13,12 +13,12 @@ description: |
 # vasp-query — VASP INCAR parameter knowledge base
 ## 项目位置
 
-- **仓库/项目目录:** `~/vasp_incar/`
-- **源 SKILL.md:** `~/vasp_incar/skills/vasp-query/SKILL.md`
-- **注册到 Hermes 的方式:** 软链接 `~/.hermes/skills/research/vasp-query/SKILL.md → ~/vasp_incar/skills/vasp-query/SKILL.md`（项目文件更新后自动同步）
-- **CLI 工具代码:** `~/vasp_incar/vasp_query/`
-- **知识数据:** `~/vasp_incar/vasp_query/data/`（676 个 INCAR 标签 + 507 个 wiki 页面 + 统计 + 共现矩阵）
-- **原始数据:** `~/vasp_incar/data/raw/`（10,176 个真实 INCAR 配置、1,273 个 VASP Wiki 页面）
+- **仓库/项目目录:** `~/vasp_wiki/`
+- **源 SKILL.md:** `~/vasp_wiki/skills/vasp-query/SKILL.md`
+- **注册到 Hermes 的方式:** 软链接 `~/.hermes/skills/research/vasp-query/SKILL.md → ~/vasp_wiki/skills/vasp-query/SKILL.md`（项目文件更新后自动同步）
+- **CLI 工具代码:** `~/vasp_wiki/vasp_query/`
+- **知识数据:** `~/vasp_wiki/vasp_query/data/`（676 个 INCAR 标签 + 507 个 wiki 页面 + 统计 + 共现矩阵）
+- **原始数据:** `~/vasp_wiki/data/raw/`（10,176 个真实 INCAR 配置、1,273 个 VASP Wiki 页面）
 
 This skill provides CLI tools that output **JSON** by default, with `-H`/`--human` for Markdown. Error responses always have the shape `{"error": "<message>", "suggestion": "<actionable advice>"}` with a non-zero exit code. When a tag name is ambiguous, the response is `{"hint": "<input>", "matches": [...]}`.
 

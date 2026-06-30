@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>78 Included input examples &#8227; User&#8217;s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="index.html" rel="up" title="User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="prev" title="77 Conversion from Gaussian cube format to XSF format &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="next" title="79 Known issues &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s27_on-methods.html" rel="section" title="27 O(&#119873;) Methods &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+&#119880; method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of &#8216;lattice constant vs. energy&#8217; curves &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index &#8227; User&#8217;s manual of OpenMX Ver. 4.0"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User&#8217;s manual of OpenMX Ver. 4.0</span></a><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s77_cube-to-xsf.html"><span class="openmx_nav_label">Previous:</span> 77 Conversion from Gaussian cube format to XSF format</a><a href="s79_known-issues.html"><span class="openmx_nav_label">Next:</span> 79 Known issues</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_section">78 </span>Included input examples</h1>
+<div class="ltx_para" id="p1">
+<p class="ltx_p">For reference, the <code class="ltx_verbatim ltx_font_typewriter">dat</code> files corresponding to the calculation examples in this manual
+are stored in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.
+The list of input files is given below.</p>
+<pre class="ltx_verbatim ltx_font_typewriter" style="font-size:80%;">
+  Molecules or clusters
+  <a href="work/C60.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">C60.dat</a>            SCF calc. of a C60 molecule
+  <a href="work/C60_DC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">C60_DC.dat</a>         DC calc. of a C60 molecule
+  <a href="work/C60_LO.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">C60_LO.dat</a>         Low-order scaling calc. of a C60 molecule
+  <a href="work/CG15c_DC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">CG15c_DC.dat</a>       DC calc. of DNA
+  <a href="work/Cr2_CNC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Cr2_CNC.dat</a>        Constrained DFT calc. of a Cr2 dimer
+  <a href="work/Doped_NT.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Doped_NT.dat</a>       SCF calc. of a doped carbon nanotube
+  <a href="work/H2O.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">H2O.dat</a>            Geometry opt. of a water molecule
+  <a href="work/MCCN.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">MCCN.dat</a>           DC calc. of a multiply connected carbon nanotube
+  <a href="work/Methane2.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Methane2.dat</a>       Geometry opt. of a distorted methane molecule
+  <a href="work/Methane.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Methane.dat</a>        SCF calc. of a methane molecule
+  <a href="work/Methane_OO.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Methane_OO.dat</a>     Orbital optimization of a methane molecule
+  <a href="work/Methane_ED.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Methane_ED.dat</a>     Total energy decomposition of a methane molecule
+  <a href="work/Mn12.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Mn12.dat</a>           SCF calc. of a single-molecule magnet, Mn12
+  <a href="work/Mol_MnO_NC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Mol_MnO_NC.dat</a>     Non-collinear SCF calc. of a MnO molecule
+  <a href="work/Nitro_Benzene.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Nitro_Benzene.dat</a>  SCF calc. of nitrobenzene under an electric field
+  <a href="work/Pt13.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Pt13.dat</a>           SCF calc. of a Pt13 cluster
+  <a href="work/Pt63.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Pt63.dat</a>           SCF calc. of a Pt63 cluster
+  <a href="work/SialicAcid.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">SialicAcid.dat</a>     SCF calc. of a sialic acid molecule
+  <a href="work/Valorphin_DC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Valorphin_DC.dat</a>   DC calc. of a valorphin molecule
+  <a href="work/Valorphin_MO.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Valorphin_MO.dat</a>   Molecular orbital calc. of a valorphin molecule
+  <a href="work/Benzene_RCP.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Benzene_RCP.dat</a>    Geometry opt. of a benzene molecule for RCP/FLPQ analysis
+
+  Ionization potentials and electron affinities
+  <a href="work/H2O+0.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">H2O+0.dat</a>   SCF calc. of neutral H2O for ionization-potential evaluation
+  <a href="work/H2O+1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">H2O+1.dat</a>   SCF calc. of H2O (+1 charge) for ionization-potential evaluation
+  <a href="work/C2H2+0.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">C2H2+0.dat</a>  SCF calc. of neutral C2H2 for ionization-potential evaluation
+  <a href="work/C2H2+1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">C2H2+1.dat</a>  SCF calc. of C2H2 (+1 charge) for ionization-potential evaluation
+  <a href="work/C2H4+0.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">C2H4+0.dat</a>  SCF calc. of neutral C2H4 for ionization-potential evaluation
+  <a href="work/C2H4+1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">C2H4+1.dat</a>  SCF calc. of C2H4 (+1 charge) for ionization-potential evaluation
+  <a href="work/O2+0.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">O2+0.dat</a>    SCF calc. of neutral O2 for ionization-potential evaluation
+  <a href="work/O2+1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">O2+1.dat</a>    SCF calc. of O2 (+1 charge) for ionization-potential evaluation
+  <a href="work/CO+0.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">CO+0.dat</a>    SCF calc. of neutral CO for ionization-potential evaluation
+  <a href="work/CO+1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">CO+1.dat</a>    SCF calc. of CO (+1 charge) for ionization-potential evaluation
+  <a href="work/OH-0.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">OH-0.dat</a>    SCF calc. of neutral OH for electron-affinity evaluation
+  <a href="work/OH-1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">OH-1.dat</a>    SCF calc. of OH (-1 charge) for electron-affinity evaluation
+  <a href="work/O2-0.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">O2-0.dat</a>    SCF calc. of neutral O2 for electron-affinity evaluation
+  <a href="work/O2-1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">O2-1.dat</a>    SCF calc. of O2 (-1 charge) for electron-affinity evaluation
+  <a href="work/Cl2-0.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Cl2-0.dat</a>   SCF calc. of neutral Cl2 for electron-affinity evaluation
+  <a href="work/Cl2-1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Cl2-1.dat</a>   SCF calc. of Cl2 (-1 charge) for electron-affinity evaluation
+  <a href="work/CN-0.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">CN-0.dat</a>    SCF calc. of neutral CN for electron-affinity evaluation
+  <a href="work/CN-1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">CN-1.dat</a>    SCF calc. of CN (-1 charge) for electron-affinity evaluation
+  <a href="work/SiH-0.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">SiH-0.dat</a>   SCF calc. of neutral SiH for electron-affinity evaluation
+  <a href="work/SiH-1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">SiH-1.dat</a>   SCF calc. of SiH (-1 charge) for electron-affinity evaluation
+
+  XPS and core-hole examples
+  <a href="work/C2H2.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">C2H2.dat</a>          Initial-state calc. of C2H2 for XPS
+  <a href="work/C2H2-CH.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">C2H2-CH.dat</a>       Final-state calc. of C2H2 for XPS
+  <a href="work/TiC216.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">TiC216.dat</a>        Initial-state calc. of TiC for XPS
+  <a href="work/TiC216-CH3.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">TiC216-CH3.dat</a>    Final-state calc. of TiC for XPS
+  <a href="work/Si-4-SOI.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si-4-SOI.dat</a>      Initial-state calc. of Si for XPS
+  <a href="work/Si-4-CH-SOI1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si-4-CH-SOI1.dat</a>  Final-state (j=3/2) calc. of Si for XPS
+  <a href="work/Si-4-CH-SOI6.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si-4-CH-SOI6.dat</a>  Final-state (j=1/2) calc. of Si for XPS
+  <a href="work/N1Be2_IS.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">N1Be2_IS.dat</a>      Initial-state calc. of NBe2 for XPS with ESM
+  <a href="work/N1Be2_FS.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">N1Be2_FS.dat</a>      Final-state calc. of NBe2 for XPS with ESM
+
+  NEB and molecular dynamics
+  <a href="work/C2H4_NEB.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">C2H4_NEB.dat</a>      NEB calc. of a C2H4 dimer
+  <a href="work/Si8_NEB.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si8_NEB.dat</a>       NEB calc. for hydrogen diffusion in Si
+  <a href="work/Gly_NH.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Gly_NH.dat</a>        Nose-Hoover MD of a glycine molecule
+  <a href="work/Gly_VS.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Gly_VS.dat</a>        Velocity scaling MD of a glycine molecule
+  <a href="work/Si_NPT_VS_PR.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si_NPT_VS_PR.dat</a>  NPT MD of bulk Si by the velocity-scaling + Parrinello-Rahman scheme
+  <a href="work/Si_NPT_VS_WV.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si_NPT_VS_WV.dat</a>  NPT MD of bulk Si by the velocity-scaling + Wentzcovitch scheme
+
+  Bulk solids
+  <a href="work/Cdia.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Cdia.dat</a>              SCF calc. of bulk diamond
+  <a href="work/MnO_NC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">MnO_NC.dat</a>            Non-collinear SCF calc. of bulk MnO
+  <a href="work/FeO_NC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">FeO_NC.dat</a>            Non-collinear SCF calc. of bulk FeO
+  <a href="work/CoO_NC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">CoO_NC.dat</a>            Non-collinear SCF calc. of bulk CoO
+  <a href="work/NiO_NC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">NiO_NC.dat</a>            Non-collinear SCF calc. of bulk NiO
+  <a href="work/NiO-cFLL.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">NiO-cFLL.dat</a>          LDA+U calc. of NiO by the cFLL scheme
+  <a href="work/NiO-sFLL.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">NiO-sFLL.dat</a>          LDA+U calc. of NiO by the sFLL scheme
+  <a href="work/NiO-Yukawa.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">NiO-Yukawa.dat</a>        LDA+U calc. of NiO to estimate J and F^4/F^2
+  <a href="work/DIA64_Band.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">DIA64_Band.dat</a>        SCF calc. of bulk diamond including 64 atoms
+  <a href="work/DIA8_DC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">DIA8_DC.dat</a>           DC calc. of bulk diamond including 8 atoms
+  <a href="work/DIA64_DC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">DIA64_DC.dat</a>          DC calc. of bulk diamond including 64 atoms
+  <a href="work/DIA216_DC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">DIA216_DC.dat</a>         DC calc. of bulk diamond including 216 atoms
+  <a href="work/DIA512_DC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">DIA512_DC.dat</a>         DC calc. of bulk diamond including 512 atoms
+  <a href="work/DIA8-VA.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">DIA8-VA.dat</a>           Virtual-atom SCF calc. of diamond
+  <a href="work/Febcc2.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Febcc2.dat</a>            SCF calc. of bcc Fe
+  <a href="work/Fefcc-SpinSpiral.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Fefcc-SpinSpiral.dat</a>  SCF calc. of fcc Fe for a spin-spiral calculation
+  <a href="work/GaAs.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">GaAs.dat</a>              Non-collinear SCF calc. of bulk GaAs
+  <a href="work/NaCl.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">NaCl.dat</a>              SCF calc. of bulk NaCl
+  <a href="work/NaCl_FC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">NaCl_FC.dat</a>           SCF calc. of bulk NaCl with a Cl-site vacancy
+  <a href="work/Si8.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si8.dat</a>               Geometry opt. of distorted bulk Si
+  <a href="work/Si8-pV.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si8-pV.dat</a>            Enthalpy opt. of bulk Si under 10 GPa
+  <a href="work/Si8-LNO.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si8-LNO.dat</a>           O(N) DC-LNO calc. of bulk Si including 8 atoms
+  <a href="work/NdCo5_4f.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">NdCo5_4f.dat</a>          E vs. lattice-constant calc. of NdCo5 including Nd 4f states
+  <a href="work/NdCo5_4f+U.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">NdCo5_4f+U.dat</a>        E vs. lattice-constant calc. of NdCo5 including Nd 4f states with +U
+  <a href="work/NdCo5_OC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">NdCo5_OC.dat</a>          E vs. lattice-constant calc. of NdCo5 with an Nd open-core pseudopotential
+  <a href="work/FePt.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">FePt.dat</a>              SCF calc. of L1_0-FePt within collinear DFT
+  <a href="work/FePt-NC-SCF.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">FePt-NC-SCF.dat</a>       SCF calc. of L1_0-FePt within non-collinear DFT
+  <a href="work/FePt-NC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">FePt-NC.dat</a>           One-shot diagonalization of L1_0-FePt with SOI
+  <a href="work/Mnfcc-EvsLC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Mnfcc-EvsLC.dat</a>       E vs. lattice-constant calc. of fcc Mn
+  <a href="work/Si.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si.dat</a>                Example input generated from a CIF file by cif2omx
+
+  Surfaces, interfaces, and work functions
+  <a href="work/Al-Si111_ESM.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Al-Si111_ESM.dat</a>       ESM calc. of an Al/Si(111) interface
+  <a href="work/Al111_WorkFunc_0E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Al111_WorkFunc_0E.dat</a>  Work-function calc. of Al(111) with 0 empty-atom layers
+  <a href="work/Al111_WorkFunc_1E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Al111_WorkFunc_1E.dat</a>  Work-function calc. of Al(111) with 1 empty-atom layer
+  <a href="work/Al111_WorkFunc_2E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Al111_WorkFunc_2E.dat</a>  Work-function calc. of Al(111) with 2 empty-atom layers
+  <a href="work/Al111_WorkFunc_3E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Al111_WorkFunc_3E.dat</a>  Work-function calc. of Al(111) with 3 empty-atom layers
+  <a href="work/Al111_WorkFunc_4E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Al111_WorkFunc_4E.dat</a>  Work-function calc. of Al(111) with 4 empty-atom layers
+  <a href="work/Al111_WorkFunc_5E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Al111_WorkFunc_5E.dat</a>  Work-function calc. of Al(111) with 5 empty-atom layers
+  <a href="work/Al111_WorkFunc_6E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Al111_WorkFunc_6E.dat</a>  Work-function calc. of Al(111) with 6 empty-atom layers
+  <a href="work/Al111_WorkFunc_7E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Al111_WorkFunc_7E.dat</a>  Work-function calc. of Al(111) with 7 empty-atom layers
+  <a href="work/Cu111_WorkFunc_7E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Cu111_WorkFunc_7E.dat</a>  Work-function calc. of Cu(111) with 7 empty-atom layers
+  <a href="work/Ag111_WorkFunc_7E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Ag111_WorkFunc_7E.dat</a>  Work-function calc. of Ag(111) with 7 empty-atom layers
+  <a href="work/Au111_WorkFunc_7E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Au111_WorkFunc_7E.dat</a>  Work-function calc. of Au(111) with 7 empty-atom layers
+  <a href="work/Pd111_WorkFunc_7E.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Pd111_WorkFunc_7E.dat</a>  Work-function calc. of Pd(111) with 7 empty-atom layers
+
+  CWF and Wannier-related examples
+  <a href="work/GaAs-CWF1.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">GaAs-CWF1.dat</a>        CWF calc. of GaAs using PAO guiding orbitals
+  <a href="work/GaAs-CWF2.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">GaAs-CWF2.dat</a>        CWF calc. of GaAs with an energy-window selection
+  <a href="work/GaAs-CWF3.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">GaAs-CWF3.dat</a>        CWF calc. of GaAs using hybrid-orbital guiding functions
+  <a href="work/Cufcc-CWF0.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Cufcc-CWF0.dat</a>       CWF calc. of fcc Cu for disentangling of the 3d bands
+  <a href="work/Rb3C60-CWF3.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Rb3C60-CWF3.dat</a>      CWF calc. of Rb3C60 using molecular guiding orbitals
+  <a href="work/TTF-TCNQ-3.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">TTF-TCNQ-3.dat</a>       CWF calc. of TTF-TCNQ using molecular guiding orbitals
+  <a href="work/Bi2Se3-wSO-2.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Bi2Se3-wSO-2.dat</a>     CWF calc. of Bi2Se3 with spin-orbit coupling
+  <a href="work/Si-Wannier90.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si-Wannier90.dat</a>     Wannier90 interface calc. of Si for Seebeck-coefficient evaluation
+  <a href="work/SrVO3-Wannier90.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">SrVO3-Wannier90.dat</a>  Wannier90 interface calc. of SrVO3 for optical-conductivity evaluation
+
+  Topology, Berry phase, STM, and spin textures
+  <a href="work/Bi2Se3-Z2.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Bi2Se3-Z2.dat</a>          Z2-invariant calc. of strong-topological-insulator Bi2Se3
+  <a href="work/Bi2Se3_trivial-Z2.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Bi2Se3_trivial-Z2.dat</a>  Z2-invariant calc. of trivial-insulator Bi2Se3
+  <a href="work/Bi2Se3_weak-Z2.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Bi2Se3_weak-Z2.dat</a>     Z2-invariant calc. of weak-topological-insulator Bi2Se3
+  <a href="work/Bi111-Z2.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Bi111-Z2.dat</a>           Z2-invariant calc. of a Bi(111) slab
+  <a href="work/Graphene-Chern.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Graphene-Chern.dat</a>     Chern-number and Berry-curvature calc. of graphene
+  <a href="work/Graphene_STM.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Graphene_STM.dat</a>       STM-image simulation of graphene
+  <a href="work/Au111Surface_FL.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Au111Surface_FL.dat</a>    Spin-texture analysis of Au(111) by the FermiLoop scheme
+  <a href="work/Au111Surface_GC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Au111Surface_GC.dat</a>    Spin-texture analysis of Au(111) by the GridCalc scheme
+  <a href="work/Au111Surface_BD.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Au111Surface_BD.dat</a>    Spin-texture analysis of Au(111) by the BandDispersion scheme
+  <a href="work/Au111Surface_MO.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Au111Surface_MO.dat</a>    Spin-texture analysis of Au(111) by the MulPOnly scheme
+  <a href="work/Au111Surface23_FL.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Au111Surface23_FL.dat</a>  Spin-texture analysis of a clean Au(111) slab by the FermiLoop scheme
+  <a href="work/SiC_Primitive_BD.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">SiC_Primitive_BD.dat</a>   Spin-texture analysis of SiC by the BandDispersion scheme
+
+  Optical, COHP, Fermi-surface, and transport examples
+  <a href="work/Si2_k50x50x50.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si2_k50x50x50.dat</a>                   Optical-conductivity calc. of bulk Si
+  <a href="work/Cafcc_FS.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Cafcc_FS.dat</a>                        Fermi-surface calc. of fcc Ca
+  <a href="work/Sidia_COHP.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Sidia_COHP.dat</a>                      COHP/COOP calc. of diamond-structure Si
+  <a href="work/ScN_COHP.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">ScN_COHP.dat</a>                        COHP calc. of rocksalt ScN
+  <a href="work/TiN_COHP.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">TiN_COHP.dat</a>                        COHP calc. of rocksalt TiN
+  <a href="work/VN_COHP.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">VN_COHP.dat</a>                         COHP calc. of rocksalt VN
+  <a href="work/GaCuS2_mp-5238_symmetrized_SOC.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">GaCuS2_mp-5238_symmetrized_SOC.dat</a>  SCF calc. of GaCuS2 with SOC for BoltzTraP/BoltzTraP2
+  <a href="work/Si_BoltzTraP.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Si_BoltzTraP.dat</a>                    SCF calc. of bulk Si for BoltzTraP/BoltzTraP2
+
+  jx examples
+  <a href="work/Fe_Bulk_jx.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Fe_Bulk_jx.dat</a>     jx calc. of bcc Fe
+  <a href="work/Co_Bulk_jx.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Co_Bulk_jx.dat</a>     jx calc. of hcp Co
+  <a href="work/Ni_Bulk_jx.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Ni_Bulk_jx.dat</a>     jx calc. of fcc Ni
+  <a href="work/Fe_Cluster_jx.dat" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">Fe_Cluster_jx.dat</a>  jx calc. of a Fe dimer
+</pre>
+</div>
+<div class="ltx_pagination ltx_role_newpage"></div>
+</section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s77_cube-to-xsf.html"><span class="openmx_footer_label">Previous:</span> 77 Conversion from Gaussian cube format to XSF format</a><a href="s79_known-issues.html"><span class="openmx_footer_label">Next:</span> 79 Known issues</a></div></div></footer>
+</div>
+</body>
+</html>

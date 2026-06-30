@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="content-type"/>
+<title>27.2 Divide-conquer method with localized natural orbitals (DC-LNO) ‣ User’s manual of OpenMX Ver. 4.0</title>
+<!--Generated on Sat Apr 18 17:05:08 2026 by LaTeXML (version 0.8.8) http://dlmf.nist.gov/LaTeXML/.-->
+<!--Document created on April 18, 2026.-->
+<link href="LaTeXML.css" rel="stylesheet" type="text/css"/>
+<link href="ltx-article.css" rel="stylesheet" type="text/css"/>
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+<link href="s27_on-methods.html" rel="up" title="27 O( N ) Methods ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="index.html" rel="start" title="User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_1_dc.html" rel="prev" title="27.1 Divide-conquer method (DC method) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s27_3_krylov.html" rel="next" title="27.3 O( N ) Krylov subspace method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s1_quick-start.html" rel="section" title="1 Quick start for first-time OpenMX users ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s2_about-openmx.html" rel="section" title="2 About OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s3_related-papers.html" rel="section" title="3 Related papers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s4_installation.html" rel="section" title="4 Installation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s5_test-calc.html" rel="section" title="5 Test calculation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s6_auto-test.html" rel="section" title="6 Automatic Test Execution ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s7_auto-test-large.html" rel="section" title="7 Automatic Test Execution for Large-Scale Systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s8_input-file.html" rel="section" title="8 Input File ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s9_output-files.html" rel="section" title="9 Output files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s10_openmx-viewer.html" rel="section" title="10 Integration with OpenMX Viewer ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s11_functionals.html" rel="section" title="11 Functionals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s12_basis.html" rel="section" title="12 Basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s13_pseudo.html" rel="section" title="13 Pseudopotentials ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s14_cutoff-grid.html" rel="section" title="14 Cutoff energy: setting of the computational grid for numerical integration ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s15_k-sampling.html" rel="section" title="15 k-point sampling ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s16_scf.html" rel="section" title="16 SCF convergence ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s17_restart.html" rel="section" title="17 How to restart SCF and geometry optimization calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s18_geom-opt.html" rel="section" title="18 Geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s19_vcell-opt.html" rel="section" title="19 Variable-cell geometry optimization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s20_md.html" rel="section" title="20 Molecular dynamics ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s21_visualization.html" rel="section" title="21 Visualization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s22_band.html" rel="section" title="22 Band structure ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s23_dos.html" rel="section" title="23 Density of states ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s24_cohp-coop.html" rel="section" title="24 COHP and COOP ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s25_orb-energy.html" rel="section" title="25 Orbitally decomposed total energy ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s26_orb-opt.html" rel="section" title="26 Optimization of basis functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s28_parallel.html" rel="section" title="28 Parallelization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s29_large-scale.html" rel="section" title="29 Large-Scale Calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s30_electric-field.html" rel="section" title="30 Electric Field ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s31_charge-doping.html" rel="section" title="31 Charge Doping ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s32_virtual-atoms.html" rel="section" title="32 Virtual Atoms with Fractional Nuclear Charge ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s33_lcao-coeff.html" rel="section" title="33 LCAO Coefficients ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s34_molecular-orb.html" rel="section" title="34 Molecular Orbitals ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s35_charge-analysis.html" rel="section" title="35 Charge analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s36_npa.html" rel="section" title="36 Natural population analysis ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s37_ncl-dft.html" rel="section" title="37 Non-collinear DFT ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s38_rel-effects.html" rel="section" title="38 Relativistic effects ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s39_orb-magmom.html" rel="section" title="39 Orbital magnetic moment ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s40_dft-plus-u.html" rel="section" title="40 DFT+𝑈 method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s41_constraint-ncl.html" rel="section" title="41 Constraint DFT for non-collinear spin orientation ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s42_mae.html" rel="section" title="42 Second variational method: magnetic anisotropy energy (MAE) ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s43_zeeman.html" rel="section" title="43 Zeeman term ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s44_berry-polar.html" rel="section" title="44 Macroscopic polarization by the Berry phase method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s45_jx.html" rel="section" title="45 Exchange coupling parameters ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s46_negf.html" rel="section" title="46 Electronic transport calculations by NEGF ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s47_wannier.html" rel="section" title="47 Generation of Wannier Functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s48_low-order-diag.html" rel="section" title="48 Numerically exact low-order scaling method for diagonalization ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s49_esm.html" rel="section" title="49 Effective screening medium method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s50_work-function.html" rel="section" title="50 Calculations of work functions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s51_neb.html" rel="section" title="51 NEB (Nudged Elastic Band) Method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s52_rcp.html" rel="section" title="52 Regional chemical potential (RCP) analysis method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s53_stm.html" rel="section" title="53 STM images based on the Tersoff-Hamann method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s54_vdw-d2-d3.html" rel="section" title="54 DFT-D2 and DFT-D3 methods for vdW interactions ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s55_band-unfolding.html" rel="section" title="55 Band unfolding method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s56_spin-texture-k.html" rel="section" title="56 Analysis of spin textures in momentum space ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s57_spin-spiral.html" rel="section" title="57 Spin spiral calculations ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s58_chern-berry-fhs.html" rel="section" title="58 Calculation of the Chern number and Berry curvature by the Fukui-Hatsugai-Suzuki method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s59_z2-fh.html" rel="section" title="59 Calculation of the Z2 invariant by the Fukui-Hatsugai method ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s60_xps-core-binding.html" rel="section" title="60 Absolute binding energies of core electrons in XPS ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s61_ip-ea.html" rel="section" title="61 Ionization potentials and electron affinities of isolated systems ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s62_optical-diel.html" rel="section" title="62 Optical conductivity and dielectric function ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s63_boltztrap.html" rel="section" title="63 Interface with BoltzTraP/BoltzTraP2 ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s64_lattice-energy.html" rel="section" title="64 Calculations of ‘lattice constant vs. energy’ curves ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s65_fermi-surface.html" rel="section" title="65 Fermi surfaces ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s66_cube-diff.html" rel="section" title="66 Analysis of the difference between two gaussian cube files ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s67_geom-diff.html" rel="section" title="67 Analysis of the difference between two geometrical structures ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s68_charge-diff.html" rel="section" title="68 Analysis of the difference in charge density induced by interaction ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s69_auto-cell-size.html" rel="section" title="69 Automatic determination of the cell size ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s70_dev-interface.html" rel="section" title="70 Interface for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s71_openmx-api.html" rel="section" title="71 Interfacing external programs via the OpenMX API ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s72_force-tester.html" rel="section" title="72 Automatic force tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s73_memleak-tester.html" rel="section" title="73 Automatic Memory Leak Tester ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s74_memleak-tool.html" rel="section" title="74 Memory leak analysis tool for developers ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s75_memory-usage.html" rel="section" title="75 Analysis of memory usage ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s76_binary-output.html" rel="section" title="76 Output of large-sized files in binary mode ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s77_cube-to-xsf.html" rel="section" title="77 Conversion from Gaussian cube format to XSF format ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s78_input-examples.html" rel="section" title="78 Included input examples ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s79_known-issues.html" rel="section" title="79 Known issues ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s80_forum.html" rel="section" title="80 OpenMX forum ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s81_openmx-info.html" rel="section" title="81 Additional Sources of Information on OpenMX ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s82_tool-links.html" rel="section" title="82 Links to Other Tools ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="s83_others.html" rel="section" title="83 Others ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="bib.html" rel="bibliography" title="References ‣ User’s manual of OpenMX Ver. 4.0"/>
+<link href="idx.html" rel="index" title="Index ‣ User’s manual of OpenMX Ver. 4.0"/>
+<meta content="LNOs.Num, orderN.Exact.Inverse.S, orderN.Expand.Core, orderN.FNAN+SNAN, orderN.HoppingRanges, orderN.KrylovH.order, orderN.KrylovS.order, orderN.LNO.Buffer, orderN.LNO.Occ.Cutoff, orderN.Recalc.Buffer, scf.EigenvalueSolver, scf.dclno.threading" lang="en" name="keywords"/>
+</head>
+<body class="">
+<div class="ltx_page_main">
+<header class="ltx_page_header"><div class="openmx_header_bar"><div class="openmx_brand_group"><a class="openmx_brand" href="index.html"><img alt="OpenMX logo" class="openmx_brand_logo" src="x1.png"/><span class="openmx_brand_title">User’s manual of OpenMX Ver. 4.0</span></a><a class="openmx_sectop" href="s27_on-methods.html">Sec. Top</a></div><div class="openmx_nav"><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s27_1_dc.html"><span class="openmx_nav_label">Previous:</span> 27.1 Divide-conquer method (DC method)</a><a href="s27_3_krylov.html"><span class="openmx_nav_label">Next:</span> 27.3 O( N ) Krylov subspace method</a></div></div></header>
+<div class="ltx_page_content">
+<section class="ltx_section ltx_authors_1line" id="subsec:divide-conquer-method-with-localized-natural-orbitals-dc-lno">
+<h1 class="ltx_title ltx_title_section">
+<span class="ltx_tag ltx_tag_subsection">27.2 </span>Divide-conquer method with localized natural orbitals (DC-LNO)</h1><div class="ltx_para" id="SS2.p1">
+<p class="ltx_p">DC-LNO <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib54" title="">54</a>]</cite> is an improved version of the DC method.
+The computational efficiency is improved by introducing localized natural orbitals (LNOs), which span the occupied-state subspace.
+Since the dimension of the LNO basis is reduced compared with that of the original PAO basis, the computational cost is reduced as a consequence.
+The LNOs are generated by a low-rank approximation to the projection operator onto the occupied states using a local eigendecomposition.
+Since the generation of the LNOs is non-iterative, it can be carried out very efficiently.
+As shown in Fig. <a class="ltx_ref" href="#fig:DC-LNO-Fig1" title="Figure 24 ‣ 27.2 Divide-conquer method with localized natural orbitals (DC-LNO) ‣ 27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">24</span></a>(a),
+LNOs are assigned to atoms in the long-range region of a truncated cluster,
+while PAOs are assigned in the short-range region. In this way, the computational efficiency can be improved while maintaining computational accuracy.
+The method is applicable not only to gapped systems but also to metallic systems,
+provided that the truncated clusters are sufficiently large
+(typically clusters containing more than 200 atoms).</p>
+</div><figure class="ltx_figure" id="fig:DC-LNO-Fig1"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="352" id="F24.g1" src="x25.png" width="872"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 24: </span>
+(a) Construction of a truncated cluster in the DC-LNO method.
+PAOs and LNOs are assigned to the short-range (orange) and long-range (yellow) regions from the central atom, respectively.
+(b) Multi-level parallelization of the DC-LNO method.
+</figcaption>
+</figure><div class="ltx_para" id="SS2.p2">
+<p class="ltx_p">As a first step in O(<math alttext="N" class="ltx_Math" display="inline" id="SS2.p2.m1"><mi>N</mi></math>) calculations using the DC-LNO method,
+one can perform an O(<math alttext="N" class="ltx_Math" display="inline" id="SS2.p2.m2"><mi>N</mi></math>) calculation for Si crystal using the input file stored in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code> as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+     % mpirun -np 112 ./openmx Si8-LNO.dat | tee si8-lno.std
+</pre>
+<p class="ltx_p">This calculation was carried out in 66 seconds using 112 cores on a Xeon cluster machine (2.6 GHz).
+The input file used is also stored as <code class="ltx_verbatim ltx_font_typewriter"><a href="work/Si8-LNO.dat" rel="noopener noreferrer" target="_blank">Si8-LNO.dat</a></code> in the directory <code class="ltx_verbatim ltx_font_typewriter">work</code>.
+As shown in Fig. <a class="ltx_ref" href="#fig:DC-LNO-Fig1" title="Figure 24 ‣ 27.2 Divide-conquer method with localized natural orbitals (DC-LNO) ‣ 27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">24</span></a>(b), three levels of parallelization have been implemented:
+atom level, spin level, and diagonalization level.
+Therefore, for example, for a 1000-atom system, scaling up to 40000 CPU cores is expected in parallel calculations.
+This is because the product of 1000 atoms <math alttext="\times" class="ltx_Math" display="inline" id="SS2.p2.m3"><mo>×</mo></math> 2 (spin-polarized calculation) <math alttext="\times" class="ltx_Math" display="inline" id="SS2.p2.m4"><mo>×</mo></math> 20 CPU cores (per node) is 40000.
+Benchmark calculations for the multi-level parallelization will be shown later.
+To perform hybrid parallelization, please set the following keyword.
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+     scf.dclno.threading       on    # off|on
+</pre>
+<p class="ltx_p">In the hybrid parallelization, the diagonalization at the lowest level is parallelized by OpenMP.
+The computational accuracy and efficiency of this method are controlled by the following keywords.
+
+
+</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+     orderN.HoppingRanges     7.0    # 7.0 (Ang.)
+     orderN.LNO.Buffer        0.2    # default = 0.2
+     orderN.LNO.Occ.Cutoff    0.1    # default = 0.1
+</pre>
+<p class="ltx_p">The role of the keyword <code class="ltx_verbatim ltx_font_typewriter">orderN.HoppingRanges</code> is identical to that in the DC method.
+The truncated cluster for each atom is constructed from atoms inside a sphere
+whose radius is specified by <code class="ltx_verbatim ltx_font_typewriter">orderN.HoppingRanges</code>.
+Although the proper choice of this parameter depends on the system, a series of benchmark calculations shows that,
+if <code class="ltx_verbatim ltx_font_typewriter">orderN.HoppingRanges</code> is set so that the truncated cluster contains about 300 atoms,
+sufficient accuracy is ensured even for metallic systems.</p>
+</div><figure class="ltx_figure" id="fig:DC-LNO-Fig2"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_square" height="733" id="F25.g1" src="x26.png" width="866"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 25: </span>
+Absolute error in the total energy (Hartree/atom) calculated by
+DC and DC-LNO methods as a function of the number of atoms in a truncated cluster.
+(a) diamond,
+(b) silicon in the diamond structure,
+(c) rutile TiO2,
+(d) bcc lithium,
+(e) fcc aluminum, and
+(f) bcc iron.
+Experimental lattice constants were used in all cases.
+</figcaption>
+</figure><div class="ltx_pagination ltx_role_newpage"></div><div class="ltx_para ltx_noindent" id="SS2.p3">
+<p class="ltx_p">This setting emphasizes accuracy, and the choice should be examined for each system from the viewpoint of efficiency.
+A balanced choice in terms of accuracy and efficiency is considered to be around 200 to 300 atoms.
+The region of atoms to which LNOs are assigned is controlled by the keyword <code class="ltx_verbatim ltx_font_typewriter">orderN.LNO.Buffer</code>.
+<code class="ltx_verbatim ltx_font_typewriter">orderN.LNO.Buffer=0.0</code> means that LNOs are assigned to all SNAN atoms.
+On the other hand, when <code class="ltx_verbatim ltx_font_typewriter">orderN.LNO.Buffer=1.0</code>, PAOs are assigned to all SNAN atoms.
+This treatment is equivalent to that of the DC method.
+For SNAN, refer to the subsection
+<a class="ltx_ref" href="s27_4_fnan-snan.html" title="27.4 User definition of FNAN+SNAN ‣ 27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">27.4</span></a>,
+&#8220;User definition of FNAN+SNAN&#8221;.
+The default value of <code class="ltx_verbatim ltx_font_typewriter">orderN.LNO.Buffer</code> is 0.2, and <code class="ltx_verbatim ltx_font_typewriter">orderN.LNO.Buffer</code> in the range 0.1<math alttext="\sim" class="ltx_Math" display="inline" id="SS2.p3.m1"><mo>∼</mo></math>0.2 is
+an appropriate choice in terms of both accuracy and efficiency.
+The LNOs for each atom <math alttext="i" class="ltx_Math" display="inline" id="SS2.p3.m2"><mi>i</mi></math> are determined by examining the eigenvalues of <math alttext="\Lambda_{{\bf 0}i}" class="ltx_Math" display="inline" id="SS2.p3.m3"><msub><mi mathvariant="normal">Λ</mi><mrow><mn>𝟎</mn><mo>⁢</mo><mi>i</mi></mrow></msub></math> defined by the following equation <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib54" title="">54</a>]</cite>.</p>
+<table class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table" id="S83.EGx44">
+<tbody id="eq:Lambda"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math alttext="\displaystyle\Lambda_{{\bf 0}i}=\sum_{{\bf R}j}\rho_{{\bf 0}i,{\bf R}j}S_{{\bf
+R%
+}j,{\bf 0}i}," class="ltx_Math" display="inline" id="E41.m1"><mrow><mrow><msub><mi mathvariant="normal">Λ</mi><mrow><mn>𝟎</mn><mo>⁢</mo><mi>i</mi></mrow></msub><mo>=</mo><mrow><mstyle displaystyle="true"><munder><mo movablelimits="false">∑</mo><mrow><mi>𝐑</mi><mo>⁢</mo><mi>j</mi></mrow></munder></mstyle><mrow><msub><mi>ρ</mi><mrow><mrow><mn>𝟎</mn><mo>⁢</mo><mi>i</mi></mrow><mo>,</mo><mrow><mi>𝐑</mi><mo>⁢</mo><mi>j</mi></mrow></mrow></msub><mo>⁢</mo><msub><mi>S</mi><mrow><mrow><mi>𝐑</mi><mo>⁢</mo><mi>j</mi></mrow><mo>,</mo><mrow><mn>𝟎</mn><mo>⁢</mo><mi>i</mi></mrow></mrow></msub></mrow></mrow></mrow><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right" rowspan="1"><span class="ltx_tag ltx_tag_equation ltx_align_right">(41)</span></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Here, <math alttext="\rho_{{\bf 0}i,{\bf R}j}" class="ltx_Math" display="inline" id="SS2.p3.m4"><msub><mi>ρ</mi><mrow><mrow><mn>𝟎</mn><mo>⁢</mo><mi>i</mi></mrow><mo>,</mo><mrow><mi>𝐑</mi><mo>⁢</mo><mi>j</mi></mrow></mrow></msub></math> and <math alttext="S_{{\bf R}j,{\bf 0}i}" class="ltx_Math" display="inline" id="SS2.p3.m5"><msub><mi>S</mi><mrow><mrow><mi>𝐑</mi><mo>⁢</mo><mi>j</mi></mrow><mo>,</mo><mrow><mn>𝟎</mn><mo>⁢</mo><mi>i</mi></mrow></mrow></msub></math> are
+block elements of the density matrix and the overlap matrix, respectively.
+Since the eigenvalues can be interpreted as the occupations of the LNOs,
+by selecting LNOs whose occupations are greater than or equal to the value specified by the keyword <code class="ltx_verbatim ltx_font_typewriter">orderN.LNO.Occ.Cutoff</code>,
+one obtains LNOs that span the occupied-state subspace well.</p>
+</div>
+
+
+<div class="ltx_para" id="SS2.p4">
+<p class="ltx_p">Instead of using the keyword <code class="ltx_verbatim ltx_font_typewriter">orderN.LNO.Occ.Cutoff</code>,
+one can directly specify the number of LNOs for each element by the keyword <code class="ltx_verbatim ltx_font_typewriter">LNOs.Num</code>.
+For example, when the atomic species are defined as follows,</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+   &lt;Definition.of.Atomic.Species
+     Si    Si7.0-s2p2d1   Si_PBE19
+     H     H6.0-s2p1      H_PBE19
+   Definition.of.Atomic.Species&gt;
+</pre><span id="idx-definition-of-atomic-species-s27_2_dc-lno"></span>
+<p class="ltx_p">the number of LNOs can be specified as follows.</p>
+<pre class="ltx_verbatim ltx_font_typewriter">
+     &lt;LNOs.Num
+       Si    4
+       H     1
+     LNOs.Num&gt;
+</pre>
+<p class="ltx_p">In this case, the numbers of LNOs are fixed to 4 for Si and 1 for H.
+To avoid changes in the number of LNOs during geometry optimization or molecular dynamics simulations,
+the use of <code class="ltx_verbatim ltx_font_typewriter">LNOs.Num</code> is recommended rather than <code class="ltx_verbatim ltx_font_typewriter">orderN.LNO.Occ.Cutoff</code>.
+Figure <a class="ltx_ref" href="#fig:DC-LNO-Fig2" title="Figure 25 ‣ 27.2 Divide-conquer method with localized natural orbitals (DC-LNO) ‣ 27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">25</span></a> compares the DC and DC-LNO methods.
+In the DC-LNO method, LNOs are used instead of PAOs in the long-range region of the cluster,
+but the accuracy is found to be comparable to that of the DC method for both gapped and metallic systems.
+As an example of the application of the DC-LNO method, Fig. <a class="ltx_ref" href="#fig:DC-LNO-Fig3" title="Figure 26 ‣ 27.2 Divide-conquer method with localized natural orbitals (DC-LNO) ‣ 27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">26</span></a> shows
+radial distribution functions (RDFs) of liquid silicon, aluminum, lithium, and SiO<sub class="ltx_sub">2</sub> obtained from high-temperature molecular dynamics simulations.
+In all cases, the DC-LNO method reproduces well the results of the conventional O(<math alttext="N^{3}" class="ltx_Math" display="inline" id="SS2.p4.m2"><msup><mi>N</mi><mn>3</mn></msup></math>) diagonalization method.
+The obtained RDFs are also consistent with other computational results <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib55" title="">55</a>, <a class="ltx_ref" href="bib.html#bib56" title="">56</a>, <a class="ltx_ref" href="bib.html#bib57" title="">57</a>, <a class="ltx_ref" href="bib.html#bib58" title="">58</a>]</cite>.</p>
+</div>
+
+<figure class="ltx_figure" id="fig:DC-LNO-Fig3"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_landscape" height="436" id="F26.g1" src="x27.png" width="763"/>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 26: </span>
+Total radial distribution functions (RDFs) calculated by the conventional O(<math alttext="N^{3}" class="ltx_Math" display="inline" id="F26.m4"><msup><mi>N</mi><mn>3</mn></msup></math>) diagonalization method and the DC-LNO method.
+(a) silicon at 3500 K, (b) aluminum at 2500 K, (c) lithium at 800 K, and (d) SiO<sub class="ltx_sub">2</sub> at 3000 K.
+The MD simulations were performed for cubic supercells for 10 ps with a time step of 2 fs.
+The supercells for silicon, aluminum, lithium, and SiO<sub class="ltx_sub">2</sub> (lattice constants: 10.86, 12.15, 14.04, and 14.25 (Å), respectively)
+contain 64, 108, 128, and 192 atoms, respectively.
+For details of the simulations, see Ref. <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib54" title="">54</a>]</cite>.
+</figcaption>
+</figure>
+
+
+
+<div class="ltx_para" id="SS2.p5">
+<p class="ltx_p">The speed-up ratio in MPI parallel calculations of the DC-LNO method is shown in Fig. <a class="ltx_ref" href="#fig:DC-LNO-Fig4" title="Figure 27 ‣ 27.2 Divide-conquer method with localized natural orbitals (DC-LNO) ‣ 27 O(𝑁) Methods ‣ User’s manual of OpenMX Ver. 4.0"><span class="ltx_text ltx_ref_tag">27</span></a>.
+This is the result for a non-spin-polarized calculation of diamond (a supercell containing 64 atoms).
+Since the multiplicity of the spin index is 1, nearly ideal behavior is observed up to 64 MPI processes,
+which is the maximum degree of parallelization at the atom level.
+Beyond 64 MPI processes, parallelization of the diagonalization is taken into account in addition to atom-level parallelization.
+When 128 and 256 MPI processes are used, speed-up ratios exceeding the ideal values are observed.
+This is presumed to be due to more efficient use of cache as a result of reduced memory usage.
+Good scaling is achieved up to the largest case used in this benchmark calculation, namely 1280 MPI processes.
+The parallel efficiency, evaluated using the elapsed time for 1 MPI process as the reference, is about 70%.
+Since each compute node of the PC cluster used in this benchmark consists of 20 CPU cores,
+it is reasonable that good scaling is observed up to 1280 (=64<math alttext="\times" class="ltx_Math" display="inline" id="SS2.p5.m1"><mo>×</mo></math>20) MPI processes.
+Thus, multi-level parallelization is shown to be an effective means of reducing computational time on modern massively parallel computers.</p>
+
+
+<figure class="ltx_figure" id="fig:DC-LNO-Fig4"><img alt="Refer to caption" class="ltx_graphics ltx_centering ltx_img_square" height="590" id="F27.g1" src="x28.png" width="627"/>
+<br>
+  <figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_figure">Figure 27: </span>
+Speed-up ratio in MPI parallelization of the DC-LNO method. The benchmark calculation was carried out for a diamond supercell containing 64 atoms.
+A cutoff radius of 8.0 Å was used, and 239 and 142 atoms were assigned to the short-range and long-range regions, respectively,
+resulting in a truncated-cluster problem with dimension 3675.
+For details of the benchmark calculation, see Ref. <cite class="ltx_cite ltx_citemacro_cite">[<a class="ltx_ref" href="bib.html#bib54" title="">54</a>]</cite>.
+</figcaption>
+</figure>
+
+
+
+</div></section>
+</div>
+<footer class="ltx_page_footer"><div class="openmx_footer_bar"><div class="openmx_footer_nav"><a class="openmx_sectop" href="s27_on-methods.html">Sec. Top</a><a href="contents.html">Contents</a><a href="idx.html">Index</a><a href="s27_1_dc.html"><span class="openmx_footer_label">Previous:</span> 27.1 Divide-conquer method (DC method)</a><a href="s27_3_krylov.html"><span class="openmx_footer_label">Next:</span> 27.3 O( N ) Krylov subspace method</a></div></div></footer>
+</div>
+</body>
+</html>
