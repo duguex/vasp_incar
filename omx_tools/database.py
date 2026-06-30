@@ -28,6 +28,7 @@ ALIASES_PATH = PKG_DIR.parent / "aliases.json"
 # ── Data version ───────────────────────────────────────────────────────
 
 from dft_utils import DATA_VERSION, debug_log, get_debug_log, clear_debug_log
+from dft_utils.search import make_fts5_query
 
 
 # ── Pydantic models (Issue 4) ──────────────────────────────────────────
@@ -186,9 +187,9 @@ def cmd_search(args, json_output=False):
         debug_log(f"  alias: '{query}' -> '{resolved}'")
     else:
         search_query = query
-
     db = get_db()
-    fts_query = " OR ".join(f'"{w}"' if " " in w else w for w in search_query.split())
+
+    fts_query = make_fts5_query(search_query)
     rows = db.execute("""
         SELECT rowid, sec_num, title, rank,
                snippet(sections_fts, 2, '\033[33m', '\033[0m', '...', 50) AS ctx
@@ -329,8 +330,7 @@ def _search_fts5(query: str) -> list[dict]:
     """Run FTS5 search and return results."""
     try:
         db = sqlite3.connect(str(DB_PATH))
-        db.row_factory = sqlite3.Row
-        fts_query = " OR ".join(f'"{w}"' if " " in w else w for w in query.split())
+        fts_query = make_fts5_query(query)
         rows = db.execute("""
             SELECT sec_num, title, rank
             FROM sections_fts
@@ -440,8 +440,7 @@ def cmd_keyword(args, json_output=False):
                 return
 
     # Fall back to DB index search
-    db = get_db()
-    fts_query = " OR ".join(f'"{w}"' if " " in w else w for w in search_key.split())
+    fts_query = make_fts5_query(search_key)
     rows = db.execute("""
         SELECT keyword, sec_num, title
         FROM index_entries

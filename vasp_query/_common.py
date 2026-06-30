@@ -1,17 +1,17 @@
 """Shared utilities, data models, and paths for vasp_query."""
 
 import json
-import re
 from pathlib import Path
 from typing import Any
 
 from pydantic import BaseModel
 
-
-# ── Data version ───────────────────────────────────────────────────────
-
 from dft_utils import DATA_VERSION, debug_log, get_debug_log, clear_debug_log
+from dft_utils.version import load_data, load_json as _load_json
+from dft_utils.search import match_keyword, score_keyword, make_fts5_query
 
+# Re-export for downstream (vasp_query/query.py etc.)
+load_json = _load_json
 
 # ── Pydantic models ────────────────────────────────────────────────────
 
@@ -82,79 +82,6 @@ WIKI_RAW = RAW_DIR / "vasp_wiki_all_data.json"
 INCAR_DATA = RAW_DIR / "incar_data.json"
 RAW_META = DATA_DIR / "raw_meta.json"
 FETCH_META = RAW_DIR / "_meta.json"
-
-
-# ── JSON loader ────────────────────────────────────────────────────────
-
-def load_json(path: Path) -> Any | None:
-    """Load a JSON file, returning None if it doesn't exist."""
-    if not path.exists():
-        return None
-    with open(path, "r") as f:
-        return json.load(f)
-
-
-def load_data(path: Path, default: Any = None, model: type[BaseModel] | None = None) -> Any | None:
-    """Load a data JSON file, check version compatibility, and strip the version envelope.
-
-    Supports two on-disk formats:
-      ``{"_version": "...", "data": <actual content>}``  — wrapped envelope (preferred)
-      ``<actual content>``                                — raw (backward-compat)
-
-    If the envelope is present the version is checked against ``DATA_VERSION``
-    and a warning is printed when they differ. The envelope is transparently
-    stripped so consumers never see ``_version``.
-
-    Returns ``default`` (or ``None``) if the file does not exist.
-    """
-    raw = load_json(path)
-    if raw is None:
-        return default
-
-    data = raw
-    if isinstance(raw, dict) and "_version" in raw:
-        ver = raw.pop("_version")
-        if ver != DATA_VERSION:
-            import warnings
-            warnings.warn(
-                f"{path.name} version {ver!r} != expected {DATA_VERSION!r}. "
-                "Run: python -m vasp_query preprocess"
-            )
-        data = raw.get("data") if "data" in raw else raw
-
-    if model is not None:
-        if isinstance(data, list):
-            return [model.model_validate(item) for item in data]
-        return model.model_validate(data)
-
-    return data
-
-
-# ── Search helpers (legacy) ────────────────────────────────────────────
-
-def match_keyword(kw: str, text: str) -> bool:
-    """Match keyword against text using word-level matching."""
-    if kw in text:
-        return True
-    words = re.findall(r'[a-z]+', kw.lower())
-    if words and len(words) > 1:
-        return all(w in text for w in words)
-    return False
-
-
-def score_keyword(kw: str, text: str) -> int:
-    """Score relevance of keyword match."""
-    if kw.lower() == text.lower():
-        return 100
-    if kw.lower() in text.lower():
-        return 50
-    words = re.findall(r'[a-z]+', kw.lower())
-    if words and len(words) > 1:
-        matched = sum(1 for w in words if w in text.lower())
-        if matched == len(words):
-            return 70
-        return matched * 10
-    return 0
 
 
 # ── Output helpers ─────────────────────────────────────────────────────
@@ -343,7 +270,7 @@ def _search_fts5(keyword: str, top_k: int) -> list[dict]:
             return []
         conn = sqlite3.connect(str(SEARCH_DB))
         conn.row_factory = sqlite3.Row
-        fts_query = " OR ".join(f'"{w}"' if " " in w else w for w in keyword.split())
+        fts_query = make_fts5_query(keyword)
         rows = conn.execute("""
             SELECT id, title, type, rank
             FROM search_index

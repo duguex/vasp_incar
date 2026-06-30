@@ -1,11 +1,17 @@
-"""Shared utilities for DFT tool packages (vasp_query, omx_tools)."""
+"""Shared utilities for DFT tool packages (vasp_query, omx_tools).
+
+Sub-modules
+-----------
+version  — DATA_VERSION, load_data(), check_version()
+search   — match_keyword(), score_keyword(), make_fts5_query()
+error    — make_error(), make_suggestion_response(), print_error()
+"""
 
 import json
 import sys
 from typing import Any
 
 # ── Data version ───────────────────────────────────────────────────────
-# Bumped to 0.3.0 when vasp-query (0.2.0) and omx-tools (0.1.0) merged.
 
 DATA_VERSION = "0.3.0"
 
@@ -46,3 +52,9 @@ def die_json(msg: str, json_output: bool = False, code: int = 1):
     else:
         print(f"Error: {msg}", file=sys.stderr)
         sys.exit(code)
+
+
+# ── Sub-module re-exports (convenience) ────────────────────────────────
+
+from dft_utils.version import load_data, check_version  # noqa: E402, F401
+from dft_utils.search import match_keyword, score_keyword, make_fts5_query  # noqa: E402, F401
