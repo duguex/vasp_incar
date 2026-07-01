@@ -264,9 +264,9 @@ def cmd_hybrid(args, json_output=False):
     kw_key = lambda r: f"{r.get('sec_num', '')}:{r['title']}"
     signals = []
     if fts5_results:
-        signals.append((fts5_results, "fts5", 1.0))
+        signals.append((fts5_results, "fts5", 2.0))
     if semantic_results:
-        signals.append((semantic_results, "semantic", 1.0))
+        signals.append((semantic_results, "semantic", 0.5))
     ranked = rrf_merge(signals, key_fn=kw_key, top_k=20)
 
     if not ranked:

@@ -395,11 +395,11 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
     # ── RRF fusion ─────────────────────────────────────────────────
     signals = []
     if bm25_signal:
-        signals.append((bm25_signal, "bm25", 1.0))
+        signals.append((bm25_signal, "bm25", 1.5))
     if semantic_signal:
-        signals.append((semantic_signal, "semantic", 1.0))
+        signals.append((semantic_signal, "semantic", 0.75))
     if tag_signal:
-        signals.append((tag_signal, "tag", 1.5))
+        signals.append((tag_signal, "tag", 1.0))
 
     fused = rrf_merge(signals, key_fn=kw_id, top_k=top_k)
 
