@@ -7,12 +7,16 @@
 set -e
 
 echo "▸ pre-commit: running fast tests..."
-
 # Run VASP tests (skip slow hybrid ones)
 python3 -m pytest vasp_query/test_cli.py \
     -k "not hybrid" -q --no-header 2>/dev/null
 
-# Run omx database tests (fast, <1s)
+# Run omx database tests
 python3 -m pytest tests/test_database.py -q --no-header 2>/dev/null
+
+# Run new coverage tests (fast, <5s total)
+python3 -m pytest tests/test_hybrid.py tests/test_unified_cli.py \
+    tests/test_embedding.py tests/test_regressions.py \
+    tests/test_converter.py -q --no-header 2>/dev/null
 
 echo "▸ pre-commit: all fast tests passed"
