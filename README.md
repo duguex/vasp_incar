@@ -69,6 +69,9 @@ vasp2omx INCAR POSCAR -o input.dat
 omp2vasp input.dat -o INCAR
 ```
 
+Full walkthroughs: [`docs/WORKFLOWS.md`](docs/WORKFLOWS.md) — VASP↔OpenMX migration,
+cross-code concept lookup, natural language → calculation, convergence troubleshooting.
+
 ## Installation
 
 ```bash
