@@ -207,3 +207,28 @@ Module-level lazy caches (`_INDEX_CACHE`, `_MODEL_CACHE`, `_ALIASES_CACHE`) set 
 - Parse stability: wiki format changes break nothing
 - Latency: current ~6 MB JSON loaded per call
 - Error UX: every error includes actionable `suggestion`
+
+## Extending the Framework
+
+### Adding a new DFT code (6 steps)
+
+1. **Create package** — `newcode_tools/` with `parsers/`, `writers/`, `schemas/`, `tests/`
+2. **Index the manual** — build SQLite FTS5 database or JSON index from the code's docs
+3. **Write parsers/writers** — input file ↔ typed dict (use `die_json`, `make_error` from `dft_utils`)
+4. **Register plugin** — `plugin.py` with `CodePlugin` record; auto-discovered by `dft_utils.discover()`
+5. **Implement CLI** — `query.py` with argparse and search logic; use shared `rrf_merge()`, `make_fts5_query()`
+6. **Add converters** (optional) — register `(src, dst)` pairs in `dft_utils.convert`
+
+See `docs/ADDING_A_CODE.md` for full walkthrough.  Template skeleton at `dft_utils/templates/code_skeleton/`.
+
+### Shared infrastructure
+
+| Module | Purpose |
+|--------|---------|
+| `dft_utils.protocol` | `CodePlugin` dataclass + `register()` / `discover()` |
+| `dft_utils.cli` | Unified `dft` CLI dispatcher |
+| `dft_utils.convert` | Cross-code converter registry |
+| `dft_utils.search` | `rrf_merge()`, `make_fts5_query()`, `match_keyword()`, `score_keyword()` |
+| `dft_utils.version` | `load_data()` with version envelope, `check_version()` |
+| `dft_utils.error` | `make_error()`, `make_suggestion_response()`, `print_error()` |
+| `dft_utils` | `debug_log()`, `die_json()`, `DATA_VERSION` |

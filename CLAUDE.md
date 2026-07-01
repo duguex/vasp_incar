@@ -256,3 +256,27 @@ Zero async. All synchronous — `requests` (not `aiohttp`), no `asyncio`.
 | **Latency** | Time from query to response | Above ~500ms degrades CLI experience |
 | **Test coverage** | CLI pytest (22 vasp + 110 omx) | Low coverage makes regression easy |
 | **Error UX** | Every error must include actionable `suggestion` | `"not found"` without next step is useless to agents |
+
+## Extending the Framework
+
+### Adding a new DFT code
+
+1. **Create package** (e.g. `castep_tools/`) with `parsers/`, `writers/`, `schemas/`, `tests/`
+2. **Index the manual** — parse HTML/PDF docs into structured JSON + FTS5 db
+3. **Write parsers/writers** — input file ↔ typed dict
+4. **Register plugin** — `plugin.py` with `CodePlugin` → see `vasp_query/plugin.py`
+5. **Implement CLI** — `query.py` with `build_parser()` + `main()`
+6. **Add converters** (optional) — register in `dft_utils.convert` → see `omx_tools/vasp2omx.py`
+
+### Shared infrastructure
+
+| Module | Key exports | Purpose |
+|--------|-------------|---------|
+| `dft_utils.protocol` | `CodePlugin`, `register`, `discover` | Plugin registry |
+| `dft_utils.cli` | `main()` | Unified `dft` CLI |
+| `dft_utils.convert` | `register`, `convert` | Cross-code converter registry |
+| `dft_utils.search` | `rrf_merge`, `make_fts5_query`, `match_keyword` | Search algorithms |
+| `dft_utils.version` | `load_data`, `check_version` | Version envelope |
+| `dft_utils.error` | `make_error`, `die_json` | Error response helpers |
+
+See `docs/ADDING_A_CODE.md` for the full walkthrough with code examples.  Template skeleton at `dft_utils/templates/code_skeleton/`.
