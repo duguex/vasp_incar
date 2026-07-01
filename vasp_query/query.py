@@ -7,6 +7,7 @@ import sys
 from vasp_query._common import (
     load_data,
     load_json,
+    load_tag_index,
     match_keyword,
     score_keyword,
     format_tag_human,
@@ -33,8 +34,7 @@ from vasp_query.processor import preprocess
 
 
 def cmd_tag(args) -> int:
-    """Look up a specific tag by name."""
-    index = load_data(TAG_INDEX)
+    index = load_tag_index()
     if index is None:
         print(json.dumps({"error": "tag_index.json not found. Run: python -m vasp_query preprocess"}))
         return 1
@@ -81,8 +81,7 @@ def cmd_search(args) -> int:
     clear_debug_log()
     keyword = args.keyword.lower().strip()
     debug_log(f"=== search({keyword!r}) ===")
-
-    index = load_data(TAG_INDEX)
+    index = load_tag_index()
     non_tag = load_data(NON_TAG_INDEX)
     if index is None:
         print(json.dumps({"error": "tag_index.json not found. Run: python -m vasp_query preprocess"}))
@@ -327,8 +326,7 @@ def cmd_incar(args) -> int:
 
 
 def cmd_related(args) -> int:
-    """Show wiki-related tags for a given tag."""
-    index = load_data(TAG_INDEX)
+    index = load_tag_index()
     if index is None:
         print(json.dumps({"error": "tag_index.json not found. Run: python -m vasp_query preprocess"}))
         return 1
@@ -360,8 +358,7 @@ def cmd_related(args) -> int:
 
 
 def cmd_list(args) -> int:
-    """List all available tags."""
-    index = load_data(TAG_INDEX)
+    index = load_tag_index()
     if index is None:
         print(json.dumps({"error": "tag_index.json not found. Run: python -m vasp_query preprocess"}))
         return 1
@@ -477,8 +474,7 @@ def cmd_cooccur(args) -> int:
             count_both += 1
             ab_pairs.append((str(incar[tag_a]), str(incar[tag_b])))
 
-    # Also get wiki relationship
-    index = load_data(TAG_INDEX)
+    index = load_tag_index()
     wiki_related = False
     for entry in index or []:
         if entry["title"] == tag_a and tag_b in entry.get("related", []):

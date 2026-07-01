@@ -167,25 +167,29 @@ def _parse_non_tag_page(item: dict) -> dict | None:
     }
 
 
-def parse_wiki_to_index() -> list[dict]:
-    """Parse vasp_wiki_all_data.json into structured tag_index.json."""
+def parse_wiki_to_index() -> dict:
+    """Parse vasp_wiki_all_data.json into structured tag_index.json.
+
+    Stored as ``dict[str, dict]`` keyed by tag title (prevents duplicates).
+    """
     with open(WIKI_RAW, "r") as f:
         data = json.load(f)
 
-    tags = []
+    tags: dict[str, dict] = {}
     skipped: list[str] = []
     for item in data:
         result = _parse_tag_page(item)
         if result:
+            title = result.get("title", "")
+            if not title:
+                continue
             try:
                 TagEntry.model_validate(result)
             except Exception as e:
-                logger.warning("Tag %s failed validation: %s", result.get("title"), e)
-            tags.append(result)
+                logger.warning("Tag %s failed validation: %s", title, e)
+            # dict key = title, so duplicates are naturally resolved (last wins)
+            tags[title] = result
         else:
-            # Issue #5: persist the list of dropped titles so
-            # generate_missing_tags can auto-discover what to re-inject,
-            # instead of relying on a hardcoded OVERRIDE set.
             title = item.get("title", "")
             if title:
                 skipped.append(title)
@@ -193,12 +197,11 @@ def parse_wiki_to_index() -> list[dict]:
     with open(DATA_DIR / "tag_index.json", "w") as f:
         json.dump({"_version": DATA_VERSION, "data": tags}, f, ensure_ascii=False, indent=2)
 
-    # Persist dropped titles (issue #5). Overwritten on each preprocess run.
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     with open(DATA_DIR / "skipped_pages.json", "w") as f:
         json.dump({"_version": DATA_VERSION, "data": skipped}, f, ensure_ascii=False, indent=2)
 
-    logger.info("Parsed %d INCAR tags, skipped %d pages (written to skipped_pages.json)", len(tags), len(skipped))
+    logger.info("Parsed %d INCAR tags, skipped %d pages", len(tags), len(skipped))
     return tags
 
 
@@ -359,8 +362,11 @@ def extract_tag_cooccur() -> None:
     logger.info("Extracted co-occurrence for %d tags", len(result))
 
 
-def generate_missing_tags() -> list[dict]:
-    """Generate tag_index entries for tags found in incar_data but missing from wiki."""
+def generate_missing_tags() -> dict:
+    """Generate tag_index entries for tags found in incar_data but missing from wiki.
+
+    Returns dict (title → entry) to merge into the main tag_index.
+    """
     from collections import Counter
 
     def _unquote(s):
@@ -368,32 +374,35 @@ def generate_missing_tags() -> list[dict]:
             return json.loads(s)
         return s
 
+    # Read existing tag_index (now a dict)
     tags_raw = json.load(open(DATA_DIR / "tag_index.json"))
     if isinstance(tags_raw, dict) and "data" in tags_raw:
         existing = tags_raw["data"]
     else:
-        existing = tags_raw
-    existing_titles = {t["title"] for t in existing}
+        existing = {} if isinstance(tags_raw, dict) else {}
+    if isinstance(existing, list):
+        # backward compat: convert old list format
+        existing = {t["title"]: t for t in existing}
 
     with open(INCAR_DATA, "r") as f:
         incar_data = json.load(f)
 
+    # Count tags from incar_data, skip already-existing ones
     tag_counts: dict[str, int] = {}
     tag_values: dict[str, Counter] = {}
     for item in incar_data:
         incar = item.get("incar", {})
         for k, v in incar.items():
-            if k in existing_titles:
+            if k in existing:
                 continue
             tag_counts[k] = tag_counts.get(k, 0) + 1
             if k not in tag_values:
                 tag_values[k] = Counter()
             tag_values[k][json.dumps(v, ensure_ascii=False, default=str)] += 1
 
-    generated = []
-    # Issue #5: hardcoded OVERRIDE replaced with a union of (a) the minimum
-    # enforced set and (b) the auto-discovered skipped pages from the last
-    # preprocess run (written by parse_wiki_to_index to skipped_pages.json).
+    generated: dict[str, dict] = {}
+
+    # Step 1: skipped wiki pages (titles that failed tag parsing)
     MINIMUM_OVERRIDE = {"ENMAX", "ENMIN", "EXX"}
     skipped_raw = json.load(open(DATA_DIR / "skipped_pages.json")) if (DATA_DIR / "skipped_pages.json").exists() else {}
     skipped_titles: set[str] = set()
@@ -402,28 +411,32 @@ def generate_missing_tags() -> list[dict]:
     elif isinstance(skipped_raw, list):
         skipped_titles = set(skipped_raw)
     override_tags = MINIMUM_OVERRIDE | skipped_titles
-    for tag in override_tags:
-        if tag in existing_titles:
+    for tag in sorted(override_tags):
+        if tag in existing or tag in generated:
             continue
         tc = tag_counts.get(tag, 0)
         tv = tag_values.get(tag, Counter())
         topv = tv.most_common(3)
         top_str = ", ".join(f"{_unquote(v)} ({c}x)" for v, c in topv) if topv else "(not in dataset)"
-        generated.append({
+        generated[tag] = {
             "title": tag,
             "value": " | ".join(_unquote(v) for v, _ in topv) if topv else "",
             "default": "",
             "description": f"{tag} is a VASP input parameter. Appears in {tc} configurations. Common values: {top_str}.",
             "related": [], "url": "", "auto_generated": True,
-        })
+        }
 
+    # Step 2: tags from incar_data with frequency >= 50
+    # (existing and step-1-generated are both tracked — no duplicates)
     MIN_FREQ = 50
     for tag, count in sorted(tag_counts.items(), key=lambda x: -x[1]):
         if count < MIN_FREQ:
             continue
+        if tag in existing or tag in generated:
+            continue
         topv = tag_values[tag].most_common(3)
         top_str = ", ".join(f"{_unquote(v)} ({c}x)" for v, c in topv)
-        generated.append({
+        generated[tag] = {
             "title": tag,
             "value": " | ".join(_unquote(v) for v, _ in topv),
             "default": "",
@@ -434,13 +447,13 @@ def generate_missing_tags() -> list[dict]:
                 f"Common values: {top_str}."
             ),
             "related": [], "url": "", "auto_generated": True,
-        })
+        }
 
     if generated:
-        existing.extend(generated)
+        existing.update(generated)
         with open(DATA_DIR / "tag_index.json", "w") as f:
             json.dump({"_version": DATA_VERSION, "data": existing}, f, ensure_ascii=False, indent=2)
-        logger.info("Generated %d missing tag entries (e.g. %s)", len(generated), generated[0]["title"])
+        logger.info("Generated %d missing tag entries (e.g. %s)", len(generated), next(iter(generated)))
 
     return generated
 
@@ -464,16 +477,22 @@ def build_search_indexes() -> None:
 
     tags = json.load(open(DATA_DIR / "tag_index.json"))
     if isinstance(tags, dict) and "data" in tags:
-        tags = tags["data"]
+        raw = tags["data"]
+        # Support both dict (new) and list (backward compat)
+        if isinstance(raw, dict):
+            tag_list = list(raw.values())
+        else:
+            tag_list = raw
+    else:
+        tag_list = []
     non_tags = json.load(open(DATA_DIR / "non_tag_index.json"))
     if isinstance(non_tags, dict) and "data" in non_tags:
         non_tags = non_tags["data"]
 
     docs = []
-    for t in tags:
+    for t in tag_list:
         title = t['title']
         text = f"{title} {t.get('description', '')} {t.get('default', '')} {t.get('value', '')}"
-        # Enrich with top co-occurring tags (from incar_data) for semantic bridging
         if cooccur_data and title in cooccur_data:
             top_cooc = sorted(cooccur_data[title].items(), key=lambda x: -x[1])[:5]
             names = [c[0] for c in top_cooc]

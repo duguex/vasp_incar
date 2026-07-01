@@ -430,3 +430,17 @@ def load_data_raw(path: Path) -> Any | None:
         return np.load(str(path))
     except Exception:
         return None
+
+def load_tag_index() -> list[dict] | None:
+    """Load tag_index.json, returning a list of tag dicts.
+
+    Handles both dict format (keyed by title) and legacy list format.
+    """
+    raw = load_data(TAG_INDEX)
+    if raw is None:
+        return None
+    if isinstance(raw, dict):
+        return list(raw.values())
+    if isinstance(raw, list):
+        return raw
+    return None
