@@ -79,5 +79,38 @@ def cli():
         write_incar(vasp_params, out, verbose=args.verbose)
 
 
+# ── Converter registration ───────────────────────────────────────────
+
+
+def _convert_omx_to_vasp(input_path: str, structure_path: str = "", **kwargs) -> str:
+    """Convert OpenMX .dat to VASP INCAR.  Returns output path."""
+    old = sys.argv[:]
+    argv = ["omp2vasp", input_path]
+    if structure_path:
+        argv.append(structure_path)
+    if kwargs.get("output"):
+        argv += ["-o", kwargs["output"]]
+    if kwargs.get("template"):
+        argv += ["-t", kwargs["template"]]
+    if kwargs.get("dry_run"):
+        argv += ["--dry-run"]
+    sys.argv = argv
+    try:
+        cli()
+    except SystemExit:
+        pass
+    finally:
+        sys.argv = old
+    return kwargs.get("output", "") or Path(input_path).stem + ".INCAR"
+
+
+try:
+    from dft_utils.convert import register
+    register("omx", "vasp", _convert_omx_to_vasp,
+             "OpenMX .dat → VASP INCAR")
+except ImportError:
+    pass
+
+
 if __name__ == "__main__":
     cli()

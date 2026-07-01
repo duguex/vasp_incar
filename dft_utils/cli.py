@@ -55,6 +55,16 @@ def cmd_list_codes() -> None:
         for skill in p.skills:
             print(f"               skill: {skill}")
 
+    # Show available converters
+    convs = _get_available_convs()
+    if convs:
+        print(f"\nAvailable converters ({len(convs)}):")
+        for s, t in convs:
+            from dft_utils.convert import list_converters as _lc
+            for c in _lc():
+                if (c['from'], c['to']) == (s, t):
+                    print(f"  {s:>10s} → {t:<10s}  {c['description']}")
+
 
 def cmd_code(plugin_name: str, args: list[str]) -> int:
     """Dispatch to a plugin's CLI module."""
@@ -112,62 +122,61 @@ def cmd_code(plugin_name: str, args: list[str]) -> int:
         sys.argv = old
 
 
+def _get_available_convs() -> list[tuple[str, str]]:
+    """Load converter modules and return available (src, dst) pairs."""
+    try:
+        import omx_tools.vasp2omx  # noqa: F401
+        import omx_tools.omp2vasp  # noqa: F401
+    except ImportError:
+        pass
+    from dft_utils.convert import available_pairs
+    return available_pairs()
+
+
 def cmd_convert(args: list[str]) -> int:
-    """Run cross-code format conversion.
+    """Run cross-code format conversion via registered converters.
 
     Usage: dft convert <src_code>:<dst_code> <input_file> [structure_file]
     """
     if not args:
+        pairs = _get_available_convs()
+        pair_str = ", ".join(f"{s}->{t}" for s, t in pairs)
         print("Usage: dft convert <src>:<dst> <input> [structure] [-o output]")
         print("Example: dft convert vasp:omx INCAR POSCAR")
+        if pair_str:
+            print(f"Available: {pair_str}")
         return 1
-
     mapping = args[0]
     if ":" not in mapping:
         print(f"Invalid conversion specifier: {mapping!r} (expected src:dst)")
         return 1
 
     src, dst = mapping.split(":", 1)
+
+    # Ensure converter modules register themselves
+    _get_available_convs()
+    from dft_utils.convert import convert, available_pairs
+
     input_file = args[1] if len(args) > 1 else ""
     structure_file = args[2] if len(args) > 2 else ""
 
-    # Map to known converters
-    if (src, dst) == ("vasp", "omx"):
-        try:
-            from omx_tools.vasp2omx import cli as conv_cli
-            argv = ["vasp2omx", input_file, structure_file] + args[3:]
-            old = sys.argv[:]
-            sys.argv = argv
-            try:
-                conv_cli()
-            except SystemExit as e:
-                return e.code or 0
-            finally:
-                sys.argv = old
-        except ImportError as e:
-            print(f"converter vasp2omx not available: {e}", file=sys.stderr)
-            return 1
-        return 0
+    extras = {}
+    for i in range(3, len(args)):
+        if args[i] == "-o" and i + 1 < len(args):
+            extras["output"] = args[i + 1]
+        if args[i] == "--dry-run":
+            extras["dry_run"] = True
+        if args[i] == "-t" and i + 1 < len(args):
+            extras["template"] = args[i + 1]
 
-    if (src, dst) == ("omx", "vasp"):
-        try:
-            from omx_tools.omp2vasp import cli as conv_cli
-            argv = ["omp2vasp", input_file, structure_file] + args[3:]
-            old = sys.argv[:]
-            sys.argv = argv
-            try:
-                conv_cli()
-            except SystemExit as e:
-                return e.code or 0
-            finally:
-                sys.argv = old
-        except ImportError as e:
-            print(f"converter omp2vasp not available: {e}", file=sys.stderr)
-            return 1
-        return 0
-
-    print(f"No converter found for {src} -> {dst}")
-    return 1
+    result = convert(src, dst, input_file, structure_path=structure_file, **extras)
+    if result is None:
+        pairs = available_pairs()
+        pair_str = ", ".join(f"{s}->{t}" for s, t in pairs)
+        print(f"No converter found for {src} -> {dst}")
+        print(f"Available: {pair_str}")
+        return 1
+    return 0
 
 
 def main() -> int:
