@@ -368,13 +368,9 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
     semantic_signal = []
     if vectors is not None:
         try:
-            if _MODEL_CACHE is None:
-                import os as _os
-                _os.environ["USE_TF"] = "0"
-                from sentence_transformers import SentenceTransformer
-                _MODEL_CACHE = SentenceTransformer("BAAI/bge-small-en-v1.5")
-            model = _MODEL_CACHE
-            query_vec = model.encode([kw], show_progress_bar=False)
+            from dft_utils.embedding import embed
+            import numpy as np
+            query_vec = np.array([embed(kw)], dtype=np.float32)
 
             scores = np.dot(vectors, query_vec.T).flatten()
             top_idx = np.argsort(-scores)[:top_k * 3]

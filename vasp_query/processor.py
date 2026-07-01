@@ -526,22 +526,18 @@ def build_search_indexes() -> None:
     conn.close()
     logger.info("Built FTS5 search db with %d docs at %s", len(docs), fts5_path)
     try:
-        import os as _os
-        _os.environ["USE_TF"] = "0"
-        from sentence_transformers import SentenceTransformer
-        model = SentenceTransformer("BAAI/bge-small-en-v1.5")
-        texts = [d["text"] for d in docs]
-        embeddings = model.encode(texts, show_progress_bar=True)
+        from dft_utils.embedding import embed_numpy, EMBEDDING_DIM
+        texts = [d["text"][:8000] for d in docs]
+        embeddings = embed_numpy(texts)
         np.save(str(DATA_DIR / "doc_vectors.npy"), embeddings)
         meta = [{"id": d["id"], "title": d["title"], "type": d["type"]} for d in docs]
         with open(DATA_DIR / "doc_meta.json", "w") as f:
             json.dump(meta, f, ensure_ascii=False)
-        logger.info("Generated embeddings: %d docs x %d dim", len(embeddings), embeddings.shape[1])
+        dim = EMBEDDING_DIM or embeddings.shape[1]
+        logger.info("Generated embeddings: %d docs x %d dim (backend: %s)",
+                    len(embeddings), dim, "ollama")
 
-        # Also generate tag-only embeddings for focused semantic matching.
-        # Issue #6: slice the existing embeddings matrix instead of re-encoding.
-        # The tag docs are a strict subset of `docs`, so the tag vectors are
-        # already rows of `embeddings` — no second model.encode() pass needed.
+        # Tag-only slice (no re-encoding needed)
         tag_docs = [(i, d) for i, d in enumerate(docs) if d["type"] == "tag"]
         if tag_docs:
             tag_indices, tag_entries = zip(*tag_docs)
@@ -550,10 +546,10 @@ def build_search_indexes() -> None:
             tag_meta = [{"idx": i, "id": d["id"], "title": d["title"]} for i, d in tag_docs]
             with open(DATA_DIR / "tag_meta.json", "w") as f:
                 json.dump(tag_meta, f, ensure_ascii=False)
-            logger.info("Generated tag-only embeddings: %d tags x %d dim (sliced from doc_embeddings, no re-encoding)",
+            logger.info("Generated tag-only embeddings: %d tags x %d dim (sliced)",
                         len(tag_embeddings), tag_embeddings.shape[1])
     except Exception as e:
-        logger.warning("sentence-transformers embedding failed (skip): %s", e)
+        logger.warning("embedding failed (skip): %s", e)
 
 
 def preprocess(check_only: bool = False) -> bool:

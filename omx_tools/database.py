@@ -327,43 +327,35 @@ def _search_fts5(query: str) -> list[dict]:
 
 
 def _search_semantic(query: str) -> list[dict]:
-    """Run semantic search via subprocess (model cached after first call)."""
+    """Run semantic search via dft_utils.embedding (Ollama, with fallback)."""
     if not os.path.exists(DB_PATH):
         return []
-    env = os.environ.copy()
-    env["HF_HUB_OFFLINE"] = "1"
-    env["TRANSFORMERS_OFFLINE"] = "1"
-    script = """
-import os, sys, sqlite3, json, numpy as np
-os.environ['HF_HUB_OFFLINE'] = '1'
-os.environ['TRANSFORMERS_OFFLINE'] = '1'
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-from sentence_transformers import SentenceTransformer
-model = SentenceTransformer('BAAI/bge-small-en-v1.5', device='cpu')
-q = sys.argv[1]
-q_emb = model.encode(q, normalize_embeddings=True)
-db = sqlite3.connect(sys.argv[2])
-db.row_factory = sqlite3.Row
-rows = db.execute('SELECT section_id, sec_num, title, file_path, embedding FROM section_embeddings').fetchall()
-results = []
-for r in rows:
-    emb = np.frombuffer(r['embedding'], dtype=np.float32)
-    sim = float(np.dot(q_emb, emb))
-    results.append((sim, r['sec_num'], r['title']))
-results.sort(reverse=True)
-print(json.dumps([{'sim': s, 'sec_num': n, 'title': t} for s,n,t in results[:30]]))
-"""
     try:
-        result = subprocess.run(
-            [sys.executable, "-c", script, query, str(DB_PATH)],
-            capture_output=True, text=True, timeout=120, env=env
-        )
-        if result.returncode != 0:
-            debug_log(f"  Semantic subprocess error: {result.stderr[:200]}")
-            return []
-        hits = json.loads(result.stdout.strip())
-        return hits
-    except (subprocess.TimeoutExpired, json.JSONDecodeError) as e:
+        from dft_utils.embedding import embed
+        import numpy as np
+        import sqlite3
+
+        q_vec = np.array([embed(query)], dtype=np.float32)
+
+        db = sqlite3.connect(str(DB_PATH))
+        db.row_factory = sqlite3.Row
+        rows = db.execute(
+            "SELECT section_id, sec_num, title, embedding FROM section_embeddings"
+        ).fetchall()
+        db.close()
+
+        results = []
+        for r in rows:
+            emb = np.frombuffer(r["embedding"], dtype=np.float32)
+            sim = float(np.dot(q_vec[0], emb))
+            results.append((sim, r["sec_num"], r["title"]))
+
+        results.sort(reverse=True)
+        return [
+            {"sim": s, "sec_num": n, "title": t}
+            for s, n, t in results[:30]
+        ]
+    except Exception as e:
         debug_log(f"  Semantic error: {e}")
         return []
 
