@@ -420,14 +420,19 @@ def cmd_keyword(args, json_output=False):
                 return
 
     # Fall back to DB index search
-    fts_query = make_fts5_query(search_key)
+    db = get_db()
+
+    keyword_pattern = f"%{search_key}%"
     rows = db.execute("""
-        SELECT keyword, sec_num, title
-        FROM index_entries
-        WHERE index_entries MATCH ?
-        ORDER BY rank
+        SELECT ie.keyword, ie.section_ref,
+               s.sec_num, s.title
+        FROM index_entries ie
+        LEFT JOIN sections s ON s.sec_num = REPLACE(ie.section_ref, '\u00a7', '')
+        WHERE ie.keyword LIKE ?
+        ORDER BY ie.keyword
         LIMIT 20
-    """, (fts_query,)).fetchall()
+    """, (keyword_pattern,)).fetchall()
+
     if not rows:
         if json_output:
             resp = {"error": f"Keyword '{keyword}' not found", "suggestion": "Try 'omx-db list' to see available sections, then browse for keywords manually."}
@@ -436,6 +441,7 @@ def cmd_keyword(args, json_output=False):
             print(f"No results for keyword: {keyword}")
         db.close()
         return
+
     if json_output:
         print(json.dumps({
             "results": [{"keyword": r["keyword"], "sec_num": r["sec_num"],
@@ -443,9 +449,9 @@ def cmd_keyword(args, json_output=False):
             "count": len(rows),
         }, indent=2, ensure_ascii=False))
     else:
-        print(f'\033[32m🔍 {len(rows)} keyword results for "{keyword}"\033[0m\n')
+        print(f'\033[32m\u270d {len(rows)} keyword results for "{keyword}"\033[0m\n')
         for r in rows:
-            sec = f'§{r["sec_num"]}' if r["sec_num"] else ""
+            sec = f'\u00a7{r["sec_num"]}' if r["sec_num"] else ""
             print(f'  \033[36m{sec:>12s}\033[0m  {r["keyword"]:.<25s} {r["title"]}')
     db.close()
 
@@ -471,8 +477,7 @@ def cmd_section(args, json_output=False):
                                  (f"%{num}%", f"%{num}%")).fetchall()
         if json_output:
             resp = {"error": f"Section not found: {num}", "suggestion": "Use 'omx-db list' to browse all sections."}
-            if suggestions:
-                resp["suggestions"] = [{"sec_num": s["sec_num"], "title": s["title"]} for s in suggestions]
+            resp["suggestions"] = [{"sec_num": s["sec_num"], "title": s["title"]} for s in suggestions] if suggestions else []
             print(json.dumps(resp, indent=2, ensure_ascii=False))
         else:
             print(f"Section not found: {num}")
@@ -493,7 +498,7 @@ def cmd_section(args, json_output=False):
             "sec_num": row["sec_num"],
             "title": row["title"],
             "file": file_path,
-            "depth": row.get("depth", 1),
+            "depth": row["depth"],
             "content": content,
         }, indent=2, ensure_ascii=False))
     else:
@@ -540,14 +545,14 @@ def cmd_files(args, json_output=False):
     db = get_db()
     if file_type:
         rows = db.execute(
-            "SELECT path, type, category, size_bytes FROM manual_files WHERE type = ? ORDER BY path",
+            "SELECT path, file_type, category, size_bytes FROM files WHERE file_type = ? ORDER BY path",
             (file_type,)
         ).fetchall()
     else:
-        rows = db.execute("SELECT path, type, category, size_bytes FROM manual_files ORDER BY path").fetchall()
+        rows = db.execute("SELECT path, file_type, category, size_bytes FROM files ORDER BY path").fetchall()
     if json_output:
         resp = {
-            "files": [{"path": r["path"], "type": r["type"],
+            "files": [{"path": r["path"], "type": r["file_type"],
                         "category": r["category"], "size_bytes": r["size_bytes"]}
                       for r in rows]
         }
@@ -555,10 +560,8 @@ def cmd_files(args, json_output=False):
     else:
         print(f"Files ({len(rows)} total):")
         for r in rows:
-            print(f"  [{r['type']:>4s}] {r['path']}")
+            print(f"  [{r['file_type']:>4s}] {r['path']}")
     db.close()
-
-
 # ── Database stats ─────────────────────────────────────────────────────
 
 def cmd_stats(args, json_output=False):
@@ -573,10 +576,10 @@ def cmd_stats(args, json_output=False):
     files_by_cat = {}
     files_by_type = {}
     try:
-        rows = db.execute("SELECT category, type, COUNT(*) AS c FROM manual_files GROUP BY category, type").fetchall()
+        rows = db.execute("SELECT category, file_type, COUNT(*) AS c FROM files GROUP BY category, file_type").fetchall()
         for r in rows:
             files_by_cat[r["category"]] = files_by_cat.get(r["category"], 0) + r["c"]
-            files_by_type[r["type"]] = files_by_type.get(r["type"], 0) + r["c"]
+            files_by_type[r["file_type"]] = files_by_type.get(r["file_type"], 0) + r["c"]
     except Exception:
         pass
     db_size = os.path.getsize(DB_PATH) / (1024 * 1024) if os.path.exists(DB_PATH) else 0
@@ -602,9 +605,11 @@ def cmd_stats(args, json_output=False):
         print(json.dumps(resp, indent=2, ensure_ascii=False))
     else:
         print("Database statistics:")
-        for t, c in tables.items():
-            print(f"  {t}: {c}")
-        print(f"  db_size: {db_size:.1f} MB")
+        for name, count in sorted(tables.items()):
+            print(f"  {name}: {count}")
+        for cat, count in sorted(files_by_cat.items()):
+            print(f"  files ({cat}): {count}")
+        print(f"  db_size: {round(db_size, 1)} MB")
         if version_info:
             print(f"  version: {version_info['version']}")
     db.close()

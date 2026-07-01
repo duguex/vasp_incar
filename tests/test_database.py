@@ -108,7 +108,9 @@ class TestKeyword:
         )
         assert code == 0
         data = json.loads(out)
-        assert data["results"] == []
+        assert "error" in data
+        assert "suggestion" in data
+        assert data["error"] == "Keyword 'XYZZY_IMPROBABLE' not found"
 
     def test_text(self, capsys):
         out, err, code = run_db(["omx-db", "keyword", "scf.Kgrid"], capsys)
@@ -230,7 +232,7 @@ class TestStats:
     def test_text(self, capsys):
         out, err, code = run_db(["omx-db", "stats"], capsys)
         assert code == 0
-        assert "Database Statistics" in out
+        assert "Database statistics" in out
         assert "sections" in out
 
 
