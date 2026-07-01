@@ -8,12 +8,10 @@ Cross-pollination features ported from vasp_incar:
   - Error suggestion field                          (Issue 5)
   - Data version envelope (meta table)              (Issue 6)
 """
-
 import json
 import re
 import os
 import sqlite3
-import subprocess
 import sys
 import textwrap
 from pathlib import Path
@@ -618,73 +616,55 @@ def cmd_rag(args, json_output=False):
         else:
             print("Usage: omx-db rag <query>")
         return
-    if not json_output:
-        print("\033[2mLoading embedding model...\033[0m", flush=True)
-    env = os.environ.copy()
-    env["HF_HUB_OFFLINE"] = "1"
-    env["TRANSFORMERS_OFFLINE"] = "1"
-    script = """
-import os, sys, sqlite3, json, numpy as np
-os.environ['HF_HUB_OFFLINE'] = '1'
-os.environ['TRANSFORMERS_OFFLINE'] = '1'
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-from sentence_transformers import SentenceTransformer
-model = SentenceTransformer('BAAI/bge-small-en-v1.5', device='cpu')
-q = sys.argv[1]
-q_emb = model.encode(q, normalize_embeddings=True)
-db = sqlite3.connect(sys.argv[2])
-db.row_factory = sqlite3.Row
-rows = db.execute('SELECT section_id, sec_num, title, file_path, embedding FROM section_embeddings').fetchall()
-results = []
-for r in rows:
-    emb = np.frombuffer(r['embedding'], dtype=np.float32)
-    sim = float(np.dot(q_emb, emb))
-    results.append((sim, r['sec_num'], r['title'], r['file_path']))
-results.sort(reverse=True)
-print(json.dumps([{'sim': s, 'sec_num': n, 'title': t, 'file': f} for s,n,t,f in results[:10]]))
-"""
+
     try:
-        result = subprocess.run(
-            [sys.executable, "-c", script, query, str(DB_PATH)],
-            capture_output=True, text=True, timeout=120, env=env
-        )
-        if result.returncode != 0:
+        from dft_utils.embedding import embed
+        import numpy as np
+        import sqlite3
+
+        if not json_output:
+            print("\033[2mEmbedding query via Ollama...\033[0m", flush=True)
+
+        q_vec = np.array([embed(query)], dtype=np.float32)
+
+        db = sqlite3.connect(str(DB_PATH))
+        db.row_factory = sqlite3.Row
+        rows = db.execute(
+            "SELECT section_id, sec_num, title, file_path, embedding FROM section_embeddings"
+        ).fetchall()
+        db.close()
+
+        results = []
+        for r in rows:
+            emb = np.frombuffer(r["embedding"], dtype=np.float32)
+            sim = float(np.dot(q_vec[0], emb))
+            results.append((sim, r["sec_num"], r["title"], r["file_path"]))
+
+        results.sort(reverse=True)
+        hits = [{"sim": s, "sec_num": n, "title": t, "file": f}
+                for s, n, t, f in results[:10]]
+
+        if not hits:
             if json_output:
-                print(json.dumps({"error": result.stderr[:500], "suggestion": "Check that sentence-transformers is installed."}))
+                print(json.dumps({"results": [], "count": 0}))
             else:
-                print(f"Error: {result.stderr[:500]}")
+                print("No results.")
             return
-        hits = json.loads(result.stdout.strip())
-    except subprocess.TimeoutExpired:
+
         if json_output:
-            print(json.dumps({"error": "embedding query timed out", "suggestion": "Try a shorter query or use 'omx-db search' instead."}))
+            print(json.dumps(hits, indent=2, ensure_ascii=False))
         else:
-            print("Error: embedding query timed out")
-        return
-    except json.JSONDecodeError as e:
+            print(f'\033[32m🔍 Top {len(hits)} RAG results for "{query}"\033[0m\n')
+            for r in hits:
+                sec = f'\u00a7{r["sec_num"]}' if r["sec_num"] else ""
+                print(f'  \033[36m{sec:>12s}\033[0m  \033[1m{r["title"]}\033[0m  (sim={r["sim"]:.3f})')
+            print('  \033[2m(embeddings via Ollama)\033[0m')
+
+    except Exception as e:
         if json_output:
-            print(json.dumps({"error": f"Error parsing results: {e}", "suggestion": "Check that the database contains embeddings."}))
+            print(json.dumps({"error": f"RAG search failed: {e}", "suggestion": "Check that Ollama is running and the database contains embeddings."}))
         else:
-            print(f"Error parsing results: {e}")
-        return
-    if not hits:
-        if json_output:
-            print(json.dumps({"results": [], "count": 0}))
-        else:
-            print("No results.")
-        return
-    if json_output:
-        print(json.dumps(hits, indent=2, ensure_ascii=False))
-    else:
-        print(f'\033[32m🔍 Semantic search: "{query}"\033[0m\n')
-        for h in hits:
-            sec = f'§{h["sec_num"]}' if h["sec_num"] else ""
-            bar_len = int(h["sim"] * 30)
-            bar = "█" * bar_len + "░" * (30 - bar_len)
-            print(f'  \033[36m{sec:>12s}\033[0m  \033[1m{h["title"]}\033[0m')
-            print(f"  {bar}  {h['sim']:.3f}")
-            print()
-        print('  \033[2m(query took ~9s first call, model loaded in subprocess)\033[0m')
+            print(f"RAG search failed: {e}")
 
 
 # ── CLI dispatch ───────────────────────────────────────────────────────
