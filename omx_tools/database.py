@@ -310,6 +310,7 @@ def _search_fts5(query: str) -> list[dict]:
     """Run FTS5 search and return results."""
     try:
         db = sqlite3.connect(str(DB_PATH))
+        db.row_factory = sqlite3.Row
         fts_query = make_fts5_query(query)
         rows = db.execute("""
             SELECT sec_num, title, rank
