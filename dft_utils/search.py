@@ -29,14 +29,49 @@ def score_keyword(kw: str, text: str) -> int:
 
 
 def make_fts5_query(keyword: str) -> str:
-    """Build a safe FTS5 MATCH query from a plain-text keyword.
+    """Build a safe FTS5 MATCH query from plain-text keyword.
 
-    Each word is quoted to prevent FTS5 syntax injection.
-    Words are OR-combined for best-match ranking.
+    Special characters (+ - * etc.) are stripped so they are not
+    interpreted as FTS5 operators.  Known compound terms are expanded
+    into phrase queries for better token matching.
+    Words are OR-combined for best-match BM25 ranking.
     """
+    kw = keyword.lower().strip()
+    if not kw:
+        return ""
+
+    # Pre-process known compound patterns (before special-char stripping)
+    _PHRASES: dict[str, str] = {
+        "dft+u": "hubbard",
+        "dft_u": "hubbard",
+    }
+    for pattern, replacement in _PHRASES.items():
+        kw = kw.replace(pattern, replacement)
+
+    # Strip FTS5 special chars that act as operators
+    kw = re.sub(r'[+\-*()\[\]{}^~:!<>@#?]', ' ', kw)
+
+    # Expand compound words for FTS5 hyphenated indexing
+    _COMPOUNDS: dict[str, str] = {
+        "kpoint": "k point",
+        "kpoints": "k point",
+        "kgrid": "k grid",
+        "kpath": "k path",
+    }
+    tokens = kw.split()
+    expanded: list[str] = []
+    for tok in tokens:
+        if tok in _COMPOUNDS:
+            expanded.append(_COMPOUNDS[tok])
+        else:
+            expanded.append(tok)
+
+    if not expanded:
+        return ""
+
     return " OR ".join(
         f'"{w}"' if " " in w else w
-        for w in keyword.split()
+        for w in expanded
     )
 
 
@@ -54,8 +89,6 @@ def rrf_merge(
         signals: Each entry is ``(results, source_name, weight)``.
                  Results must be ranked best-to-worst.
         key_fn:  Callable(result_dict) → hashable merge key.
-                 Results with the same key from different signals
-                 have their scores accumulated.
         top_k:   Number of results to return.
         rrf_k:   RRF constant (higher = more weight to top ranks).
 
