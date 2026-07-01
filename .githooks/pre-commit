@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Pre-commit hook: run fast tests before allowing a commit.
+# Skips slow tests (hybrid/container/model-loading).
+#
+# Install: ln -sf ../../.githooks/pre-commit .git/hooks/pre-commit
+
+set -e
+
+echo "▸ pre-commit: running fast tests..."
+
+# Run VASP tests (skip slow hybrid ones)
+python3 -m pytest vasp_query/test_cli.py \
+    -k "not hybrid" -q --no-header 2>/dev/null
+
+# Run omx database tests (fast, <1s)
+python3 -m pytest tests/test_database.py -q --no-header 2>/dev/null
+
+echo "▸ pre-commit: all fast tests passed"
