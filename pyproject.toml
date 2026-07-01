@@ -32,6 +32,8 @@ omx-db = "omx_tools.database:cli"
 omx-gen = "omx_tools.generator:cli"
 vasp2omx = "omx_tools.vasp2omx:cli"
 omp2vasp = "omx_tools.omp2vasp:cli"
+# unified CLI
+dft = "dft_utils.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["vasp_query*", "omx_tools*", "dft_utils*"]
