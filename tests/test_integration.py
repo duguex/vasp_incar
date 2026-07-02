@@ -100,25 +100,23 @@ def test_generated_file_has_valid_syntax(tmp_path):
     assert re.search(r"System\.Name\s+\S+", content)
 
 
-# ─── Container run: needs DFT_DATA19 + Singularity + OpenMX image ─────
+# ─── Container run: REQUIRED — fails loudly if env incomplete ─────────
 
-@pytest.mark.skipif(
-    not STRUCTURE.exists(), reason=f"Test structure not found: {STRUCTURE}"
-)
-@pytest.mark.skipif(
-    not CONTAINER.exists(), reason=f"Container not found: {CONTAINER}"
-)
-@pytest.mark.skipif(
-    not DFT_DATA.exists(), reason=f"DFT_DATA19 not found: {DFT_DATA}"
-)
-@pytest.mark.skipif(
-    not shutil.which("singularity"), reason="singularity not in PATH"
-)
 def test_parses_without_error(tmp_path):
     """Generate .dat, run 2 SCF steps inside container, verify clean exit."""
+    if not STRUCTURE.exists():
+        pytest.fail("Test structure not found: work/Si8.cif. "
+                    "Check the work/ directory.")
+    if not CONTAINER.exists():
+        pytest.fail(f"OpenMX container not found at {CONTAINER}. "
+                    "This is required. See build_notes.md to build it.")
+    if not DFT_DATA.exists():
+        pytest.fail(f"DFT_DATA19 not found at {DFT_DATA}. Required.")
+    if not shutil.which("singularity"):
+        pytest.fail("singularity not in PATH. Install Apptainer.")
+
     dat_path = tmp_path / "Si8_test.dat"
     _generate_dat(dat_path)
-
     result = subprocess.run(
         [
             "singularity", "exec",
@@ -132,7 +130,17 @@ def test_parses_without_error(tmp_path):
 
     combined = result.stdout + result.stderr
 
-    # Check for crash indicators
+    crash_patterns = [
+        r"Segmentation fault", r"signal", r"Aborted",
+        r"core dumped", r"Killed",
+    ]
+    for pat in crash_patterns:
+        if re.search(pat, combined, re.IGNORECASE):
+            pytest.fail(f"Crash detected ({pat}) in container output")
+
+    scf_found = re.search(r"SCF\s*=\s*1", result.stdout)
+    assert scf_found is not None, \
+        f"OpenMX did not start SCF. stdout tail:\n{result.stdout[-1500:]}\n\nstderr:\n{result.stderr[-500:]}"
     crash_patterns = [
         r"Segmentation fault", r"signal", r"Aborted",
         r"core dumped", r"Killed",
