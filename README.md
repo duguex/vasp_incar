@@ -36,6 +36,16 @@ User / Agent (natural language)
      └──────────────┘
 ```
 
+## Documentation roles
+
+| Audience | File | Role |
+|----------|------|------|
+| Humans | This README | Install, quick start, structure |
+| Coding agents | [AGENTS.md](AGENTS.md) | **Canonical** agent rules (short) |
+| Claude Code | [CLAUDE.md](CLAUDE.md) | Adapter + `@AGENTS.md` — **not** a second rulebook |
+| Deep conventions | [docs/agent-conventions.md](docs/agent-conventions.md) | Architecture & patterns |
+| CLI / gotchas | [docs/agent-lessons.md](docs/agent-lessons.md) | Ex-CLAUDE detail |
+
 ## Currently integrated
 
 | Code | Package | Knowledge | Input gen | Conversion |
