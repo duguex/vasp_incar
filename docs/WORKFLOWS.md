@@ -362,16 +362,20 @@ Manual equivalent (from a **writable** copy of `work/`):
 ```bash
 mpirun -np 8 openmx -runtest          # → runtest.result
 # large / perf variants:
-# mpirun -np 112 openmx -runtestL
+### VASP (container-matched 6.5.1)
+
+Default is **not** host `~/hack_vasp` (easy to mix versions). Use the SIF tree
+where `bin` and `testsuite` are the same release:
+
+```bash
+# inside harness: singularity + /opt/vasp.6.5.1/{bin,testsuite}
+python3 scripts/run_official_engine_tests.py --np 4 --skip-engine --with-vasp \
+  --vasp-tests DFT_OatomPBE
 ```
 
-### Reference result (this workstation)
+Reference (this workstation): **DFT_OatomPBE PASS** with `vasp.6.5.1` in
+`/mnt/shared/vasp_latest.sif` (energy/force/stress match ref).
 
-- OpenMX `-runtest`: **14/14 pass**, ~97 s wall (`np=8`)
-- Tooling: **14/14 parse + lint** on `input_example/*.dat`
-- Artifacts: [`docs/benchmarks/official_runtest/`](../benchmarks/official_runtest/)
-
-### VASP note
 
 `~/hack_vasp/testsuite` + `vasp_std` may **version-skew**. A Fortran format
 error or energy table shape mismatch usually means suite≠binary, not bad

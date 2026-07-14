@@ -38,3 +38,8 @@
 - **Si Ecoh benchmark**: physics vs **experiment** (order-of-magnitude).
 - **Tooling cross**: dft-tools still understands official inputs.
 
+
+## VASP (container vasp.6.5.1)
+
+- DFT_OatomPBE: **PASS** via `/mnt/shared/vasp_latest.sif` `/opt/vasp.6.5.1`
+- Default harness uses matched bin+suite (not host ~/hack_vasp)

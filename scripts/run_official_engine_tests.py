@@ -5,17 +5,18 @@ Layers
 ------
 1. **OpenMX engine**: ``mpirun -np N openmx -runtest`` (14 input_example cases,
    compares Utot/Force to bundled ``*.out`` references — installation truth).
-2. **VASP engine** (optional): VASP 6.x ``testsuite/runtest`` for selected cases.
-   Requires matching binary ↔ suite version; often fails across releases.
+2. **VASP engine** (optional): VASP 6.5.1 ``testsuite`` + ``vasp_std`` from the
+   **same container** (``vasp_latest.sif`` / ``/opt/vasp.6.5.1``). Do not mix with
+   host ``~/hack_vasp`` unless versions match.
 3. **Tooling cross** (no/cheap SCF): parse + lint/advise official OpenMX ``.dat``
    (and VASP INCAR fixtures when present) through dft-tools APIs.
 
 Examples::
 
     python3 scripts/run_official_engine_tests.py --np 8
-    python3 scripts/run_official_engine_tests.py --np 8 --skip-engine   # tooling only
-    python3 scripts/run_official_engine_tests.py --np 8 --with-vasp \\
-        --vasp-tests DFT_OatomPBE
+    python3 scripts/run_official_engine_tests.py --np 8 --with-vasp
+    python3 scripts/run_official_engine_tests.py --np 4 --with-vasp \\
+        --vasp-tests DFT_OatomPBE bulk_BN_PBEsol
 """
 
 from __future__ import annotations
@@ -40,14 +41,15 @@ DEFAULT_DFT_DATA = Path(
     os.environ.get("OPENMX_DFT_DATA_PATH", "/mnt/shared/DFT_DATA19")
 )
 DEFAULT_OPENMX_BIN = "/openmx4.0/work/openmx"
-DEFAULT_VASP_SUITE = Path(
+DEFAULT_VASP_SIF = Path(
+    os.environ.get("VASP_SIF", "/mnt/shared/vasp_latest.sif")
+)
+DEFAULT_VASP_PREFIX = os.environ.get("VASP_PREFIX", "/opt/vasp.6.5.1")
+DEFAULT_VASP_SUITE_HOST = Path(
     os.environ.get(
         "VASP_TESTSUITE_ROOT",
         str(Path.home() / "hack_vasp" / "testsuite"),
     )
-)
-DEFAULT_VASP_BIN = Path(
-    os.environ.get("VASP_BIN_DIR", str(Path.home() / "hack_vasp" / "bin"))
 )
 
 # Official OpenMX criterion: |ΔUtot|, |ΔForce| within ~1e-7 (7th decimal)
@@ -196,43 +198,104 @@ def run_vasp_tests(
     *,
     tests: list[str],
     np: int,
-    suite: Path,
-    bin_dir: Path,
     timeout: int,
+    sif: Path = DEFAULT_VASP_SIF,
+    prefix: str = DEFAULT_VASP_PREFIX,
+    host_suite: Path | None = None,
 ) -> dict:
-    """Optional VASP official testsuite subset."""
-    if not suite.is_dir() or not (suite / "runtest").is_file():
+    """Run VASP official testsuite using **matching** bin+suite in container.
+
+    Preferred path: copy ``{prefix}/testsuite`` out of ``sif`` to a writable
+    host dir, then ``singularity exec`` with ``mpirun -np N {prefix}/bin/vasp_*``.
+    """
+    if not sif.is_file():
         return {
             "ok": False,
             "skipped": True,
-            "error": f"VASP testsuite not found: {suite}",
+            "error": f"VASP SIF missing: {sif}",
+            "engine": "VASP testsuite (container)",
         }
-    std = bin_dir / "vasp_std"
-    if not std.is_file():
+
+    # Probe container tree
+    probe = subprocess.run(
+        [
+            _runner(), "exec", str(sif), "bash", "-lc",
+            f"test -x {prefix}/bin/vasp_std && test -f {prefix}/testsuite/runtest && echo OK",
+        ],
+        capture_output=True,
+        text=True,
+        timeout=60,
+    )
+    if "OK" not in (probe.stdout or ""):
         return {
             "ok": False,
             "skipped": True,
-            "error": f"vasp_std missing: {std}",
+            "error": f"container missing {prefix}/bin or testsuite",
+            "probe": (probe.stdout or "") + (probe.stderr or ""),
+            "engine": "VASP testsuite (container)",
         }
-    env = os.environ.copy()
-    env["VASP_TESTSUITE_EXE_STD"] = f"mpirun -np {np} {std}"
-    env["VASP_TESTSUITE_EXE_NCL"] = f"mpirun -np {np} {bin_dir / 'vasp_ncl'}"
-    env["VASP_TESTSUITE_EXE_GAM"] = f"mpirun -np {np} {bin_dir / 'vasp_gam'}"
-    env["VASP_TESTSUITE_TESTS"] = " ".join(tests)
-    # Do not force FAST-only filter — selected tests may be NOCUDA etc.
-    env["VASP_TESTSUITE_RUN_FAST"] = ""
+
+    work = Path(tempfile.mkdtemp(prefix="vasp_suite_"))
+    suite_host = work / "testsuite"
+    cp = subprocess.run(
+        [
+            _runner(), "exec",
+            "--bind", f"{work}:{work}",
+            str(sif), "bash", "-lc",
+            f"cp -a {prefix}/testsuite {suite_host}",
+        ],
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
+    if cp.returncode != 0 or not (suite_host / "runtest").is_file():
+        return {
+            "ok": False,
+            "error": f"failed to copy testsuite: {(cp.stderr or cp.stdout)[-500:]}",
+            "engine": "VASP testsuite (container)",
+        }
+
+    # Try build compare helper (optional; suite has text fallbacks)
+    subprocess.run(
+        [
+            _runner(), "exec",
+            "--bind", f"{work}:{work}",
+            "--pwd", str(suite_host),
+            str(sif), "bash", "-lc",
+            "make numbertable 2>/dev/null || make -C tools 2>/dev/null || true",
+        ],
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
+
+    tests_s = " ".join(tests)
+    inner = f"""
+source /opt/intel/oneapi/setvars.sh >/dev/null 2>&1 || true
+export PATH=/opt/intel/oneapi/mpi/latest/bin:$PATH
+export VASP_TESTSUITE_EXE_STD="mpirun -np {int(np)} {prefix}/bin/vasp_std"
+export VASP_TESTSUITE_EXE_NCL="mpirun -np {int(np)} {prefix}/bin/vasp_ncl"
+export VASP_TESTSUITE_EXE_GAM="mpirun -np {int(np)} {prefix}/bin/vasp_gam"
+export VASP_TESTSUITE_TESTS="{tests_s}"
+export VASP_TESTSUITE_RUN_FAST=""
+unset VASP_TESTSUITE_RUN_FAST
+./runtest
+"""
     t0 = time.time()
     proc = subprocess.run(
-        ["./runtest"],
-        cwd=str(suite),
-        env=env,
+        [
+            _runner(), "exec",
+            "--bind", f"{work}:{work}",
+            "--pwd", str(suite_host),
+            str(sif), "bash", "-lc", inner,
+        ],
         capture_output=True,
         text=True,
         timeout=timeout,
     )
     out = (proc.stdout or "") + "\n" + (proc.stderr or "")
     wall = round(time.time() - t0, 2)
-    failed = []
+    failed: list[str] = []
     m = re.search(
         r"The following tests failed[^\n]*:\n((?:.+\n)+?)(?:\n|$)",
         out,
@@ -240,23 +303,30 @@ def run_vasp_tests(
     if m:
         failed = [ln.strip() for ln in m.group(1).splitlines() if ln.strip()]
     success = "SUCCESS: ALL SELECTED TESTS PASSED" in out and not failed
-    # detect format/runtime crash
     runtime_bug = "Fortran runtime error" in out or "Error termination" in out
+    energies_ok = "the energies are correct, run successful" in out
+
+    # Persist log under repo work/ if possible
+    log_dir = _REPO / "work" / "benchmarks" / "official_runtest"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    (log_dir / "vasp_container_runtest.log").write_text(out, encoding="utf-8")
+
     return {
-        "ok": success and not runtime_bug,
+        "ok": bool(success and not runtime_bug),
         "wall_s": wall,
         "returncode": proc.returncode,
         "tests": tests,
         "failed": failed,
         "runtime_bug": runtime_bug,
-        "engine": "VASP testsuite",
-        "suite": str(suite),
+        "energies_correct_banner": energies_ok,
+        "engine": "VASP testsuite (container vasp.6.5.1)",
+        "sif": str(sif),
+        "prefix": prefix,
+        "suite_host_copy": str(suite_host),
         "np": np,
         "note": (
-            "VASP suite must match the binary version; format errors usually "
-            "mean suite↔binary mismatch, not physics failure."
-            if runtime_bug
-            else None
+            "Uses matching /opt/vasp.6.5.1 bin+testsuite inside the SIF. "
+            "Host ~/hack_vasp is intentionally not the default."
         ),
         "console_tail": out[-2500:],
     }
@@ -317,7 +387,7 @@ def tooling_cross_openmx(example_dir: Path) -> dict:
 
 def tooling_cross_vasp_fixture() -> dict:
     """Lint/advise a few VASP testsuite INCARs if suite is present."""
-    suite = DEFAULT_VASP_SUITE
+    suite = DEFAULT_VASP_SUITE_HOST
     candidates = [
         suite / "tests" / "DFT_OatomPBE" / "INCAR.1.STD",
         suite / "tests" / "bulk_BN_PBEsol" / "INCAR.1.STD",
@@ -366,15 +436,17 @@ def main(argv: list[str] | None = None) -> int:
     )
     p.add_argument("--timeout", type=int, default=600)
     p.add_argument("--skip-engine", action="store_true", help="Skip OpenMX -runtest")
-    p.add_argument("--with-vasp", action="store_true")
+    p.add_argument("--with-vasp", action="store_true",
+                   help="Run VASP 6.5.1 official suite from container (matched bin+suite)")
     p.add_argument(
         "--vasp-tests",
         nargs="+",
         default=["DFT_OatomPBE"],
         help="VASP testsuite case names",
     )
-    p.add_argument("--vasp-suite", type=Path, default=DEFAULT_VASP_SUITE)
-    p.add_argument("--vasp-bin", type=Path, default=DEFAULT_VASP_BIN)
+    p.add_argument("--vasp-sif", type=Path, default=DEFAULT_VASP_SIF)
+    p.add_argument("--vasp-prefix", default=DEFAULT_VASP_PREFIX,
+                   help="Path inside VASP SIF, e.g. /opt/vasp.6.5.1")
     p.add_argument("--json", action="store_true")
     args = p.parse_args(argv)
 
@@ -422,10 +494,10 @@ def main(argv: list[str] | None = None) -> int:
     if args.with_vasp:
         report["layers"]["vasp_engine"] = run_vasp_tests(
             tests=args.vasp_tests,
-            np=args.np,
-            suite=args.vasp_suite,
-            bin_dir=args.vasp_bin,
+            np=min(args.np, 4),  # suite refs often generated with 4 ranks
             timeout=args.timeout,
+            sif=args.vasp_sif,
+            prefix=args.vasp_prefix,
         )
 
     # overall: OpenMX engine is the gate when run; else tooling parse gate
