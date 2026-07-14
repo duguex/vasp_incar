@@ -1,11 +1,13 @@
 # Future Work — dft-tools Roadmap
 
-Current: `dft-tools v0.3.x` — VASP + OpenMX plugins; semantic IR; **input advice (lint)**.
+Current: `dft-tools v0.3.x` — VASP + OpenMX plugins; semantic IR; **input advice**;
+optional **engine verification** scripts (containers).
 
 **Product goals:** know · generate · convert · **advise existing inputs** · self-consistent VASP⇄semantic⇄OpenMX maps.  
 GT: pymatgen / vaspkit checklist / pydefect boundary (not reimplemented here).
 
-Status refreshed: **2026-07-14**. Items 1–4 + semantic Phases 1–4 + lint v1 are **done**.
+Status refreshed: **2026-07-14**. Items 1–4 + semantic Phases 1–4 + lint/advise +
+cross physics gates (P0/P1) are **done**.
 
 ---
 
@@ -13,7 +15,9 @@ Status refreshed: **2026-07-14**. Items 1–4 + semantic Phases 1–4 + lint v1 
 
 - CLI symmetry, `vasp-gen` suite (KPOINTS/POTCAR), OpenMX example corpus  
 - Semantic Phases 1–4 (round-trip, IR, cross-grade, GT probes)  
-- **`dft semantic lint` / `lint-omx`** — rule-based advice on existing inputs  
+- **`dft semantic lint` / `advise` / `gen-advise`** — rules + knowledge + optional safe fix  
+- Si8 E2E + OpenMX Si Ecoh demo; official OpenMX `-runtest` + VASP container suite harness  
+- **True cross-engine** (`cross_engine_examples.py`) + **ΔE Ecoh Si/C** + **gates** (`run_cross_gates.py`)  
 
 ---
 
@@ -129,11 +133,16 @@ Reuse ideas from `legacy_scripts/` INCAR/OUTCAR parsers. Can proceed in parallel
 | 2 | FTS5 row_factory | **done** |
 | 3 | Ollama embedding unify | **done** |
 | 4 | Workflow examples | **done** |
-| 5 | Third DFT code | **open** |
-| 6 | Post-processing extract | **open** |
+| 4b | Expand input advice | **ongoing** (loop exists; more rules optional) |
+| 5 | Third DFT code | **open** (backlog) |
+| 6 | Post-processing extract | **open** (backlog) |
+| — | Cross physics gates P0/P1 | **done** |
 
 ## Cross physics gates (done 2026-07)
 
-- **P0** `scripts/run_cross_gates.py`: hard |Ecoh_V−Ecoh_O|≤0.15 eV (Si,C) + cross_engine Ndia2/Graphite4
-- **P1** C diamond Ecoh alongside Si (`scripts/cross_delta_ecoh.py --element C`)
-- Run: `python3 scripts/run_cross_gates.py --check-only`
+- **P0** `scripts/run_cross_gates.py`: hard `|Ecoh_V−Ecoh_O| ≤ 0.15 eV` (Si, C) + cross_engine cases `Ndia2` / `Graphite4`
+- **P1** C diamond Ecoh alongside Si (`scripts/cross_delta_ecoh.py --element Si|C`)
+- Check-only (no SCF): `python3 scripts/run_cross_gates.py --check-only --elements Si C`
+- Artifacts: `docs/benchmarks/cross_gates/`, `cross_delta_ecoh_{si,c}/`, `cross_engine/`
+- Mapping note: ENCUT ↔ `scf.energycutoff` is **÷2 / ×2 heuristic**, not physical eV↔Ry
+

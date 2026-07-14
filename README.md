@@ -83,12 +83,17 @@ vasp2omx INCAR POSCAR -o input.dat
 omp2vasp input.dat -o INCAR
 ```
 
-Cross physics gates: `python3 scripts/run_cross_gates.py --check-only`.
+**CLI is not a DFT engine** (does not embed VASP/OpenMX). Optional **verification**
+scripts (containers) live under `scripts/` and are documented in WORKFLOWS §6–10.
 
-Full walkthroughs: [`docs/WORKFLOWS.md`](docs/WORKFLOWS.md) — including
-**§6 Si8 E2E** (`scripts/e2e_si8_advise_loop.py`: generate ↔ advise ↔ knowledge).
+- E2E / advise: §6 · OpenMX Si Ecoh: §7 · official engine tests: §8  
+- True cross-engine: §9 · Ecoh ΔE + **gates**: §10  
 
-Cross-code migration, concept lookup, and convergence troubleshooting live there too.
+```bash
+python3 scripts/run_cross_gates.py --check-only --elements Si C
+```
+
+Full walkthroughs: [`docs/WORKFLOWS.md`](docs/WORKFLOWS.md).
 
 ## Installation
 

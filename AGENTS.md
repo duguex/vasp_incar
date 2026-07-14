@@ -12,14 +12,14 @@
 
 ## Always-on
 
-- **What this is**: multi-code DFT **knowledge + input generation + conversion + advice on existing inputs** — `vasp_query/`, `omx_tools/`, `dft_utils/`, `omx_tools/semantic/`. **Not** a DFT engine.  
+- **What this is**: multi-code DFT **knowledge + input generation + conversion + advice on existing inputs** — `vasp_query/`, `omx_tools/`, `dft_utils/`, `omx_tools/semantic/`. Product CLIs are **not** a DFT engine. Optional `scripts/*` may drive container OpenMX/VASP for **verification only**.  
 - **Goals**: (1) query docs/tags, (2) generate inputs, (3) convert via semantic IR, (4) **advise existing inputs** (`lint` + knowledge attach + optional safe fix loop), (5) round-trip self-consistency. GT: pymatgen / vaspkit / pydefect boundary.  
 - **Install extras**: `pip install -e ".[vasp]"` | `".[omx]"` | `".[all]"`.  
 - **CLIs**: `vasp-query`; `vasp-gen`; `omx-db`; `omx-gen`; converters; `dft semantic {show,lint,advise,gen-advise,advise-omx,roundtrip,cross,show-omx}`.  
 - **Data**: version envelope via `load_data()`; mismatch warns.  
 - **Search**: VASP cascade + hybrid/rag; OpenMX FTS5/hybrid/rag/related/example.  
-- **Tests**: real data preferred — `python3 -m vasp_query.test_cli`; `pytest tests/` (needs `openmx.db`).  
-- **Do not invent** INCAR/OpenMX keyword meanings — query DBs; for advice use lint + cite `vasp-query`/`omx-db` in suggestions.  
+- **Tests**: real data preferred — `python3 -m vasp_query.test_cli`; `pytest tests/` (needs `openmx.db`). Physics gates (when reports present): `python3 scripts/run_cross_gates.py --check-only`.  
+- **Do not invent** INCAR/OpenMX keyword meanings — query DBs; for advice use lint + cite `vasp-query`/`omx-db` in suggestions. ENCUT↔`scf.energycutoff` is a **×2 heuristic**, not eV↔Ry physics.  
 - **Secrets**: no API keys in tree; wiki scrape is public.  
 
 ## Development commands
@@ -48,6 +48,7 @@ python3 -m pytest tests/
 | Skills | `skills/vasp-query/SKILL.md`, `skills/omx-tools/SKILL.md` |
 | Human overview | [`README.md`](README.md) |
 | Migration / setup | [`docs/MIGRATION.md`](docs/MIGRATION.md) |
+| Workflows / engine verification | [`docs/WORKFLOWS.md`](docs/WORKFLOWS.md) §6–10, [`docs/benchmarks/`](docs/benchmarks/) |
 | Planned work | [`ROADMAP.md`](ROADMAP.md), [`PLAN.md`](PLAN.md), semantic IR [`docs/superpowers/specs/2026-07-14-semantic-roundtrip-design.md`](docs/superpowers/specs/2026-07-14-semantic-roundtrip-design.md), vaspkit GT [`docs/vaspkit-checklist.md`](docs/vaspkit-checklist.md) |
 
 ## Keep in sync

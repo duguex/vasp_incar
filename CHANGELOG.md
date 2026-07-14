@@ -14,14 +14,14 @@
 - **Semantic Phase 4 (GT)**: pymatgen KPOINTS/Incar probes (`omx_tools/semantic/gt.py`); pydefect shape boundary; vaspkit checklist `docs/vaspkit-checklist.md`.
 - **Input lint**: `dft semantic lint` / `lint-omx` — rule-based checks (ENCUT, NSW/IBRION, smearing, ICHARG, …) with structured `suggestion` + knowledge-query pointers.
 - **Product goals (docs)**: explicit fifth pillar — **advise existing inputs** (`lint`) alongside know / generate / convert / semantic self-consistency (README, AGENTS, ROADMAP).
-- **Advise loop**: `dft semantic advise` / `gen-advise` / `advise-omx` — lint → attach knowledge (vasp_query / omx schema+examples) → optional `--fix` safe re-lint loop.
-- **Si8 E2E loop**: `scripts/e2e_si8_advise_loop.py` + `tests/test_e2e_si8_loop.py` — real `work/Si8.cif` through gen → advise → roundtrip (optional omx-gen); WORKFLOWS §6.
-- **Si energy benchmark**: `scripts/bench_si_pbe_openmx.py` (`mpirun -np 8`) — Ecoh vs experiment on cubic Si; results in `docs/benchmarks/si_pbe/`.
-- **Official engine tests**: `scripts/run_official_engine_tests.py` — OpenMX `-runtest` (np=8) + tooling cross on `input_example`; optional VASP suite; results in `docs/benchmarks/official_runtest/`.
-- **P0/P1 cross gates**: `run_cross_gates.py` (|Ecoh_V−O|≤0.15 eV) + C diamond Ecoh (`cross_delta_ecoh.py --element C`).
-- **Cross ΔE Si Ecoh**: `scripts/cross_delta_ecoh_si.py` — same-protocol Ecoh on VASP+OpenMX vs experiment (|Δ|≈0.06 eV).
-- **True cross-engine**: `scripts/cross_engine_examples.py` — official OpenMX geometries SCF on VASP and VASP suite geometries SCF on OpenMX (6/6 on this host).
-- Spec/plan: `docs/superpowers/specs/2026-07-14-cli-symmetry-design.md`, `docs/superpowers/plans/2026-07-14-cli-symmetry.md`
+- **Advise loop**: `dft semantic advise` / `gen-advise` / `advise-omx` — lint → knowledge → optional `--fix`.
+- **Si8 E2E**: `scripts/e2e_si8_advise_loop.py` + tests (WORKFLOWS §6).
+- **Verification / cross** (optional container engines; product CLI still not an engine):
+  - §7 OpenMX Si Ecoh: `bench_si_pbe_openmx.py`
+  - §8 Official harness: `run_official_engine_tests.py` (OpenMX `-runtest`, VASP 6.5.1 suite)
+  - §9 True cross-engine: `cross_engine_examples.py` (A geometry on B)
+  - §10 Ecoh ΔE Si/C: `cross_delta_ecoh.py`; **P0 gates** `run_cross_gates.py` (`|Ecoh_V−O|≤0.15 eV`)
+- Spec/plan: `docs/superpowers/specs/2026-07-14-semantic-roundtrip-design.md`, `docs/superpowers/plans/2026-07-14-cli-symmetry.md`
 
 ### Fixed
 - **`dft convert` argparse**: convert subparser accepts remainder args (`src:dst input …`).
@@ -30,7 +30,7 @@
 ### Changed
 - **Archive standalone `~/omx`**: `~/archive/2026-07-dft-merge/omx` (2026-07-14).
 - **Hermes skills**: point at `~/vasp_wiki/skills/…`.
-- **TODO / ROADMAP**: Items 1–4 marked done.
+- **TODO / ROADMAP / AGENTS / README**: verification §6–10, cross gates, ENCUT heuristic note; third DFT moved to backlog.
 
 ## [0.3.0] - 2026-06-30
 

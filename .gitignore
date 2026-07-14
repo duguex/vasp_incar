@@ -20,8 +20,9 @@ vasp_mlff_guide.md
 # work/ parsed data is large and only needed for DB rebuild
 work/parsed/
 
+# Local engine benchmark runtime (slim reports live under docs/benchmarks/)
+work/benchmarks/
+
 # OpenMX runtime dumps (cubes / restarts)
 *.cube
 *_rst/
-work/benchmarks/**/*.cube
-work/benchmarks/**/*_rst/
