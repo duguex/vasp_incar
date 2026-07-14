@@ -8,6 +8,7 @@ from vasp_query._common import (
     load_data,
     load_json,
     load_tag_index,
+    load_data_raw,
     match_keyword,
     score_keyword,
     format_tag_human,
@@ -26,6 +27,8 @@ from vasp_query._common import (
     TAG_COOCCUR,
     WIKI_FULL,
     INCAR_DATA,
+    DOC_VECTORS,
+    DOC_META,
 )
 from vasp_query.processor import preprocess
 
@@ -224,6 +227,111 @@ def cmd_search(args) -> int:
             out["_debug"] = get_debug_log()
         print(json.dumps(out, indent=2, ensure_ascii=False))
     return 0
+
+
+def cmd_hybrid(args) -> int:
+    """Explicit hybrid search (FTS5/BM25 + semantic RRF)."""
+    clear_debug_log()
+    keyword = args.keyword.strip()
+    if not keyword:
+        print(json.dumps({
+            "error": "No keyword provided",
+            "suggestion": "Usage: vasp-query hybrid 'energy cutoff'",
+        }))
+        return 1
+    results = hybrid_search(keyword, top_k=args.limit)
+    out = {"query": keyword, "count": len(results), "results": results}
+    if args.debug:
+        out["_debug"] = get_debug_log()
+    if args.human:
+        print(f"## Hybrid results for '{keyword}' ({len(results)})\n")
+        for item in results:
+            print(format_search_item_human(item))
+            print()
+    else:
+        print(json.dumps(out, indent=2, ensure_ascii=False))
+    return 0 if results else 1
+
+
+def cmd_rag(args) -> int:
+    """Semantic-only retrieval over VASP doc vectors (mirrors omx-db rag)."""
+    import numpy as np
+
+    keyword = args.keyword.strip()
+    top_k = args.top_k
+    if not keyword:
+        print(json.dumps({
+            "error": "No query provided",
+            "suggestion": "Usage: vasp-query rag 'hybrid functional ENCUT'",
+        }))
+        return 1
+
+    vectors = load_data_raw(DOC_VECTORS) if DOC_VECTORS.exists() else None
+    meta = load_data(DOC_META) or []
+    if not isinstance(meta, list):
+        meta = []
+    if vectors is None or len(meta) == 0:
+        print(json.dumps({
+            "error": "Document embeddings not available",
+            "suggestion": "Run: python3 -m vasp_query preprocess (with embedding backend)",
+        }))
+        return 1
+    if len(meta) != len(vectors):
+        print(json.dumps({
+            "error": f"doc_meta ({len(meta)}) / doc_vectors ({len(vectors)}) size mismatch",
+            "suggestion": "Re-run: python3 -m vasp_query preprocess",
+        }))
+        return 1
+
+    try:
+        from dft_utils.embedding import embed
+        q = np.asarray(embed(keyword), dtype=np.float32)
+        scores = np.dot(vectors, q)
+        top_idx = np.argsort(-scores)[:top_k]
+    except Exception as e:
+        print(json.dumps({
+            "error": f"RAG search failed: {e}",
+            "suggestion": "Check that Ollama is running or sentence-transformers is installed.",
+        }))
+        return 1
+
+    # Enrich tag snippets from tag_index when possible
+    index = load_tag_index() or []
+    by_title = {e.get("title", ""): e for e in index}
+
+    results = []
+    for idx in top_idx:
+        m = meta[int(idx)]
+        title = m.get("title") or m.get("id", "")
+        if title.startswith("tag:"):
+            title = title[4:]
+        snippet = ""
+        url = ""
+        te = by_title.get(title)
+        if te:
+            snippet = (te.get("description") or "")[:240]
+            url = te.get("url") or ""
+        results.append({
+            "title": title,
+            "score": float(scores[int(idx)]),
+            "snippet": snippet,
+            "url": url,
+            "type": m.get("type", "doc"),
+            "id": m.get("id", title),
+        })
+
+    out = {"query": keyword, "count": len(results), "results": results}
+    if args.human:
+        print(f"## RAG results for '{keyword}' ({len(results)})\n")
+        for r in results:
+            print(f"- **{r['title']}** (score={r['score']:.3f})")
+            if r.get("snippet"):
+                print(f"  {r['snippet'][:160]}")
+            print()
+    else:
+        print(json.dumps(out, indent=2, ensure_ascii=False))
+    return 0 if results else 1
+
 
 
 def cmd_stats(args) -> int:
@@ -542,11 +650,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.set_defaults(human=False, debug=False)
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
-    # tag
-    p_tag = subparsers.add_parser("tag", help="Look up a specific INCAR tag")
+    # tag (+ keyword alias for CLI symmetry with omx-db)
+    p_tag = subparsers.add_parser(
+        "tag", aliases=["keyword"],
+        help="Look up a specific INCAR tag (alias: keyword)",
+    )
     p_tag.add_argument("tag", help="Tag name (e.g., LEFG, ENCUT)")
     _add_human_arg(p_tag)
-
     # search
     p_search = subparsers.add_parser("search", help="Search tags, wiki pages, and VASP file formats by keyword")
     p_search.add_argument("keyword", help="Search keyword")
@@ -584,8 +694,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_fetch.add_argument("--check", action="store_true", help="Check remote for changes without downloading")
     _add_human_arg(p_fetch)
 
-    # fullwiki
-    p_fw = subparsers.add_parser("fullwiki", help="Get full wiki page content")
+    # fullwiki (+ section alias for CLI symmetry with omx-db)
+    p_fw = subparsers.add_parser(
+        "fullwiki", aliases=["section"],
+        help="Get full wiki page content (alias: section)",
+    )
     p_fw.add_argument("title", help="Wiki page title")
     _add_human_arg(p_fw)
 
@@ -594,6 +707,25 @@ def build_parser() -> argparse.ArgumentParser:
     p_co.add_argument("tag_a", help="First tag")
     p_co.add_argument("tag_b", help="Second tag")
     _add_human_arg(p_co)
+
+    # hybrid (explicit; search already uses hybrid internally)
+    p_hy = subparsers.add_parser(
+        "hybrid", help="Hybrid FTS5/BM25 + semantic search (RRF)",
+    )
+    p_hy.add_argument("keyword", help="Search keyword")
+    p_hy.add_argument("-n", "--limit", type=int, default=20, help="Max results")
+    p_hy.add_argument("--debug", action="store_true", help="Show intermediate steps")
+    _add_human_arg(p_hy)
+
+    # rag (semantic-only, mirrors omx-db rag)
+    p_rag = subparsers.add_parser(
+        "rag", help="Semantic RAG over VASP doc embeddings",
+    )
+    p_rag.add_argument("keyword", help="Natural language query")
+    p_rag.add_argument("-k", "--top-k", type=int, default=10, dest="top_k",
+                       help="Number of hits (default: 10)")
+    _add_human_arg(p_rag)
+
 
 
     return parser
@@ -608,7 +740,10 @@ def main() -> int:
         return 0
     commands = {
         "tag": cmd_tag,
+        "keyword": cmd_tag,
         "search": cmd_search,
+        "hybrid": cmd_hybrid,
+        "rag": cmd_rag,
         "stats": cmd_stats,
         "incar": cmd_incar,
         "related": cmd_related,
@@ -616,6 +751,7 @@ def main() -> int:
         "preprocess": cmd_preprocess,
         "fetch": cmd_fetch,
         "fullwiki": cmd_fullwiki,
+        "section": cmd_fullwiki,
         "cooccur": cmd_cooccur,
     }
 

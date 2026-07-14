@@ -14,9 +14,9 @@
 
 - **What this is**: multi-code DFT knowledge + input generation framework — packages `vasp_query/`, `omx_tools/`, shared `dft_utils/`. Not a DFT engine.  
 - **Install extras**: `pip install -e ".[vasp]"` | `".[omx]"` | `".[all]"`.  
-- **CLIs**: `vasp-query` (12 subcommands); `omx-db`, `omx-gen`, `vasp2omx`, `omp2vasp`.  
+- **CLIs**: `vasp-query` (tag/search/hybrid/rag/…; aliases keyword/section); `vasp-gen`; `omx-db` (search/hybrid/rag/related/…; aliases tag/fullwiki); `omx-gen`; `vasp2omx`, `omp2vasp`; unified `dft`.  
 - **Data**: version envelope `{"_version": …, "data": …}` via `load_data()`; mismatch warns.  
-- **Search**: VASP 4-tier cascade (`resolve_tag` → file page → hybrid FTS5+embeddings RRF → keyword); OpenMX FTS5/semantic/hybrid.  
+- **Search**: VASP 4-tier cascade + explicit hybrid/rag; OpenMX FTS5/semantic/hybrid/rag/related.  
 - **Tests**: real data, no mocking of knowledge files — `python3 -m vasp_query.test_cli`; `python3 -m pytest tests/` (needs `openmx.db` at root).  
 - **Do not invent** new INCAR tag semantics or OpenMX keyword meanings — query the DBs.  
 - **Secrets**: no API keys in tree; wiki scrape is public.  

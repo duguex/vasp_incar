@@ -606,6 +606,133 @@ def cmd_stats(args, json_output=False):
     db.close()
 
 
+
+# ── Related keywords / sections (CLI symmetry with vasp-query related) ─
+
+def cmd_related(args, json_output=False):
+    """Find related keywords or sibling sections for a query."""
+    query = " ".join(args).strip()
+    if not query:
+        if json_output:
+            print(json.dumps({
+                "error": "No query provided",
+                "suggestion": "Usage: omx-db related scf.Mixing.Type  OR  omx-db related 16",
+            }))
+        else:
+            print("Usage: omx-db related <keyword|section>")
+        return
+
+    db = get_db()
+    related: list[dict] = []
+    seen: set[tuple[str, str]] = set()
+
+    def _add(kind: str, rid: str, title: str, reason: str) -> None:
+        key = (kind, str(rid))
+        if key in seen or not rid:
+            return
+        seen.add(key)
+        related.append({
+            "kind": kind,
+            "id": str(rid),
+            "title": title or str(rid),
+            "reason": reason,
+        })
+
+    q_clean = query.replace("§", "").strip()
+    is_section_query = bool(re.match(r"^[\d]+(\.[\d]+)*$", q_clean))
+
+    if is_section_query:
+        sec = db.execute(
+            "SELECT sec_num, title FROM sections WHERE sec_num = ? OR sec_num LIKE ? "
+            "ORDER BY length(sec_num) LIMIT 1",
+            (q_clean, f"{q_clean}.%"),
+        ).fetchone()
+        if sec:
+            base = sec["sec_num"]
+            parent = ".".join(base.split(".")[:-1]) if "." in base else ""
+            if parent:
+                rows = db.execute(
+                    "SELECT sec_num, title FROM sections "
+                    "WHERE sec_num LIKE ? AND sec_num != ? ORDER BY sec_num LIMIT 30",
+                    (f"{parent}.%", base),
+                ).fetchall()
+                reason = "sibling_section"
+            else:
+                rows = db.execute(
+                    "SELECT sec_num, title FROM sections "
+                    "WHERE sec_num LIKE ? AND sec_num != ? ORDER BY sec_num LIMIT 30",
+                    (f"{base}.%", base),
+                ).fetchall()
+                reason = "child_section"
+            for r in rows:
+                _add("section", r["sec_num"], r["title"], reason)
+            krows = db.execute(
+                "SELECT keyword FROM index_entries "
+                "WHERE section_ref LIKE ? OR section_ref LIKE ? LIMIT 40",
+                (f"%{base}%", f"%§{base}%"),
+            ).fetchall()
+            for r in krows:
+                _add("keyword", r["keyword"], r["keyword"], "index")
+
+    # Keyword path (also runs for non-section queries; for section queries as extra)
+    schema: dict = {}
+    schema_path = PKG_DIR / "schemas" / "keywords.json"
+    if schema_path.exists():
+        try:
+            raw = json.loads(schema_path.read_text())
+            if isinstance(raw, dict):
+                schema = raw
+        except Exception:
+            schema = {}
+
+    resolved = resolve_alias(query)
+    entry = schema.get(resolved)
+    if entry is None:
+        lower_map = {k.lower(): k for k in schema}
+        canon = lower_map.get(resolved.lower())
+        if canon:
+            resolved = canon
+            entry = schema.get(resolved)
+
+    if entry is not None:
+        sec_ref = str(entry.get("section") or "")
+        for k, v in schema.items():
+            if k == resolved:
+                continue
+            if sec_ref and str(v.get("section") or "") == sec_ref:
+                _add("keyword", k, k, "same_section")
+        if sec_ref:
+            _add("section", sec_ref, sec_ref, "keyword_section")
+        krows = db.execute(
+            "SELECT keyword FROM index_entries "
+            "WHERE keyword LIKE ? OR section_ref LIKE ? LIMIT 40",
+            (f"%{resolved}%", f"%{sec_ref}%"),
+        ).fetchall()
+        for r in krows:
+            if r["keyword"] != resolved:
+                _add("keyword", r["keyword"], r["keyword"], "index")
+
+    if not related:
+        rows = db.execute(
+            "SELECT keyword FROM index_entries WHERE keyword LIKE ? LIMIT 20",
+            (f"%{query}%",),
+        ).fetchall()
+        for r in rows:
+            _add("keyword", r["keyword"], r["keyword"], "index")
+
+    db.close()
+    out: dict = {"query": query, "count": len(related), "related": related}
+    if not related:
+        out["suggestion"] = "Try omx-db list or omx-db keyword <name>"
+    if json_output:
+        print(json.dumps(out, indent=2, ensure_ascii=False))
+    else:
+        print(f'\033[32m🔗 {len(related)} related for "{query}"\033[0m\n')
+        for r in related:
+            print(f'  [{r["kind"]}] {r["id"]:<28s} {r["title"]}  ({r["reason"]})')
+
+
+
 # ── Semantic / RAG search (existing, preserved) ────────────────────────
 
 def cmd_rag(args, json_output=False):
@@ -683,7 +810,10 @@ def cli():
         "search": cmd_search,
         "hybrid": cmd_hybrid,
         "keyword": cmd_keyword,
+        "tag": cmd_keyword,          # alias (CLI symmetry with vasp-query)
         "section": cmd_section,
+        "fullwiki": cmd_section,     # alias
+        "related": cmd_related,
         "list": cmd_list,
         "files": cmd_files,
         "stats": cmd_stats,

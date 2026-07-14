@@ -1,14 +1,21 @@
 ## [Unreleased]
 
+### Added
+- **CLI symmetry (VASP ↔ OpenMX)**:
+  - `vasp-query hybrid` / `vasp-query rag` (semantic doc vectors)
+  - `omx-db related` (keyword/section neighbors)
+  - Cross aliases: VASP `keyword`→tag, `section`→fullwiki; OpenMX `tag`→keyword, `fullwiki`→section
+  - **`vasp-gen`**: light INCAR templates (`scf`, `scf_metal`, `relax`, `band`, `md`); `dft vasp gen`
+- Spec/plan: `docs/superpowers/specs/2026-07-14-cli-symmetry-design.md`, `docs/superpowers/plans/2026-07-14-cli-symmetry.md`
+
 ### Fixed
-- **`dft convert` argparse**: convert subparser now accepts remainder args (`src:dst input …`); previously only bare `dft convert` worked.
-- **`aliases.json` version envelope**: wrap as `_version: 0.3.0` so load no longer warns.
+- **`dft convert` argparse**: convert subparser accepts remainder args (`src:dst input …`).
+- **`aliases.json` version envelope**: `_version: 0.3.0`.
 
 ### Changed
-- **Archive standalone `~/omx`**: moved to `~/archive/2026-07-dft-merge/omx` (2026-07-14). Active source is only `~/vasp_wiki` (`dft-tools`).
-- **Hermes skills**: `omx-tools` and `vasp-query` both link to `~/vasp_wiki/skills/…`.
-- Do not `pip install -e ~/omx` alongside this package — entry points collide.
-- **TODO / ROADMAP**: Items 1–4 marked done; remaining = third code + extract.
+- **Archive standalone `~/omx`**: `~/archive/2026-07-dft-merge/omx` (2026-07-14).
+- **Hermes skills**: point at `~/vasp_wiki/skills/…`.
+- **TODO / ROADMAP**: Items 1–4 marked done.
 
 ## [0.3.0] - 2026-06-30
 

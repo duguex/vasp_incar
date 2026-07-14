@@ -84,13 +84,23 @@ def cmd_code(plugin_name: str, args: list[str]) -> int:
 
     # Handle plugin-specific subcommands that live in different modules
     if args and args[0] == "gen":
-        # omx-gen lives in generator.py, not database.py
+        gen_mod = {
+            "omx": "omx_tools.generator",
+            "vasp": "vasp_query.generator",
+        }.get(plugin_name)
+        if gen_mod is None:
+            print(
+                f"generator not available for {plugin_name}",
+                file=sys.stderr,
+            )
+            return 1
         try:
-            mod = __import__("omx_tools.generator", fromlist=["cli"])
+            mod = __import__(gen_mod, fromlist=["cli"])
             old = sys.argv[:]
             sys.argv = [plugin_name + "-gen"] + args[1:]
             try:
-                mod.cli()
+                rc = mod.cli()
+                return int(rc or 0)
             except SystemExit as e:
                 return e.code or 0
             finally:
@@ -98,7 +108,6 @@ def cmd_code(plugin_name: str, args: list[str]) -> int:
         except ImportError as e:
             print(f"generator not available: {e}", file=sys.stderr)
             return 1
-        return 0
 
     # Generic dispatch via cli_module
     try:

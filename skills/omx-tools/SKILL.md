@@ -33,6 +33,9 @@ JSON is always the last thing on stdout).
 Query the OpenMX v4.0 manual database (`openmx.db`).  All subcommands accept
 `--json` as a **global** flag (place it anywhere in argv after `omx-db`).
 
+Symmetry aliases (match vasp-query naming): `tag`→`keyword`, `fullwiki`→`section`.
+Related: `omx-db related <keyword|section> [--json]`.
+
 ### 1.1 FTS5 search
 
 ```

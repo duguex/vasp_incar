@@ -50,8 +50,8 @@ User / Agent (natural language)
 
 | Code | Package | Knowledge | Input gen | Conversion |
 |------|---------|-----------|-----------|------------|
-| **VASP** | `vasp_query/` | 676 INCAR tags + 10K configs + wiki | — | vasp2omx |
-| **OpenMX** | `omx_tools/` | 281 manual sections + 304 keywords | ✅ omx-gen | omp2vasp |
+| **VASP** | `vasp_query/` | 676+ INCAR tags + configs + wiki | ✅ light `vasp-gen` templates | vasp2omx |
+| **OpenMX** | `omx_tools/` | 281 manual sections + keywords | ✅ omx-gen | omp2vasp |
 
 ## Architecture for adding a new DFT code
 
@@ -69,9 +69,11 @@ Shared infrastructure (`dft_utils/`) handles: version envelope, debug logging, J
 ```bash
 # Natural language search across knowledge bases
 python3 -m vasp_query search "energy cutoff for transition metals"
+vasp-query rag "hybrid functional ENCUT"
 omx-db rag "how to tune SCF mixing for metallic systems"
 
 # Generate inputs
+vasp-gen -t scf -o INCAR
 omx-gen structure.cif -t scf_band -o calc.dat
 
 # Convert between codes

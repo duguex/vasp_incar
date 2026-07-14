@@ -2,12 +2,13 @@
 name: vasp-query
 description: |
   Toolkit for querying VASP INCAR parameter knowledge. Provides vasp-query for
-  tag lookup, hybrid search (BM25 + semantic), INCAR statistics, and co-occurrence
-  analysis. Use this skill when the user asks about VASP calculations, INCAR
-  parameters, DFT input preparation, SCF convergence, functionals (PBE, HSE,
-  SCAN, etc.), k-point sampling, relaxation setups, band structure, DOS, or any
-  VASP-related computation. Also use when the user needs help with VASP wiki
-  documentation, tag meanings, or real-world INCAR usage statistics.
+  tag lookup, hybrid/rag search, INCAR statistics, co-occurrence analysis, and
+  light INCAR generation via vasp-gen. Use this skill when the user asks about
+  VASP calculations, INCAR parameters, DFT input preparation, SCF convergence,
+  functionals (PBE, HSE, SCAN, etc.), k-point sampling, relaxation setups, band
+  structure, DOS, or any VASP-related computation. Also use when the user needs
+  help with VASP wiki documentation, tag meanings, or real-world INCAR usage
+  statistics.
 ---
 
 # vasp-query — VASP INCAR parameter knowledge base
@@ -74,6 +75,19 @@ JSON output:
 ```
 
 Empty results: `{"results": [], "query": "..."}`.
+
+### 1.2b Explicit hybrid + RAG + aliases
+
+```
+python3 -m vasp_query hybrid <query> [-n N] [--debug] [-H]
+python3 -m vasp_query rag <query> [-k N] [-H]
+python3 -m vasp_query keyword ENCUT     # alias of tag
+python3 -m vasp_query section ENCUT     # alias of fullwiki
+vasp-gen -t scf -o INCAR                # light INCAR templates
+dft vasp gen -t relax -d
+```
+
+Templates: `scf`, `scf_metal`, `relax`, `band`, `md`. INCAR only (no POTCAR/KPOINTS).
 
 ### 1.3 Tag statistics
 

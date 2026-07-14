@@ -27,6 +27,7 @@ all = ["sentence-transformers", "tantivy", "requests", "beautifulsoup4",
 [project.scripts]
 # vasp-query
 vasp-query = "vasp_query.query:main"
+vasp-gen = "vasp_query.generator:cli"
 # omx-tools
 omx-db = "omx_tools.database:cli"
 omx-gen = "omx_tools.generator:cli"
@@ -39,5 +40,5 @@ dft = "dft_utils.cli:main"
 include = ["vasp_query*", "omx_tools*", "dft_utils*"]
 
 [tool.setuptools.package-data]
-vasp_query = ["data/**/*"]
+vasp_query = ["data/**/*", "schemas/*.json"]
 omx_tools = ["schemas/*.json"]
