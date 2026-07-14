@@ -21,6 +21,8 @@
   - §8 Official harness: `run_official_engine_tests.py` (OpenMX `-runtest`, VASP 6.5.1 suite)
   - §9 True cross-engine: `cross_engine_examples.py` (A geometry on B)
   - §10 Ecoh ΔE Si/C: `cross_delta_ecoh.py`; **P0 gates** `run_cross_gates.py` (`|Ecoh_V−O|≤0.15 eV`)
+  - §11 KS orbital energies (Si): `cross_band_si.py` (VBM-aligned gap/RMS; gated)
+
 - Spec/plan: `docs/superpowers/specs/2026-07-14-semantic-roundtrip-design.md`, `docs/superpowers/plans/2026-07-14-cli-symmetry.md`
 
 ### Fixed

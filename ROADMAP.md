@@ -143,6 +143,7 @@ Reuse ideas from `legacy_scripts/` INCAR/OUTCAR parsers. Can proceed in parallel
 - **P0** `scripts/run_cross_gates.py`: hard `|Ecoh_V−Ecoh_O| ≤ 0.15 eV` (Si, C) + cross_engine cases `Ndia2` / `Graphite4`
 - **P1** C diamond Ecoh alongside Si (`scripts/cross_delta_ecoh.py --element Si|C`)
 - Check-only (no SCF): `python3 scripts/run_cross_gates.py --check-only --elements Si C`
+- **KS eigenvalues (Si)**: `scripts/cross_band_si.py` — VBM-aligned gap/RMS gate
 - Artifacts: `docs/benchmarks/cross_gates/`, `cross_delta_ecoh_{si,c}/`, `cross_engine/`
 - Mapping note: ENCUT ↔ `scf.energycutoff` is **÷2 / ×2 heuristic**, not physical eV↔Ry
 

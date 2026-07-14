@@ -3,10 +3,12 @@
 
 Hard gates (fail → exit 1)
 --------------------------
-1. **Ecoh code Δ** for each element report under work/docs benchmarks:
+1. **Ecoh code Δ** for each element report:
    ``|Ecoh_VASP − Ecoh_OpenMX| ≤ TOL_ECOH_CODE`` (default 0.15 eV)
 2. Both engines ``ok`` in each Ecoh report
-3. **cross_engine** subset: all listed cases ``ok`` (runnable cross)
+3. **cross_engine** subset: Ndia2 / Graphite4 ``ok``
+4. **KS orbital energies (Si)**: ``|Δgap| ≤ TOL_BAND_GAP`` and eigenvalue RMS
+   ``≤ TOL_BAND_RMS`` (defaults 0.25 / 0.20 eV) when report present
 
 Soft checks (warn only)
 -----------------------
@@ -35,9 +37,10 @@ from pathlib import Path
 
 _REPO = Path(__file__).resolve().parent.parent
 
-# --- tolerances (hard) ---
 TOL_ECOH_CODE_EV = float(os.environ.get("CROSS_GATE_TOL_ECOH_CODE", "0.15"))
 TOL_ECOH_EXP_SOFT_EV = float(os.environ.get("CROSS_GATE_TOL_ECOH_EXP", "0.5"))
+TOL_BAND_GAP_EV = float(os.environ.get("CROSS_BAND_TOL_GAP", "0.25"))
+TOL_BAND_RMS_EV = float(os.environ.get("CROSS_BAND_TOL_RMS", "0.20"))
 
 DEFAULT_ELEMENTS = ["Si", "C"]
 CROSS_ENGINE_MIN_CASES = ["Ndia2", "Graphite4"]  # cheap crystals
@@ -129,6 +132,33 @@ def check_cross_engine(path: Path, required: list[str]) -> dict:
     }
 
 
+def check_band_report(path: Path, *, tol_gap: float, tol_rms: float) -> dict:
+    data = _load_json(path) or {}
+    issues: list[str] = []
+    cmp = data.get("compare") or {}
+    if not cmp:
+        issues.append("band report missing compare block")
+    gap_d = cmp.get("gap_abs_diff_eV")
+    rms = cmp.get("rms_eV")
+    if gap_d is None:
+        issues.append("missing gap_abs_diff_eV")
+    elif float(gap_d) > tol_gap:
+        issues.append(f"|Δgap|={float(gap_d):.4f} eV > {tol_gap} eV")
+    if rms is None:
+        issues.append("missing rms_eV")
+    elif float(rms) > tol_rms:
+        issues.append(f"RMS={float(rms):.4f} eV > {tol_rms} eV")
+    return {
+        "path": str(path),
+        "ok": not issues,
+        "issues": issues,
+        "gap_abs_diff_eV": gap_d,
+        "rms_eV": rms,
+        "gap_vasp_eV": cmp.get("gap_vasp_eV"),
+        "gap_openmx_eV": cmp.get("gap_openmx_eV"),
+    }
+
+
 def run_cmd(cmd: list[str], timeout: int) -> int:
     print("+", " ".join(cmd), flush=True)
     return subprocess.call(cmd, cwd=str(_REPO), timeout=timeout)
@@ -193,6 +223,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--tol-code", type=float, default=TOL_ECOH_CODE_EV)
     p.add_argument("--tol-exp-soft", type=float, default=TOL_ECOH_EXP_SOFT_EV)
     p.add_argument("--skip-cross-engine", action="store_true")
+    p.add_argument("--skip-band", action="store_true")
+    p.add_argument("--tol-band-gap", type=float, default=TOL_BAND_GAP_EV)
+    p.add_argument("--tol-band-rms", type=float, default=TOL_BAND_RMS_EV)
     p.add_argument("--json", action="store_true")
     args = p.parse_args(argv)
 
@@ -207,8 +240,11 @@ def main(argv: list[str] | None = None) -> int:
     results: dict = {
         "tol_ecoh_code_eV": args.tol_code,
         "tol_ecoh_exp_soft_eV": args.tol_exp_soft,
+        "tol_band_gap_eV": args.tol_band_gap,
+        "tol_band_rms_eV": args.tol_band_rms,
         "ecoh": [],
         "cross_engine": None,
+        "band_si": None,
         "ok": True,
     }
 
@@ -261,10 +297,33 @@ def main(argv: list[str] | None = None) -> int:
         if not rec["ok"]:
             results["ok"] = False
 
+    if not args.skip_band:
+        print("=== KS eigenvalue gate (Si) ===")
+        band_paths = [
+            _REPO / "work" / "benchmarks" / "cross_band_si" / "report.json",
+            _REPO / "docs" / "benchmarks" / "cross_band_si" / "report.json",
+        ]
+        bp = next((p for p in band_paths if p.is_file()), None)
+        if bp is None:
+            rec = {"ok": False, "issues": ["no cross_band_si report.json"]}
+        else:
+            rec = check_band_report(
+                bp, tol_gap=args.tol_band_gap, tol_rms=args.tol_band_rms
+            )
+        results["band_si"] = rec
+        print(
+            f"  [{'PASS' if rec['ok'] else 'FAIL'}] "
+            f"Δgap={rec.get('gap_abs_diff_eV')} RMS={rec.get('rms_eV')} "
+            f"@ {rec.get('path')}"
+        )
+        for i in rec.get("issues") or []:
+            print(f"    ISSUE {i}")
+        if not rec["ok"]:
+            results["ok"] = False
+
     out = _REPO / "work" / "benchmarks" / "cross_gates" / "gate_report.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(results, indent=2) + "\n", encoding="utf-8")
-    # also docs mirror summary
     docs = _REPO / "docs" / "benchmarks" / "cross_gates"
     docs.mkdir(parents=True, exist_ok=True)
     (docs / "gate_report.json").write_text(
@@ -276,6 +335,8 @@ def main(argv: list[str] | None = None) -> int:
         f"- hard |Ecoh_V−Ecoh_O| ≤ **{args.tol_code} eV**",
         f"- soft |Ecoh−exp| ≤ {args.tol_exp_soft} eV (warn only)",
         f"- cross_engine required cases: {', '.join(CROSS_ENGINE_MIN_CASES)}",
+        f"- KS band (Si): |Δgap| ≤ **{args.tol_band_gap} eV**, "
+        f"RMS ≤ **{args.tol_band_rms} eV**",
         f"- overall: **{'PASS' if results['ok'] else 'FAIL'}**",
         "",
         "## Ecoh",
@@ -288,7 +349,15 @@ def main(argv: list[str] | None = None) -> int:
             f"Δ={rec.get('abs_delta_codes')} "
             f"(V={rec.get('Ecoh_vasp')}, O={rec.get('Ecoh_openmx')})"
         )
-    md += ["", f"## cross_engine: {'PASS' if (results.get('cross_engine') or {}).get('ok') else 'FAIL'}", ""]
+    md += [
+        "",
+        f"## cross_engine: "
+        f"{'PASS' if (results.get('cross_engine') or {}).get('ok') else 'FAIL'}",
+        "",
+        f"## band_si: "
+        f"{'PASS' if (results.get('band_si') or {}).get('ok') else 'FAIL/SKIP'}",
+        "",
+    ]
     (docs / "REPORT.md").write_text("\n".join(md) + "\n", encoding="utf-8")
 
     if args.json:

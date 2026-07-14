@@ -1,6 +1,8 @@
 {
   "tol_ecoh_code_eV": 0.15,
   "tol_ecoh_exp_soft_eV": 0.5,
+  "tol_band_gap_eV": 0.25,
+  "tol_band_rms_eV": 0.2,
   "ecoh": [
     {
       "path": "/home/duguex/vasp_wiki/work/benchmarks/cross_delta_ecoh_si/report.json",
@@ -32,6 +34,15 @@
     "ok": true,
     "issues": [],
     "n_cases": 4
+  },
+  "band_si": {
+    "path": "/home/duguex/vasp_wiki/work/benchmarks/cross_band_si/report.json",
+    "ok": true,
+    "issues": [],
+    "gap_abs_diff_eV": 0.1213558591328856,
+    "rms_eV": 0.13640210602811542,
+    "gap_vasp_eV": 0.6544429999999997,
+    "gap_openmx_eV": 0.7757988591328853
   },
   "ok": true
 }

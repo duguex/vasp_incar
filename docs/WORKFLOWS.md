@@ -473,6 +473,36 @@ Tolerances (override via env): `CROSS_GATE_TOL_ECOH_CODE` (default 0.15),
 Gate report: [`docs/benchmarks/cross_gates/`](../benchmarks/cross_gates/).
 
 
+
+---
+
+## 11. Cross KS orbital energies (Si eigenvalues)
+
+Compare **orbital energies** (not wavefunctions) on the same Si₈ cell:
+
+- k: Γ, X, K, L (conventional cubic fractional)
+- align **VBM = 0**
+- report fundamental gap, Γ direct gap, RMS of top occupied + low empty levels
+
+```bash
+python3 scripts/cross_band_si.py --np 4
+python3 scripts/cross_band_si.py --check-only
+```
+
+### Reference (this workstation)
+
+| | VASP | OpenMX | \|Δ\| |
+|--|-----:|-------:|----:|
+| fundamental gap (eV) | 0.654 | 0.776 | **0.121** |
+| eigenvalue RMS (eV) | | | **0.136** |
+
+Gates (hard): `|Δgap| ≤ 0.25 eV`, `RMS ≤ 0.20 eV` (env `CROSS_BAND_TOL_GAP` / `CROSS_BAND_TOL_RMS`).
+
+Included in `python3 scripts/run_cross_gates.py --check-only`.
+
+Artifacts: [`docs/benchmarks/cross_band_si/`](../benchmarks/cross_band_si/).
+
+
 ## Environment setup quick reference
 
 ```bash
