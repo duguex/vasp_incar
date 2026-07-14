@@ -113,3 +113,47 @@ def test_plugins_advertise_generators():
     assert "vasp" in codes and "omx" in codes
     assert "vasp-gen" in codes["vasp"].generators
     assert "omx-gen" in codes["omx"].generators
+
+
+def test_vasp_gen_kpoints_suite(tmp_path):
+    pos = tmp_path / "POSCAR"
+    pos.write_text(
+        "Si\n1.0\n5.43 0 0\n0 5.43 0\n0 0 5.43\nSi\n2\nDirect\n"
+        "0 0 0\n0.25 0.25 0.25\n"
+    )
+    outdir = tmp_path / "vasp_run"
+    r = _run([
+        "-m", "vasp_query.generator",
+        str(pos), "-t", "scf",
+        "--kspacing", "0.3",
+        "--poscar",
+        "-o", str(outdir) + "/",
+    ])
+    assert r.returncode == 0, r.stderr + r.stdout
+    assert (outdir / "INCAR").is_file()
+    assert (outdir / "KPOINTS").is_file()
+    assert (outdir / "POSCAR").is_file()
+    ktext = (outdir / "KPOINTS").read_text()
+    assert "Gamma" in ktext or "Monkhorst" in ktext
+    assert "ENCUT" in (outdir / "INCAR").read_text()
+
+
+def test_vasp_gen_potcar_requires_psp_dir(tmp_path):
+    pos = tmp_path / "POSCAR"
+    pos.write_text(
+        "Si\n1.0\n5.43 0 0\n0 5.43 0\n0 0 5.43\nSi\n2\nDirect\n"
+        "0 0 0\n0.25 0.25 0.25\n"
+    )
+    import os
+    env = os.environ.copy()
+    env.pop("PMG_VASP_PSP_DIR", None)
+    env.pop("VASP_PSP_DIR", None)
+    r = subprocess.run(
+        [sys.executable, "-m", "vasp_query.generator",
+         str(pos), "-t", "scf", "--potcar", "-o", str(tmp_path / "INCAR")],
+        capture_output=True, text=True, timeout=60, cwd=str(ROOT), env=env,
+    )
+    assert r.returncode != 0
+    data = json.loads(r.stdout)
+    assert "error" in data
+    assert "PMG_VASP_PSP_DIR" in data["error"] or "PMG_VASP_PSP_DIR" in data.get("suggestion", "")

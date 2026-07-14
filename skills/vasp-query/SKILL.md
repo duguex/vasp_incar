@@ -85,8 +85,8 @@ python3 -m vasp_query keyword ENCUT     # alias of tag
 python3 -m vasp_query section ENCUT     # alias of fullwiki
 vasp-gen -t scf -o INCAR                # light INCAR templates
 dft vasp gen -t relax -d
-```
-
+Templates: `scf`, `scf_metal`, `relax`, `band`, `md`.
+Suite flags: `--kspacing`/`--kdensity`/`--kpoints` (KPOINTS via pymatgen), `--poscar`, `--potcar` (needs `PMG_VASP_PSP_DIR`; never commit POTCAR).
 Templates: `scf`, `scf_metal`, `relax`, `band`, `md`. INCAR only (no POTCAR/KPOINTS).
 
 ### 1.3 Tag statistics

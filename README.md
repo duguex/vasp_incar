@@ -74,6 +74,7 @@ omx-db rag "how to tune SCF mixing for metallic systems"
 
 # Generate inputs
 vasp-gen -t scf -o INCAR
+vasp-gen POSCAR -t relax --kspacing 0.3 -o calc/   # INCAR+KPOINTS (+ --poscar/--potcar)
 omx-gen structure.cif -t scf_band -o calc.dat
 
 # Convert between codes
