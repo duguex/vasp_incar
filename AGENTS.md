@@ -36,6 +36,9 @@ python3 -m vasp_query.test_cli
 omx-db search "SCF convergence"
 omx-gen structure.cif -t scf_band -o calc.dat
 python3 -m pytest tests/
+
+# Physics gates (no SCF if reports already present)
+python3 scripts/run_cross_gates.py --check-only --elements Si C
 ```
 
 ## Read on demand
