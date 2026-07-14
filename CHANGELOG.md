@@ -7,6 +7,7 @@
   - Cross aliases: VASP `keyword`→tag, `section`→fullwiki; OpenMX `tag`→keyword, `fullwiki`→section
   - **`vasp-gen`**: light INCAR templates (`scf`, `scf_metal`, `relax`, `band`, `md`); `dft vasp gen`
 - **`vasp-gen` suite**: optional `KPOINTS` via pymatgen (`--kspacing` / `--kdensity` / `--kpoints`), optional `POSCAR` rewrite, optional `POTCAR` when `PMG_VASP_PSP_DIR` is set (never redistributed).
+- **OpenMX example corpus**: index official `work/**/*.dat` → `data/omx_examples/`; CLI `omx-db example`, `omx-db cooccur`, `omx-db stats --examples` (demonstration corpus, not multi-user INCAR-scale).
 - Spec/plan: `docs/superpowers/specs/2026-07-14-cli-symmetry-design.md`, `docs/superpowers/plans/2026-07-14-cli-symmetry.md`
 
 ### Fixed

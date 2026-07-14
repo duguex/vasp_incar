@@ -1,0 +1,17 @@
+#
+# Minimal SCF example for corpus tests
+#
+System.Name                     scf_mix
+Species.Number       1
+Atoms.Number         1
+scf.XcType                   GGA-PBE
+scf.SpinPolarization         off
+scf.ElectronicTemperature    300.0
+scf.energycutoff             150.0
+scf.maxIter                  100
+scf.EigenvalueSolver         Cluster
+scf.Mixing.Type              Rmm-Diis
+scf.Kerker.factor            1.0
+scf.criterion                1.0e-6
+MD.Type                      Nomd
+MD.maxIter                   1

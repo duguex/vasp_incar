@@ -1,0 +1,13 @@
+#
+# Minimal NEGF-style example (keywords only)
+#
+System.Name                     wire
+Species.Number       1
+Atoms.Number         4
+scf.XcType                   GGA-PBE
+scf.energycutoff             120.0
+scf.maxIter                  40
+scf.Mixing.Type              Kerker
+scf.Kerker.factor            5.0
+NEGF.filename.path           ./
+MD.Type                      Nomd

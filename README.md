@@ -71,6 +71,8 @@ Shared infrastructure (`dft_utils/`) handles: version envelope, debug logging, J
 python3 -m vasp_query search "energy cutoff for transition metals"
 vasp-query rag "hybrid functional ENCUT"
 omx-db rag "how to tune SCF mixing for metallic systems"
+omx-db example Kerker --json          # official OpenMX work/ examples
+omx-db cooccur scf.Mixing.Type scf.Kerker.factor --json
 
 # Generate inputs
 vasp-gen -t scf -o INCAR

@@ -556,6 +556,40 @@ def cmd_files(args, json_output=False):
 # ── Database stats ─────────────────────────────────────────────────────
 
 def cmd_stats(args, json_output=False):
+    """DB table stats, or example-corpus stats with --examples."""
+    # omx-db stats --examples [keyword]
+    if "--examples" in args or "-e" in args:
+        rest = [a for a in args if a not in ("--examples", "-e")]
+        keyword = " ".join(rest).strip() or None
+        try:
+            from omx_tools.examples_corpus import example_stats, load_index
+            records = load_index()
+            resp = example_stats(records, keyword=keyword)
+        except FileNotFoundError as e:
+            resp = {
+                "error": str(e),
+                "suggestion": (
+                    "python3 scripts/index_omx_examples.py "
+                    "--root ~/openmx_container/openmx4.0/work "
+                    "--out data/omx_examples"
+                ),
+            }
+            print(json.dumps(resp, indent=2, ensure_ascii=False) if json_output else resp["error"])
+            return
+        if json_output:
+            print(json.dumps(resp, indent=2, ensure_ascii=False))
+        else:
+            print(f"Example corpus statistics (total={resp.get('total_examples', 0)})")
+            if keyword:
+                print(f"  keyword: {resp.get('keyword')}  count={resp.get('count')}  "
+                      f"({resp.get('frequency_pct')}%)")
+                for v in resp.get("top_values") or []:
+                    print(f"    {v['value']}: {v['count']}")
+            else:
+                for row in (resp.get("top_keywords") or [])[:20]:
+                    print(f"  {row['keyword']:<28s} {row['count']:>5d}  ({row['frequency_pct']}%)")
+        return
+
     db = get_db()
     tables = {}
     for t in ("sections", "index_entries", "section_embeddings", "meta"):
@@ -567,7 +601,10 @@ def cmd_stats(args, json_output=False):
     files_by_cat = {}
     files_by_type = {}
     try:
-        rows = db.execute("SELECT category, file_type, COUNT(*) AS c FROM files GROUP BY category, file_type").fetchall()
+        rows = db.execute(
+            "SELECT category, file_type, COUNT(*) AS c FROM files "
+            "GROUP BY category, file_type"
+        ).fetchall()
         for r in rows:
             files_by_cat[r["category"]] = files_by_cat.get(r["category"], 0) + r["c"]
             files_by_type[r["file_type"]] = files_by_type.get(r["file_type"], 0) + r["c"]
@@ -575,7 +612,6 @@ def cmd_stats(args, json_output=False):
         pass
     db_size = os.path.getsize(DB_PATH) / (1024 * 1024) if os.path.exists(DB_PATH) else 0
 
-    # Version info
     version_info = {}
     try:
         vrow = db.execute("SELECT value FROM meta WHERE key='version'").fetchone()
@@ -604,6 +640,121 @@ def cmd_stats(args, json_output=False):
         if version_info:
             print(f"  version: {version_info['version']}")
     db.close()
+
+
+def _corpus_error(exc: Exception, json_output: bool) -> None:
+    resp = {
+        "error": str(exc),
+        "suggestion": (
+            "python3 scripts/index_omx_examples.py "
+            "--root ~/openmx_container/openmx4.0/work --out data/omx_examples"
+        ),
+    }
+    if json_output:
+        print(json.dumps(resp, indent=2, ensure_ascii=False))
+    else:
+        print(resp["error"])
+        print(f"  suggestion: {resp['suggestion']}")
+
+
+def cmd_example(args, json_output=False):
+    """Search official OpenMX example .dat corpus."""
+    intent = None
+    keyword = None
+    query_parts: list[str] = []
+    i = 0
+    while i < len(args):
+        a = args[i]
+        if a in ("--intent", "-t") and i + 1 < len(args):
+            intent = args[i + 1]
+            i += 2
+            continue
+        if a in ("--keyword", "-k") and i + 1 < len(args):
+            keyword = args[i + 1]
+            i += 2
+            continue
+        if a.startswith("--intent="):
+            intent = a.split("=", 1)[1]
+            i += 1
+            continue
+        if a.startswith("--keyword="):
+            keyword = a.split("=", 1)[1]
+            i += 1
+            continue
+        query_parts.append(a)
+        i += 1
+    query = " ".join(query_parts).strip() or None
+
+    if not query and not intent and not keyword:
+        msg = {
+            "error": "No query provided",
+            "suggestion": (
+                "omx-db example Kerker --json | "
+                "omx-db example --intent geom_opt --json | "
+                "omx-db example --keyword scf.Mixing.Type --json"
+            ),
+        }
+        print(json.dumps(msg, indent=2, ensure_ascii=False) if json_output else msg["error"])
+        return
+
+    try:
+        from omx_tools.examples_corpus import load_index, search_examples
+        records = load_index()
+        results = search_examples(
+            records, query=query, intent=intent, keyword=keyword,
+        )
+    except FileNotFoundError as e:
+        _corpus_error(e, json_output)
+        return
+
+    resp = {
+        "query": query,
+        "intent": intent,
+        "keyword": keyword,
+        "count": len(results),
+        "results": results,
+        "corpus": "official OpenMX work/ examples (not multi-user INCAR-scale)",
+    }
+    if json_output:
+        print(json.dumps(resp, indent=2, ensure_ascii=False))
+    else:
+        print(f'📂 {len(results)} examples  query={query!r} intent={intent!r}')
+        for r in results:
+            print(f"  [{r.get('intent', '?'):<8s}] {r.get('id')}")
+            if r.get("matches"):
+                print(f"             matches: {', '.join(r['matches'][:6])}")
+
+
+def cmd_cooccur(args, json_output=False):
+    """Keyword co-occurrence across official example .dat files."""
+    toks = [a for a in args if not a.startswith("-")]
+    if len(toks) < 2:
+        msg = {
+            "error": "Need two keywords",
+            "suggestion": "omx-db cooccur scf.Mixing.Type scf.Kerker.factor --json",
+        }
+        print(json.dumps(msg, indent=2, ensure_ascii=False) if json_output else msg["error"])
+        return
+    kw_a, kw_b = toks[0], toks[1]
+    try:
+        from omx_tools.examples_corpus import example_cooccur, load_index
+        records = load_index()
+        resp = example_cooccur(records, kw_a, kw_b)
+    except FileNotFoundError as e:
+        _corpus_error(e, json_output)
+        return
+
+    if json_output:
+        print(json.dumps(resp, indent=2, ensure_ascii=False))
+    else:
+        print(f"Co-occurrence: {kw_a} × {kw_b}")
+        print(f"  total_examples: {resp['total_examples']}")
+        print(f"  count_a: {resp['count_a']} ({resp['frequency_a_pct']}%)")
+        print(f"  count_b: {resp['count_b']} ({resp['frequency_b_pct']}%)")
+        print(f"  cooccur: {resp['cooccur_count']} ({resp['cooccur_pct']}%)")
+        for p in resp.get("top_pairs") or []:
+            print(f"    {p['pair']}: {p['count']}")
+
 
 
 
@@ -817,6 +968,9 @@ def cli():
         "list": cmd_list,
         "files": cmd_files,
         "stats": cmd_stats,
+        "example": cmd_example,
+        "examples": cmd_example,     # alias
+        "cooccur": cmd_cooccur,
     }
     if cmd in cmds:
         cmds[cmd](args, json_output=use_json)

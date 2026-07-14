@@ -1,0 +1,16 @@
+#
+# Minimal geometry optimization example
+#
+System.Name                     relax_diis
+Species.Number       1
+Atoms.Number         2
+scf.XcType                   GGA-PBE
+scf.SpinPolarization         off
+scf.energycutoff             200.0
+scf.maxIter                  80
+scf.EigenvalueSolver         Cluster
+scf.Mixing.Type              Rmm-Diis
+scf.Kerker.factor            2.0
+MD.Type                      Opt
+MD.Opt.DIIS.History          3
+MD.maxIter                   50

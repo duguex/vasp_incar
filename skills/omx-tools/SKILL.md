@@ -36,6 +36,15 @@ Query the OpenMX v4.0 manual database (`openmx.db`).  All subcommands accept
 Symmetry aliases (match vasp-query naming): `tag`→`keyword`, `fullwiki`→`section`.
 Related: `omx-db related <keyword|section> [--json]`.
 
+Example corpus (official OpenMX `work/**/*.dat`, not multi-user stats):
+```
+omx-db example Kerker --json
+omx-db example --intent geom_opt --json
+omx-db cooccur scf.Mixing.Type scf.Kerker.factor --json
+omx-db stats --examples --json
+# rebuild: python3 scripts/index_omx_examples.py --root ~/openmx_container/openmx4.0/work --out data/omx_examples
+```
+
 ### 1.1 FTS5 search
 
 ```
