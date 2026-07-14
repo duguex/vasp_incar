@@ -503,6 +503,22 @@ Included in `python3 scripts/run_cross_gates.py --check-only`.
 Artifacts: [`docs/benchmarks/cross_band_si/`](../benchmarks/cross_band_si/).
 
 
+
+---
+
+## 12. Cross a_eq (light lattice scan)
+
+5-point E(a) scan → parabolic a_eq for Si (and optionally C):
+
+```bash
+python3 scripts/cross_aeq.py --element Si --np 4
+```
+
+Reference Si: VASP a_eq≈5.472 Å, OpenMX≈5.499 Å, exp 5.431; rel |Δ|≈0.49% (tol 1%).
+
+C band eigenvalues: `python3 scripts/cross_band.py --element C` (tol RMS 0.35 eV).
+
+
 ## Environment setup quick reference
 
 ```bash

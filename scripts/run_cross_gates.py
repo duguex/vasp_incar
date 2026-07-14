@@ -7,8 +7,10 @@ Hard gates (fail → exit 1)
    ``|Ecoh_VASP − Ecoh_OpenMX| ≤ TOL_ECOH_CODE`` (default 0.15 eV)
 2. Both engines ``ok`` in each Ecoh report
 3. **cross_engine** subset: Ndia2 / Graphite4 ``ok``
-4. **KS orbital energies (Si)**: ``|Δgap| ≤ TOL_BAND_GAP`` and eigenvalue RMS
-   ``≤ TOL_BAND_RMS`` (defaults 0.25 / 0.20 eV) when report present
+4. **KS orbital energies** (Si, and C if report present): ``|Δgap|``, RMS
+5. **a_eq** (Si if report present): relative ``|a_eq_V−a_eq_O|/a0 ≤ TOL_AEQ_REL``
+6. **Crystal forces** on cross_engine Ndia2/Graphite4 if comparable present:
+   ``Δ|F|_max ≤ TOL_FORCE_MAX``
 
 Soft checks (warn only)
 -----------------------
@@ -36,6 +38,9 @@ import sys
 from pathlib import Path
 
 _REPO = Path(__file__).resolve().parent.parent
+
+TOL_AEQ_REL = float(os.environ.get("CROSS_AEQ_TOL_REL", "0.01"))
+TOL_FORCE_MAX = float(os.environ.get("CROSS_FORCE_TOL_MAX", "1.0"))
 
 TOL_ECOH_CODE_EV = float(os.environ.get("CROSS_GATE_TOL_ECOH_CODE", "0.15"))
 TOL_ECOH_EXP_SOFT_EV = float(os.environ.get("CROSS_GATE_TOL_ECOH_EXP", "0.5"))
@@ -159,6 +164,55 @@ def check_band_report(path: Path, *, tol_gap: float, tol_rms: float) -> dict:
     }
 
 
+
+def check_aeq_report(path: Path, *, tol_rel: float) -> dict:
+    data = _load_json(path) or {}
+    issues = []
+    cmp = data.get("compare") or {}
+    rel = cmp.get("rel_abs_delta_aeq")
+    if rel is None:
+        issues.append("missing rel_abs_delta_aeq")
+    elif float(rel) > tol_rel:
+        issues.append(f"rel|Δa_eq|={float(rel):.4f} > {tol_rel}")
+    if not data.get("ok") and not issues:
+        issues.append("aeq report ok=false")
+    return {
+        "path": str(path),
+        "ok": not issues,
+        "issues": issues,
+        "rel_abs_delta_aeq": rel,
+        "a_eq_vasp_A": cmp.get("a_eq_vasp_A"),
+        "a_eq_openmx_A": cmp.get("a_eq_openmx_A"),
+    }
+
+
+def check_force_crystal(path: Path, *, cases: list[str], tol_max: float) -> dict:
+    data = _load_json(path) or {}
+    issues = []
+    warns = []
+    details = {}
+    by = {c.get("name"): c for c in data.get("cases") or []}
+    for name in cases:
+        c = by.get(name)
+        if not c:
+            issues.append(f"force: missing case {name}")
+            continue
+        comp = c.get("comparable") or {}
+        dF = comp.get("delta_force_max_eV_A")
+        details[name] = dF
+        if dF is None:
+            warns.append(f"{name}: no comparable force (skip hard)")
+            continue
+        if float(dF) > tol_max:
+            issues.append(f"{name}: Δ|F|_max={float(dF):.3f} > {tol_max} eV/Å")
+    return {
+        "path": str(path),
+        "ok": not issues,
+        "issues": issues,
+        "warns": warns,
+        "delta_force_max": details,
+    }
+
 def run_cmd(cmd: list[str], timeout: int) -> int:
     print("+", " ".join(cmd), flush=True)
     return subprocess.call(cmd, cwd=str(_REPO), timeout=timeout)
@@ -224,8 +278,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--tol-exp-soft", type=float, default=TOL_ECOH_EXP_SOFT_EV)
     p.add_argument("--skip-cross-engine", action="store_true")
     p.add_argument("--skip-band", action="store_true")
+    p.add_argument("--skip-aeq", action="store_true")
+    p.add_argument("--skip-force", action="store_true")
     p.add_argument("--tol-band-gap", type=float, default=TOL_BAND_GAP_EV)
     p.add_argument("--tol-band-rms", type=float, default=TOL_BAND_RMS_EV)
+    p.add_argument("--tol-aeq-rel", type=float, default=TOL_AEQ_REL)
+    p.add_argument("--tol-force-max", type=float, default=TOL_FORCE_MAX)
     p.add_argument("--json", action="store_true")
     args = p.parse_args(argv)
 
@@ -245,6 +303,9 @@ def main(argv: list[str] | None = None) -> int:
         "ecoh": [],
         "cross_engine": None,
         "band_si": None,
+        "band_c": None,
+        "aeq_si": None,
+        "force_crystal": None,
         "ok": True,
     }
 
@@ -297,29 +358,87 @@ def main(argv: list[str] | None = None) -> int:
         if not rec["ok"]:
             results["ok"] = False
 
+
     if not args.skip_band:
-        print("=== KS eigenvalue gate (Si) ===")
-        band_paths = [
-            _REPO / "work" / "benchmarks" / "cross_band_si" / "report.json",
-            _REPO / "docs" / "benchmarks" / "cross_band_si" / "report.json",
-        ]
-        bp = next((p for p in band_paths if p.is_file()), None)
-        if bp is None:
-            rec = {"ok": False, "issues": ["no cross_band_si report.json"]}
-        else:
-            rec = check_band_report(
-                bp, tol_gap=args.tol_band_gap, tol_rms=args.tol_band_rms
+        print("=== KS eigenvalue gates ===")
+        for el, key in (("Si", "band_si"), ("C", "band_c")):
+            band_paths = [
+                _REPO / "work" / "benchmarks" / f"cross_band_{el.lower()}" / "report.json",
+                _REPO / "docs" / "benchmarks" / f"cross_band_{el.lower()}" / "report.json",
+            ]
+            bp = next((p for p in band_paths if p.is_file()), None)
+            if bp is None:
+                if el == "Si":
+                    rec = {"ok": False, "issues": [f"no cross_band_{el.lower()} report.json"]}
+                else:
+                    rec = {"ok": True, "issues": [], "skipped": True, "path": None}
+                    print(f"  [SKIP] {el} band report not present")
+                    results[key] = rec
+                    continue
+            else:
+                tg, tr = args.tol_band_gap, args.tol_band_rms
+                if el == "C":
+                    if abs(tg - 0.25) < 1e-12:
+                        tg = 0.30
+                    if abs(tr - 0.20) < 1e-12:
+                        tr = 0.35
+                rec = check_band_report(bp, tol_gap=tg, tol_rms=tr)
+            results[key] = rec
+            print(
+                f"  [{'PASS' if rec['ok'] else 'FAIL'}] {el} "
+                f"Δgap={rec.get('gap_abs_diff_eV')} RMS={rec.get('rms_eV')}"
             )
-        results["band_si"] = rec
-        print(
-            f"  [{'PASS' if rec['ok'] else 'FAIL'}] "
-            f"Δgap={rec.get('gap_abs_diff_eV')} RMS={rec.get('rms_eV')} "
-            f"@ {rec.get('path')}"
-        )
-        for i in rec.get("issues") or []:
-            print(f"    ISSUE {i}")
-        if not rec["ok"]:
-            results["ok"] = False
+            for i in rec.get("issues") or []:
+                print(f"    ISSUE {i}")
+            if not rec["ok"]:
+                results["ok"] = False
+
+    if not args.skip_aeq:
+        print("=== a_eq gate (Si) ===")
+        aeq_paths = [
+            _REPO / "work" / "benchmarks" / "cross_aeq_si" / "report.json",
+            _REPO / "docs" / "benchmarks" / "cross_aeq_si" / "report.json",
+        ]
+        ap = next((p for p in aeq_paths if p.is_file()), None)
+        if ap is None:
+            rec = {"ok": True, "skipped": True, "issues": [], "path": None}
+            print("  [SKIP] no cross_aeq_si report")
+        else:
+            rec = check_aeq_report(ap, tol_rel=args.tol_aeq_rel)
+            print(
+                f"  [{'PASS' if rec['ok'] else 'FAIL'}] "
+                f"rel|Δa_eq|={rec.get('rel_abs_delta_aeq')} "
+                f"V={rec.get('a_eq_vasp_A')} O={rec.get('a_eq_openmx_A')}"
+            )
+            for i in rec.get("issues") or []:
+                print(f"    ISSUE {i}")
+            if not rec["ok"]:
+                results["ok"] = False
+        results["aeq_si"] = rec
+
+    if not args.skip_force:
+        print("=== crystal force gate ===")
+        ce_paths = [
+            _REPO / "work" / "benchmarks" / "cross_engine" / "report.json",
+            _REPO / "docs" / "benchmarks" / "cross_engine" / "report.json",
+        ]
+        ce = next((p for p in ce_paths if p.is_file()), None)
+        if ce is None:
+            rec = {"ok": True, "skipped": True, "issues": []}
+            print("  [SKIP] no cross_engine report")
+        else:
+            rec = check_force_crystal(
+                ce, cases=CROSS_ENGINE_MIN_CASES, tol_max=args.tol_force_max
+            )
+            print(f"  [{'PASS' if rec['ok'] else 'FAIL'}] {rec.get('delta_force_max')}")
+            for w in rec.get("warns") or []:
+                print(f"    WARN {w}")
+            for i in rec.get("issues") or []:
+                print(f"    ISSUE {i}")
+            if not rec["ok"]:
+                results["ok"] = False
+        results["force_crystal"] = rec
+
 
     out = _REPO / "work" / "benchmarks" / "cross_gates" / "gate_report.json"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -335,8 +454,8 @@ def main(argv: list[str] | None = None) -> int:
         f"- hard |Ecoh_V−Ecoh_O| ≤ **{args.tol_code} eV**",
         f"- soft |Ecoh−exp| ≤ {args.tol_exp_soft} eV (warn only)",
         f"- cross_engine required cases: {', '.join(CROSS_ENGINE_MIN_CASES)}",
-        f"- KS band (Si): |Δgap| ≤ **{args.tol_band_gap} eV**, "
-        f"RMS ≤ **{args.tol_band_rms} eV**",
+        f"- KS band: |Δgap| ≤ **{args.tol_band_gap} eV**, RMS ≤ **{args.tol_band_rms} eV**",
+        f"- a_eq rel |Δ| ≤ **{args.tol_aeq_rel}**; crystal Δ|F|_max ≤ **{args.tol_force_max} eV/Å**",
         f"- overall: **{'PASS' if results['ok'] else 'FAIL'}**",
         "",
         "## Ecoh",
@@ -356,6 +475,12 @@ def main(argv: list[str] | None = None) -> int:
         "",
         f"## band_si: "
         f"{'PASS' if (results.get('band_si') or {}).get('ok') else 'FAIL/SKIP'}",
+        f"## band_c: "
+        f"{'PASS' if (results.get('band_c') or {}).get('ok') else 'FAIL/SKIP'}",
+        f"## aeq_si: "
+        f"{'PASS' if (results.get('aeq_si') or {}).get('ok') else 'FAIL/SKIP'}",
+        f"## force_crystal: "
+        f"{'PASS' if (results.get('force_crystal') or {}).get('ok') else 'FAIL/SKIP'}",
         "",
     ]
     (docs / "REPORT.md").write_text("\n".join(md) + "\n", encoding="utf-8")

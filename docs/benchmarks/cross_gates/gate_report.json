@@ -44,5 +44,32 @@
     "gap_vasp_eV": 0.6544429999999997,
     "gap_openmx_eV": 0.7757988591328853
   },
+  "band_c": {
+    "path": "/home/duguex/vasp_wiki/work/benchmarks/cross_band_c/report.json",
+    "ok": true,
+    "issues": [],
+    "gap_abs_diff_eV": 0.18666902196249513,
+    "rms_eV": 0.29743876636568306,
+    "gap_vasp_eV": 4.368278,
+    "gap_openmx_eV": 4.554947021962495
+  },
+  "aeq_si": {
+    "path": "/home/duguex/vasp_wiki/work/benchmarks/cross_aeq_si/report.json",
+    "ok": true,
+    "issues": [],
+    "rel_abs_delta_aeq": 0.004872303281867063,
+    "a_eq_vasp_A": 5.472421622922289,
+    "a_eq_openmx_A": 5.498883102046109
+  },
+  "force_crystal": {
+    "path": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/report.json",
+    "ok": true,
+    "issues": [],
+    "warns": [],
+    "delta_force_max": {
+      "Ndia2": 0.47695880954319314,
+      "Graphite4": 0.27070455634044155
+    }
+  },
   "ok": true
 }

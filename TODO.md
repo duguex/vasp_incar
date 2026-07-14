@@ -13,6 +13,7 @@ See `ROADMAP.md` for detailed planning. Status as of 2026-07-14.
 7. [x] Advise loop + Si8 E2E (`dft semantic advise` / `e2e_si8_advise_loop.py`)
 8. [x] Engine self-tests + true cross-engine examples
 9. [x] Cross ΔE Ecoh (Si, C) + **physics gates** (`run_cross_gates.py`)
+10. [x] KS eigenvalues Si/C + light a_eq + crystal force gates
 
 ## Optional / backlog (not current focus)
 

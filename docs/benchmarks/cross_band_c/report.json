@@ -1,0 +1,199 @@
+{
+  "kind": "cross_band_c",
+  "element": "C",
+  "protocol": {
+    "structure": "C diamond cubic a0=3.567 \u00c5",
+    "kpoints": {
+      "G": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "X": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "K": [
+        0.5,
+        0.5,
+        0.0
+      ],
+      "L": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "alignment": "VBM = 0 (max occupied over special k)",
+    "n_occ_bands": 16,
+    "note": "Compare orbital energies (eigenvalues), not wavefunctions"
+  },
+  "vasp": {
+    "ok": true,
+    "vbm_raw_eV": 9.904526,
+    "gap_fundamental_eV": 4.368278,
+    "gap_direct_G_eV": 4.655738999999999,
+    "edge": {
+      "G": {
+        "vb_eV": 0.0,
+        "cb_eV": 4.655738999999999
+      },
+      "X": {
+        "vb_eV": -4.166674,
+        "cb_eV": 4.368278
+      },
+      "K": {
+        "vb_eV": -3.046805000000001,
+        "cb_eV": 7.856014999999999
+      },
+      "L": {
+        "vb_eV": -2.828653000000001,
+        "cb_eV": 8.397647
+      }
+    },
+    "labels": [
+      "G",
+      "X",
+      "K",
+      "L"
+    ],
+    "n_occ": 16,
+    "wall_s": 3.15,
+    "source": "EIGENVAL",
+    "meta": {
+      "nelect": 32,
+      "nk": 4,
+      "nbands": 32
+    },
+    "k_found": [
+      "G",
+      "X",
+      "K",
+      "L"
+    ],
+    "aligned_edges": {
+      "G": {
+        "vb_eV": 0.0,
+        "cb_eV": 4.655738999999999
+      },
+      "X": {
+        "vb_eV": -4.166674,
+        "cb_eV": 4.368278
+      },
+      "K": {
+        "vb_eV": -3.046805000000001,
+        "cb_eV": 7.856014999999999
+      },
+      "L": {
+        "vb_eV": -2.828653000000001,
+        "cb_eV": 8.397647
+      }
+    }
+  },
+  "openmx": {
+    "ok": true,
+    "vbm_raw_eV": -2.1484951769917306,
+    "gap_fundamental_eV": 4.554947021962495,
+    "gap_direct_G_eV": 5.0574481792198505,
+    "edge": {
+      "G": {
+        "vb_eV": 0.0,
+        "cb_eV": 5.0574481792198505
+      },
+      "X": {
+        "vb_eV": -4.1008323878981585,
+        "cb_eV": 4.554947021962495
+      },
+      "K": {
+        "vb_eV": -2.9938231464885257,
+        "cb_eV": 8.203546798411846
+      },
+      "L": {
+        "vb_eV": -2.785634284932915,
+        "cb_eV": 8.635763952492102
+      }
+    },
+    "labels": [
+      "G",
+      "X",
+      "K",
+      "L"
+    ],
+    "n_occ": 16,
+    "wall_s": 45.83,
+    "source": "C_band.out",
+    "k_found": [
+      "G",
+      "X",
+      "K",
+      "L"
+    ],
+    "aligned_edges": {
+      "G": {
+        "vb_eV": 0.0,
+        "cb_eV": 5.0574481792198505
+      },
+      "X": {
+        "vb_eV": -4.1008323878981585,
+        "cb_eV": 4.554947021962495
+      },
+      "K": {
+        "vb_eV": -2.9938231464885257,
+        "cb_eV": 8.203546798411846
+      },
+      "L": {
+        "vb_eV": -2.785634284932915,
+        "cb_eV": 8.635763952492102
+      }
+    }
+  },
+  "compare": {
+    "ok": true,
+    "gap_vasp_eV": 4.368278,
+    "gap_openmx_eV": 4.554947021962495,
+    "gap_abs_diff_eV": 0.18666902196249513,
+    "direct_G_vasp_eV": 4.655738999999999,
+    "direct_G_openmx_eV": 5.0574481792198505,
+    "rms_eV": 0.29743876636568306,
+    "per_k": {
+      "G": {
+        "rms_eV": 0.28589959316773483,
+        "max_abs_eV": 0.40190897941439374,
+        "n_levels": 8
+      },
+      "X": {
+        "rms_eV": 0.4254505237618352,
+        "max_abs_eV": 0.824891494589199,
+        "n_levels": 8
+      },
+      "K": {
+        "rms_eV": 0.24867446263255438,
+        "max_abs_eV": 0.3479083925126556,
+        "n_levels": 8
+      },
+      "L": {
+        "rms_eV": 0.1711536299360071,
+        "max_abs_eV": 0.2382803330124652,
+        "n_levels": 8
+      }
+    },
+    "labels": [
+      "G",
+      "X",
+      "K",
+      "L"
+    ],
+    "n_occ_cmp": 4,
+    "n_emp_cmp": 4
+  },
+  "gate": {
+    "ok": true,
+    "issues": [],
+    "tol_gap_eV": 0.3,
+    "tol_rms_eV": 0.35
+  },
+  "ok": true,
+  "tol_gap_eV": 0.3,
+  "tol_rms_eV": 0.35
+}

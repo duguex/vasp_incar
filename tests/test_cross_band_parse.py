@@ -10,7 +10,7 @@ import numpy as np
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-SCRIPT = ROOT / "scripts" / "cross_band_si.py"
+SCRIPT = ROOT / "scripts" / "cross_band.py"
 REPORT = ROOT / "docs" / "benchmarks" / "cross_band_si" / "report.json"
 
 

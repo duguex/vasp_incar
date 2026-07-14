@@ -87,7 +87,7 @@ omp2vasp input.dat -o INCAR
 scripts (containers) live under `scripts/` and are documented in WORKFLOWS §6–10.
 
 - E2E / advise: §6 · OpenMX Si Ecoh: §7 · official engine tests: §8  
-- True cross-engine: §9 · Ecoh ΔE + **gates**: §10 · KS eigenvalues: §11  
+- True cross-engine: §9 · Ecoh/gates: §10 · KS eigenvalues: §11 · a_eq: §12  
 
 ```bash
 python3 scripts/run_cross_gates.py --check-only --elements Si C
