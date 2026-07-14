@@ -1,9 +1,14 @@
 ## [Unreleased]
 
+### Fixed
+- **`dft convert` argparse**: convert subparser now accepts remainder args (`src:dst input …`); previously only bare `dft convert` worked.
+- **`aliases.json` version envelope**: wrap as `_version: 0.3.0` so load no longer warns.
+
 ### Changed
 - **Archive standalone `~/omx`**: moved to `~/archive/2026-07-dft-merge/omx` (2026-07-14). Active source is only `~/vasp_wiki` (`dft-tools`).
-- **Hermes skills**: `omx-tools` and `vasp-query` both link to `~/vasp_wiki/skills/…` (was pointing at archived `~/omx`).
+- **Hermes skills**: `omx-tools` and `vasp-query` both link to `~/vasp_wiki/skills/…`.
 - Do not `pip install -e ~/omx` alongside this package — entry points collide.
+- **TODO / ROADMAP**: Items 1–4 marked done; remaining = third code + extract.
 
 ## [0.3.0] - 2026-06-30
 

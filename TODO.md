@@ -1,21 +1,23 @@
 # TODO
 
-See `ROADMAP.md` for detailed planning.
+See `ROADMAP.md` for detailed planning. Status as of 2026-07-14.
+
+## Done (v0.3.x)
+
+1. [x] Rebuild VASP data / version envelopes (tag_index, wiki, etc.; aliases now 0.3.0)
+2. [x] Fix `_search_fts5` `row_factory` in `omx_tools/database.py`
+3. [x] Unify semantic search backend via `dft_utils.embedding` (Ollama + ST fallback)
+4. [x] Workflow examples — `docs/WORKFLOWS.md`
+5. [x] PLAN Phase 0–5 framework (plugin registry, `dft` CLI, convert registry, skeleton docs)
+6. [x] Archive standalone `~/omx` → `~/archive/2026-07-dft-merge/omx`
 
 ## Current priority
 
-1. [ ] Rebuild VASP data (`python3 -m vasp_query preprocess`)
-2. [ ] Fix `_search_fts5` row_factory in `omx_tools/database.py`
+1. [ ] Third DFT code (QE or CASTEP) to validate plugin protocol end-to-end
+2. [ ] Post-processing output parsers — `dft extract` / `dft_utils.extract`
 
-## Next
+## Known polish / follow-ups
 
-3. [ ] Unify semantic search backend (Ollama) — `dft_utils/embedding.py`
-4. [ ] Write workflow examples — `docs/WORKFLOWS.md`
-5. [ ] Add third DFT code + standardize onboarding
-6. [ ] Post-processing output parsers — `dft_utils/extract/`
-
-## Known bugs (code)
-
-- `omx_tools/database.py:_search_fts5()` missing `conn.row_factory = sqlite3.Row`
-- `omx_tools/database.py:cmd_rag()` subprocess model load is ~9s cold, ~0 warm — should use same backend as hybrid search
-- VASP data files at version 0.2.0 need regeneration to match code 0.3.0
+- Hybrid ranking for broad queries (e.g. `"SCF"`) still elevates Index; tune boosts further if needed
+- Phase 4 partial: mapping JSON still under `omx_tools/schemas/` (not root `schemas/`); converters work via registry
+- `dft convert` remainder-arg wiring fixed 2026-07-14 — keep covered by `tests/test_unified_cli.py`

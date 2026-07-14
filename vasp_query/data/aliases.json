@@ -1,1 +1,18 @@
-{"soc": "LSORBIT", "dft+u": "LDAU", "dft": "GGA", "gga": "GGA", "pbe": "GGA", "hse": "HFSCREEN", "gw": "ALGO", "vdw": "IVDW", "bse": "ALGO", "phonon": "IBRION", "hubbard": "LDAU", "hubbard u": "LDAU", "molecular dynamics": "IBRION"}
+{
+  "_version": "0.3.0",
+  "data": {
+    "soc": "LSORBIT",
+    "dft+u": "LDAU",
+    "dft": "GGA",
+    "gga": "GGA",
+    "pbe": "GGA",
+    "hse": "HFSCREEN",
+    "gw": "ALGO",
+    "vdw": "IVDW",
+    "bse": "ALGO",
+    "phonon": "IBRION",
+    "hubbard": "LDAU",
+    "hubbard u": "LDAU",
+    "molecular dynamics": "IBRION"
+  }
+}

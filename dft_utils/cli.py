@@ -39,8 +39,13 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("args", nargs=argparse.REMAINDER,
                        help=f"Arguments forwarded to {plugin.cli_module}")
 
-    # Special top-level commands
-    subparsers.add_parser("convert", help="Convert between DFT code formats")
+    # Special top-level commands (REMAINDER so "src:dst ..." is not argparse'd away)
+    convert_p = subparsers.add_parser("convert", help="Convert between DFT code formats")
+    convert_p.add_argument(
+        "args",
+        nargs=argparse.REMAINDER,
+        help="src:dst input [structure] [-o out] [--dry-run] [-t template]",
+    )
 
     return parser
 
@@ -189,7 +194,11 @@ def main() -> int:
         return 0
 
     if args.code == "convert":
-        return cmd_convert(sys.argv[2:])
+        # Drop optional leading "--" inserted by argparse REMAINDER
+        conv_args = list(getattr(args, "args", []) or [])
+        if conv_args and conv_args[0] == "--":
+            conv_args = conv_args[1:]
+        return cmd_convert(conv_args)
 
     if args.code:
         return cmd_code(args.code, args.args)

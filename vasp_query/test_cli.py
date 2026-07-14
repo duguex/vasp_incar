@@ -233,7 +233,7 @@ def test_alias_data_file_can_override_builtin():
     # Simulate the user adding a new alias by writing to a fresh file
     # and resetting the cache.
     import json
-    custom = {"_version": "0.2.0", "data": {"my-alias": "ENCUT"}}
+    custom = {"_version": "0.3.0", "data": {"my-alias": "ENCUT"}}
     orig = _common.load_data(_common.ALIASES)
     try:
         _common.ALIASES.write_text(json.dumps(custom))
@@ -243,9 +243,11 @@ def test_alias_data_file_can_override_builtin():
         # Built-in still present
         assert aliases["soc"] == "LSORBIT"
     finally:
-        # Restore
+        # Restore with version envelope so DATA_VERSION stays consistent
         if orig is not None:
-            _common.ALIASES.write_text(json.dumps(orig))
+            _common.ALIASES.write_text(
+                json.dumps({"_version": "0.3.0", "data": orig}, indent=2) + "\n"
+            )
         else:
             _common.ALIASES.unlink(missing_ok=True)
         _common._ALIASES_CACHE = None
