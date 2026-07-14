@@ -154,6 +154,83 @@ def prepare_omx_example_dir(workdir: Path) -> Path:
         raise RuntimeError(f"copy input_example failed: {r.stderr}")
     return ex
 
+HA_TO_EV = 27.211386245988
+BOHR_TO_A = 0.529177210903
+# F(eV/Å) = F(Ha/Bohr) * HA_TO_EV / BOHR_TO_A
+FORCE_HA_BOHR_TO_EV_A = HA_TO_EV / BOHR_TO_A
+
+
+def extract_vasp_observables(case_dir: Path) -> dict:
+    """Zero-point-independent-ish quantities from VASP OUTCAR."""
+    outcar = case_dir / "OUTCAR"
+    if not outcar.is_file():
+        return {}
+    text = outcar.read_text(encoding="utf-8", errors="replace")
+    obs: dict = {}
+    m = re.search(r"external pressure\s*=\s*([-\d.]+)\s*kB", text)
+    if m:
+        obs["pressure_kbar"] = float(m.group(1))  # VASP "kB" = kbar
+    # last TOTAL-FORCE block
+    blocks = list(
+        re.finditer(
+            r"TOTAL-FORCE \(eV/Angst\)\s*\n\s*-+\s*\n(.*?)\n\s*-+",
+            text,
+            re.S,
+        )
+    )
+    if blocks:
+        forces = []
+        for line in blocks[-1].group(1).splitlines():
+            p = line.split()
+            if len(p) >= 6:
+                try:
+                    forces.append([float(p[3]), float(p[4]), float(p[5])])
+                except ValueError:
+                    continue
+        if forces:
+            f = np.array(forces, float)
+            norms = np.linalg.norm(f, axis=1)
+            obs["force_max_eV_A"] = float(norms.max())
+            obs["force_rms_eV_A"] = float(np.sqrt((f ** 2).mean() * 3 / f.size * f.shape[0]) if f.size else 0.0)
+            # RMS per atom of |F|
+            obs["force_rms_eV_A"] = float(np.sqrt((norms ** 2).mean()))
+            obs["n_force_atoms"] = int(len(norms))
+    return obs
+
+
+def extract_openmx_observables(case_dir: Path) -> dict:
+    """Forces from OpenMX .out ``<coordinates.forces`` (Hartree/Bohr → eV/Å)."""
+    obs: dict = {}
+    for op in case_dir.glob("*.out"):
+        text = op.read_text(encoding="utf-8", errors="replace")
+        m = re.search(
+            r"<coordinates\.forces\s*\n(.*?)\ncoordinates\.forces>",
+            text,
+            re.S,
+        )
+        forces = []
+        if m:
+            for line in m.group(1).splitlines():
+                p = line.split()
+                if len(p) == 1:
+                    continue  # atom count
+                # idx species x y z fx fy fz
+                if len(p) >= 8:
+                    try:
+                        forces.append([float(p[5]), float(p[6]), float(p[7])])
+                    except ValueError:
+                        continue
+        if forces:
+            f = np.array(forces, float) * FORCE_HA_BOHR_TO_EV_A
+            norms = np.linalg.norm(f, axis=1)
+            obs["force_max_eV_A"] = float(norms.max())
+            obs["force_rms_eV_A"] = float(np.sqrt((norms ** 2).mean()))
+            obs["n_force_atoms"] = int(len(norms))
+            obs["force_unit_converted_from"] = "Ha/Bohr"
+            break
+    return obs
+
+
 
 def run_vasp_scf(case_dir: Path, nprocs: int, timeout: int) -> dict:
     t0 = time.time()
@@ -192,9 +269,11 @@ def run_vasp_scf(case_dir: Path, nprocs: int, timeout: int) -> dict:
                 energy = float(m.group(1))
                 break
     ok = energy is not None and "I REFUSE TO CONTINUE" not in out
+    obs = extract_vasp_observables(case_dir)
     return {
         "ok": ok,
         "energy_eV": energy,
+        "observables": obs,
         "wall_s": round(time.time() - t0, 2),
         "returncode": proc.returncode,
         "log_tail": out[-1500:],
@@ -237,10 +316,12 @@ def run_openmx_scf(case_dir: Path, dat_name: str, nprocs: int, timeout: int) -> 
         if m:
             energy_ha = float(m[-1])
     finished = "normally finished" in out.lower() or energy_ha is not None
+    obs = extract_openmx_observables(case_dir)
     return {
         "ok": bool(finished and energy_ha is not None),
         "energy_Ha": energy_ha,
-        "energy_eV": energy_ha * 27.211386245988 if energy_ha is not None else None,
+        "energy_eV": energy_ha * HA_TO_EV if energy_ha is not None else None,
+        "observables": obs,
         "wall_s": round(time.time() - t0, 2),
         "returncode": proc.returncode,
         "log_tail": out[-1500:],
@@ -304,8 +385,55 @@ ISPIN = 1
         rec["n_atoms"] = len(atoms)
         rec["kpoints"] = kpts
         run = run_vasp_scf(outdir, nprocs=nprocs, timeout=timeout)
-        rec["run"] = run
-        rec["ok"] = bool(run.get("ok"))
+        rec["run_vasp"] = run
+        rec["run"] = run  # backward compatible
+
+        # Same geometry on OpenMX (source .dat) for comparable force/pressure-like metrics
+        omx_dir = outdir / "openmx_same_geom"
+        omx_dir.mkdir(exist_ok=True)
+        dat_copy = omx_dir / f"{name}.dat"
+        text = dat.read_text(encoding="utf-8", errors="replace")
+        text = re.sub(
+            r"DATA\.PATH\s+\S+",
+            f"DATA.PATH        {DFT_DATA}",
+            text,
+        )
+        # shorten SCF if maxIter huge
+        text = re.sub(r"scf\.maxIter\s+\d+", "scf.maxIter        40", text, flags=re.I)
+        dat_copy.write_text(text, encoding="utf-8")
+        run_omx = run_openmx_scf(omx_dir, dat_copy.name, nprocs=nprocs, timeout=timeout)
+        rec["run_openmx_same_geom"] = run_omx
+
+        # Comparable observables (NOT absolute energy)
+        vobs = run.get("observables") or {}
+        oobs = run_omx.get("observables") or {}
+        comparable: dict = {
+            "note": (
+                "Absolute total energy is NOT comparable across codes. "
+                "Forces at the same geometry and ΔE-type quantities are."
+            ),
+            "vasp_force_max_eV_A": vobs.get("force_max_eV_A"),
+            "vasp_force_rms_eV_A": vobs.get("force_rms_eV_A"),
+            "vasp_pressure_kbar": vobs.get("pressure_kbar"),
+            "openmx_force_max_eV_A": oobs.get("force_max_eV_A"),
+            "openmx_force_rms_eV_A": oobs.get("force_rms_eV_A"),
+            "vasp_energy_eV": run.get("energy_eV"),
+            "openmx_energy_eV": run_omx.get("energy_eV"),
+        }
+        if (
+            vobs.get("force_max_eV_A") is not None
+            and oobs.get("force_max_eV_A") is not None
+        ):
+            comparable["delta_force_max_eV_A"] = abs(
+                vobs["force_max_eV_A"] - oobs["force_max_eV_A"]
+            )
+            comparable["delta_force_rms_eV_A"] = abs(
+                (vobs.get("force_rms_eV_A") or 0)
+                - (oobs.get("force_rms_eV_A") or 0)
+            )
+        rec["comparable"] = comparable
+        rec["ok"] = bool(run.get("ok"))  # primary: cross-engine VASP ran
+        rec["ok_both_engines"] = bool(run.get("ok") and run_omx.get("ok"))
     except Exception as e:
         rec["ok"] = False
         rec["error"] = str(e)
@@ -425,8 +553,15 @@ def main(argv: list[str] | None = None) -> int:
         "kind": "cross_engine_examples",
         "definition": (
             "Geometry from official examples of code A is SCF'd on code B. "
-            "Energies are not required to match across codes."
+            "Absolute total energies are NOT comparable; forces at the same "
+            "geometry, pressure/stress, and ΔE-type quantities are."
         ),
+        "comparable_quantities": [
+            "force_max / force_rms at identical geometry (eV/Å)",
+            "external pressure / stress (same cell)",
+            "energy differences ΔE (Ecoh, isomer gaps) — not absolute E",
+            "relaxed lattice constants / bond lengths",
+        ],
         "np": args.np,
         "cases": [],
         "ok": False,
@@ -450,7 +585,14 @@ def main(argv: list[str] | None = None) -> int:
             report["cases"].append(rec)
             status = "OK" if rec.get("ok") else "FAIL"
             e = (rec.get("run") or {}).get("energy_eV")
-            print(f"[openmx→vasp] {name}: {status} E={e}")
+            comp = rec.get("comparable") or {}
+            print(
+                f"[openmx→vasp] {name}: {status} "
+                f"E_vasp={e} |F|_max V/O="
+                f"{comp.get('vasp_force_max_eV_A')}/"
+                f"{comp.get('openmx_force_max_eV_A')} "
+                f"Δ|F|_max={comp.get('delta_force_max_eV_A')}"
+            )
 
     if args.only in ("vasp2omx", "all"):
         for name in args.vasp_cases:
@@ -477,29 +619,41 @@ def main(argv: list[str] | None = None) -> int:
         "",
         report["definition"],
         "",
+        "### What is comparable?",
+        "",
+    ]
+    for q in report.get("comparable_quantities") or []:
+        lines.append(f"- {q}")
+    lines += [
+        "",
         f"- ok: **{report['ok']}** ({n_ok}/{n})",
         f"- np: {args.np}",
         "",
-        "| direction | case | ok | energy | wall_s |",
-        "|-----------|------|:--:|-------:|-------:|",
+        "| direction | case | ok | E (target eV) | |F|_max VASP | |F|_max OMX | Δ|F|_max | P (kbar) |",
+        "|-----------|------|:--:|-------------:|------------:|-----------:|---------:|---------:|",
     ]
     for c in report["cases"]:
         run = c.get("run") or {}
         e = run.get("energy_eV")
-        if e is None and run.get("energy_Ha") is not None:
-            e = run["energy_Ha"]
+        comp = c.get("comparable") or {}
+        vobs = (run.get("observables") or {})
         lines.append(
             f"| {c.get('direction')} | `{c.get('name')}` | "
-            f"{'Y' if c.get('ok') else 'N'} | {e if e is not None else c.get('error','')} | "
-            f"{run.get('wall_s', '')} |"
+            f"{'Y' if c.get('ok') else 'N'} | "
+            f"{e if e is not None else c.get('error', '')} | "
+            f"{comp.get('vasp_force_max_eV_A', vobs.get('force_max_eV_A', ''))} | "
+            f"{comp.get('openmx_force_max_eV_A', '')} | "
+            f"{comp.get('delta_force_max_eV_A', '')} | "
+            f"{comp.get('vasp_pressure_kbar', vobs.get('pressure_kbar', ''))} |"
         )
     lines += [
         "",
         "## Pass criteria",
         "",
-        "1. Geometry extracted from source official example",
-        "2. Target engine SCF completes with finite total energy",
-        "3. Energies across codes are **informational only** (different basis/PP)",
+        "1. Geometry from official source example",
+        "2. Target engine SCF finishes with finite energy (cross runnable)",
+        "3. Absolute E is **not** a pass criterion across codes",
+        "4. When both engines run same geom: report |F| and pressure for comparison",
         "",
     ]
     (outdir / "REPORT.md").write_text("\n".join(lines) + "\n", encoding="utf-8")

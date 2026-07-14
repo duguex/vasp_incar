@@ -397,7 +397,11 @@ must **SCF on code B**.
 | VASP → OpenMX | suite `bulk_BN_PBEsol`, `DFT_OatomPBE` | container OpenMX 4.0 |
 
 Keyword mapping is **lossy** on purpose: structure + safe target defaults.
-Energies across codes are **not** required to match (different basis/PP).
+
+**Not comparable:** absolute total energy (different PP/basis zero).
+
+**Comparable (reported):** forces at the **same geometry** (|F|_max/rms in eV/Å),
+pressure/stress; later: ΔE (Ecoh, isomer gaps), relaxed lattice/bond lengths.
 
 ### Run
 

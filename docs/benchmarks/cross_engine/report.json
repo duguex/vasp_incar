@@ -1,45 +1,136 @@
 {
   "kind": "cross_engine_examples",
-  "definition": "Geometry from official examples of code A is SCF'd on code B. Energies are not required to match across codes.",
+  "definition": "Geometry from official examples of code A is SCF'd on code B. Absolute total energies are NOT comparable; forces at the same geometry, pressure/stress, and \u0394E-type quantities are.",
+  "comparable_quantities": [
+    "force_max / force_rms at identical geometry (eV/\u00c5)",
+    "external pressure / stress (same cell)",
+    "energy differences \u0394E (Ecoh, isomer gaps) \u2014 not absolute E",
+    "relaxed lattice constants / bond lengths"
+  ],
   "np": 4,
   "cases": [
     {
       "direction": "openmx\u2192vasp",
-      "source": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/omx_sources/input_example/Ndia2.dat",
       "name": "Ndia2",
       "elements": [
         "C"
       ],
       "n_atoms": 2,
       "kpoints": "3 3 3",
+      "run_vasp": {
+        "ok": true,
+        "energy_eV": -17.385861,
+        "observables": {
+          "pressure_kbar": 98.3,
+          "force_max_eV_A": 4.298753977751577,
+          "force_rms_eV_A": 4.298753977751577,
+          "n_force_atoms": 1
+        },
+        "wall_s": 2.23,
+        "returncode": 0
+      },
       "run": {
         "ok": true,
         "energy_eV": -17.385861,
-        "wall_s": 2.19,
+        "observables": {
+          "pressure_kbar": 98.3,
+          "force_max_eV_A": 4.298753977751577,
+          "force_rms_eV_A": 4.298753977751577,
+          "n_force_atoms": 1
+        },
+        "wall_s": 2.23,
         "returncode": 0
       },
-      "ok": true
+      "run_openmx_same_geom": {
+        "ok": true,
+        "energy_Ha": -11.571668609583,
+        "energy_eV": -314.8811440459379,
+        "observables": {
+          "force_max_eV_A": 4.77571278729477,
+          "force_rms_eV_A": 4.77571278729477,
+          "n_force_atoms": 2,
+          "force_unit_converted_from": "Ha/Bohr"
+        },
+        "wall_s": 6.27,
+        "returncode": 0
+      },
+      "comparable": {
+        "note": "Absolute E not comparable; forces at same geometry are.",
+        "vasp_force_max_eV_A": 4.298753977751577,
+        "vasp_force_rms_eV_A": 4.298753977751577,
+        "vasp_pressure_kbar": 98.3,
+        "openmx_force_max_eV_A": 4.77571278729477,
+        "openmx_force_rms_eV_A": 4.77571278729477,
+        "vasp_energy_eV": -17.385861,
+        "openmx_energy_eV": -314.8811440459379,
+        "delta_force_max_eV_A": 0.47695880954319314,
+        "delta_force_rms_eV_A": 0.47695880954319314
+      },
+      "ok": true,
+      "ok_both_engines": true
     },
     {
       "direction": "openmx\u2192vasp",
-      "source": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/omx_sources/input_example/Graphite4.dat",
       "name": "Graphite4",
       "elements": [
         "C"
       ],
       "n_atoms": 4,
       "kpoints": "3 3 3",
+      "run_vasp": {
+        "ok": true,
+        "energy_eV": -36.491826,
+        "observables": {
+          "pressure_kbar": 6.53,
+          "force_max_eV_A": 0.462944,
+          "force_rms_eV_A": 0.462944,
+          "n_force_atoms": 4
+        },
+        "wall_s": 2.91,
+        "returncode": 0
+      },
       "run": {
         "ok": true,
         "energy_eV": -36.491826,
-        "wall_s": 2.68,
+        "observables": {
+          "pressure_kbar": 6.53,
+          "force_max_eV_A": 0.462944,
+          "force_rms_eV_A": 0.462944,
+          "n_force_atoms": 4
+        },
+        "wall_s": 2.91,
         "returncode": 0
       },
-      "ok": true
+      "run_openmx_same_geom": {
+        "ok": true,
+        "energy_Ha": -23.319927716521,
+        "energy_eV": -634.5675603227738,
+        "observables": {
+          "force_max_eV_A": 0.19223944365955847,
+          "force_rms_eV_A": 0.19223944363384743,
+          "n_force_atoms": 4,
+          "force_unit_converted_from": "Ha/Bohr"
+        },
+        "wall_s": 5.26,
+        "returncode": 0
+      },
+      "comparable": {
+        "note": "Absolute E not comparable; forces at same geometry are.",
+        "vasp_force_max_eV_A": 0.462944,
+        "vasp_force_rms_eV_A": 0.462944,
+        "vasp_pressure_kbar": 6.53,
+        "openmx_force_max_eV_A": 0.19223944365955847,
+        "openmx_force_rms_eV_A": 0.19223944363384743,
+        "vasp_energy_eV": -36.491826,
+        "openmx_energy_eV": -634.5675603227738,
+        "delta_force_max_eV_A": 0.27070455634044155,
+        "delta_force_rms_eV_A": 0.2707045563661526
+      },
+      "ok": true,
+      "ok_both_engines": true
     },
     {
       "direction": "openmx\u2192vasp",
-      "source": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/omx_sources/input_example/Methane.dat",
       "name": "Methane",
       "elements": [
         "C",
@@ -47,17 +138,60 @@
       ],
       "n_atoms": 5,
       "kpoints": "1 1 1",
+      "run_vasp": {
+        "ok": true,
+        "energy_eV": -24.024263,
+        "observables": {
+          "pressure_kbar": -0.1,
+          "force_max_eV_A": 0.23336448175547195,
+          "force_rms_eV_A": 0.2087275378956979,
+          "n_force_atoms": 5
+        },
+        "wall_s": 5.27,
+        "returncode": 0
+      },
       "run": {
         "ok": true,
         "energy_eV": -24.024263,
-        "wall_s": 5.47,
+        "observables": {
+          "pressure_kbar": -0.1,
+          "force_max_eV_A": 0.23336448175547195,
+          "force_rms_eV_A": 0.2087275378956979,
+          "n_force_atoms": 5
+        },
+        "wall_s": 5.27,
         "returncode": 0
       },
-      "ok": true
+      "run_openmx_same_geom": {
+        "ok": true,
+        "energy_Ha": -8.033540953388,
+        "energy_eV": -218.60378580560354,
+        "observables": {
+          "force_max_eV_A": 4.0878126651004685,
+          "force_rms_eV_A": 3.6562507977721066,
+          "n_force_atoms": 5,
+          "force_unit_converted_from": "Ha/Bohr"
+        },
+        "wall_s": 4.59,
+        "returncode": 0
+      },
+      "comparable": {
+        "note": "Absolute E not comparable; forces at same geometry are.",
+        "vasp_force_max_eV_A": 0.23336448175547195,
+        "vasp_force_rms_eV_A": 0.2087275378956979,
+        "vasp_pressure_kbar": -0.1,
+        "openmx_force_max_eV_A": 4.0878126651004685,
+        "openmx_force_rms_eV_A": 3.6562507977721066,
+        "vasp_energy_eV": -24.024263,
+        "openmx_energy_eV": -218.60378580560354,
+        "delta_force_max_eV_A": 3.8544481833449966,
+        "delta_force_rms_eV_A": 3.4475232598764087
+      },
+      "ok": true,
+      "ok_both_engines": true
     },
     {
       "direction": "openmx\u2192vasp",
-      "source": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/omx_sources/input_example/H2O.dat",
       "name": "H2O",
       "elements": [
         "H",
@@ -65,42 +199,60 @@
       ],
       "n_atoms": 3,
       "kpoints": "1 1 1",
+      "run_vasp": {
+        "ok": true,
+        "energy_eV": -14.213647,
+        "observables": {
+          "pressure_kbar": -0.26,
+          "force_max_eV_A": 0.898012,
+          "force_rms_eV_A": 0.8337372253382157,
+          "n_force_atoms": 3
+        },
+        "wall_s": 8.24,
+        "returncode": 0
+      },
       "run": {
         "ok": true,
         "energy_eV": -14.213647,
-        "wall_s": 8.15,
+        "observables": {
+          "pressure_kbar": -0.26,
+          "force_max_eV_A": 0.898012,
+          "force_rms_eV_A": 0.8337372253382157,
+          "n_force_atoms": 3
+        },
+        "wall_s": 8.24,
         "returncode": 0
       },
-      "ok": true
-    },
-    {
-      "direction": "vasp\u2192openmx",
-      "name": "bulk_BN_PBEsol",
-      "dat": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/vasp2omx/bulk_BN_PBEsol/input.dat",
-      "run": {
+      "run_openmx_same_geom": {
         "ok": true,
-        "energy_Ha": -13.162021382618,
-        "energy_eV": -358.1568476203714,
-        "wall_s": 81.44,
+        "energy_Ha": -17.348317540715,
+        "energy_eV": -472.0717693184445,
+        "observables": {
+          "force_max_eV_A": 0.7972018425288373,
+          "force_rms_eV_A": 0.6518807251274668,
+          "n_force_atoms": 3,
+          "force_unit_converted_from": "Ha/Bohr"
+        },
+        "wall_s": 4.96,
         "returncode": 0
       },
-      "ok": true
-    },
-    {
-      "direction": "vasp\u2192openmx",
-      "name": "DFT_OatomPBE",
-      "dat": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/vasp2omx/DFT_OatomPBE/input.dat",
-      "run": {
-        "ok": true,
-        "energy_Ha": -16.036175302346,
-        "energy_eV": -436.3665600605104,
-        "wall_s": 5.92,
-        "returncode": 0
+      "comparable": {
+        "note": "Absolute E not comparable; forces at same geometry are.",
+        "vasp_force_max_eV_A": 0.898012,
+        "vasp_force_rms_eV_A": 0.8337372253382157,
+        "vasp_pressure_kbar": -0.26,
+        "openmx_force_max_eV_A": 0.7972018425288373,
+        "openmx_force_rms_eV_A": 0.6518807251274668,
+        "vasp_energy_eV": -14.213647,
+        "openmx_energy_eV": -472.0717693184445,
+        "delta_force_max_eV_A": 0.10081015747116273,
+        "delta_force_rms_eV_A": 0.18185650021074895
       },
-      "ok": true
+      "ok": true,
+      "ok_both_engines": true
     }
   ],
   "ok": true,
-  "n_cases": 6,
-  "n_ok": 6
+  "n_cases": 4,
+  "n_ok": 4
 }
