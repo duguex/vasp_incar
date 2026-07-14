@@ -331,6 +331,54 @@ pytest tests/test_bench_si_parse.py -q
 
 ---
 
+## 8. Official engine tests (OpenMX `-runtest` + tooling cross)
+
+**Scenario:** Use **vendor-shipped** tests as the ground truth for “does the
+binary work?” and “do our tools still understand official inputs?”
+
+### Why this is better than only Ecoh
+
+| Layer | Ground truth | What it proves |
+|-------|--------------|----------------|
+| OpenMX `-runtest` | Code-bundled `*.out` (14 cases) | Install/MPI/numerical regression |
+| VASP `testsuite` | Code-bundled OUTCAR.ref | Same for VASP (needs matching version) |
+| Tooling cross | parse/lint/advise on those inputs | dft-tools I/O + rules on real corpus |
+| Si Ecoh (§7) | Experiment | Physics order-of-magnitude |
+
+### Run OpenMX official suite (`mpirun -np 8`)
+
+```bash
+export OPENMX_DFT_DATA_PATH=/mnt/shared/DFT_DATA19
+python3 scripts/run_official_engine_tests.py --np 8 \
+  --workdir work/benchmarks/official_runtest
+
+# optional VASP subset (binary must match suite version)
+python3 scripts/run_official_engine_tests.py --np 8 --skip-engine --with-vasp \
+  --vasp-tests DFT_OatomPBE
+```
+
+Manual equivalent (from a **writable** copy of `work/`):
+
+```bash
+mpirun -np 8 openmx -runtest          # → runtest.result
+# large / perf variants:
+# mpirun -np 112 openmx -runtestL
+```
+
+### Reference result (this workstation)
+
+- OpenMX `-runtest`: **14/14 pass**, ~97 s wall (`np=8`)
+- Tooling: **14/14 parse + lint** on `input_example/*.dat`
+- Artifacts: [`docs/benchmarks/official_runtest/`](../benchmarks/official_runtest/)
+
+### VASP note
+
+`~/hack_vasp/testsuite` + `vasp_std` may **version-skew**. A Fortran format
+error or energy table shape mismatch usually means suite≠binary, not bad
+physics. Prefer OpenMX `-runtest` as the always-on engine gate here.
+
+---
+
 ## Environment setup quick reference
 
 ```bash

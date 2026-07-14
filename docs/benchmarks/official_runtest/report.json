@@ -1,0 +1,284 @@
+{
+  "layers": {
+    "openmx_engine": {
+      "n_cases": 14,
+      "n_pass": 14,
+      "n_fail": 0,
+      "total_elapsed_s": 97.22,
+      "rows": [
+        {
+          "index": 1,
+          "path": "input_example/Benzene.dat",
+          "elapsed_s": 3.6,
+          "diff_utot": 0.0,
+          "diff_force": 0.0,
+          "pass": true
+        },
+        {
+          "index": 2,
+          "path": "input_example/C60.dat",
+          "elapsed_s": 13.4,
+          "diff_utot": 4e-12,
+          "diff_force": 0.0,
+          "pass": true
+        },
+        {
+          "index": 3,
+          "path": "input_example/CO.dat",
+          "elapsed_s": 6.24,
+          "diff_utot": 0.0,
+          "diff_force": 1.3e-11,
+          "pass": true
+        },
+        {
+          "index": 4,
+          "path": "input_example/Cr2.dat",
+          "elapsed_s": 5.77,
+          "diff_utot": 0.0,
+          "diff_force": 3e-12,
+          "pass": true
+        },
+        {
+          "index": 5,
+          "path": "input_example/Crys-MnO.dat",
+          "elapsed_s": 12.05,
+          "diff_utot": 1.5e-11,
+          "diff_force": 1e-12,
+          "pass": true
+        },
+        {
+          "index": 6,
+          "path": "input_example/GaAs.dat",
+          "elapsed_s": 21.87,
+          "diff_utot": 1e-12,
+          "diff_force": 0.0,
+          "pass": true
+        },
+        {
+          "index": 7,
+          "path": "input_example/Glycine.dat",
+          "elapsed_s": 3.52,
+          "diff_utot": 0.0,
+          "diff_force": 0.0,
+          "pass": true
+        },
+        {
+          "index": 8,
+          "path": "input_example/Graphite4.dat",
+          "elapsed_s": 2.85,
+          "diff_utot": 0.0,
+          "diff_force": 0.0,
+          "pass": true
+        },
+        {
+          "index": 9,
+          "path": "input_example/H2O-EF.dat",
+          "elapsed_s": 3.08,
+          "diff_utot": 0.0,
+          "diff_force": 1e-12,
+          "pass": true
+        },
+        {
+          "index": 10,
+          "path": "input_example/H2O.dat",
+          "elapsed_s": 2.59,
+          "diff_utot": 0.0,
+          "diff_force": 0.0,
+          "pass": true
+        },
+        {
+          "index": 11,
+          "path": "input_example/HMn.dat",
+          "elapsed_s": 9.96,
+          "diff_utot": 0.0,
+          "diff_force": 0.0,
+          "pass": true
+        },
+        {
+          "index": 12,
+          "path": "input_example/Methane.dat",
+          "elapsed_s": 2.08,
+          "diff_utot": 6.5e-11,
+          "diff_force": 0.0,
+          "pass": true
+        },
+        {
+          "index": 13,
+          "path": "input_example/Mol_MnO.dat",
+          "elapsed_s": 6.22,
+          "diff_utot": 0.0,
+          "diff_force": 0.0,
+          "pass": true
+        },
+        {
+          "index": 14,
+          "path": "input_example/Ndia2.dat",
+          "elapsed_s": 3.98,
+          "diff_utot": 0.0,
+          "diff_force": 1e-12,
+          "pass": true
+        }
+      ],
+      "ok": true,
+      "criterion": "|diff Utot|,|diff Force| < 1e-06",
+      "wall_s": 99.57,
+      "returncode": 0,
+      "result_file": "/home/duguex/vasp_wiki/work/benchmarks/official_runtest/runtest.result",
+      "np": 8,
+      "workdir": "/home/duguex/vasp_wiki/work/benchmarks/official_runtest",
+      "engine": "OpenMX -runtest"
+    },
+    "tooling_openmx": {
+      "ok": true,
+      "n_files": 14,
+      "n_parse_ok": 14,
+      "n_lint_ok": 14,
+      "cases": [
+        {
+          "name": "Benzene.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "C60.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "CO.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "Cr2.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "Crys-MnO.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "GaAs.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "Glycine.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "Graphite4.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "H2O-EF.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "H2O.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "HMn.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "Methane.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "Mol_MnO.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        },
+        {
+          "name": "Ndia2.dat",
+          "parse_ok": true,
+          "lint_ok": true,
+          "advise_ok": true,
+          "lint_n_error": 0,
+          "lint_n_warning": 0
+        }
+      ],
+      "layer": "tooling_cross_openmx"
+    },
+    "tooling_vasp": {
+      "ok": true,
+      "n_files": 3,
+      "cases": [
+        {
+          "path": "/home/duguex/hack_vasp/testsuite/tests/DFT_OatomPBE/INCAR.1.STD",
+          "ok": true,
+          "n_error": 0,
+          "n_warning": 1,
+          "calc_class_hint": "scf"
+        },
+        {
+          "path": "/home/duguex/hack_vasp/testsuite/tests/bulk_BN_PBEsol/INCAR.1.STD",
+          "ok": true,
+          "n_error": 0,
+          "n_warning": 0,
+          "calc_class_hint": "scf"
+        },
+        {
+          "path": "/home/duguex/hack_vasp/testsuite/tests/CrS/INCAR.1.STD",
+          "ok": true,
+          "n_error": 0,
+          "n_warning": 1,
+          "calc_class_hint": "relax"
+        }
+      ],
+      "layer": "tooling_cross_vasp",
+      "skipped": false
+    }
+  },
+  "ok": true,
+  "np": 8
+}
