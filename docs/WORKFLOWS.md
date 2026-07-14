@@ -424,6 +424,35 @@ python3 scripts/cross_engine_examples.py --np 4
 
 ---
 
+
+---
+
+## 10. Cross ΔE: Si Ecoh (VASP vs OpenMX vs experiment)
+
+True **differential** cross-calibration (not absolute energy):
+
+- bulk: cubic Si₈ @ a0 = 5.431 Å (fixed)
+- atom: spin-polarized Si
+- **Ecoh = E_atom − E_bulk/8** on **both** engines
+
+```bash
+export OPENMX_DFT_DATA_PATH=/mnt/shared/DFT_DATA19
+export VASP_PP_PATH=/mnt/shared/VASP_POT/POT_GGA_PAW_PBE_54
+python3 scripts/cross_delta_ecoh_si.py --np 4
+```
+
+### Reference (this workstation)
+
+| engine | Ecoh (eV/atom) | vs exp |
+|--------|---------------:|-------:|
+| experiment | 4.63 | — |
+| VASP PBE (ENCUT=400, 4×4×4) | **4.574** | −0.056 |
+| OpenMX PBE (Si8.0-s2p2d1, 4×4×4) | **4.631** | +0.001 |
+| **|VASP − OpenMX|** | **0.057** | |
+
+Artifacts: [`docs/benchmarks/cross_delta_ecoh_si/`](../benchmarks/cross_delta_ecoh_si/).
+
+
 ## Environment setup quick reference
 
 ```bash

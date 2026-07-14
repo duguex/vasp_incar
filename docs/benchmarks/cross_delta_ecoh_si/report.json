@@ -1,0 +1,43 @@
+{
+  "kind": "cross_delta_ecoh_si",
+  "protocol": {
+    "structure_bulk": "Si diamond cubic a0=5.431 \u00c5 fixed",
+    "structure_atom": "Si free atom, 16 \u00c5 box, spin-polarized",
+    "ecoh": "E_atom - E_bulk/8  (eV/atom)",
+    "xc": "PBE",
+    "note": "Absolute E not compared; Ecoh is a \u0394E."
+  },
+  "experiment": {
+    "a0_A": 5.431,
+    "ecoh_eV": 4.63
+  },
+  "ok": true,
+  "vasp": {
+    "ok": true,
+    "E_bulk_eV": -43.358457,
+    "E_atom_eV": -0.84536136,
+    "Ecoh_eV": 4.574445765,
+    "bulk_wall_s": 5.09,
+    "atom_wall_s": 85.19,
+    "encut_eV": 400.0,
+    "kmesh_bulk": "4 4 4"
+  },
+  "openmx": {
+    "ok": true,
+    "E_bulk_eV": -894.355891961406,
+    "E_atom_eV": -107.16348340652922,
+    "Ecoh_eV": 4.631003088646523,
+    "bulk_wall_s": 31.7,
+    "atom_wall_s": 14.29,
+    "basis": "Si8.0-s2p2d1 / Si_PBE19",
+    "energycutoff_Ry": 150,
+    "kmesh_bulk": "4 4 4"
+  },
+  "compare": {
+    "experiment_ecoh_eV": 4.63,
+    "vasp_minus_exp": -0.055554234999999785,
+    "openmx_minus_exp": 0.001003088646522876,
+    "vasp_minus_openmx": -0.05655732364652266,
+    "abs_delta_codes": 0.05655732364652266
+  }
+}
