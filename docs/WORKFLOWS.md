@@ -351,35 +351,38 @@ binary work?” and “do our tools still understand official inputs?”
 export OPENMX_DFT_DATA_PATH=/mnt/shared/DFT_DATA19
 python3 scripts/run_official_engine_tests.py --np 8 \
   --workdir work/benchmarks/official_runtest
-
-# optional VASP subset (binary must match suite version)
-python3 scripts/run_official_engine_tests.py --np 8 --skip-engine --with-vasp \
-  --vasp-tests DFT_OatomPBE
 ```
 
-Manual equivalent (from a **writable** copy of `work/`):
+Manual equivalent (writable copy of OpenMX `work/`):
 
 ```bash
 mpirun -np 8 openmx -runtest          # → runtest.result
-# large / perf variants:
+# large / perf: mpirun -np 112 openmx -runtestL
+```
+
 ### VASP (container-matched 6.5.1)
 
 Default is **not** host `~/hack_vasp` (easy to mix versions). Use the SIF tree
 where `bin` and `testsuite` are the same release:
 
 ```bash
-# inside harness: singularity + /opt/vasp.6.5.1/{bin,testsuite}
+# harness: singularity + /opt/vasp.6.5.1/{bin,testsuite} inside vasp_latest.sif
 python3 scripts/run_official_engine_tests.py --np 4 --skip-engine --with-vasp \
   --vasp-tests DFT_OatomPBE
 ```
 
-Reference (this workstation): **DFT_OatomPBE PASS** with `vasp.6.5.1` in
-`/mnt/shared/vasp_latest.sif` (energy/force/stress match ref).
+Reference (this workstation): **DFT_OatomPBE PASS** (`vasp.6.5.1` in
+`/mnt/shared/vasp_latest.sif`; energy/force/stress match ref).
 
+Host `~/hack_vasp` only if its `bin` and `testsuite` are known-matching.
 
-`~/hack_vasp/testsuite` + `vasp_std` may **version-skew**. A Fortran format
-error or energy table shape mismatch usually means suite≠binary, not bad
-physics. Prefer OpenMX `-runtest` as the always-on engine gate here.
+### Reference results
+
+- OpenMX `-runtest`: **14/14 pass**, ~97 s (`np=8`)
+- Tooling: **14/14 parse + lint** on `input_example/*.dat`
+- VASP container: **DFT_OatomPBE pass**
+- Artifacts: [`docs/benchmarks/official_runtest/`](../benchmarks/official_runtest/)
+
 
 ---
 
