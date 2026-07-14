@@ -11,6 +11,7 @@
 - **Semantic round-trip Phase 1**: VASP→mapping→VASP preserves NSW=0, ISMEAR/SIGMA, IBRION/ISIF, exact ALGO; `forward(..., return_report=True)` for unmapped/dropped; `omx_tools/semantic_roundtrip.py` + fixtures under `tests/fixtures/semantic/vasp/`. Spec: `docs/superpowers/specs/2026-07-14-semantic-roundtrip-design.md`.
 - **Semantic IR Phase 2**: `omx_tools/semantic/` (pydantic IR, encode_vasp/decode_vasp/decode_omx); `vasp2omx` routes through IR; IR snapshot + round-trip tests.
 - **Semantic Phase 3**: `encode_omx_dat`, cross-code lossy grade (`cross_roundtrip_vasp`), CLI `dft semantic {show,roundtrip,cross,show-omx}`.
+- **Semantic Phase 4 (GT)**: pymatgen KPOINTS/Incar probes (`omx_tools/semantic/gt.py`); pydefect shape boundary; vaspkit checklist `docs/vaspkit-checklist.md`.
 - Spec/plan: `docs/superpowers/specs/2026-07-14-cli-symmetry-design.md`, `docs/superpowers/plans/2026-07-14-cli-symmetry.md`
 
 ### Fixed

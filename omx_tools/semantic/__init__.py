@@ -13,6 +13,13 @@ from omx_tools.semantic.equiv import (
     cross_roundtrip_vasp,
     EquivalenceReport,
 )
+from omx_tools.semantic.gt import (
+    probe_incar_pymatgen_accepts,
+    probe_kpoints_roundtrip_file,
+    probe_pydefect_shape,
+    pymatgen_available,
+    pydefect_available,
+)
 
 __all__ = [
     "SemanticIR",
@@ -26,4 +33,9 @@ __all__ = [
     "roundtrip_vasp_ir",
     "cross_roundtrip_vasp",
     "EquivalenceReport",
+    "probe_incar_pymatgen_accepts",
+    "probe_kpoints_roundtrip_file",
+    "probe_pydefect_shape",
+    "pymatgen_available",
+    "pydefect_available",
 ]
