@@ -87,6 +87,7 @@ Full walkthroughs: [`docs/WORKFLOWS.md`](docs/WORKFLOWS.md) — including
 **§6 Si8 E2E** (`scripts/e2e_si8_advise_loop.py`: generate ↔ advise ↔ knowledge).
 
 Cross-code migration, concept lookup, and convergence troubleshooting live there too.
+
 ## Installation
 
 ```bash
