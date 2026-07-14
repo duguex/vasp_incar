@@ -9,6 +9,8 @@ Usage::
     dft convert vasp:omx INCAR POSCAR -o input.dat
     dft semantic show INCAR --json
     dft semantic lint INCAR
+    dft semantic advise INCAR
+    dft semantic gen-advise -t scf
     dft semantic roundtrip INCAR
     dft --list-codes
     dft --version

@@ -21,6 +21,12 @@ from omx_tools.semantic.gt import (
     pydefect_available,
 )
 from omx_tools.semantic.lint import lint_vasp_incar, lint_openmx_dat, LintReport
+from omx_tools.semantic.advise import (
+    advise_vasp,
+    advise_vasp_file,
+    advise_openmx_dat,
+    generate_and_advise_vasp,
+)
 
 __all__ = [
     "SemanticIR",
@@ -42,4 +48,8 @@ __all__ = [
     "lint_vasp_incar",
     "lint_openmx_dat",
     "LintReport",
+    "advise_vasp",
+    "advise_vasp_file",
+    "advise_openmx_dat",
+    "generate_and_advise_vasp",
 ]

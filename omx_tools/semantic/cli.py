@@ -1,13 +1,14 @@
-"""CLI for semantic IR: show / roundtrip / cross / lint.
+"""CLI for semantic IR: show / roundtrip / cross / lint / advise.
 
-Usage (via ``dft semantic …`` or ``python -m omx_tools.semantic.cli``)::
+Usage::
 
     dft semantic show INCAR
-    dft semantic roundtrip INCAR
-    dft semantic cross INCAR
     dft semantic lint INCAR
-    dft semantic lint-omx input.dat
-    dft semantic show-omx input.dat
+    dft semantic advise INCAR
+    dft semantic advise INCAR --fix -o INCAR.fixed
+    dft semantic gen-advise -t scf_metal
+    dft semantic advise-omx input.dat
+    dft semantic roundtrip INCAR
 """
 
 from __future__ import annotations
@@ -168,12 +169,86 @@ def cmd_lint_omx(path: Path, as_json: bool = True) -> int:
     return 0 if rep.ok else 1
 
 
+def cmd_advise(path: Path, as_json: bool = True, auto_fix: bool = False,
+               write_fixed: Path | None = None, no_knowledge: bool = False) -> int:
+    from omx_tools.semantic.advise import advise_vasp_file
+
+    if not path.is_file():
+        print(json.dumps({
+            "error": f"file not found: {path}",
+            "suggestion": "Pass a VASP INCAR path",
+        }))
+        return 1
+    rep = advise_vasp_file(
+        str(path),
+        fetch_knowledge=not no_knowledge,
+        auto_fix=auto_fix,
+        write_fixed=str(write_fixed) if write_fixed else None,
+    )
+    if as_json:
+        print(json.dumps(rep, indent=2, ensure_ascii=False, default=str))
+    else:
+        print(f"ok={rep['ok']} errors={rep['n_error']} warnings={rep['n_warning']} "
+              f"fixes={rep.get('fixes_applied')}")
+        for f in rep.get("findings") or []:
+            print(f"  [{f['severity']}] {f['code']}: {f['message']}")
+            print(f"       → {f.get('suggestion')}")
+            for k in f.get("knowledge") or []:
+                if k.get("found") and k.get("description"):
+                    print(f"       knowledge[{k.get('tag')}]: {k['description'][:160]}…")
+    return 0 if rep.get("ok") else 1
+
+
+def cmd_advise_omx(path: Path, as_json: bool = True, no_knowledge: bool = False) -> int:
+    from omx_tools.semantic.advise import advise_openmx_dat
+
+    if not path.is_file():
+        print(json.dumps({
+            "error": f"file not found: {path}",
+            "suggestion": "Pass an OpenMX .dat path",
+        }))
+        return 1
+    rep = advise_openmx_dat(str(path), fetch_knowledge=not no_knowledge)
+    if as_json:
+        print(json.dumps(rep, indent=2, ensure_ascii=False, default=str))
+    else:
+        print(f"ok={rep['ok']} findings={len(rep.get('findings') or [])}")
+        for f in rep.get("findings") or []:
+            print(f"  [{f['severity']}] {f['code']}: {f['message']}")
+    return 0 if rep.get("ok") else 1
+
+
+def cmd_gen_advise(template: str, as_json: bool = True, auto_fix: bool = False,
+                   no_knowledge: bool = False, sets: list[str] | None = None) -> int:
+    from omx_tools.semantic.advise import generate_and_advise_vasp
+
+    rep = generate_and_advise_vasp(
+        template=template,
+        sets=sets or [],
+        fetch_knowledge=not no_knowledge,
+        auto_fix=auto_fix,
+    )
+    if as_json:
+        print(json.dumps(rep, indent=2, ensure_ascii=False, default=str))
+    else:
+        print(f"template={template} ok={rep.get('ok')} loop={rep.get('loop')}")
+        for f in rep.get("findings") or []:
+            print(f"  [{f['severity']}] {f['code']}: {f['message']}")
+    return 0 if rep.get("ok") else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="dft semantic",
-        description="Semantic IR show / round-trip / lint tools",
+        description="Semantic IR / lint / advise loop tools",
     )
     sub = p.add_subparsers(dest="cmd", required=True)
+
+    def add_path_cmd(name: str, help_: str):
+        sp = sub.add_parser(name, help=help_)
+        sp.add_argument("path", type=Path, help="Input file")
+        sp.add_argument("-H", "--human", action="store_true")
+        return sp
 
     for name, help_ in (
         ("show", "Encode VASP INCAR to Semantic IR JSON"),
@@ -183,10 +258,24 @@ def build_parser() -> argparse.ArgumentParser:
         ("lint", "Physics/consistency lint for VASP INCAR"),
         ("lint-omx", "Physics/consistency lint for OpenMX .dat"),
     ):
-        sp = sub.add_parser(name, help=help_)
-        sp.add_argument("path", type=Path, help="Input file")
-        sp.add_argument("-H", "--human", action="store_true",
-                        help="Human-readable instead of JSON")
+        add_path_cmd(name, help_)
+
+    sp = add_path_cmd("advise", "Lint + attach knowledge (+ optional safe fix loop)")
+    sp.add_argument("--fix", action="store_true", help="Apply safe consistency fixes and re-lint")
+    sp.add_argument("-o", "--output", type=Path, default=None, help="Write fixed INCAR here")
+    sp.add_argument("--no-knowledge", action="store_true", help="Skip knowledge DB attach")
+
+    sp = add_path_cmd("advise-omx", "Lint OpenMX .dat + attach keyword/example knowledge")
+    sp.add_argument("--no-knowledge", action="store_true")
+
+    sp = sub.add_parser("gen-advise", help="vasp-gen template → advise loop")
+    sp.add_argument("-t", "--template", default="scf", help="vasp-gen template id")
+    sp.add_argument("-s", "--set", action="append", default=[], dest="sets",
+                    help="KEY=VALUE overrides (repeatable)")
+    sp.add_argument("--fix", action="store_true")
+    sp.add_argument("--no-knowledge", action="store_true")
+    sp.add_argument("-H", "--human", action="store_true")
+
     return p
 
 
@@ -194,6 +283,16 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     as_json = not getattr(args, "human", False)
+
+    if args.cmd == "gen-advise":
+        return cmd_gen_advise(
+            args.template,
+            as_json=as_json,
+            auto_fix=args.fix,
+            no_knowledge=args.no_knowledge,
+            sets=args.sets,
+        )
+
     path: Path = args.path
     if args.cmd == "show":
         return cmd_show(path, as_json=as_json)
@@ -207,6 +306,16 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_lint(path, as_json=as_json)
     if args.cmd == "lint-omx":
         return cmd_lint_omx(path, as_json=as_json)
+    if args.cmd == "advise":
+        return cmd_advise(
+            path,
+            as_json=as_json,
+            auto_fix=args.fix,
+            write_fixed=args.output,
+            no_knowledge=args.no_knowledge,
+        )
+    if args.cmd == "advise-omx":
+        return cmd_advise_omx(path, as_json=as_json, no_knowledge=args.no_knowledge)
     parser.print_help()
     return 1
 

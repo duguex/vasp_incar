@@ -9,9 +9,8 @@ Bridge **natural language / agents** to DFT **knowledge**, **input generation**,
 | **Know** | Query manuals/wiki/tags without inventing parameters | `vasp-query`, `omx-db` |
 | **Generate** | Templates → INCAR / `.dat` (+ optional KPOINTS/POTCAR) | `vasp-gen`, `omx-gen` |
 | **Convert** | VASP ↔ OpenMX via semantic IR | `vasp2omx`, `omp2vasp`, `dft convert` |
-| **Advise** | Review **existing** inputs: inconsistencies, risky settings, structured suggestions | `dft semantic lint` / `lint-omx` |
-| **Self-consistent map** | VASP ⇄ semantic ⇄ OpenMX round-trips under declared equivalence | `dft semantic roundtrip` / `cross` |
-
+| **Advise** | Review **existing** inputs; lint + **knowledge-backed** suggestions; optional safe fix loop | `dft semantic advise` / `gen-advise` |
+| **Self-consistent map** | VASP ⇄ semantic ⇄ OpenMX under declared equivalence | `dft semantic roundtrip` / `cross` |
 **Not a DFT engine** (does not run VASP/OpenMX). Heavy workflows stay with **pymatgen / vaspkit / pydefect** (GT + checklist).
 
 ```
@@ -74,11 +73,13 @@ dft semantic roundtrip INCAR
 dft semantic cross INCAR
 
 # Generate inputs
-vasp-gen -t scf -o INCAR
-vasp-gen POSCAR -t relax --kspacing 0.3 -o calc/   # INCAR+KPOINTS (+ --poscar/--potcar)
-omx-gen structure.cif -t scf_band -o calc.dat
-
-# Convert between codes
+# Advise loop: lint → knowledge → optional safe fix
+dft semantic advise INCAR
+dft semantic advise INCAR --fix -o INCAR.fixed
+dft semantic gen-advise -t scf_metal    # generate then advise
+dft semantic lint INCAR                # lint only (no knowledge fetch)
+dft semantic roundtrip INCAR
+dft semantic cross INCAR
 vasp2omx INCAR POSCAR -o input.dat
 omp2vasp input.dat -o INCAR
 ```

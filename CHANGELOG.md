@@ -14,6 +14,7 @@
 - **Semantic Phase 4 (GT)**: pymatgen KPOINTS/Incar probes (`omx_tools/semantic/gt.py`); pydefect shape boundary; vaspkit checklist `docs/vaspkit-checklist.md`.
 - **Input lint**: `dft semantic lint` / `lint-omx` — rule-based checks (ENCUT, NSW/IBRION, smearing, ICHARG, …) with structured `suggestion` + knowledge-query pointers.
 - **Product goals (docs)**: explicit fifth pillar — **advise existing inputs** (`lint`) alongside know / generate / convert / semantic self-consistency (README, AGENTS, ROADMAP).
+- **Advise loop**: `dft semantic advise` / `gen-advise` / `advise-omx` — lint → attach knowledge (vasp_query / omx schema+examples) → optional `--fix` safe re-lint loop.
 - Spec/plan: `docs/superpowers/specs/2026-07-14-cli-symmetry-design.md`, `docs/superpowers/plans/2026-07-14-cli-symmetry.md`
 
 ### Fixed
