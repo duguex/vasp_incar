@@ -7,6 +7,8 @@ Usage::
     dft omx search "SCF convergence"
     dft omx gen structure.cif -t scf_band
     dft convert vasp:omx INCAR POSCAR -o input.dat
+    dft semantic show INCAR --json
+    dft semantic roundtrip INCAR
     dft --list-codes
     dft --version
 """
@@ -45,6 +47,15 @@ def build_parser() -> argparse.ArgumentParser:
         "args",
         nargs=argparse.REMAINDER,
         help="src:dst input [structure] [-o out] [--dry-run] [-t template]",
+    )
+
+    semantic_p = subparsers.add_parser(
+        "semantic", help="Semantic IR show / round-trip / cross-code grade",
+    )
+    semantic_p.add_argument(
+        "args",
+        nargs=argparse.REMAINDER,
+        help="show|roundtrip|cross|show-omx <path> [-H]",
     )
 
     return parser
@@ -208,6 +219,13 @@ def main() -> int:
         if conv_args and conv_args[0] == "--":
             conv_args = conv_args[1:]
         return cmd_convert(conv_args)
+
+    if args.code == "semantic":
+        sem_args = list(getattr(args, "args", []) or [])
+        if sem_args and sem_args[0] == "--":
+            sem_args = sem_args[1:]
+        from omx_tools.semantic.cli import main as semantic_main
+        return int(semantic_main(sem_args) or 0)
 
     if args.code:
         return cmd_code(args.code, args.args)

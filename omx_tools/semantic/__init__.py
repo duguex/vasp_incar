@@ -7,8 +7,12 @@ from omx_tools.semantic.ir import SemanticIR, IR_SCHEMA, IR_VERSION
 from omx_tools.semantic.encode_vasp import encode_vasp
 from omx_tools.semantic.decode_vasp import decode_vasp
 from omx_tools.semantic.decode_omx import decode_omx
-from omx_tools.semantic.encode_omx import encode_omx
-from omx_tools.semantic.equiv import roundtrip_vasp_ir, EquivalenceReport
+from omx_tools.semantic.encode_omx import encode_omx, encode_omx_dat
+from omx_tools.semantic.equiv import (
+    roundtrip_vasp_ir,
+    cross_roundtrip_vasp,
+    EquivalenceReport,
+)
 
 __all__ = [
     "SemanticIR",
@@ -17,7 +21,9 @@ __all__ = [
     "encode_vasp",
     "decode_vasp",
     "encode_omx",
+    "encode_omx_dat",
     "decode_omx",
     "roundtrip_vasp_ir",
+    "cross_roundtrip_vasp",
     "EquivalenceReport",
 ]
