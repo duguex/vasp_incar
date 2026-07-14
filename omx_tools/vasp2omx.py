@@ -12,18 +12,15 @@ import json
 import sys
 from pathlib import Path
 
-from omx_tools._utils import load_json
 from omx_tools.parsers.vasp import (
     parse_incar,
-    detect_intent_from_incar,
     compute_charge_from_nelect,
 )
-from omx_tools.mapping import forward, load_mapping_table, for_openmx_writer
 from omx_tools.intent import CalculationIntent
 from omx_tools.writers.openmx import write_dat
+from omx_tools.semantic import encode_vasp, decode_omx
 
 PKG_DIR = Path(__file__).resolve().parent
-VASP_MAPPING_PATH = PKG_DIR / "schemas" / "vasp_to_ase.json"
 
 
 def _find_potcar(incar_path: str) -> str | None:
@@ -75,31 +72,30 @@ def cli():
         print(f"[INFO] Parsed {len(params)} parameters from {incar_path}",
               file=sys.stderr)
 
-    # ── Step 2: Load mapping table ──────────────────────────────────────
-    mapping = load_mapping_table(
-        load_json(str(VASP_MAPPING_PATH), "vasp_to_ase.json")
-    )
-
-    # ── Step 3: Detect intent (or override) ──────────────────────────────
-    template = args.template or detect_intent_from_incar(params)
-    if args.verbose:
-        print(f"[INFO] Template: {template}"
-              + (" (auto-detected)" if not args.template else " (user override)"),
-              file=sys.stderr)
-
-    # ── Step 4: Map parameters ───────────────────────────────────────────
-    overrides, report = forward(
-        params, mapping, verbose=args.verbose, return_report=True,
+    # ── Step 2–4: Semantic IR (encode VASP → decode OpenMX) ─────────────
+    template_override = args.template
+    ir = encode_vasp(
+        params,
+        structure_path=args.structure,
+        template=template_override,
     )
     if args.verbose:
-        print(f"[INFO] Mapped {len(overrides)} parameters", file=sys.stderr)
-        for item in report.get("dropped") or []:
-            print(f"[WARN] {item['tag']} — {item['reason']}", file=sys.stderr)
-        if report.get("unmapped"):
+        print(
+            f"[INFO] IR calc_class={ir.calc_class} template={ir.openmx_template}",
+            file=sys.stderr,
+        )
+        if ir.provenance.dropped:
+            for item in ir.provenance.dropped:
+                print(f"[WARN] {item.get('tag')} — {item.get('reason')}", file=sys.stderr)
+        if ir.provenance.unmapped:
             print(
-                f"[WARN] unmapped tags: {', '.join(report['unmapped'])}",
+                f"[WARN] unmapped tags: {', '.join(ir.provenance.unmapped)}",
                 file=sys.stderr,
             )
+
+    template, overrides = decode_omx(ir)
+    if template_override:
+        template = template_override
 
     # ── Step 5a: Auto-detect charge from NELECT + POTCAR ─────────────────
     nelect = params.get("NELECT")
@@ -110,8 +106,9 @@ def cli():
                 charge = compute_charge_from_nelect(
                     float(nelect), args.structure, potcar_path,
                 )
-                if charge != float(nelect):  # successfully computed
+                if charge != float(nelect):
                     overrides["scf_system_charge"] = charge
+                    ir.physics.charge = charge
                     if args.verbose:
                         print(
                             f"[INFO] NELECT={nelect} → charge={charge:.1f} "
@@ -130,22 +127,29 @@ def cli():
                           file=sys.stderr)
         else:
             if args.verbose:
-                print(f"[WARN] No POTCAR found near INCAR, NELECT={nelect} "
-                      f"not converted to charge. Use --charge FLOAT to set manually.",
-                      file=sys.stderr)
+                print(
+                    f"[WARN] No POTCAR found near INCAR, NELECT={nelect} "
+                    f"not converted to charge. Use --charge FLOAT to set manually.",
+                    file=sys.stderr,
+                )
 
     # ── Step 5b: Apply --charge override ─────────────────────────────────
     if args.charge is not None:
         overrides["scf_system_charge"] = args.charge
+        ir.physics.charge = args.charge
         if args.verbose:
-            print(f"[INFO] --charge={args.charge}: overrides NELECT mapping",
-                  file=sys.stderr)
+            print(
+                f"[INFO] --charge={args.charge}: overrides NELECT mapping",
+                file=sys.stderr,
+            )
+
+    if args.verbose:
+        print(f"[INFO] OpenMX overrides: {len(overrides)} keys", file=sys.stderr)
 
     # ── Step 6: Build CalculationIntent and write ───────────────────────
-    # Strip vasp_* preserve keys — ASE OpenMX writer rejects unknown keywords
     intent = CalculationIntent(
         template=template,
-        params=for_openmx_writer(overrides),
+        params=overrides,
         structure_path=args.structure,
     )
 
