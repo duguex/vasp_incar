@@ -224,6 +224,69 @@ omx-db keyword md.maxIter
 
 ---
 
+## 6. Si8 real-structure E2E — generate ↔ advise ↔ knowledge
+
+**Scenario:** Use the repo’s real `work/Si8.cif` (Si bulk cell) to prove that
+**generation**, **lint/advise**, and the **knowledge base** run as one loop —
+not only unit fixtures.
+
+### One-shot demo script
+
+```bash
+# Always (VASP gen + advise + roundtrip + intentional bad INCAR --fix)
+python3 scripts/e2e_si8_advise_loop.py
+
+# Also OpenMX generate + advise-omx (needs DFT_DATA19)
+export OPENMX_DFT_DATA_PATH=/mnt/shared/DFT_DATA19   # or your path
+python3 scripts/e2e_si8_advise_loop.py --with-omx-gen
+```
+
+### What the loop does
+
+1. **Know** — `vasp-query` ENCUT description + community top values  
+2. **Generate** — `vasp-gen` `scf` on `work/Si8.cif` → `INCAR` + `KPOINTS` + `POSCAR`  
+3. **Advise** — `advise` on generated INCAR (lint + knowledge attach)  
+4. **Fix demo** — intentional bad INCAR (`NSW>0`+`IBRION=-1`, low ENCUT) → `--fix` safe repairs (IBRION/EDIFFG); ENCUT still warned (not auto-raised)  
+5. **Self-consistency** — `roundtrip_vasp_ir` on generated tags  
+6. **Optional OpenMX** — `omx-gen` Si8 + `advise-omx`  
+
+### Manual equivalent
+
+```bash
+# Generate suite for Si8
+vasp-gen work/Si8.cif -t scf --kspacing 0.35 --poscar -o /tmp/si8/
+
+# Organic coupling: lint findings + knowledge snippets
+dft semantic advise /tmp/si8/INCAR -H
+
+# Mapping self-consistency
+dft semantic roundtrip /tmp/si8/INCAR
+
+# Generate → advise in one call
+dft semantic gen-advise -t scf
+
+# OpenMX side (needs OPENMX_DFT_DATA_PATH)
+omx-gen work/Si8.cif -t scf_band -o /tmp/si8/Si8.dat
+dft semantic advise-omx /tmp/si8/Si8.dat -H
+```
+
+### Tests
+
+```bash
+# Core E2E (needs work/Si8.cif + pymatgen)
+pytest tests/test_e2e_si8_loop.py -q
+
+# Optional OpenMX engine SCF (container) — existing
+pytest tests/test_integration.py -q
+```
+
+### Limits
+
+- Default E2E does **not** claim energy/convergence validation against experiment.
+- It validates: real structure path, file generation, advise↔knowledge wiring, semantic round-trip, optional OpenMX syntax generation.
+
+---
+
 ## Environment setup quick reference
 
 ```bash
