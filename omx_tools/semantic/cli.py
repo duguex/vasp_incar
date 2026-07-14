@@ -1,11 +1,13 @@
-"""CLI for semantic IR: show / roundtrip / cross.
+"""CLI for semantic IR: show / roundtrip / cross / lint.
 
 Usage (via ``dft semantic …`` or ``python -m omx_tools.semantic.cli``)::
 
-    dft semantic show INCAR --json
-    dft semantic roundtrip INCAR --json
-    dft semantic cross INCAR --json
-    dft semantic show-omx input.dat --json
+    dft semantic show INCAR
+    dft semantic roundtrip INCAR
+    dft semantic cross INCAR
+    dft semantic lint INCAR
+    dft semantic lint-omx input.dat
+    dft semantic show-omx input.dat
 """
 
 from __future__ import annotations
@@ -120,10 +122,56 @@ def cmd_cross(path: Path, as_json: bool = True) -> int:
     return 0 if rep.get("ok_core") else 1
 
 
+def cmd_lint(path: Path, as_json: bool = True) -> int:
+    from omx_tools.semantic.lint import lint_vasp_incar
+
+    if not path.is_file():
+        print(json.dumps({
+            "error": f"file not found: {path}",
+            "suggestion": "Pass a VASP INCAR path",
+        }))
+        return 1
+    incar = _parse_incar_file(path)
+    rep = lint_vasp_incar(incar, path=str(path))
+    payload = rep.as_dict()
+    if as_json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(f"ok={rep.ok} errors={rep.n_error} warnings={rep.n_warning} "
+              f"info={rep.n_info} class={rep.calc_class_hint}")
+        for f in rep.findings:
+            tags = ",".join(f.tags) if f.tags else "-"
+            print(f"  [{f.severity}] {f.code}: {f.message}")
+            print(f"           suggestion: {f.suggestion}")
+            print(f"           tags: {tags}")
+    return 0 if rep.ok else 1
+
+
+def cmd_lint_omx(path: Path, as_json: bool = True) -> int:
+    from omx_tools.semantic.lint import lint_openmx_dat
+
+    if not path.is_file():
+        print(json.dumps({
+            "error": f"file not found: {path}",
+            "suggestion": "Pass an OpenMX .dat path",
+        }))
+        return 1
+    rep = lint_openmx_dat(str(path))
+    payload = rep.as_dict()
+    if as_json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(f"ok={rep.ok} errors={rep.n_error} warnings={rep.n_warning}")
+        for f in rep.findings:
+            print(f"  [{f.severity}] {f.code}: {f.message}")
+            print(f"           → {f.suggestion}")
+    return 0 if rep.ok else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="dft semantic",
-        description="Semantic IR show / round-trip tools",
+        description="Semantic IR show / round-trip / lint tools",
     )
     sub = p.add_subparsers(dest="cmd", required=True)
 
@@ -132,6 +180,8 @@ def build_parser() -> argparse.ArgumentParser:
         ("roundtrip", "Same-code VASP→IR→VASP report"),
         ("cross", "Cross-code lossy VASP→OMX→VASP report"),
         ("show-omx", "Encode OpenMX .dat to Semantic IR JSON"),
+        ("lint", "Physics/consistency lint for VASP INCAR"),
+        ("lint-omx", "Physics/consistency lint for OpenMX .dat"),
     ):
         sp = sub.add_parser(name, help=help_)
         sp.add_argument("path", type=Path, help="Input file")
@@ -153,6 +203,10 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_cross(path, as_json=as_json)
     if args.cmd == "show-omx":
         return cmd_show_omx(path, as_json=as_json)
+    if args.cmd == "lint":
+        return cmd_lint(path, as_json=as_json)
+    if args.cmd == "lint-omx":
+        return cmd_lint_omx(path, as_json=as_json)
     parser.print_help()
     return 1
 

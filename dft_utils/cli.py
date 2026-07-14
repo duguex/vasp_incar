@@ -8,6 +8,7 @@ Usage::
     dft omx gen structure.cif -t scf_band
     dft convert vasp:omx INCAR POSCAR -o input.dat
     dft semantic show INCAR --json
+    dft semantic lint INCAR
     dft semantic roundtrip INCAR
     dft --list-codes
     dft --version

@@ -74,8 +74,9 @@ omx-db rag "how to tune SCF mixing for metallic systems"
 omx-db example Kerker --json          # official OpenMX work/ examples
 omx-db cooccur scf.Mixing.Type scf.Kerker.factor --json
 
-# Semantic IR (round-trip / cross-code grade)
+# Semantic IR (round-trip / cross-code grade / lint)
 dft semantic show INCAR
+dft semantic lint INCAR              # physics/consistency suggestions
 dft semantic roundtrip INCAR
 dft semantic cross INCAR
 

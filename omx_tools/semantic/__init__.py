@@ -20,6 +20,7 @@ from omx_tools.semantic.gt import (
     pymatgen_available,
     pydefect_available,
 )
+from omx_tools.semantic.lint import lint_vasp_incar, lint_openmx_dat, LintReport
 
 __all__ = [
     "SemanticIR",
@@ -38,4 +39,7 @@ __all__ = [
     "probe_pydefect_shape",
     "pymatgen_available",
     "pydefect_available",
+    "lint_vasp_incar",
+    "lint_openmx_dat",
+    "LintReport",
 ]
