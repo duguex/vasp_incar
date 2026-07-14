@@ -386,6 +386,40 @@ Host `~/hack_vasp` only if its `bin` and `testsuite` are known-matching.
 
 ---
 
+## 9. True cross-engine examples (A’s geometry on B’s code)
+
+**Not** “each code self-test”. **Yes**: official example geometry from code A
+must **SCF on code B**.
+
+| Direction | Source | Target run |
+|-----------|--------|------------|
+| OpenMX → VASP | `input_example` (Ndia2, Graphite4, Methane, H2O) | container `vasp.6.5.1` |
+| VASP → OpenMX | suite `bulk_BN_PBEsol`, `DFT_OatomPBE` | container OpenMX 4.0 |
+
+Keyword mapping is **lossy** on purpose: structure + safe target defaults.
+Energies across codes are **not** required to match (different basis/PP).
+
+### Run
+
+```bash
+export OPENMX_DFT_DATA_PATH=/mnt/shared/DFT_DATA19
+export VASP_PP_PATH=/mnt/shared/VASP_POT/POT_GGA_PAW_PBE_54
+python3 scripts/cross_engine_examples.py --np 4
+```
+
+### Pass criteria
+
+1. Geometry extracted from official source example  
+2. Target engine SCF finishes with finite total energy  
+3. Report both directions in one table  
+
+### Reference (this workstation)
+
+- **6/6 OK** (4 omx→vasp + 2 vasp→omx)  
+- Artifacts: [`docs/benchmarks/cross_engine/`](../benchmarks/cross_engine/)  
+
+---
+
 ## Environment setup quick reference
 
 ```bash

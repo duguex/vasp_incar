@@ -1,0 +1,106 @@
+{
+  "kind": "cross_engine_examples",
+  "definition": "Geometry from official examples of code A is SCF'd on code B. Energies are not required to match across codes.",
+  "np": 4,
+  "cases": [
+    {
+      "direction": "openmx\u2192vasp",
+      "source": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/omx_sources/input_example/Ndia2.dat",
+      "name": "Ndia2",
+      "elements": [
+        "C"
+      ],
+      "n_atoms": 2,
+      "kpoints": "3 3 3",
+      "run": {
+        "ok": true,
+        "energy_eV": -17.385861,
+        "wall_s": 2.19,
+        "returncode": 0
+      },
+      "ok": true
+    },
+    {
+      "direction": "openmx\u2192vasp",
+      "source": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/omx_sources/input_example/Graphite4.dat",
+      "name": "Graphite4",
+      "elements": [
+        "C"
+      ],
+      "n_atoms": 4,
+      "kpoints": "3 3 3",
+      "run": {
+        "ok": true,
+        "energy_eV": -36.491826,
+        "wall_s": 2.68,
+        "returncode": 0
+      },
+      "ok": true
+    },
+    {
+      "direction": "openmx\u2192vasp",
+      "source": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/omx_sources/input_example/Methane.dat",
+      "name": "Methane",
+      "elements": [
+        "C",
+        "H"
+      ],
+      "n_atoms": 5,
+      "kpoints": "1 1 1",
+      "run": {
+        "ok": true,
+        "energy_eV": -24.024263,
+        "wall_s": 5.47,
+        "returncode": 0
+      },
+      "ok": true
+    },
+    {
+      "direction": "openmx\u2192vasp",
+      "source": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/omx_sources/input_example/H2O.dat",
+      "name": "H2O",
+      "elements": [
+        "H",
+        "O"
+      ],
+      "n_atoms": 3,
+      "kpoints": "1 1 1",
+      "run": {
+        "ok": true,
+        "energy_eV": -14.213647,
+        "wall_s": 8.15,
+        "returncode": 0
+      },
+      "ok": true
+    },
+    {
+      "direction": "vasp\u2192openmx",
+      "name": "bulk_BN_PBEsol",
+      "dat": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/vasp2omx/bulk_BN_PBEsol/input.dat",
+      "run": {
+        "ok": true,
+        "energy_Ha": -13.162021382618,
+        "energy_eV": -358.1568476203714,
+        "wall_s": 81.44,
+        "returncode": 0
+      },
+      "ok": true
+    },
+    {
+      "direction": "vasp\u2192openmx",
+      "name": "DFT_OatomPBE",
+      "dat": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/vasp2omx/DFT_OatomPBE/input.dat",
+      "run": {
+        "ok": true,
+        "energy_Ha": -16.036175302346,
+        "energy_eV": -436.3665600605104,
+        "wall_s": 5.92,
+        "returncode": 0
+      },
+      "ok": true
+    }
+  ],
+  "ok": true,
+  "n_cases": 6,
+  "n_ok": 6
+}
