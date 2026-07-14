@@ -427,30 +427,50 @@ python3 scripts/cross_engine_examples.py --np 4
 
 ---
 
-## 10. Cross ΔE: Si Ecoh (VASP vs OpenMX vs experiment)
+## 10. Cross ΔE Ecoh + physics gates (P0/P1)
 
-True **differential** cross-calibration (not absolute energy):
+### Differential Ecoh (Si and C)
 
-- bulk: cubic Si₈ @ a0 = 5.431 Å (fixed)
-- atom: spin-polarized Si
-- **Ecoh = E_atom − E_bulk/8** on **both** engines
+Same protocol on VASP and OpenMX:
+
+- bulk: diamond cubic 8 atoms @ experimental a0 (fixed)
+- atom: spin-polarized free atom
+- **Ecoh = E_atom − E_bulk/8** (eV/atom) — absolute E not compared
 
 ```bash
 export OPENMX_DFT_DATA_PATH=/mnt/shared/DFT_DATA19
 export VASP_PP_PATH=/mnt/shared/VASP_POT/POT_GGA_PAW_PBE_54
+python3 scripts/cross_delta_ecoh.py --element Si --np 4
+python3 scripts/cross_delta_ecoh.py --element C --np 4
+# alias:
 python3 scripts/cross_delta_ecoh_si.py --np 4
 ```
 
-### Reference (this workstation)
+| element | a0 (Å) | exp Ecoh | VASP | OpenMX | \|V−O\| |
+|---------|-------:|---------:|-----:|-------:|------:|
+| Si | 5.431 | 4.63 | 4.574 | 4.631 | **0.057** |
+| C  | 3.567 | 7.37 | 7.815 | 7.886 | **0.071** |
 
-| engine | Ecoh (eV/atom) | vs exp |
-|--------|---------------:|-------:|
-| experiment | 4.63 | — |
-| VASP PBE (ENCUT=400, 4×4×4) | **4.574** | −0.056 |
-| OpenMX PBE (Si8.0-s2p2d1, 4×4×4) | **4.631** | +0.001 |
-| **|VASP − OpenMX|** | **0.057** | |
+Artifacts: [`cross_delta_ecoh_si`](../benchmarks/cross_delta_ecoh_si/),
+[`cross_delta_ecoh_c`](../benchmarks/cross_delta_ecoh_c/).
 
-Artifacts: [`docs/benchmarks/cross_delta_ecoh_si/`](../benchmarks/cross_delta_ecoh_si/).
+### P0 physics gates
+
+Hard fail if any Ecoh report has `|Ecoh_VASP − Ecoh_OpenMX| > 0.15 eV`,
+or required cross_engine cases (Ndia2, Graphite4) are not ok.
+
+```bash
+# validate existing reports only
+python3 scripts/run_cross_gates.py --check-only --elements Si C
+
+# run missing benches then gate
+python3 scripts/run_cross_gates.py --np 4 --elements Si C
+```
+
+Tolerances (override via env): `CROSS_GATE_TOL_ECOH_CODE` (default 0.15),
+`CROSS_GATE_TOL_ECOH_EXP` soft (default 0.5, warn only).
+
+Gate report: [`docs/benchmarks/cross_gates/`](../benchmarks/cross_gates/).
 
 
 ## Environment setup quick reference

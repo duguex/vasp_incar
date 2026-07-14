@@ -39,5 +39,6 @@
     "openmx_minus_exp": 0.001003088646522876,
     "vasp_minus_openmx": -0.05655732364652266,
     "abs_delta_codes": 0.05655732364652266
-  }
+  },
+  "element": "Si"
 }

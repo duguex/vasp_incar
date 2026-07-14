@@ -131,3 +131,9 @@ Reuse ideas from `legacy_scripts/` INCAR/OUTCAR parsers. Can proceed in parallel
 | 4 | Workflow examples | **done** |
 | 5 | Third DFT code | **open** |
 | 6 | Post-processing extract | **open** |
+
+## Cross physics gates (done 2026-07)
+
+- **P0** `scripts/run_cross_gates.py`: hard |Ecoh_V−Ecoh_O|≤0.15 eV (Si,C) + cross_engine Ndia2/Graphite4
+- **P1** C diamond Ecoh alongside Si (`scripts/cross_delta_ecoh.py --element C`)
+- Run: `python3 scripts/run_cross_gates.py --check-only`

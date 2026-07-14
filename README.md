@@ -83,6 +83,8 @@ vasp2omx INCAR POSCAR -o input.dat
 omp2vasp input.dat -o INCAR
 ```
 
+Cross physics gates: `python3 scripts/run_cross_gates.py --check-only`.
+
 Full walkthroughs: [`docs/WORKFLOWS.md`](docs/WORKFLOWS.md) — including
 **§6 Si8 E2E** (`scripts/e2e_si8_advise_loop.py`: generate ↔ advise ↔ knowledge).
 

@@ -18,6 +18,7 @@
 - **Si8 E2E loop**: `scripts/e2e_si8_advise_loop.py` + `tests/test_e2e_si8_loop.py` — real `work/Si8.cif` through gen → advise → roundtrip (optional omx-gen); WORKFLOWS §6.
 - **Si energy benchmark**: `scripts/bench_si_pbe_openmx.py` (`mpirun -np 8`) — Ecoh vs experiment on cubic Si; results in `docs/benchmarks/si_pbe/`.
 - **Official engine tests**: `scripts/run_official_engine_tests.py` — OpenMX `-runtest` (np=8) + tooling cross on `input_example`; optional VASP suite; results in `docs/benchmarks/official_runtest/`.
+- **P0/P1 cross gates**: `run_cross_gates.py` (|Ecoh_V−O|≤0.15 eV) + C diamond Ecoh (`cross_delta_ecoh.py --element C`).
 - **Cross ΔE Si Ecoh**: `scripts/cross_delta_ecoh_si.py` — same-protocol Ecoh on VASP+OpenMX vs experiment (|Δ|≈0.06 eV).
 - **True cross-engine**: `scripts/cross_engine_examples.py` — official OpenMX geometries SCF on VASP and VASP suite geometries SCF on OpenMX (6/6 on this host).
 - Spec/plan: `docs/superpowers/specs/2026-07-14-cli-symmetry-design.md`, `docs/superpowers/plans/2026-07-14-cli-symmetry.md`

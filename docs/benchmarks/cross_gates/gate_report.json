@@ -1,0 +1,37 @@
+{
+  "tol_ecoh_code_eV": 0.15,
+  "tol_ecoh_exp_soft_eV": 0.5,
+  "ecoh": [
+    {
+      "path": "/home/duguex/vasp_wiki/work/benchmarks/cross_delta_ecoh_si/report.json",
+      "element": "Si",
+      "ok": true,
+      "issues": [],
+      "warns": [],
+      "Ecoh_vasp": 4.574445765,
+      "Ecoh_openmx": 4.631003088646523,
+      "abs_delta_codes": 0.05655732364652266,
+      "experiment": 4.63
+    },
+    {
+      "path": "/home/duguex/vasp_wiki/work/benchmarks/cross_delta_ecoh_c/report.json",
+      "element": "C",
+      "ok": true,
+      "issues": [],
+      "warns": [
+        "C: |Ecoh_OpenMX\u2212exp|=0.5161 eV > soft tol 0.5"
+      ],
+      "Ecoh_vasp": 7.815361749999999,
+      "Ecoh_openmx": 7.8860605376549415,
+      "abs_delta_codes": 0.07069878765494231,
+      "experiment": 7.37
+    }
+  ],
+  "cross_engine": {
+    "path": "/home/duguex/vasp_wiki/work/benchmarks/cross_engine/report.json",
+    "ok": true,
+    "issues": [],
+    "n_cases": 4
+  },
+  "ok": true
+}
