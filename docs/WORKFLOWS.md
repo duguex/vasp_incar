@@ -287,6 +287,50 @@ pytest tests/test_integration.py -q
 
 ---
 
+## 7. Energy / experiment benchmark (Si diamond, OpenMX PBE)
+
+**Scenario:** Beyond file-level E2E, validate that **generated inputs actually run** and that a physical observable is in the experimental ballpark.
+
+### Run (MPI `-np 8`)
+
+```bash
+export OPENMX_DFT_DATA_PATH=/mnt/shared/DFT_DATA19
+# needs singularity + OpenMX SIF at /mnt/shared/openmx4.0_intel.sif
+python3 scripts/bench_si_pbe_openmx.py --np 8 \
+  --outdir work/benchmarks/si_pbe
+```
+
+What it does:
+
+1. Build cubic Si₈ at experimental **a0 = 5.431 Å** (ASE)
+2. `omx-gen` bulk SCF (PBE, `Si8.0-s2p2d1`, default k=4×4×4, 150 Ry)
+3. Spin-polarized Si free atom (cluster solver)
+4. `mpirun -np 8 openmx …` inside the container
+5. Parse `Utot` → **Ecoh = E_atom − E_bulk/8**
+
+### Reference result (this workstation)
+
+| Quantity | Computed | Experiment | Δ |
+|----------|----------:|----------:|--:|
+| a0 (Å) | 5.431 (fixed) | 5.431 | — |
+| Ecoh (eV/atom) | **4.6311** | 4.63 | +0.001 |
+
+Artifacts (inputs + report, no cubes): [`docs/benchmarks/si_pbe/`](../benchmarks/si_pbe/).
+
+### Caveats
+
+- **a0 is fixed** — not an EOS / lattice relaxation benchmark.
+- Ecoh depends on free-atom spin/box; near-exact match to experiment can be partly fortuitous for a given PAO basis.
+- Use this as **pipeline + physics order-of-magnitude** evidence, not a published basis-set convergence study.
+
+### Parser unit tests (no container)
+
+```bash
+pytest tests/test_bench_si_parse.py -q
+```
+
+---
+
 ## Environment setup quick reference
 
 ```bash

@@ -16,6 +16,7 @@
 - **Product goals (docs)**: explicit fifth pillar — **advise existing inputs** (`lint`) alongside know / generate / convert / semantic self-consistency (README, AGENTS, ROADMAP).
 - **Advise loop**: `dft semantic advise` / `gen-advise` / `advise-omx` — lint → attach knowledge (vasp_query / omx schema+examples) → optional `--fix` safe re-lint loop.
 - **Si8 E2E loop**: `scripts/e2e_si8_advise_loop.py` + `tests/test_e2e_si8_loop.py` — real `work/Si8.cif` through gen → advise → roundtrip (optional omx-gen); WORKFLOWS §6.
+- **Si energy benchmark**: `scripts/bench_si_pbe_openmx.py` (`mpirun -np 8`) — Ecoh vs experiment on cubic Si; results in `docs/benchmarks/si_pbe/`.
 - Spec/plan: `docs/superpowers/specs/2026-07-14-cli-symmetry-design.md`, `docs/superpowers/plans/2026-07-14-cli-symmetry.md`
 
 ### Fixed
