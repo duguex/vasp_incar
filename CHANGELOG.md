@@ -1,3 +1,10 @@
+## [Unreleased]
+
+### Changed
+- **Archive standalone `~/omx`**: moved to `~/archive/2026-07-dft-merge/omx` (2026-07-14). Active source is only `~/vasp_wiki` (`dft-tools`).
+- **Hermes skills**: `omx-tools` and `vasp-query` both link to `~/vasp_wiki/skills/…` (was pointing at archived `~/omx`).
+- Do not `pip install -e ~/omx` alongside this package — entry points collide.
+
 ## [0.3.0] - 2026-06-30
 
 ### Added

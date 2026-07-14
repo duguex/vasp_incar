@@ -73,6 +73,7 @@ python3 -m pytest tests/ --ignore=tests/test_integration.py  # 109 个 OpenMX �
 | v0.1.x | `~/vasp_incar/` | 仅 vasp-query，含 MCP server |
 | v0.2.0 | `~/vasp_wiki/` | 移除 MCP，改为 Skill 集成 |
 | v0.3.0 | `~/vasp_wiki/` | 合并 `omx-tools`，重命名为 `dft-tools` |
+| 2026-07-14 | `~/vasp_wiki/` | 归档独立 `~/omx` → `~/archive/2026-07-dft-merge/omx`；Hermes skills 统一指向 monorepo；勿再安装并行 `omx-tools` 包 |
 
 ## 常见问题
 
