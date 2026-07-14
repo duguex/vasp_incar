@@ -59,27 +59,26 @@ Shared infrastructure (`dft_utils/`) handles: version envelope, debug logging, J
 ## Quick start
 
 ```bash
-# Natural language search across knowledge bases
-python3 -m vasp_query search "energy cutoff for transition metals"
+# Knowledge
+vasp-query search "energy cutoff for transition metals"
 vasp-query rag "hybrid functional ENCUT"
 omx-db rag "how to tune SCF mixing for metallic systems"
-omx-db example Kerker --json          # official OpenMX work/ examples
-omx-db cooccur scf.Mixing.Type scf.Kerker.factor --json
+omx-db example Kerker --json
 
-# Semantic IR (round-trip / cross-code grade / lint)
-dft semantic show INCAR
-dft semantic lint INCAR              # physics/consistency suggestions
-dft semantic roundtrip INCAR
-dft semantic cross INCAR
-
-# Generate inputs
-# Advise loop: lint → knowledge → optional safe fix
+# Advise loop (lint → knowledge → optional safe fix)
 dft semantic advise INCAR
 dft semantic advise INCAR --fix -o INCAR.fixed
-dft semantic gen-advise -t scf_metal    # generate then advise
-dft semantic lint INCAR                # lint only (no knowledge fetch)
+dft semantic gen-advise -t scf_metal
+dft semantic lint INCAR                # rules only
+
+# Semantic IR
+dft semantic show INCAR
 dft semantic roundtrip INCAR
 dft semantic cross INCAR
+
+# Generate / convert
+vasp-gen POSCAR -t relax --kspacing 0.3 -o calc/
+omx-gen structure.cif -t scf_band -o calc.dat
 vasp2omx INCAR POSCAR -o input.dat
 omp2vasp input.dat -o INCAR
 ```
