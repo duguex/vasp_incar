@@ -1,8 +1,19 @@
 # Future Work — dft-tools Roadmap
 
-Current: `dft-tools v0.3.0` — framework ready, two DFT code plugins (VASP, OpenMX).
+Current: `dft-tools v0.3.x` — VASP + OpenMX plugins; semantic IR; **input advice (lint)**.
 
-Status refreshed: **2026-07-14**. Items 1–4 below are **done**; remaining work starts at Item 5.
+**Product goals:** know · generate · convert · **advise existing inputs** · self-consistent VASP⇄semantic⇄OpenMX maps.  
+GT: pymatgen / vaspkit checklist / pydefect boundary (not reimplemented here).
+
+Status refreshed: **2026-07-14**. Items 1–4 + semantic Phases 1–4 + lint v1 are **done**.
+
+---
+
+## Done (recent)
+
+- CLI symmetry, `vasp-gen` suite (KPOINTS/POTCAR), OpenMX example corpus  
+- Semantic Phases 1–4 (round-trip, IR, cross-grade, GT probes)  
+- **`dft semantic lint` / `lint-omx`** — rule-based advice on existing inputs  
 
 ---
 
@@ -29,6 +40,20 @@ Data files under `vasp_query/data/` use `_version: 0.3.0` envelopes (including `
 Shared `dft_utils` (search, embedding, protocol, CLI, convert, error, version), plugins for `vasp`/`omx`, unified `dft` CLI, converter registry, agent docs.
 
 ---
+
+
+## Item 4b: Expand input advice (lint) — ongoing
+
+**Goal:** Broader, higher-signal suggestions on **user-provided** INCAR / `.dat` without auto-mutating files by default.
+
+| Direction | Notes |
+|-----------|--------|
+| More VASP rules | Element-aware ENCUT vs ENMAX, k-mesh density vs metal/insulator, hybrid/DFT+U consistency |
+| Knowledge coupling | Attach `vasp-query` / `omx-db` snippets into lint `suggestion` payloads |
+| Optional `--fix` | Emit patched INCAR only on request |
+| OpenMX rules | Expand beyond cutoff / mixing / opt maxIter |
+
+**Acceptance:** lint report always JSON with `severity/code/message/suggestion/tags`; exit ≠ 0 on errors only.
 
 ## Item 5: Add third DFT code + harden onboarding (～3-5 days)
 

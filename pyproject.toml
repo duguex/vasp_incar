@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dft-tools"
 version = "0.3.0"
-description = "DFT calculation knowledge base and input generators (VASP INCAR + OpenMX)"
+description = "DFT knowledge, input generation, conversion, and advice on existing inputs (VASP + OpenMX)"
 requires-python = ">=3.10"
 dependencies = ["pydantic"]
 

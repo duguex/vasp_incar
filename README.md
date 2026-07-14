@@ -1,39 +1,32 @@
-# DFT Tools — Natural Language ↔ DFT Program Bridge
+# DFT Tools — Knowledge, Inputs, Advice for DFT Codes
 
-A framework for connecting natural language queries to DFT program knowledge and input generation. **VASP** and **OpenMX** are the first two integrated codes — the architecture is designed to extend to CASTEP, QE, FHI-aims, etc.
+Bridge **natural language / agents** to DFT **knowledge**, **input generation**, **cross-code conversion**, and **advice on existing inputs**. **VASP** and **OpenMX** are first-class; the layout extends to QE, CASTEP, etc.
+
+### Project goals
+
+| Goal | What it means | Primary surface |
+|------|----------------|-----------------|
+| **Know** | Query manuals/wiki/tags without inventing parameters | `vasp-query`, `omx-db` |
+| **Generate** | Templates → INCAR / `.dat` (+ optional KPOINTS/POTCAR) | `vasp-gen`, `omx-gen` |
+| **Convert** | VASP ↔ OpenMX via semantic IR | `vasp2omx`, `omp2vasp`, `dft convert` |
+| **Advise** | Review **existing** inputs: inconsistencies, risky settings, structured suggestions | `dft semantic lint` / `lint-omx` |
+| **Self-consistent map** | VASP ⇄ semantic ⇄ OpenMX round-trips under declared equivalence | `dft semantic roundtrip` / `cross` |
+
+**Not a DFT engine** (does not run VASP/OpenMX). Heavy workflows stay with **pymatgen / vaspkit / pydefect** (GT + checklist).
 
 ```
-User / Agent (natural language)
+User / Agent
         │
         ▼
-   ┌────────────────────┐
-   │  Skill interface   │  ← Hermes-registered SKILL.md per code
-   │  CLI (search, tag, │
-   │  query, rag)       │
-   └────────┬───────────┘
-            │
-    ┌───────┴───────┐
-    ▼               ▼
-┌──────────┐  ┌──────────┐
-│ vasp_    │  │ omx_     │  ← per-code packages
-│ query/   │  │ tools/   │
-│          │  │          │
-│ Tag DB   │  │ Manual   │  ← knowledge indexed from docs
-│ 676 tags │  │ 281 secs │
-│ 10K cfg  │  │ 304 kw   │
-└────┬─────┘  └────┬─────┘
-     │             │
-     └──────┬──────┘
-            ▼
-     ┌──────────────┐
-     │   Mapping    │  ← schemas/vasp_to_ase.json
-     │   Layer      │     + future: omx_to_ase, castep_to_ase, ...
-     └──────┬──────┘
-            ▼
-     ┌──────────────┐
-     │  Cross-code  │  ← vasp2omx, omp2vasp
-     │  Conversion  │     + future: vasp2qe, omx2castep, ...
-     └──────────────┘
+   Skill + CLI (search, gen, convert, lint, semantic)
+        │
+   ┌────┴────┐
+   ▼         ▼
+vasp_query  omx_tools
+   │         │
+   └────┬────┘
+        ▼
+  semantic IR + mapping  ← lint / round-trip / cross-code
 ```
 
 ## Documentation roles
@@ -48,10 +41,10 @@ User / Agent (natural language)
 
 ## Currently integrated
 
-| Code | Package | Knowledge | Input gen | Conversion |
-|------|---------|-----------|-----------|------------|
-| **VASP** | `vasp_query/` | 676+ INCAR tags + configs + wiki | ✅ light `vasp-gen` templates | vasp2omx |
-| **OpenMX** | `omx_tools/` | 281 manual sections + keywords | ✅ omx-gen | omp2vasp |
+| Code | Package | Knowledge | Input gen | Conversion | Advise existing inputs |
+|------|---------|-----------|-----------|------------|------------------------|
+| **VASP** | `vasp_query/` + semantic | tags + wiki + configs | `vasp-gen` | vasp2omx | `dft semantic lint` |
+| **OpenMX** | `omx_tools/` | manual DB + examples | `omx-gen` | omp2vasp | `dft semantic lint-omx` |
 
 ## Architecture for adding a new DFT code
 
