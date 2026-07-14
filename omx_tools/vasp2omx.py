@@ -18,7 +18,7 @@ from omx_tools.parsers.vasp import (
     detect_intent_from_incar,
     compute_charge_from_nelect,
 )
-from omx_tools.mapping import forward
+from omx_tools.mapping import forward, load_mapping_table, for_openmx_writer
 from omx_tools.intent import CalculationIntent
 from omx_tools.writers.openmx import write_dat
 
@@ -76,7 +76,9 @@ def cli():
               file=sys.stderr)
 
     # ── Step 2: Load mapping table ──────────────────────────────────────
-    mapping = load_json(str(VASP_MAPPING_PATH), "vasp_to_ase.json")
+    mapping = load_mapping_table(
+        load_json(str(VASP_MAPPING_PATH), "vasp_to_ase.json")
+    )
 
     # ── Step 3: Detect intent (or override) ──────────────────────────────
     template = args.template or detect_intent_from_incar(params)
@@ -86,19 +88,18 @@ def cli():
               file=sys.stderr)
 
     # ── Step 4: Map parameters ───────────────────────────────────────────
-    overrides = forward(params, mapping, verbose=args.verbose)
+    overrides, report = forward(
+        params, mapping, verbose=args.verbose, return_report=True,
+    )
     if args.verbose:
         print(f"[INFO] Mapped {len(overrides)} parameters", file=sys.stderr)
-
-    # ── Step 5: Report unmappable parameters with notes ──────────────────
-    if args.verbose:
-        for vasp_key, vasp_val in params.items():
-            entry = mapping.get(vasp_key)
-            if entry and entry.get("omx_key") is None:
-                note = entry.get("note")
-                if note:
-                    print(f"[WARN] {vasp_key}={vasp_val} — {note}",
-                          file=sys.stderr)
+        for item in report.get("dropped") or []:
+            print(f"[WARN] {item['tag']} — {item['reason']}", file=sys.stderr)
+        if report.get("unmapped"):
+            print(
+                f"[WARN] unmapped tags: {', '.join(report['unmapped'])}",
+                file=sys.stderr,
+            )
 
     # ── Step 5a: Auto-detect charge from NELECT + POTCAR ─────────────────
     nelect = params.get("NELECT")
@@ -141,9 +142,10 @@ def cli():
                   file=sys.stderr)
 
     # ── Step 6: Build CalculationIntent and write ───────────────────────
+    # Strip vasp_* preserve keys — ASE OpenMX writer rejects unknown keywords
     intent = CalculationIntent(
         template=template,
-        params=overrides,
+        params=for_openmx_writer(overrides),
         structure_path=args.structure,
     )
 

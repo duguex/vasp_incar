@@ -20,11 +20,13 @@ from omx_tools.mapping import forward, reverse
 
 @pytest.fixture
 def mapping():
-    """Load the real vasp_to_ase.json mapping table."""
+    """Load the real vasp_to_ase.json mapping table (unwrap envelope)."""
     path = (Path(__file__).resolve().parent.parent
             / "omx_tools" / "schemas" / "vasp_to_ase.json")
     with open(path) as f:
-        return json.load(f)
+        raw = json.load(f)
+    from omx_tools.mapping import load_mapping_table
+    return load_mapping_table(raw)
 
 
 # ---------------------------------------------------------------------------
@@ -186,7 +188,8 @@ class TestMapForward:
 
     def test_nsw_passthrough(self, mapping):
         result = forward({"NSW": 50}, mapping)
-        assert result == {"md_maxiter": 50}
+        assert result["md_maxiter"] == 50
+        assert result["vasp_nsw"] == 50
 
     def test_ediff_passthrough(self, mapping):
         result = forward({"EDIFF": 1e-6}, mapping)
@@ -197,14 +200,16 @@ class TestMapForward:
         assert result == {"scf_maxiter": 200}
 
     def test_algo_normal(self, mapping):
-        """ALGO=Normal → Band."""
+        """ALGO=Normal → Band (+ preserve exact)."""
         result = forward({"ALGO": "Normal"}, mapping)
-        assert result == {"scf_eigenvaluesolver": "Band"}
+        assert result["scf_eigenvaluesolver"] == "Band"
+        assert result["vasp_algo"] == "Normal"
 
     def test_algo_N(self, mapping):
-        """ALGO=N → Band."""
+        """ALGO=N → Band (+ preserve exact)."""
         result = forward({"ALGO": "N"}, mapping)
-        assert result == {"scf_eigenvaluesolver": "Band"}
+        assert result["scf_eigenvaluesolver"] == "Band"
+        assert result["vasp_algo"] == "N"
 
     def test_multiple_params(self, mapping):
         """Multiple mapped params produce combined result."""

@@ -1,28 +1,150 @@
 {
-  "ENCUT": {"omx_key": "scf_energycutoff", "convert": "encut", "reverse_convert": "encut_rev"},
-  "NELECT": {"omx_key": "scf_system_charge", "convert": "nelect", "reverse_convert": "nelect_rev",
-    "note": "auto-detected from NELECT+POTCAR; use --charge FLOAT to override"},
-  "ISMEAR": {"omx_key": null, "convert": null, "note": "used for intent detection only"},
-  "NSW": {"omx_key": "md_maxiter", "convert": "nsw"},
-  "EDIFF": {"omx_key": "scf_criterion", "convert": "passthrough"},
-  "IBRION": {"omx_key": null, "convert": null, "note": "used with NSW for intent detection"},
-  "ISIF": {"omx_key": null, "convert": null, "note": "no direct equivalent; MD.Opt.criterion approximates"},
-  "ISPIN": {"omx_key": "scf_spinpolarization", "convert": "spin", "reverse_convert": "spin_rev"},
-  "LWAVE": {"omx_key": null, "convert": null, "note": "OpenMX always writes restart files"},
-  "LCHARG": {"omx_key": null, "convert": null, "note": "OpenMX writes charge by default"},
-  "LORBIT": {"omx_key": null, "convert": null, "note": "no equivalent; use post-processing"},
-  "PREC": {"omx_key": null, "convert": null, "note": "no direct equivalent; affects ENCUT/NGX in VASP only"},
-  "NELM": {"omx_key": "scf_maxiter", "convert": "passthrough"},
-  "NELMIN": {"omx_key": null, "convert": null, "note": "no direct equivalent"},
-  "ISYM": {"omx_key": null, "convert": null, "note": "OpenMX symmetry handling is automatic"},
-  "LREAL": {"omx_key": null, "convert": null, "note": "OpenMX uses real-space by default"},
-  "GGA": {"omx_key": "scf_xctype", "convert": "xc", "reverse_convert": "xc_rev"},
-  "LOPTICS": {"omx_key": null, "convert": null, "note": "used for intent detection only"},
-  "ICHARG": {"omx_key": null, "convert": null, "note": "used for intent detection; ICHARG=11 → band_dispersion"},
-  "NBANDS": {"omx_key": null, "convert": null, "note": "determined automatically by OpenMX"},
-  "EDIFFG": {"omx_key": "md_opt_criterion", "convert": "abs_to_pos", "reverse_convert": "negate"},
-  "ALGO": {"omx_key": "scf_eigenvaluesolver", "convert": "algo", "reverse_convert": "algo_rev"},
-  "MAGMOM": {"omx_key": null, "convert": null, "note": "use Atoms.Cont.Orbitals for spin initialization"},
-  "IVDW": {"omx_key": null, "convert": null, "note": "use scf.XcType=GGA-PBE+D3 instead"},
-  "ADDGRID": {"omx_key": null, "convert": null, "note": "no direct equivalent"}
+  "_version": "0.3.0",
+  "data": {
+    "ENCUT": {
+      "omx_key": "scf_energycutoff",
+      "convert": "encut",
+      "reverse_convert": "encut_rev"
+    },
+    "NELECT": {
+      "omx_key": "scf_system_charge",
+      "convert": "nelect",
+      "reverse_convert": "nelect_rev",
+      "note": "auto-detected from NELECT+POTCAR; use --charge FLOAT to override"
+    },
+    "ISMEAR": {
+      "omx_key": "vasp_ismear",
+      "convert": "passthrough",
+      "note": "semantic preserve for VASP round-trip; OpenMX metal intent uses template ElectronicTemperature"
+    },
+    "SIGMA": {
+      "omx_key": "vasp_sigma",
+      "convert": "passthrough",
+      "note": "semantic preserve (eV); not the same unit as OpenMX ElectronicTemperature"
+    },
+    "NSW": {
+      "omx_key": "md_maxiter",
+      "convert": "nsw",
+      "reverse_convert": "nsw_rev",
+      "preserve_key": "vasp_nsw",
+      "note": "exact NSW stored in vasp_nsw; md_maxiter clamped ≥1 for OpenMX writer only"
+    },
+    "EDIFF": {
+      "omx_key": "scf_criterion",
+      "convert": "passthrough"
+    },
+    "IBRION": {
+      "omx_key": "vasp_ibrion",
+      "convert": "passthrough",
+      "note": "semantic preserve + intent detection"
+    },
+    "ISIF": {
+      "omx_key": "vasp_isif",
+      "convert": "passthrough",
+      "note": "semantic preserve; no direct OpenMX equivalent"
+    },
+    "ISPIN": {
+      "omx_key": "scf_spinpolarization",
+      "convert": "spin",
+      "reverse_convert": "spin_rev"
+    },
+    "LWAVE": {
+      "omx_key": null,
+      "convert": null,
+      "note": "OpenMX always writes restart files",
+      "drop": true
+    },
+    "LCHARG": {
+      "omx_key": null,
+      "convert": null,
+      "note": "OpenMX writes charge by default",
+      "drop": true
+    },
+    "LORBIT": {
+      "omx_key": null,
+      "convert": null,
+      "note": "no equivalent; use post-processing",
+      "drop": true
+    },
+    "PREC": {
+      "omx_key": null,
+      "convert": null,
+      "note": "no direct equivalent; affects ENCUT/NGX in VASP only",
+      "drop": true
+    },
+    "NELM": {
+      "omx_key": "scf_maxiter",
+      "convert": "passthrough"
+    },
+    "NELMIN": {
+      "omx_key": null,
+      "convert": null,
+      "note": "no direct equivalent",
+      "drop": true
+    },
+    "ISYM": {
+      "omx_key": null,
+      "convert": null,
+      "note": "OpenMX symmetry handling is automatic",
+      "drop": true
+    },
+    "LREAL": {
+      "omx_key": null,
+      "convert": null,
+      "note": "OpenMX uses real-space by default",
+      "drop": true
+    },
+    "GGA": {
+      "omx_key": "scf_xctype",
+      "convert": "xc",
+      "reverse_convert": "xc_rev"
+    },
+    "LOPTICS": {
+      "omx_key": null,
+      "convert": null,
+      "note": "used for intent detection only",
+      "drop": true
+    },
+    "ICHARG": {
+      "omx_key": "vasp_icharg",
+      "convert": "passthrough",
+      "note": "semantic preserve; ICHARG=11 → band_dispersion intent"
+    },
+    "NBANDS": {
+      "omx_key": null,
+      "convert": null,
+      "note": "determined automatically by OpenMX",
+      "drop": true
+    },
+    "EDIFFG": {
+      "omx_key": "md_opt_criterion",
+      "convert": "abs_to_pos",
+      "reverse_convert": "negate"
+    },
+    "ALGO": {
+      "omx_key": "scf_eigenvaluesolver",
+      "convert": "algo",
+      "reverse_convert": "algo_rev",
+      "preserve_key": "vasp_algo",
+      "note": "lossy many-to-one for OpenMX; exact ALGO in vasp_algo for round-trip"
+    },
+    "MAGMOM": {
+      "omx_key": null,
+      "convert": null,
+      "note": "use Atoms.Cont.Orbitals for spin initialization",
+      "drop": true
+    },
+    "IVDW": {
+      "omx_key": null,
+      "convert": null,
+      "note": "use scf.XcType=GGA-PBE+D3 instead",
+      "drop": true
+    },
+    "ADDGRID": {
+      "omx_key": null,
+      "convert": null,
+      "note": "no direct equivalent",
+      "drop": true
+    }
+  }
 }

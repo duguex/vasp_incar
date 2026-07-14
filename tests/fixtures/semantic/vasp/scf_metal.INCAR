@@ -1,0 +1,14 @@
+SYSTEM = semantic roundtrip scf metal
+PREC = Accurate
+ENCUT = 520
+EDIFF = 1e-05
+NELM = 120
+ISMEAR = 1
+SIGMA = 0.2
+ISPIN = 2
+IBRION = -1
+NSW = 0
+GGA = PE
+ALGO = Fast
+LWAVE = .FALSE.
+LCHARG = .TRUE.

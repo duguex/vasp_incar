@@ -1,0 +1,14 @@
+SYSTEM = semantic roundtrip scf insulator
+PREC = Accurate
+ENCUT = 400
+EDIFF = 1e-05
+NELM = 100
+ISMEAR = 0
+SIGMA = 0.05
+ISPIN = 1
+IBRION = -1
+NSW = 0
+GGA = PE
+ALGO = Normal
+LWAVE = .FALSE.
+LCHARG = .TRUE.

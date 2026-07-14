@@ -47,7 +47,7 @@ python3 -m pytest tests/
 | Skills | `skills/vasp-query/SKILL.md`, `skills/omx-tools/SKILL.md` |
 | Human overview | [`README.md`](README.md) |
 | Migration / setup | [`docs/MIGRATION.md`](docs/MIGRATION.md) |
-| Planned work | [`ROADMAP.md`](ROADMAP.md), [`PLAN.md`](PLAN.md), [`TODO.md`](TODO.md) |
+| Planned work | [`ROADMAP.md`](ROADMAP.md), [`PLAN.md`](PLAN.md), [`TODO.md`](TODO.md), semantic IR [`docs/superpowers/specs/2026-07-14-semantic-roundtrip-design.md`](docs/superpowers/specs/2026-07-14-semantic-roundtrip-design.md) |
 
 ## Keep in sync
 

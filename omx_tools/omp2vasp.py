@@ -11,7 +11,7 @@ from pathlib import Path
 
 from omx_tools._utils import load_json
 from omx_tools.parsers.openmx import parse_dat
-from omx_tools.mapping import reverse
+from omx_tools.mapping import reverse, load_mapping_table
 from omx_tools.writers.vasp import write_incar
 
 PKG_DIR = Path(__file__).resolve().parent
@@ -60,7 +60,9 @@ def cli():
             print(f"  {k} = {v}", file=sys.stderr)
 
     # ── Step 3: Load mapping table ───────────────────────────────────────
-    mapping = load_json(str(VASP_MAPPING_PATH), "vasp_to_ase.json")
+    mapping = load_mapping_table(
+        load_json(str(VASP_MAPPING_PATH), "vasp_to_ase.json")
+    )
 
     # ── Step 4: Reverse map: ASE params → VASP tags ──────────────────────
     vasp_params = reverse(ase_params, mapping, verbose=args.verbose)
