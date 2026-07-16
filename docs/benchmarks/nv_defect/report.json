@@ -1,0 +1,186 @@
+{
+  "kind": "nv_defect_cross_code",
+  "status": "reference_result",
+  "protocol": {
+    "structure": "relaxed C214N1, 215 atoms, cubic cell a=10.6674194336 A",
+    "kpoints": "Gamma only (1x1x1)",
+    "alignment": "Each code aligned to its own global VBM = 0 eV",
+    "ordinal_window": "Per spin: HOMO-3..HOMO and LUMO..LUMO+3",
+    "near_degenerate_group_threshold_eV": 0.003,
+    "comparison_mode": "ordinal-spectrum plus group-level localization; not wavefunction identity"
+  },
+  "system": {
+    "formula": "C214N1",
+    "natoms": 215,
+    "charge_state": -1,
+    "vasp": {
+      "ISPIN": 2,
+      "NELECT": 862.0,
+      "NUPDOWN": 2.0,
+      "ENCUT_eV": 520.0,
+      "GGA": "Pe",
+      "ISMEAR": 0,
+      "SIGMA_eV": 0.05,
+      "kpoints": [0, 0, 0]
+    },
+    "openmx": {
+      "SpinPolarization": "On",
+      "system_charge": -1,
+      "energycutoff_Ry": 260.0,
+      "XcType": "GGA-PBE",
+      "basis": {
+        "C": "C6.0-s2p2d1 / C_PBE19",
+        "N": "N6.0-s3p3d2f1 / N_PBE19"
+      },
+      "kpoints": [0, 0, 0],
+      "total_spin_moment_muB": 2.0
+    }
+  },
+  "provenance": {
+    "calculation_date_local": "2026-07-16",
+    "local_source_note": "The /tmp paths are local generation locations, not permanent repository paths. SHA256 values identify the source artifacts.",
+    "engines": {
+      "vasp": "vasp.6.5.1 10Mar25 (build Dec 01 2025 20:34:15)",
+      "openmx": "OpenMX Ver. 4.0"
+    },
+    "inputs": {
+      "vasp_static_INCAR": {
+        "local_path": "/tmp/nv_vasp_pbe_static/INCAR",
+        "sha256": "3618d878f3ce95ebb00b6cdf61751b7472b56ffaf9f9273ea8cee717be360967"
+      },
+      "vasp_static_POSCAR": {
+        "local_path": "/tmp/nv_vasp_pbe_static/POSCAR",
+        "sha256": "11ac92a590c435088da6b5a5490e5350850a99ca8bf8eecec8cba407e62f1f57"
+      },
+      "vasp_static_KPOINTS": {
+        "local_path": "/tmp/nv_vasp_pbe_static/KPOINTS",
+        "sha256": "b1fa5bb3c6a2c2085465d90f948968122502a7d41d201579f757bf09cf3804cd"
+      },
+      "vasp_static_POTCAR": {
+        "local_path": "/tmp/nv_vasp_pbe_static/POTCAR",
+        "sha256": "57f7d7f2602810434dba7e614b8fb742e0183647f7f1d7a5972237cc0b3a0103",
+        "tracked": false
+      },
+      "vasp_projection_INCAR": {
+        "local_path": "/tmp/nv_vasp_pbe_proj/INCAR",
+        "sha256": "34ea38d90e4e40257b9b41e237a566bc355326c4c6863efdf8b14451c8beb9ff",
+        "extra": "LORBIT=11"
+      },
+      "openmx_scf_input": {
+        "local_path": "/tmp/nv_openmx_relaxed_triplet/input.dat",
+        "sha256": "eb81d21fab80375f5ce0fd8424ff2609ba1df2a65760ac4c554ea55418fc5c25"
+      },
+      "openmx_mo_input": {
+        "local_path": "/tmp/nv_openmx_mo_proj8/input.dat",
+        "sha256": "41a4edbc5df5d3851401b133bac8ea456e6e84b23b07841f49b641e5453f2c17",
+        "extra": "MO.fileout=on, num.HOMOs=4, num.LUMOs=4, Gamma"
+      }
+    },
+    "outputs": {
+      "vasp_static_OUTCAR": {
+        "local_path": "/tmp/nv_vasp_pbe_static/OUTCAR",
+        "sha256": "c73e8d0bba5e35e7ed7a8f319d14afc7268f3df15339fa3d9f2c36b1675b7b84",
+        "tracked": false
+      },
+      "vasp_static_vasprun_xml": {
+        "local_path": "/tmp/nv_vasp_pbe_static/vasprun.xml",
+        "sha256": "6908b3ad647f6c128a8c2eb4de256d807897a2ee770b82eab04b5f4440b7b7d2",
+        "tracked": false
+      },
+      "openmx_scf_input_out": {
+        "local_path": "/tmp/nv_openmx_relaxed_triplet/input.out",
+        "sha256": "e13854b5fefa41c9e0db4908e2d3d184a07ffa5c18ba585176ab0013fd69b2b2",
+        "tracked": false
+      },
+      "vasp_PROCAR": {
+        "local_path": "/tmp/nv_vasp_pbe_proj/PROCAR",
+        "sha256": "c385d3de2a5a695d8dc28e46475c6908a335a35c7f2388ae53bb888f8964308c",
+        "tracked": false
+      },
+      "openmx_mo_input_out": {
+        "local_path": "/tmp/nv_openmx_mo_proj8/input.out",
+        "sha256": "82224a41faca9bf4714695baedc774628596b98c9ffd8d70e888f3d60acf1224",
+        "tracked": false
+      },
+      "openmx_mo_cube_set": {
+        "local_glob": "/tmp/nv_openmx_mo_proj8/input.{homo,lumo}0_{0,1}_{0..3}_{r,i}.cube",
+        "count": 32,
+        "members": "32 matching files; sha256sum lines sorted lexicographically",
+        "aggregate_sha256": "0c54bfe43cdb1d982aedb199a3572694499c309315d4f01fef8e401805ce0d17",
+        "aggregate_definition": "sha256 of the lexicographically sorted sha256sum lines for the 32 relative filenames in /tmp/nv_openmx_mo_proj8",
+        "tracked": false
+      }
+    }
+  },
+  "vasp": {
+    "source": "OUTCAR",
+    "homo_band": {"up": 432, "down": 430},
+    "vbm_eV": 11.6383,
+    "cbm_eV": 12.9019,
+    "global_gamma_gap_eV": 1.2636,
+    "edge_offset_E_HOMO_up_minus_down_eV": 0.6388
+  },
+  "openmx": {
+    "source": "input.out",
+    "homo_band": {"up": 432, "down": 430},
+    "global_gamma_gap_eV": 1.2981040432,
+    "edge_offset_E_HOMO_up_minus_down_eV": 0.6378766502
+  },
+  "compare": {
+    "gap_difference_openmx_minus_vasp_eV": 0.0345040432,
+    "edge_offset_difference_openmx_minus_vasp_eV": -0.0009233498,
+    "ordinal_spectrum": {
+      "levels": 16,
+      "rms_eV": 0.0570841550,
+      "max_abs_eV": 0.0727340839,
+      "delta_definition": "OpenMX - VASP after separate per-code VBM alignment",
+      "records": [
+        {"spin": "up", "label": "HOMO-3", "vasp_aligned_eV": -2.0214, "openmx_aligned_eV": -2.0934228687, "delta_openmx_minus_vasp_eV": -0.0720228687},
+        {"spin": "up", "label": "HOMO-2", "vasp_aligned_eV": -1.1564, "openmx_aligned_eV": -1.1898317500, "delta_openmx_minus_vasp_eV": -0.0334317500},
+        {"spin": "up", "label": "HOMO-1", "vasp_aligned_eV": -0.0033, "openmx_aligned_eV": -0.0033969663, "delta_openmx_minus_vasp_eV": -0.0000969663},
+        {"spin": "up", "label": "HOMO", "vasp_aligned_eV": 0.0, "openmx_aligned_eV": 0.0, "delta_openmx_minus_vasp_eV": 0.0},
+        {"spin": "up", "label": "LUMO", "vasp_aligned_eV": 2.2889, "openmx_aligned_eV": 2.3571998749, "delta_openmx_minus_vasp_eV": 0.0682998749},
+        {"spin": "up", "label": "LUMO+1", "vasp_aligned_eV": 2.2890, "openmx_aligned_eV": 2.3573077525, "delta_openmx_minus_vasp_eV": 0.0683077525},
+        {"spin": "up", "label": "LUMO+2", "vasp_aligned_eV": 2.3058, "openmx_aligned_eV": 2.3756059930, "delta_openmx_minus_vasp_eV": 0.0698059930},
+        {"spin": "up", "label": "LUMO+3", "vasp_aligned_eV": 2.3410, "openmx_aligned_eV": 2.4116635212, "delta_openmx_minus_vasp_eV": 0.0706635212},
+        {"spin": "down", "label": "HOMO-3", "vasp_aligned_eV": -2.0038, "openmx_aligned_eV": -2.0688466445, "delta_openmx_minus_vasp_eV": -0.0650466445},
+        {"spin": "down", "label": "HOMO-2", "vasp_aligned_eV": -1.9826, "openmx_aligned_eV": -2.0553340839, "delta_openmx_minus_vasp_eV": -0.0727340839},
+        {"spin": "down", "label": "HOMO-1", "vasp_aligned_eV": -1.9825, "openmx_aligned_eV": -2.0551784025, "delta_openmx_minus_vasp_eV": -0.0726784025},
+        {"spin": "down", "label": "HOMO", "vasp_aligned_eV": -0.6388, "openmx_aligned_eV": -0.6378766502, "delta_openmx_minus_vasp_eV": 0.0009233498},
+        {"spin": "down", "label": "LUMO", "vasp_aligned_eV": 1.2636, "openmx_aligned_eV": 1.2981040432, "delta_openmx_minus_vasp_eV": 0.0345040432},
+        {"spin": "down", "label": "LUMO+1", "vasp_aligned_eV": 1.2663, "openmx_aligned_eV": 1.3008893384, "delta_openmx_minus_vasp_eV": 0.0345893384},
+        {"spin": "down", "label": "LUMO+2", "vasp_aligned_eV": 2.2928, "openmx_aligned_eV": 2.3615142270, "delta_openmx_minus_vasp_eV": 0.0687142270},
+        {"spin": "down", "label": "LUMO+3", "vasp_aligned_eV": 2.2929, "openmx_aligned_eV": 2.3616217820, "delta_openmx_minus_vasp_eV": 0.0687217820}
+      ],
+      "claim_level": "ordinal-spectrum comparison, not same-state error"
+    },
+    "near_degenerate_groups": [
+      {"spin": "up", "group": "LUMO/LUMO+1", "vasp_span_eV": 0.0001, "openmx_span_eV": 0.0001},
+      {"spin": "down", "group": "HOMO-2/HOMO-1", "vasp_span_eV": 0.0001, "openmx_span_eV": 0.0002},
+      {"spin": "down", "group": "LUMO/LUMO+1", "vasp_span_eV": 0.0027, "openmx_span_eV": 0.0028},
+      {"spin": "down", "group": "LUMO+2/LUMO+3", "vasp_span_eV": 0.0001, "openmx_span_eV": 0.0001}
+    ],
+    "angular_projection_definition": "The VASP PROCAR header contains s, three p channels, and five d channels. Reported s/p values are s/(s+p) and p/(s+p), with d excluded and renormalized within s+p; d_total_pct is reported separately against the total PROCAR projection.",
+    "orbital_groups": [
+      {"spin": "up", "group": "HOMO-3", "vasp_region_pct": 0.97, "vasp_s_within_sp_pct": 0.3, "vasp_p_within_sp_pct": 99.7, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 1.21},
+      {"spin": "up", "group": "HOMO-2", "vasp_region_pct": 40.61, "vasp_s_within_sp_pct": 5.1, "vasp_p_within_sp_pct": 94.9, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 33.63},
+      {"spin": "up", "group": "HOMO-1", "vasp_region_pct": 0.35, "vasp_s_within_sp_pct": 9.4, "vasp_p_within_sp_pct": 90.6, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 0.54},
+      {"spin": "up", "group": "HOMO", "vasp_region_pct": 0.34, "vasp_s_within_sp_pct": 9.3, "vasp_p_within_sp_pct": 90.7, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 0.54},
+      {"spin": "up", "group": "LUMO/LUMO+1", "vasp_region_pct": 1.85, "vasp_s_within_sp_pct": 49.8, "vasp_p_within_sp_pct": 50.2, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 1.55},
+      {"spin": "up", "group": "LUMO+2", "vasp_region_pct": 3.68, "vasp_s_within_sp_pct": 43.9, "vasp_p_within_sp_pct": 56.1, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 2.97},
+      {"spin": "up", "group": "LUMO+3", "vasp_region_pct": 0.27, "vasp_s_within_sp_pct": 52.9, "vasp_p_within_sp_pct": 47.1, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 0.78},
+      {"spin": "down", "group": "HOMO-3", "vasp_region_pct": 0.55, "vasp_s_within_sp_pct": 0.1, "vasp_p_within_sp_pct": 99.9, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 0.95},
+      {"spin": "down", "group": "HOMO-2/HOMO-1", "vasp_region_pct": 1.03, "vasp_s_within_sp_pct": 0.2, "vasp_p_within_sp_pct": 99.8, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 1.30},
+      {"spin": "down", "group": "HOMO", "vasp_region_pct": 31.34, "vasp_s_within_sp_pct": 6.5, "vasp_p_within_sp_pct": 93.5, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 23.60},
+      {"spin": "down", "group": "LUMO/LUMO+1", "vasp_region_pct": 0.19, "vasp_s_within_sp_pct": 11.8, "vasp_p_within_sp_pct": 88.2, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 0.51},
+      {"spin": "down", "group": "LUMO+2/LUMO+3", "vasp_region_pct": 1.73, "vasp_s_within_sp_pct": 50.1, "vasp_p_within_sp_pct": 49.9, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 1.53}
+    ]
+  },
+  "limitations": [
+    "The 16-level RMS is an ordinal-spectrum comparison, not a same-physical-state error.",
+    "E_HOMO_up - E_HOMO_down is a spin-channel edge offset, not a same-orbital exchange splitting.",
+    "VASP PROCAR PAW-sphere projections and OpenMX real-space cube integrals are method-specific and not numerically interchangeable.",
+    "Near-degenerate states are compared as subspaces; no one-to-one orbital identity is claimed.",
+    "Large raw outputs are intentionally not tracked; the local source paths above are not permanent repository paths."
+  ]
+}

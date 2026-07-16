@@ -519,6 +519,23 @@ Reference Si: VASP a_eq≈5.472 Å, OpenMX≈5.499 Å, exp 5.431; rel |Δ|≈0.4
 C band eigenvalues: `python3 scripts/cross_band.py --element C` (tol RMS 0.35 eV).
 
 
+---
+
+## 13. NV⁻ defect: existing-output and orbital comparison
+
+Reference report: [`docs/benchmarks/nv_defect/REPORT.md`](benchmarks/nv_defect/REPORT.md).
+
+This 215-atom `C214N1` Γ-point case documents the boundary between existing-output analysis and optional projection calculations:
+
+- VASP `OUTCAR` and OpenMX `input.out` already contain spin-resolved KS eigenvalues; do not rerun merely to obtain eigenvalues.
+- VASP `PROCAR` requires a fixed-geometry projection calculation with `LORBIT=11`.
+- OpenMX MO cubes require `MO.fileout=on`, `num.HOMOs`, `num.LUMOs`, and explicit `MO.kpoint` settings.
+- The 16-level RMS is an **ordinal-spectrum comparison**, not a same-state error.
+- `E_HOMO↑ − E_HOMO↓` is a spin-channel edge offset, not a same-orbital exchange splitting.
+- Near-degenerate bands are compared as subspaces; VASP PAW projections and OpenMX cube densities are method-specific and must not be treated as identical weights.
+
+Large raw outputs remain external artifacts. The committed report records local source paths, input/output SHA256 values, engine settings, and claim limitations.
+
 ## Environment setup quick reference
 
 ```bash
