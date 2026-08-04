@@ -13,6 +13,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from dft_utils.ir import gga_to_xc, ispin_to_spin, spin_to_ispin, xc_to_gga
+
 
 def _load_mapping_data(mapping: dict) -> dict:
     """Accept raw rule dict or an explicit version envelope."""
@@ -120,26 +122,22 @@ def forward(
                 overrides[omx_key] = bool(vasp_val)
 
             elif convert == "spin":
-                v = int(vasp_val)
-                if v == 1:
-                    overrides[omx_key] = "Off"
-                elif v == 2:
-                    overrides[omx_key] = "On"
-                elif v == 3:
-                    overrides[omx_key] = "NC"
-                else:
-                    overrides[omx_key] = "Off"
+                # VASP ispin → neutral SpinKind (in dft_utils.ir) → OpenMX literal
+                token = ispin_to_spin(int(vasp_val))
+                overrides[omx_key] = {
+                    "off": "Off",
+                    "collinear": "On",
+                    "noncollinear": "NC",
+                }.get(token, "Off")
 
             elif convert == "xc":
-                s = str(vasp_val).upper()
-                if s == "PE":
-                    overrides[omx_key] = "GGA-PBE"
-                elif s == "91":
-                    overrides[omx_key] = "GGA-PW91"
-                elif s == "CA":
-                    overrides[omx_key] = "LDA-CA"
-                else:
-                    overrides[omx_key] = vasp_val
+                # VASP GGA code → neutral xc token (in dft_utils.ir) → OpenMX literal
+                token = gga_to_xc(vasp_val)
+                overrides[omx_key] = {
+                    "PBE": "GGA-PBE",
+                    "PW91": "GGA-PW91",
+                    "LDA": "LDA-CA",
+                }.get(token, vasp_val)
 
             elif convert == "abs_to_pos":
                 overrides[omx_key] = abs(float(vasp_val))
@@ -180,23 +178,18 @@ def _apply_reverse(value, convert_rule, verbose: bool = False):
     try:
         if convert_rule == "spin_rev":
             s = str(value).strip()
-            if s.lower() == "off":
-                return 1
-            if s.lower() == "on":
-                return 2
-            if s.lower() == "nc":
-                return 3
-            return value
+            token = {"off": "off", "on": "collinear", "nc": "noncollinear"}.get(
+                s.lower()
+            )
+            if token is None:
+                return value
+            return spin_to_ispin(token, fallback=value)
 
         if convert_rule == "xc_rev":
             s = str(value).upper()
-            if s == "GGA-PBE":
-                return "PE"
-            if s == "GGA-PW91":
-                return "91"
-            if s == "LDA-CA":
-                return "CA"
-            return value
+            result = xc_to_gga(s)
+            # xc_to_gga returns `s` unchanged for unknown -> keep original
+            return value if result == s else result
 
         if convert_rule == "negate":
             return -float(value)
