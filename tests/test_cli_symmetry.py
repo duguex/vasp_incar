@@ -112,7 +112,9 @@ def test_plugins_advertise_generators():
     codes = list_all()
     assert "vasp" in codes and "omx" in codes
     assert "vasp-gen" in codes["vasp"].generators
+    assert codes["vasp"].generator_module == "vasp_query.generator"
     assert "omx-gen" in codes["omx"].generators
+    assert codes["omx"].generator_module == "omx_tools.generator"
 
 
 def test_vasp_gen_kpoints_suite(tmp_path):

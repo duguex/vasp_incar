@@ -15,6 +15,9 @@ plugin = CodePlugin(
     skills=[_PKG.parent / "skills" / "omx-tools" / "SKILL.md"],
     cli_module="omx_tools.database",
     generators=["omx-gen"],
+    generator_module="omx_tools.generator",
     converters=[("omx", "vasp")],
+    converter_modules=["omx_tools.omp2vasp"],
+    semantic_module="omx_tools.semantic.cli",
 )
 register(plugin)

@@ -219,7 +219,7 @@ Module-level lazy caches (`_INDEX_CACHE`, `_MODEL_CACHE`, `_ALIASES_CACHE`) set 
 1. **Create package** — `newcode_tools/` with `parsers/`, `writers/`, `schemas/`, `tests/`
 2. **Index the manual** — build SQLite FTS5 database or JSON index from the code's docs
 3. **Write parsers/writers** — input file ↔ typed dict (use `die_json`, `make_error` from `dft_utils`)
-4. **Register plugin** — `plugin.py` with `CodePlugin` record; auto-discovered by `dft_utils.discover()`
+4. **Register plugin** — `plugin.py` with `CodePlugin` record and a `dft_tools.plugins` entry point; discovered by `dft_utils.discover()`
 5. **Implement CLI** — `query.py` with argparse and search logic; use shared `rrf_merge()`, `make_fts5_query()`
 6. **Add converters** (optional) — register `(src, dst)` pairs in `dft_utils.convert`
 
@@ -229,7 +229,7 @@ See `docs/ADDING_A_CODE.md` for full walkthrough.  Template skeleton at `dft_uti
 
 | Module | Purpose |
 |--------|---------|
-| `dft_utils.protocol` | `CodePlugin` dataclass + `register()` / `discover()` |
+| `dft_utils.protocol` | `CodePlugin` dataclass + entry-point `register()` / `discover()` |
 | `dft_utils.cli` | Unified `dft` CLI dispatcher |
 | `dft_utils.convert` | Cross-code converter registry |
 | `dft_utils.search` | `rrf_merge()`, `make_fts5_query()`, `match_keyword()`, `score_keyword()` |

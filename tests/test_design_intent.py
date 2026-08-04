@@ -284,6 +284,8 @@ class TestFrameworkExtensibility:
         retrieved = get("mock_test")
         assert retrieved is not None
         assert retrieved.name == "mock_test"
+        from dft_utils.protocol import _registry
+        _registry.pop("mock_test", None)
 
     def test_converter_registry_works(self):
         """Converter registry can register and look up converters."""
@@ -298,3 +300,5 @@ class TestFrameworkExtensibility:
 
         result = convert("mock_a", "mock_b", "/tmp/input")
         assert result == "/tmp/mock_output"
+        from dft_utils.convert import _registry
+        _registry.pop(("mock_a", "mock_b"), None)

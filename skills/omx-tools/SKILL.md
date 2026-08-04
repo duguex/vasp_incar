@@ -25,8 +25,7 @@ description: |
 
 This skill provides two CLI tools that output **JSON** when called with `--json`.
 Always prefer `--json` for machine-readable output.  Error responses always
-have the shape `{"error": "<message>", "exit": <code>}` and exit code 0 (so the
-JSON is always the last thing on stdout).
+have the shape `{"error": "<message>", "exit": <code>}` and a non-zero exit code.
 
 ## 1. `omx-db` — Manual database query
 
@@ -397,6 +396,6 @@ omx-db rag "how to improve SCF convergence for metallic systems" --json
 - **Error**: always `{"error": "<message>", "exit": <code>}`.
 - **Empty results**: `{"results": [], "count": 0}` (omx-db) or `[]` (omx-gen
   listing with no match).
-- **Exit code**: always 0 for JSON mode (so piped JSON parsing never breaks).
-  Intended exit code is embedded in the `"exit"` field of error responses.
+- **Exit code**: non-zero for JSON errors; successful JSON responses exit 0.
+  The intended exit code is also embedded in the `"exit"` field of error responses.
 - **ANSI escape codes**: stripped in JSON mode.  No `\033[...m` in output.

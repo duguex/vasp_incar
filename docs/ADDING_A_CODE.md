@@ -101,7 +101,7 @@ def write_input(params: dict, path: str, json_output: bool = False) -> None:
 ```
 
 **Error conventions:**
-- Fatal errors: `die_json(msg, json_output=json_output)` (prints JSON, exits 0)
+- Fatal errors: `die_json(msg, json_output=json_output)` (prints JSON, exits non-zero).
 - Returnable errors: `make_error(msg, suggestion=...)` (returns dict)
 - All JSON output to stdout, never stderr
 
@@ -125,9 +125,25 @@ plugin = CodePlugin(
     skills=[_PKG.parent / "skills" / "newcode" / "SKILL.md"],
     cli_module="newcode_tools.query",
     generators=[],
+    generator_module="",
     converters=[],
+    converter_modules=[],
+    semantic_module=None,
 )
 register(plugin)
+```
+
+Add the plugin to the packaging entry-point group in `pyproject.toml`:
+
+```toml
+[project.entry-points."dft_tools.plugins"]
+newcode = "newcode_tools.plugin:plugin"
+```
+
+Reinstall the editable package after changing entry points:
+
+```bash
+pip install -e ".[all]"
 ```
 
 Verify it's discovered:
@@ -180,7 +196,7 @@ def newcode_to_vasp(input_path: str, **kwargs) -> str:
 register("newcode", "vasp", newcode_to_vasp, "NEWCODE → VASP INCAR")
 ```
 
-The converter is auto-imported when `dft convert` is called.
+Declare the converter module in `CodePlugin.converter_modules`; it is imported when `dft convert` is called.
 
 ---
 

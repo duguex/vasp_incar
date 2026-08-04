@@ -36,6 +36,10 @@ omp2vasp = "omx_tools.omp2vasp:cli"
 # unified CLI
 dft = "dft_utils.cli:main"
 
+[project.entry-points."dft_tools.plugins"]
+vasp = "vasp_query.plugin:plugin"
+omx = "omx_tools.plugin:plugin"
+
 [tool.setuptools.packages.find]
 include = ["vasp_query*", "omx_tools*", "dft_utils*"]
 

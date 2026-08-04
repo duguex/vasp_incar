@@ -19,8 +19,9 @@ Usage::
 from __future__ import annotations
 
 import argparse
+import json
 import sys
-from dft_utils import DATA_VERSION, discover, list_all, get
+from dft_utils import PRODUCT_VERSION, discover, list_all, get
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -30,7 +31,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--version", action="version",
-        version=f"dft-tools {DATA_VERSION}",
+        version=f"dft-tools {PRODUCT_VERSION}",
     )
     parser.add_argument(
         "--list-codes", action="store_true",
@@ -98,30 +99,35 @@ def cmd_code(plugin_name: str, args: list[str]) -> int:
 
     # Handle plugin-specific subcommands that live in different modules
     if args and args[0] == "gen":
-        gen_mod = {
-            "omx": "omx_tools.generator",
-            "vasp": "vasp_query.generator",
-        }.get(plugin_name)
-        if gen_mod is None:
-            print(
-                f"generator not available for {plugin_name}",
-                file=sys.stderr,
-            )
+        if not plugin.generator_module:
+            print(json.dumps({
+                "error": f"generator not available for {plugin_name}",
+                "suggestion": "Plugin does not declare generator_module",
+            }))
             return 1
         try:
-            mod = __import__(gen_mod, fromlist=["cli"])
-            old = sys.argv[:]
-            sys.argv = [plugin_name + "-gen"] + args[1:]
-            try:
-                rc = mod.cli()
-                return int(rc or 0)
-            except SystemExit as e:
-                return e.code or 0
-            finally:
-                sys.argv = old
-        except ImportError as e:
-            print(f"generator not available: {e}", file=sys.stderr)
+            mod = __import__(plugin.generator_module, fromlist=["cli", "main"])
+        except ImportError as exc:
+            print(json.dumps({
+                "error": f"generator module unavailable: {exc}",
+                "suggestion": "Install the plugin's generator dependencies",
+            }))
             return 1
+        entry = getattr(mod, "main", None) or getattr(mod, "cli", None)
+        if entry is None:
+            print(json.dumps({
+                "error": f"generator {plugin.generator_module} has no main() or cli()",
+                "suggestion": "Declare a generator module with a CLI entry point",
+            }))
+            return 1
+        old = sys.argv[:]
+        sys.argv = [plugin_name + "-gen"] + args[1:]
+        try:
+            return int(entry() or 0)
+        except SystemExit as exc:
+            return exc.code or 0
+        finally:
+            sys.argv = old
 
     # Generic dispatch via cli_module
     try:
@@ -139,11 +145,7 @@ def cmd_code(plugin_name: str, args: list[str]) -> int:
     old = sys.argv[:]
     sys.argv = target_argv
     try:
-        if entry.__name__ == "main":
-            return entry()
-        else:
-            entry()
-            return 0
+        return int(entry() or 0)
     except SystemExit as e:
         return e.code or 0
     finally:
@@ -151,12 +153,13 @@ def cmd_code(plugin_name: str, args: list[str]) -> int:
 
 
 def _get_available_convs() -> list[tuple[str, str]]:
-    """Load converter modules and return available (src, dst) pairs."""
-    try:
-        import omx_tools.vasp2omx  # noqa: F401
-        import omx_tools.omp2vasp  # noqa: F401
-    except ImportError:
-        pass
+    """Load converter modules declared by discovered plugins."""
+    for plugin in list_all().values():
+        for mod_name in plugin.converter_modules:
+            try:
+                __import__(mod_name)
+            except ImportError:
+                pass
     from dft_utils.convert import available_pairs
     return available_pairs()
 
@@ -227,8 +230,25 @@ def main() -> int:
         sem_args = list(getattr(args, "args", []) or [])
         if sem_args and sem_args[0] == "--":
             sem_args = sem_args[1:]
-        from omx_tools.semantic.cli import main as semantic_main
-        return int(semantic_main(sem_args) or 0)
+        semantic_modules = {
+            p.semantic_module for p in list_all().values() if p.semantic_module
+        }
+        if len(semantic_modules) != 1:
+            print(json.dumps({
+                "error": "semantic command provider is unavailable or ambiguous",
+                "suggestion": "Declare exactly one semantic_module provider",
+            }))
+            return 1
+        semantic_module = next(iter(semantic_modules))
+        try:
+            mod = __import__(semantic_module, fromlist=["main"])
+        except ImportError as exc:
+            print(json.dumps({
+                "error": f"semantic module unavailable: {exc}",
+                "suggestion": "Install the semantic provider dependencies",
+            }))
+            return 1
+        return int(mod.main(sem_args) or 0)
 
     if args.code:
         return cmd_code(args.code, args.args)

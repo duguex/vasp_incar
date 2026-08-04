@@ -9,7 +9,9 @@ from __future__ import annotations
 
 import sys
 from dataclasses import dataclass, field
+from importlib import metadata
 from pathlib import Path
+from types import ModuleType
 from typing import Callable
 
 
@@ -42,6 +44,12 @@ class CodePlugin:
         List of generator names (e.g. ``["omx-gen"]``).
     converters:
         List of ``(from_code, to_code)`` pairs this plugin can convert.
+    generator_module:
+        Optional module exposing the plugin's generator ``cli()`` entry point.
+    converter_modules:
+        Modules imported to register this plugin's converters.
+    semantic_module:
+        Optional module exposing the shared semantic CLI ``main()`` entry point.
     """
 
     name: str
@@ -54,11 +62,15 @@ class CodePlugin:
     search_fn: Callable | None = None
     generators: list[str] = field(default_factory=list)
     converters: list[tuple[str, str]] = field(default_factory=list)
+    generator_module: str | None = None
+    converter_modules: list[str] = field(default_factory=list)
+    semantic_module: str | None = None
 
 
 # ── Registry ───────────────────────────────────────────────────────────
 
 _registry: dict[str, CodePlugin] = {}
+_discovered = False
 
 
 def register(plugin: CodePlugin) -> None:
@@ -76,29 +88,56 @@ def list_all() -> dict[str, CodePlugin]:
     return dict(_registry)
 
 
-def discover() -> dict[str, CodePlugin]:
-    """Auto-discover plugins by importing known packages.
+_FALLBACK_PACKAGES = (
+    "vasp_query.plugin",
+    "omx_tools.plugin",
+)
 
-    Each DFT package in ``_PACKAGES`` is imported if available, triggering
-    its ``plugin.py`` ``register()`` call.  Already-registered plugins are
-    returned immediately.
-    """
-    if _registry:
+
+def _load_plugin_object(obj: object, source: str) -> None:
+    if isinstance(obj, CodePlugin):
+        register(obj)
+        return
+    if isinstance(obj, ModuleType):
+        raise TypeError(f"{source} must expose a CodePlugin object")
+    raise TypeError(f"{source} did not provide a CodePlugin")
+
+
+def _load_module(module_name: str, source: str) -> bool:
+    try:
+        module = __import__(module_name, fromlist=["plugin"])
+        plugin = getattr(module, "plugin", None)
+        if not isinstance(plugin, CodePlugin):
+            raise TypeError(f"{source} must expose a CodePlugin object")
+        register(plugin)
+        return True
+    except Exception as exc:
+        print(f"[dft_utils] failed to load plugin {source}: {exc}", file=sys.stderr)
+        return False
+
+
+def discover(force: bool = False) -> dict[str, CodePlugin]:
+    """Discover installed plugins, with a source-tree compatibility fallback."""
+    global _discovered
+    if _discovered and not force:
         return dict(_registry)
 
-    # Known DFT code packages to attempt discovery for
-    _PACKAGES = [
-        "vasp_query.plugin",
-        "omx_tools.plugin",
-    ]
+    loaded = False
+    try:
+        entry_points = tuple(metadata.entry_points(group="dft_tools.plugins"))
+    except Exception as exc:
+        entry_points = ()
+        print(f"[dft_utils] failed to enumerate plugins: {exc}", file=sys.stderr)
 
-    for mod_name in _PACKAGES:
+    for entry_point in entry_points:
         try:
-            __import__(mod_name)
-        except ImportError:
-            pass
+            _load_plugin_object(entry_point.load(), entry_point.name)
+            loaded = True
         except Exception as exc:
-            print(f"[dft_utils] failed to load plugin {mod_name}: {exc}",
-                  file=sys.stderr)
+            print(f"[dft_utils] failed to load plugin {entry_point.name}: {exc}", file=sys.stderr)
 
+    for module_name in _FALLBACK_PACKAGES:
+        loaded = _load_module(module_name, module_name) or loaded
+
+    _discovered = loaded
     return dict(_registry)

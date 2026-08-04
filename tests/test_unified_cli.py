@@ -29,6 +29,8 @@ def test_list_codes():
     assert "omx" in out
     assert "VASP" in out
     assert "OpenMX" in out
+    assert "Available converters" in out
+    assert "vasp" in out and "omx" in out
 
 
 def test_vasp_tag():

@@ -15,6 +15,8 @@ plugin = CodePlugin(
     skills=[_PKG.parent / "skills" / "vasp-query" / "SKILL.md"],
     cli_module="vasp_query.query",
     generators=["vasp-gen"],
+    generator_module="vasp_query.generator",
     converters=[("vasp", "omx")],
+    converter_modules=["omx_tools.vasp2omx"],
 )
 register(plugin)

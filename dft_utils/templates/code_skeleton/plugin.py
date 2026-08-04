@@ -15,6 +15,9 @@ plugin = CodePlugin(
     skills=[_PKG.parent / "skills" / "newcode" / "SKILL.md"],
     cli_module="newcode_tools.query",
     generators=[],                       # e.g. ["newcode-gen"]
+    generator_module="",                # e.g. "newcode_tools.generator"
     converters=[],                       # e.g. [("newcode", "vasp")]
+    converter_modules=[],                # e.g. ["newcode_tools.converters"]
+    semantic_module=None,                 # one shared semantic provider only
 )
 register(plugin)
