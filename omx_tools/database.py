@@ -1,12 +1,12 @@
-"""omx-db — OpenMX manual database query tool.
+"""omx-db — OpenMX manual database CLI.
 
-Cross-pollination features ported from vasp_incar:
-  - Hybrid search (FTS5 + semantic → RRF)          (Issue 1)
-  - Alias/term mapping                              (Issue 2)
-  - --debug flag for search/hybrid                  (Issue 3)
-  - Pydantic data models                            (Issue 4)
-  - Error suggestion field                          (Issue 5)
-  - Data version envelope (meta table)              (Issue 6)
+Command handlers and ``cli()`` dispatch live here. The underlying layers are
+split into focused modules for cohesion:
+
+- :mod:`omx_tools.db_models`   — Pydantic response models
+- :mod:`omx_tools.aliases`     — keyword alias / term mapping
+- :mod:`omx_tools.db_conn`     — DB path, connection, version check
+- :mod:`omx_tools.search`      — FTS5 + semantic search adapters
 """
 import json
 import re
@@ -15,156 +15,41 @@ import sqlite3
 import sys
 import textwrap
 from pathlib import Path
-from pydantic import BaseModel
-
-PKG_DIR = Path(__file__).resolve().parent
-SCHEMA_PATH = PKG_DIR / "schemas" / "keywords.json"
-_default_db = Path(os.environ.get("OPENMX_DB_PATH", str(PKG_DIR.parent / "openmx.db")))
-DB_PATH = _default_db.resolve()
-ALIASES_PATH = PKG_DIR.parent / "aliases.json"
-
-# ── Data version ───────────────────────────────────────────────────────
 
 from dft_utils import DATA_VERSION, debug_log, get_debug_log, clear_debug_log
 from dft_utils.search import make_fts5_query
 
-
-# ── Pydantic models (Issue 4) ──────────────────────────────────────────
-
-class SearchResult(BaseModel):
-    sec_num: str | None = None
-    title: str
-    rank: float
-    snippet: str = ""
-
-
-class SearchResponse(BaseModel):
-    results: list[SearchResult] = []
-    count: int = 0
-    query: str = ""
-    _debug: list[str] | None = None
-
-
-class HybridResult(BaseModel):
-    sec_num: str | None = None
-    title: str
-    score: float
-    source: str  # "fts5" | "semantic" | "hybrid"
-
-
-class HybridResponse(BaseModel):
-    results: list[HybridResult] = []
-    count: int = 0
-    query: str = ""
-    _debug: list[str] | None = None
-
-
-class KeywordEntry(BaseModel):
-    keyword: str | None = None
-    sec_num: str | None = None
-    title: str | None = None
-
-
-class SectionEntry(BaseModel):
-    sec_num: str
-    title: str
-    depth: int = 1
-    file: str | None = None
-    content: str | None = None
-
-
-class ErrorResponse(BaseModel):
-    error: str
-    suggestion: str = ""
-
-
-class SectionSuggestions(BaseModel):
-    error: str
-    suggestion: str = ""
-    suggestions: list[dict] = []
-
-
-
-
-# ── Alias / term mapping (Issue 2) ────────────────────────────────────
-
-# Built-in fallback for common abbreviations
-_BUILTIN_ALIASES: dict[str, str] = {
-    "diis": "Rmm-Diis",
-    "diisk": "Rmm-Diisk",
-    "kerker": "Rmm-Diisk",
-    "pbe": "GGA-PBE",
-    "pbesol": "GGA-PBEsol",
-    "revpbe": "GGA-revPBE",
-    "lda": "LDA",
-    "lda-pw": "LDA-PW",
-    "lda-ca": "LDA-CA",
-    "hse": "HSE",
-    "hse06": "HSE",
-    "pbe0": "PBE0",
-    "b3lyp": "B3LYP",
-    "scissor": "scissor",
-    "kgrid": "scf.Kgrid",
-    "kpoints": "scf.Kgrid",
-    "energy cutoff": "scf.energycutoff",
-    "cutoff": "scf.energycutoff",
-}
-
-_ALIASES_CACHE: dict[str, str] | None = None
-
-
-def load_aliases() -> dict[str, str]:
-    """Load alias map: user file (aliases.json) merged on top of built-in fallback."""
-    global _ALIASES_CACHE
-    if _ALIASES_CACHE is not None:
-        return _ALIASES_CACHE
-    merged = dict(_BUILTIN_ALIASES)
-    if ALIASES_PATH.exists():
-        try:
-            user = json.loads(ALIASES_PATH.read_text())
-            if isinstance(user, dict):
-                merged.update(user)
-        except (json.JSONDecodeError, OSError):
-            pass
-    _ALIASES_CACHE = merged
-    return merged
-
-
-def resolve_alias(input: str) -> str:
-    """Resolve input through alias map, returning the canonical keyword name or the original."""
-    aliases = load_aliases()
-    return aliases.get(input.lower(), input)
-
-
-# ── Version check (Issue 6) ────────────────────────────────────────────
-
-def check_version(db) -> bool:
-    """Check the meta table version vs code version. Returns True if match or unavailable."""
-    try:
-        row = db.execute("SELECT value FROM meta WHERE key='version'").fetchone()
-        if row and row["value"] != DATA_VERSION:
-            debug_log(f"  DB version mismatch: db={row['value']} code={DATA_VERSION}")
-        return True
-    except Exception:
-        return True  # no meta table yet
-
-
-# ── Database ───────────────────────────────────────────────────────────
-
-def strip_ansi(text):
-    """Strip ANSI escape sequences from text."""
-    return re.sub(r'\x1b\[[0-9;]*m', '', text)
-
-
-def get_db():
-    if not os.path.exists(DB_PATH):
-        print(f"Error: database not found at {DB_PATH}", file=sys.stderr)
-        print("  Set OPENMX_DB_PATH to the correct openmx.db path.", file=sys.stderr)
-        sys.exit(1)
-    db = sqlite3.connect(str(DB_PATH))
-    db.row_factory = sqlite3.Row
-    check_version(db)
-    return db
+from omx_tools.aliases import (  # noqa: F401
+    ALIASES_PATH,
+    _BUILTIN_ALIASES,
+    load_aliases,
+    resolve_alias,
+)
+from omx_tools.db_conn import (  # noqa: F401
+    DB_PATH,
+    PKG_DIR,
+    SCHEMA_PATH,
+    _default_db,
+    check_version,
+    get_db,
+    strip_ansi,
+)
+from omx_tools.db_models import (  # noqa: F401
+    ErrorResponse,
+    HybridResponse,
+    HybridResult,
+    KeywordEntry,
+    SearchResponse,
+    SearchResult,
+    SectionEntry,
+    SectionSuggestions,
+)
+from omx_tools.search import (  # noqa: F401
+    _OmxFts5Backend,
+    _OmxSemanticBackend,
+    _search_fts5,
+    _search_semantic,
+)
 
 
 # ── FTS5 search ────────────────────────────────────────────────────────
@@ -316,112 +201,6 @@ def cmd_hybrid(args, json_output=False):
             print()
 
     clear_debug_log()
-
-
-def _search_fts5(query: str) -> list[dict]:
-    """Run FTS5 search and return results."""
-    try:
-        db = sqlite3.connect(str(DB_PATH))
-        db.row_factory = sqlite3.Row
-        fts_query = make_fts5_query(query)
-        rows = db.execute("""
-            SELECT sec_num, title, rank
-            FROM sections_fts
-            WHERE sections_fts MATCH ?
-            ORDER BY rank
-            LIMIT 30
-        """, (fts_query,)).fetchall()
-        db.close()
-        return [{"sec_num": r["sec_num"], "title": r["title"], "rank": r["rank"]} for r in rows]
-    except Exception as e:
-        debug_log(f"  FTS5 error: {e}")
-        return []
-
-
-def _search_semantic(query: str) -> list[dict]:
-    """Semantic search over section embeddings (kept for callers that need
-    the raw ranked signal).  Uses the shared cosine helper so normalization
-    and the dimension guard apply here too."""
-    backend = _OmxSemanticBackend()
-    return [
-        {"sim": h.score, "sec_num": h.extra.get("sec_num", ""), "title": h.title}
-        for h in backend.search(query, 30)
-    ]
-
-
-class _OmxFts5Backend:
-    """FTS5 signal over ``sections_fts``."""
-
-    name = "fts5"
-
-    def search(self, query: str, top_k: int) -> list:
-        from dft_utils.search import SearchHit
-
-        rows = _search_fts5(query)
-        debug_log(f"  FTS5: {len(rows)} hits")
-        return [
-            SearchHit(
-                id=f"{r.get('sec_num') or ''}:{r['title']}",
-                title=r["title"],
-                score=0.0,
-                source=self.name,
-                extra={"sec_num": r.get("sec_num") or ""},
-            )
-            for r in rows[: top_k * 3]
-        ]
-
-
-class _OmxSemanticBackend:
-    """Semantic signal over the ``section_embeddings`` table."""
-
-    name = "semantic"
-
-    def search(self, query: str, top_k: int) -> list:
-        import sqlite3 as _sq
-        import numpy as np
-        from dft_utils.embedding import EmbeddingDimError, cosine_row_scores, embed
-        from dft_utils.search import SearchHit
-
-        if not os.path.exists(DB_PATH):
-            return []
-        try:
-            q = np.asarray(embed(query), dtype=np.float32)
-        except EmbeddingDimError:
-            raise
-        except Exception:
-            return []  # embedding backend unavailable -> degrade
-
-        db = _sq.connect(str(DB_PATH))
-        db.row_factory = _sq.Row
-        rows = db.execute(
-            "SELECT section_id, sec_num, title, embedding FROM section_embeddings"
-        ).fetchall()
-        db.close()
-        if not rows:
-            debug_log("  Semantic: 0 hits")
-            return []
-
-        embs = np.stack(
-            [np.frombuffer(r["embedding"], dtype=np.float32) for r in rows]
-        )
-        secs = [r["sec_num"] for r in rows]
-        titles = [r["title"] for r in rows]
-        scores = cosine_row_scores(q, embs)
-        order = np.argsort(-scores)
-        debug_log(f"  Semantic: {len(rows)} hits")
-        out = []
-        for idx in order[: top_k * 3]:
-            i = int(idx)
-            out.append(
-                SearchHit(
-                    id=f"{secs[i] or ''}:{titles[i]}",
-                    title=titles[i],
-                    score=float(scores[i]),
-                    source=self.name,
-                    extra={"sec_num": secs[i] or ""},
-                )
-            )
-        return out
 
 
 # ── Keyword lookup ─────────────────────────────────────────────────────
