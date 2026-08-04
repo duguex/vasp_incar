@@ -20,7 +20,7 @@ gen = ["ase>=3.22"]
 vasp2omx = ["pymatgen"]
 # Convenience combos
 vasp = ["sentence-transformers", "tantivy"]
-omx = ["ase>=3.22", "pymatgen"]
+omx = ["ase>=3.22", "pymatgen", "beautifulsoup4"]
 all = ["sentence-transformers", "tantivy", "requests", "beautifulsoup4",
        "tqdm", "ase>=3.22", "pymatgen"]
 

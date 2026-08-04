@@ -78,9 +78,12 @@ dependency**.
 
 - Dead tantivy BM25 path: **removed** (untracked `search_index/`, builder
   dropped from `processor.py`); hybrid uses FTS5 + semantic + tag now.
-- Reproducibility hygiene (not yet done): an OpenMX index build script does
-  not exist, and `openmx.db` / `doc_vectors.npy` / `tag_vectors.npy` are still
-  committed binaries — deciding whether to move them out of git needs a
-  rebuild path (openmx.db has none in-repo).
+- OpenMX manual DB is now **reproducible**: `scripts/build_openmx_db.py`
+  rebuilds `openmx.db` from the tracked `openmx4.0_manual/` HTML; `openmx.db`
+  is untracked/gitignored, and its `section_embeddings` `dim`/`file_path` and
+  version `meta` are now correct.
+- Remaining committed build products: `vasp_query/data/doc_vectors.npy` /
+  `tag_vectors.npy` / `search.db` (rebuildable via `python -m vasp_query
+  preprocess`); deciding whether to move them out of git is still open.
 - `check_version` naming ambiguity between `dft_utils.version` and
   `omx_tools.db_conn` (minor; optional rename).

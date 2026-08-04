@@ -29,3 +29,6 @@ work/benchmarks/
 
 # Dead tantivy BM25 index (hybrid search uses FTS5 + semantic/tag now)
 vasp_query/data/search_index/
+
+# Regenerable OpenMX manual DB (rebuild: scripts/build_openmx_db.py)
+openmx.db
