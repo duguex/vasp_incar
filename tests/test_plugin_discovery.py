@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import os
+import subprocess
+import sys
 from pathlib import Path
 
 from dft_utils.protocol import CodePlugin
@@ -79,3 +82,54 @@ def test_plugin_capabilities_declare_dispatch_modules():
     assert "omx_tools.vasp2omx" in plugins["vasp"].converter_modules
     assert "omx_tools.omp2vasp" in plugins["omx"].converter_modules
     assert plugins["omx"].semantic_module == "omx_tools.semantic.cli"
+
+
+def test_installed_wheel_exposes_plugin_entry_points(tmp_path):
+    root = Path(__file__).resolve().parent.parent
+    wheelhouse = tmp_path / "wheelhouse"
+    target = tmp_path / "target"
+    wheelhouse.mkdir()
+    target.mkdir()
+
+    subprocess.run(
+        [sys.executable, "-m", "pip", "wheel", "--no-deps", "--wheel-dir", str(wheelhouse), str(root)],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    wheel = next(wheelhouse.glob("dft_tools-*.whl"))
+    subprocess.run(
+        [sys.executable, "-m", "pip", "install", "--no-deps", "--target", str(target), str(wheel)],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    env = os.environ.copy()
+    env.pop("PYTHONPATH", None)
+    probe = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "from importlib import metadata; "
+            "print(','.join(sorted(ep.name for ep in metadata.entry_points(group='dft_tools.plugins'))))",
+        ],
+        cwd=tmp_path,
+        env={**env, "PYTHONPATH": str(target)},
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert probe.stdout.strip() == "omx,vasp"
+
+    cli = subprocess.run(
+        [sys.executable, "-m", "dft_utils.cli", "--list-codes"],
+        cwd=tmp_path,
+        env={**env, "PYTHONPATH": str(target)},
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert "Registered DFT codes (2):" in cli.stdout
+    assert "vasp" in cli.stdout
+    assert "omx" in cli.stdout
