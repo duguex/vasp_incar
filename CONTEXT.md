@@ -76,6 +76,11 @@ dependency**.
 
 ## Deferred / open (worth exploring, not settled)
 
-- Reproducibility hygiene flagged in review: OpenMX index build script,
-  moving built search artifacts out of git, removing dead tantivy/`check_version`
-  ambiguity (items not yet implemented).
+- Dead tantivy BM25 path: **removed** (untracked `search_index/`, builder
+  dropped from `processor.py`); hybrid uses FTS5 + semantic + tag now.
+- Reproducibility hygiene (not yet done): an OpenMX index build script does
+  not exist, and `openmx.db` / `doc_vectors.npy` / `tag_vectors.npy` are still
+  committed binaries — deciding whether to move them out of git needs a
+  rebuild path (openmx.db has none in-repo).
+- `check_version` naming ambiguity between `dft_utils.version` and
+  `omx_tools.db_conn` (minor; optional rename).
