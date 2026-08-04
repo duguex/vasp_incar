@@ -52,3 +52,65 @@ def test_hybrid_fusion_ordering(invoke_db):
     data = json.loads(out)
     scores = [r["score"] for r in data["results"]]
     assert scores == sorted(scores, reverse=True)
+
+
+# ── Ranking assertions (guard against silent regression to keyword match) ──
+
+def _embed_dim_ok(expected: int) -> bool:
+    """True when a live embedding backend matches the indexed dimension."""
+    try:
+        from dft_utils.embedding import embed
+        return len(embed("ping")) == expected
+    except Exception:
+        return False
+
+
+def test_vasp_hybrid_ranks_cutoff_tags_first():
+    """Hybrid must surface tag documents for a tag-like query, not degrade
+    to keyword matching. Guards the 768/384 dimension crash too."""
+    import numpy as np
+    from pathlib import Path
+
+    vectors = Path(PROJECT_ROOT) / "vasp_query/data/doc_vectors.npy"
+    if not vectors.exists():
+        pytest.skip("doc_vectors.npy not found")
+    dim = int(np.load(str(vectors)).shape[1])
+    if not _embed_dim_ok(dim):
+        pytest.skip("embedding backend dim does not match the committed index")
+
+    from vasp_query._common import hybrid_search
+
+    results = hybrid_search("energy cutoff", top_k=10)
+    assert results, "hybrid returned nothing for 'energy cutoff'"
+    # Top hits should be VASP weights/tags (INCAR cutoff keys), not wiki pages.
+    assert results[0]["type"] == "tag"
+    ids = [r["id"] for r in results]
+    assert "tag:ENCUT" in ids, f"tag:ENCUT not in top-10 results: {ids[:5]}..."
+    # Contract: every result now carries source.
+    assert all("source" in r for r in results)
+
+
+def test_omx_hybrid_ranks_scf_convergence_section_first(invoke_db):
+    """Hybrid for 'SCF convergence' must put the §16 SCF-convergence section
+    at the top, proving semantic + FTS fusion is doing real work."""
+    if not (PROJECT_ROOT / "openmx.db").exists():
+        pytest.skip("openmx.db not found")
+    import sqlite3
+    try:
+        row = sqlite3.connect(str(PROJECT_ROOT / "openmx.db")).execute(
+            "SELECT embedding FROM section_embeddings LIMIT 1"
+        ).fetchone()
+    except Exception:
+        row = None
+    if row is None:
+        pytest.skip("openmx.db has no section_embeddings")
+    dim = len(row[0]) // 4
+    if not _embed_dim_ok(dim):
+        pytest.skip("embedding backend dim does not match openmx.db index")
+
+    out, err, code = invoke_db(["omx-db", "hybrid", "SCF convergence", "--json"])
+    data = json.loads(out)
+    assert data["count"] > 0
+    assert data["results"][0]["sec_num"].startswith("16"), (
+        f"expected SCF-convergence section first, got {data['results'][0]}"
+    )

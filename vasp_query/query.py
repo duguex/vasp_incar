@@ -31,6 +31,7 @@ from vasp_query._common import (
     DOC_META,
 )
 from vasp_query.processor import preprocess
+from dft_utils.embedding import EmbeddingDimError
 
 
 # ── Commands ──────────────────────────────────────────────────────────
@@ -239,7 +240,15 @@ def cmd_hybrid(args) -> int:
             "suggestion": "Usage: vasp-query hybrid 'energy cutoff'",
         }))
         return 1
-    results = hybrid_search(keyword, top_k=args.limit)
+    try:
+        results = hybrid_search(keyword, top_k=args.limit)
+    except EmbeddingDimError as exc:
+        print(json.dumps({
+            "error": str(exc),
+            "suggestion": "Re-run 'python -m vasp_query preprocess' with the same "
+                          "embedding backend that built the index.",
+        }, indent=2, ensure_ascii=False))
+        return 1
     out = {"query": keyword, "count": len(results), "results": results}
     if args.debug:
         out["_debug"] = get_debug_log()
@@ -284,9 +293,9 @@ def cmd_rag(args) -> int:
         return 1
 
     try:
-        from dft_utils.embedding import embed
+        from dft_utils.embedding import embed, cosine_row_scores
         q = np.asarray(embed(keyword), dtype=np.float32)
-        scores = np.dot(vectors, q)
+        scores = cosine_row_scores(q, vectors)
         top_idx = np.argsort(-scores)[:top_k]
     except Exception as e:
         print(json.dumps({

@@ -251,23 +251,41 @@ def cmd_hybrid(args, json_output=False):
     clear_debug_log()
     debug_log(f"hybrid_search(query={query!r})")
 
-    # Step 1: FTS5 search
-    fts5_results = _search_fts5(query)
-    debug_log(f"  FTS5: {len(fts5_results)} hits")
+    # Step 1+2+3: FTS5 + semantic signals fused by the shared orchestrator.
+    from dft_utils.embedding import EmbeddingDimError
+    from dft_utils.search import hybrid_search as _shared_hybrid
 
-    # Step 2: Semantic search (subprocess, cached model)
-    semantic_results = _search_semantic(query)
-    debug_log(f"  Semantic: {len(semantic_results)} hits")
+    backends = []
+    if os.path.exists(DB_PATH):
+        backends.append(_OmxFts5Backend())
+        backends.append(_OmxSemanticBackend())
 
-    # Step 3: RRF fusion via shared dft_utils
-    from dft_utils.search import rrf_merge
-    kw_key = lambda r: f"{r.get('sec_num', '')}:{r['title']}"
-    signals = []
-    if fts5_results:
-        signals.append((fts5_results, "fts5", 2.0))
-    if semantic_results:
-        signals.append((semantic_results, "semantic", 0.5))
-    ranked = rrf_merge(signals, key_fn=kw_key, top_k=20)
+    try:
+        hits = _shared_hybrid(
+            query,
+            backends,
+            top_k=20,
+            weights={"fts5": 2.0, "semantic": 0.5},
+        )
+    except EmbeddingDimError as exc:
+        resp = {"error": str(exc), "results": [], "count": 0, "query": query}
+        if debug_flag or get_debug_log():
+            resp["_debug"] = get_debug_log()
+        if json_output:
+            print(json.dumps(resp, indent=2, ensure_ascii=False))
+        else:
+            print(f"⚠ Embedding dimension mismatch: {exc}")
+        return
+
+    ranked = [
+        {
+            "sec_num": h.extra.get("sec_num", ""),
+            "title": h.title,
+            "score": h.score,
+            "source": h.source,
+        }
+        for h in hits
+    ]
 
     if not ranked:
         resp = {"results": [], "count": 0, "query": query}
@@ -281,11 +299,7 @@ def cmd_hybrid(args, json_output=False):
 
     if json_output:
         resp = {
-            "results": [
-                {"sec_num": r["sec_num"], "title": r["title"],
-                 "score": round(r["score"], 4), "source": r["source"]}
-                for r in ranked
-            ],
+            "results": ranked,
             "count": len(ranked),
             "query": query,
         }
@@ -325,37 +339,89 @@ def _search_fts5(query: str) -> list[dict]:
 
 
 def _search_semantic(query: str) -> list[dict]:
-    """Run semantic search via dft_utils.embedding (Ollama, with fallback)."""
-    if not os.path.exists(DB_PATH):
-        return []
-    try:
-        from dft_utils.embedding import embed
+    """Semantic search over section embeddings (kept for callers that need
+    the raw ranked signal).  Uses the shared cosine helper so normalization
+    and the dimension guard apply here too."""
+    backend = _OmxSemanticBackend()
+    return [
+        {"sim": h.score, "sec_num": h.extra.get("sec_num", ""), "title": h.title}
+        for h in backend.search(query, 30)
+    ]
+
+
+class _OmxFts5Backend:
+    """FTS5 signal over ``sections_fts``."""
+
+    name = "fts5"
+
+    def search(self, query: str, top_k: int) -> list:
+        from dft_utils.search import SearchHit
+
+        rows = _search_fts5(query)
+        debug_log(f"  FTS5: {len(rows)} hits")
+        return [
+            SearchHit(
+                id=f"{r.get('sec_num') or ''}:{r['title']}",
+                title=r["title"],
+                score=0.0,
+                source=self.name,
+                extra={"sec_num": r.get("sec_num") or ""},
+            )
+            for r in rows[: top_k * 3]
+        ]
+
+
+class _OmxSemanticBackend:
+    """Semantic signal over the ``section_embeddings`` table."""
+
+    name = "semantic"
+
+    def search(self, query: str, top_k: int) -> list:
+        import sqlite3 as _sq
         import numpy as np
-        import sqlite3
+        from dft_utils.embedding import EmbeddingDimError, cosine_row_scores, embed
+        from dft_utils.search import SearchHit
 
-        q_vec = np.array([embed(query)], dtype=np.float32)
+        if not os.path.exists(DB_PATH):
+            return []
+        try:
+            q = np.asarray(embed(query), dtype=np.float32)
+        except EmbeddingDimError:
+            raise
+        except Exception:
+            return []  # embedding backend unavailable -> degrade
 
-        db = sqlite3.connect(str(DB_PATH))
-        db.row_factory = sqlite3.Row
+        db = _sq.connect(str(DB_PATH))
+        db.row_factory = _sq.Row
         rows = db.execute(
             "SELECT section_id, sec_num, title, embedding FROM section_embeddings"
         ).fetchall()
         db.close()
+        if not rows:
+            debug_log("  Semantic: 0 hits")
+            return []
 
-        results = []
-        for r in rows:
-            emb = np.frombuffer(r["embedding"], dtype=np.float32)
-            sim = float(np.dot(q_vec[0], emb))
-            results.append((sim, r["sec_num"], r["title"]))
-
-        results.sort(reverse=True)
-        return [
-            {"sim": s, "sec_num": n, "title": t}
-            for s, n, t in results[:30]
-        ]
-    except Exception as e:
-        debug_log(f"  Semantic error: {e}")
-        return []
+        embs = np.stack(
+            [np.frombuffer(r["embedding"], dtype=np.float32) for r in rows]
+        )
+        secs = [r["sec_num"] for r in rows]
+        titles = [r["title"] for r in rows]
+        scores = cosine_row_scores(q, embs)
+        order = np.argsort(-scores)
+        debug_log(f"  Semantic: {len(rows)} hits")
+        out = []
+        for idx in order[: top_k * 3]:
+            i = int(idx)
+            out.append(
+                SearchHit(
+                    id=f"{secs[i] or ''}:{titles[i]}",
+                    title=titles[i],
+                    score=float(scores[i]),
+                    source=self.name,
+                    extra={"sec_num": secs[i] or ""},
+                )
+            )
+        return out
 
 
 # ── Keyword lookup ─────────────────────────────────────────────────────
@@ -896,7 +962,7 @@ def cmd_rag(args, json_output=False):
         return
 
     try:
-        from dft_utils.embedding import embed
+        from dft_utils.embedding import embed, cosine_row_scores
         import numpy as np
         import sqlite3
 
@@ -912,11 +978,16 @@ def cmd_rag(args, json_output=False):
         ).fetchall()
         db.close()
 
+        embs = np.stack(
+            [np.frombuffer(r["embedding"], dtype=np.float32) for r in rows]
+        )
+        scores = cosine_row_scores(q_vec, embs)
+
         results = []
-        for r in rows:
-            emb = np.frombuffer(r["embedding"], dtype=np.float32)
-            sim = float(np.dot(q_vec[0], emb))
-            results.append((sim, r["sec_num"], r["title"], r["file_path"]))
+        for i, r in enumerate(rows):
+            results.append(
+                (float(scores[i]), r["sec_num"], r["title"], r["file_path"])
+            )
 
         results.sort(reverse=True)
         hits = [{"sim": s, "sec_num": n, "title": t, "file": f}

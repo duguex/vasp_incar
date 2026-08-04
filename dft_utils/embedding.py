@@ -19,6 +19,14 @@ OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "nomic-embed-text")
 EMBEDDING_DIM: int | None = None  # set after first call
 
 
+class EmbeddingDimError(ValueError):
+    """Query vector and indexed vectors are not the same dimension.
+
+    Raised rather than silently degrading so a backend/model change never
+    produces subtly-wrong rankings.
+    """
+
+
 # ── Backends ──────────────────────────────────────────────────────────
 
 def _ollama_available() -> bool:
@@ -106,3 +114,74 @@ def available_backend() -> str:
     if _EMBED_BACKEND is None:
         embed("ping")
     return _EMBED_BACKEND or "none"
+
+
+# ── Similarity helpers (shared by all code adapters) ──────────────────
+
+def embedding_dim() -> int:
+    """Dimension of the currently-active embedding backend.
+
+    Trigger an embed if not yet known. Raises if no backend is available.
+    """
+    if EMBEDDING_DIM is None:
+        embed("ping")
+    if EMBEDDING_DIM is None:
+        raise EmbeddingDimError("embedding backend unavailable; cannot determine dim")
+    return EMBEDDING_DIM
+
+
+def array_dim(rows: "Any") -> int:
+    """Column dimension of a 2-D numpy array (rows x D)."""
+    import numpy as np
+    arr = np.asarray(rows)
+    if arr.ndim != 2:
+        raise EmbeddingDimError(f"expected 2-D [N, D] array, got shape {arr.shape}")
+    return int(arr.shape[1])
+
+
+def normalize_array(rows: "Any") -> "Any":
+    """L2-normalize each row of a ``[N, D]`` array in place-safe manner.
+
+    Zero-norm rows stay zero (avoids NaN). Returns a new array.
+    """
+    import numpy as np
+    arr = np.asarray(rows, dtype=np.float32)
+    if arr.ndim != 2:
+        raise EmbeddingDimError(f"expected 2-D [N, D] array, got shape {arr.shape}")
+    norms = np.linalg.norm(arr, axis=1, keepdims=True)
+    norms[norms == 0] = 1.0
+    return arr / norms
+
+
+def normalize_vector(v: "Any") -> "Any":
+    """L2-normalize a single ``[D]`` vector."""
+    import numpy as np
+    vec = np.asarray(v, dtype=np.float32)
+    norm = float(np.linalg.norm(vec))
+    return vec / norm if norm > 0 else vec
+
+
+def cosine_row_scores(query_vec: "Any", doc_rows: "Any") -> "Any":
+    """Cosine similarity of ``query_vec`` against every row of ``doc_rows``.
+
+    Guards that both sides share a dimension before any dot product, and
+    L2-normalizes both sides so the result is a true cosine in ``[-1, 1]``.
+    Raises :class:`EmbeddingDimError` on mismatch — never silently degrades.
+    """
+    import numpy as np
+    q = np.asarray(query_vec, dtype=np.float32)
+    docs = np.asarray(doc_rows, dtype=np.float32)
+    if q.ndim == 1:
+        q = q.reshape(1, -1)
+    if q.ndim != 2 or docs.ndim != 2:
+        raise EmbeddingDimError(
+            f"expected 2-D query [{q.shape}] and docs [{docs.shape}]"
+        )
+    if q.shape[1] != docs.shape[1]:
+        raise EmbeddingDimError(
+            f"query dim {q.shape[1]} != indexed dim {docs.shape[1]}; "
+            "embedding backend changed or index was built with a different model"
+        )
+    q_n = normalize_vector(q[0]).reshape(1, -1)
+    docs_n = normalize_array(docs)
+    return np.dot(docs_n, q_n.T).flatten()

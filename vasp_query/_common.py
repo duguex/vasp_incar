@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from dft_utils import DATA_VERSION, debug_log, get_debug_log, clear_debug_log
 from dft_utils.version import load_data, load_json as _load_json
 from dft_utils.search import match_keyword, score_keyword, make_fts5_query
+from dft_utils.embedding import EmbeddingDimError
 
 # Re-export for downstream (vasp_query/query.py etc.)
 load_json = _load_json
@@ -295,133 +296,179 @@ def _search_fts5(keyword: str, top_k: int) -> list[dict]:
         return []
 
 
+def _tag_extra(doc_id: str) -> dict:
+    """Record shape for an FTS5/BM25 hit id (``tag:ENCUT`` or page id)."""
+    if isinstance(doc_id, str) and doc_id.startswith("tag:"):
+        return {"type": "tag", "tag": doc_id[4:]}
+    return {"type": "page", "tag": doc_id if isinstance(doc_id, str) else ""}
+
+
+class _Fts5Backend:
+    """FTS5 BM25 signal over the prebuilt SQLite ``search_index``."""
+
+    name = "bm25"
+
+    def search(self, query: str, top_k: int) -> list:
+        from dft_utils.search import SearchHit
+
+        hits = _search_fts5(query, top_k * 3)
+        return [
+            SearchHit(
+                id=r["id"],
+                title=r["id"],
+                score=0.0,
+                source=self.name,
+                extra=_tag_extra(r["id"]),
+            )
+            for r in hits
+        ]
+
+
+class _SemanticBackend:
+    """Full-corpus semantic signal over doc vectors."""
+
+    name = "semantic"
+
+    def __init__(self, kw_vectors, kw_meta):
+        self.vectors = kw_vectors
+        self.meta = kw_meta
+
+    def search(self, query: str, top_k: int) -> list:
+        import numpy as np
+        from dft_utils.embedding import EmbeddingDimError, cosine_row_scores, embed
+        from dft_utils.search import SearchHit
+
+        try:
+            query_vec = np.asarray(embed(query), dtype=np.float32)
+        except EmbeddingDimError:
+            raise
+        except Exception:
+            return []  # embedding backend unavailable -> degrade to other signals
+        scores = cosine_row_scores(query_vec, self.vectors)
+        top_idx = np.argsort(-scores)[: top_k * 3]
+        out = []
+        for idx in top_idx:
+            m = self.meta[idx]
+            doc_id = m["id"]
+            out.append(
+                SearchHit(
+                    id=doc_id,
+                    title=m.get("title", doc_id),
+                    score=float(scores[idx]),
+                    source=self.name,
+                    extra=_tag_extra(doc_id),
+                )
+            )
+        return out
+
+
+class _TagSemanticBackend:
+    """Tag-only semantic signal (boosted), over the sliced tag vectors."""
+
+    name = "tag"
+
+    def __init__(self, tag_vectors, tag_meta):
+        self.vectors = tag_vectors
+        self.meta = tag_meta
+
+    def search(self, query: str, top_k: int) -> list:
+        import numpy as np
+        from dft_utils.embedding import EmbeddingDimError, cosine_row_scores, embed
+        from dft_utils.search import SearchHit
+
+        try:
+            query_vec = np.asarray(embed(query), dtype=np.float32)
+        except EmbeddingDimError:
+            raise
+        except Exception:
+            return []
+        scores = cosine_row_scores(query_vec, self.vectors)
+        top_idx = np.argsort(-scores)[: top_k * 3]
+        out = []
+        for idx in top_idx:
+            doc_id = self.meta[idx]["id"]
+            out.append(
+                SearchHit(
+                    id=doc_id,
+                    title=doc_id,
+                    score=float(scores[idx]),
+                    source=self.name,
+                    extra=_tag_extra(doc_id),
+                )
+            )
+        return out
+
+
 def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
-    """Run BM25 + semantic search, return RRF-fused results.
-
-    Backend priority: tantivy BM25 > SQLite FTS5 > semantic-only.
+    """Run FTS5/BM25 + semantic/tag search, fused via the shared hybrid
+    orchestrator.  Backends degrade independently; a dimension mismatch is
+    surfaced as a structured error instead of a silent wrong ranking.
     """
-    global _INDEX_CACHE, _SEARCHER_CACHE, _MODEL_CACHE
-
     import numpy as np
+    from dft_utils.search import SearchBackend, SearchHit, hybrid_search as _shared
 
     clear_debug_log()
     debug_log(f"hybrid_search(keyword={keyword!r}, top_k={top_k})")
 
-    from dft_utils.search import rrf_merge
+    # ── Build per-signal backends ─────────────────────────────────────
+    backends: list[SearchBackend] = []
+    if SEARCH_DB.exists():
+        backends.append(_Fts5Backend())
 
-    # ── Backend: FTS5 or tantivy BM25 ──────────────────────────────
-    fts5_results = None
-    try:
-        import sqlite3 as _sq
-        if SEARCH_DB.exists():
-            fts5_results = _search_fts5(keyword, top_k)
-            debug_log(f"  FTS5: {'fallback' if fts5_results is None else 'ready'}")
-    except Exception as e:
-        debug_log(f"  FTS5 unavailable: {e}")
-
-    searcher = None
-    index_obj = None
-    if fts5_results is None:
-        try:
-            if _SEARCHER_CACHE is None:
-                from tantivy import Index
-                _INDEX_CACHE = Index.open(str(SEARCH_INDEX))
-                _SEARCHER_CACHE = _INDEX_CACHE.searcher()
-            searcher = _SEARCHER_CACHE
-            index_obj = _INDEX_CACHE
-            debug_log("  tantivy index loaded")
-        except Exception as e:
-            debug_log(f"  tantivy unavailable: {e}")
-
-    # ── Backend: semantic vectors ──────────────────────────────────
     vectors = load_data_raw(DOC_VECTORS) if DOC_VECTORS.exists() else None
-    debug_log(f"  doc_vectors: {'loaded' if vectors is not None else 'not found'}")
     meta = load_data(DOC_META) or []
-    debug_log(f"  doc_meta: {len(meta)} entries")
+    if vectors is not None and meta:
+        backends.append(_SemanticBackend(kw_vectors=vectors, kw_meta=meta))
+        tag_vectors = load_data_raw(TAG_VECTORS) if TAG_VECTORS.exists() else None
+        tag_meta = load_data(TAG_META) or []
+        if tag_vectors is not None and tag_meta:
+            backends.append(_TagSemanticBackend(tag_vectors, tag_meta))
 
-    if searcher is None and fts5_results is None and vectors is None:
+    if not backends:
         debug_log("  no search backend -> empty")
         return []
 
-    kw = keyword.lower()
-    kw_id = lambda r: r["id"]
+    try:
+        hits = _shared(
+            keyword,
+            backends,
+            top_k=top_k,
+            weights={"bm25": 1.5, "semantic": 0.75, "tag": 1.0},
+        )
+    except EmbeddingDimError as exc:
+        debug_log(f"  embedding dimension mismatch: {exc}")
+        raise
 
-    # ── Signal A: BM25 / FTS5 ──────────────────────────────────────
-    bm25_signal = []
-    if searcher is not None and index_obj is not None:
-        try:
-            query = index_obj.parse_query(kw, ["text"])
-            search_result = searcher.search(query, top_k * 3)
-            bm25_hits = search_result.hits
-            debug_log(f"  BM25: {len(bm25_hits)} hits from tantivy")
-            for rank, (bm25_score, doc_addr) in enumerate(bm25_hits):
-                doc = searcher.doc(doc_addr)
-                bm25_signal.append({"id": doc["id"][0], "bm25_score": bm25_score})
-            debug_log(f"    BM25: prepared {len(bm25_signal)} entries")
-        except Exception as e:
-            debug_log(f"  BM25 error: {e}")
-    elif fts5_results:
-        for entry in fts5_results:
-            bm25_signal.append({"id": entry["id"], "bm25_score": entry.get("bm25_score", 0)})
-
-    # ── Signal B: Full semantic ────────────────────────────────────
-    semantic_signal = []
-    tag_signal = []
-    query_vec = None
-    if vectors is not None:
-        try:
-            from dft_utils.embedding import embed
-            import numpy as np
-            query_vec = np.array([embed(kw)], dtype=np.float32)
-
-            scores = np.dot(vectors, query_vec.T).flatten()
-            top_idx = np.argsort(-scores)[:top_k * 3]
-            debug_log(f"  Full semantic: top {len(top_idx)} from {len(scores)}")
-            for idx in top_idx:
-                semantic_signal.append({"id": meta[idx]["id"], "sim": float(scores[idx])})
-        except Exception as e:
-            debug_log(f"  Semantic error: {e}")
-
-        # ── Signal C: Tag-only semantic (boosted) ──────────────────
-        tag_vectors = load_data_raw(TAG_VECTORS) if TAG_VECTORS.exists() else None
-        tag_meta = load_data(TAG_META) or []
-        if query_vec is not None and tag_vectors is not None and tag_meta:
-            tag_scores = np.dot(tag_vectors, query_vec.T).flatten()
-            tag_top = np.argsort(-tag_scores)[:top_k * 2]
-            debug_log(f"  Tag-only semantic: top {len(tag_top)} from {len(tag_scores)}")
-            for idx in tag_top:
-                entry = tag_meta[idx]
-                tag_signal.append({"id": entry["id"], "sim": float(tag_scores[idx])})
-
-    # ── RRF fusion ─────────────────────────────────────────────────
-    signals = []
-    if bm25_signal:
-        signals.append((bm25_signal, "bm25", 1.5))
-    if semantic_signal:
-        signals.append((semantic_signal, "semantic", 0.75))
-    if tag_signal:
-        signals.append((tag_signal, "tag", 1.0))
-
-    fused = rrf_merge(signals, key_fn=kw_id, top_k=top_k)
-
-    # ── Enrich results with metadata ───────────────────────────────
+    # Enrich non-tag hits with their real page title/type (mirrors the
+    # pre-fusion enrichment the original fused directly did).
+    meta_by_id = {m["id"]: m for m in (meta if isinstance(meta, list) else [])}
     output = []
-    for item in fused:
-        doc_id = item["id"]
-        for m in meta:
-            if m["id"] == doc_id:
-                entry = {"id": doc_id, "score": item["score"]}
-                if doc_id.startswith("tag:"):
-                    entry["type"] = "tag"
-                    entry["tag"] = doc_id[4:]
-                else:
-                    entry["type"] = m.get("type", "page")
-                    entry["title"] = m.get("title", doc_id)
-                output.append(entry)
-                break
-
+    for h in hits:
+        if h.extra.get("type") == "tag":
+            output.append(_hit_to_record(h))
+            continue
+        m = meta_by_id.get(h.id)
+        if m is not None:
+            record = _hit_to_record(h)
+            record["type"] = m.get("type", record.get("type", "page"))
+            record["title"] = m.get("title", record.get("title", h.id))
+            output.append(record)
+        else:
+            output.append(_hit_to_record(h))
     debug_log(f"  -> {len(output)} final results")
     return output
+
+
+def _hit_to_record(hit) -> dict:
+    """Convert a shared SearchHit back to vasp_query's record shape,
+    now also carrying ``source`` (previously dropped)."""
+    record: dict = {"id": hit.id, "score": hit.score, "source": hit.source}
+    if hit.extra.get("type"):
+        record["type"] = hit.extra["type"]
+    if hit.extra.get("tag"):
+        record["tag"] = hit.extra["tag"]
+    record["title"] = hit.extra.get("tag", hit.title)
+    return record
 
 
 def load_data_raw(path: Path) -> Any | None:
