@@ -533,6 +533,7 @@ This 215-atom `C214N1` Γ-point case documents the boundary between existing-out
 - The 16-level RMS is an **ordinal-spectrum comparison**, not a same-state error.
 - `E_HOMO↑ − E_HOMO↓` is a spin-channel edge offset, not a same-orbital exchange splitting.
 - Near-degenerate bands are compared as subspaces; VASP PAW projections and OpenMX cube densities are method-specific and must not be treated as identical weights.
+- The defect-region analysis uses N215 plus vacancy-facing C61/C127/C185 around fractional vacancy center `(0.5, 0.5, 0.5)`; VASP angular columns are whole-cell PROCAR sums, while localization columns use the four-atom region.
 
 Large raw outputs remain external artifacts. The committed report records local source paths, input/output SHA256 values, engine settings, and claim limitations.
 

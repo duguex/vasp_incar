@@ -37,7 +37,8 @@ def load_data(
 
     data = raw
     if isinstance(raw, dict) and "_version" in raw:
-        ver = raw.pop("_version")
+        ver = raw["_version"]
+        raw = {key: value for key, value in raw.items() if key != "_version"}
         if ver != DATA_VERSION:
             warnings.warn(
                 f"{path.name} version {ver!r} != expected {DATA_VERSION!r}. "

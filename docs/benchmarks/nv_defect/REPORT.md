@@ -54,28 +54,28 @@ No one-to-one physical orbital identity is claimed for these groups.
 
 ## Optional orbital/localization comparison
 
-The VASP column is the normalized sum of PAW-sphere `PROCAR` projections on N plus its three nearest C atoms (atom indices 215, 80, 188, 134, one-based). The OpenMX column is the normalized real-space integral of `|ψ_r|² + |ψ_i|²`, including both cube components and voxel volume, over 2-bohr spheres around the same four atoms.
+The VASP defect-region column is the normalized sum of PAW-sphere `PROCAR` projections on N plus the three vacancy-facing C atoms adjacent to the vacancy center (fractional coordinate `(0.5, 0.5, 0.5)`; atom indices 215, 61, 127, 185, one-based). The VASP angular columns are whole-cell sums over all atoms. The OpenMX column is the normalized real-space integral of `|ψ_r|² + |ψ_i|²`, including both cube components and voxel volume, over 2-bohr spheres around the same four atoms.
 The table is derived from 32 cube files: `homo/lumo × spin(0/1) × n(0..3) × component(r/i)`. The complete set is identified by the aggregate SHA256 recorded in `report.json`.
 
 These are different observables. Their absolute percentages must not be equated; only qualitative localization trends are compared.
-The VASP `s/p` values are normalized within `s+p` (`s/(s+p)` and `p/(s+p)`). The PROCAR header also contains five d channels; `d(total)` is reported separately against the total projection and is 0.0% for all rows at the source precision.
+The VASP angular values are whole-cell `PROCAR` sums, not defect-region-only angular values. They are normalized within `s+p` (`s/(s+p)` and `p/(s+p)`); the PROCAR header also contains five d channels, with `d(total)` reported separately against the total whole-cell projection and equal to 0.0% for all rows at source precision.
 
-| spin/group | VASP defect-region projection | VASP `s/(s+p)` | VASP `p/(s+p)` | VASP `d(total)` | OpenMX cube region density |
+| spin/group | VASP defect-region projection | VASP whole-cell `s/(s+p)` | VASP whole-cell `p/(s+p)` | VASP whole-cell `d(total)` | OpenMX cube region density |
 |---|---:|---:|---:|---:|---:|
-| ↑ HOMO−3 | 0.97% | 0.3% | 99.7% | 0.0% | 1.21% |
-| ↑ HOMO−2 | **40.61%** | 5.1% | 94.9% | 0.0% | **33.63%** |
-| ↑ HOMO−1 | 0.35% | 9.4% | 90.6% | 0.0% | 0.54% |
-| ↑ HOMO | 0.34% | 9.3% | 90.7% | 0.0% | 0.54% |
-| ↑ LUMO/LUMO+1 | 1.85% | 49.8% | 50.2% | 0.0% | 1.55% |
-| ↑ LUMO+2 | 3.68% | 43.9% | 56.1% | 0.0% | 2.97% |
-| ↑ LUMO+3 | 0.27% | 52.9% | 47.1% | 0.0% | 0.78% |
-| ↓ HOMO−3 | 0.55% | 0.1% | 99.9% | 0.0% | 0.95% |
-| ↓ HOMO−2/HOMO−1 | 1.03% | 0.2% | 99.8% | 0.0% | 1.30% |
-| ↓ HOMO | **31.34%** | 6.5% | 93.5% | 0.0% | **23.60%** |
-| ↓ LUMO/LUMO+1 | 0.19% | 11.8% | 88.2% | 0.0% | 0.51% |
-| ↓ LUMO+2/LUMO+3 | 1.73% | 50.1% | 49.9% | 0.0% | 1.53% |
+| ↑ HOMO−3 | 3.18% | 0.3% | 99.7% | 0.0% | 3.14% |
+| ↑ HOMO−2 | **56.85%** | 5.1% | 94.9% | 0.0% | **46.26%** |
+| ↑ HOMO−1 | **67.42%** | 9.4% | 90.6% | 0.0% | **55.70%** |
+| ↑ HOMO | **66.95%** | 9.3% | 90.7% | 0.0% | **55.70%** |
+| ↑ LUMO/LUMO+1 | 0.25% | 49.8% | 50.2% | 0.0% | 1.01% |
+| ↑ LUMO+2 | 1.08% | 43.9% | 56.1% | 0.0% | 1.10% |
+| ↑ LUMO+3 | 0.00% | 52.9% | 47.1% | 0.0% | 0.49% |
+| ↓ HOMO−3 | 4.29% | 0.1% | 99.9% | 0.0% | 5.40% |
+| ↓ HOMO−2/HOMO−1 | 1.55% | 0.2% | 99.8% | 0.0% | 2.05% |
+| ↓ HOMO | **62.50%** | 6.5% | 93.5% | 0.0% | **50.71%** |
+| ↓ LUMO/LUMO+1 | **67.60%** | 11.8% | 88.2% | 0.0% | **53.64%** |
+| ↓ LUMO+2/LUMO+3 | 0.25% | 50.1% | 49.9% | 0.0% | 0.98% |
 
-Both codes identify ↑ HOMO−2 and ↓ HOMO as defect-region localization candidates. This is compatible localization evidence, not proof that the two codes produced the same physical orbital. OpenMX LCAO coefficients were not converted into weights by coefficient-squaring because the required overlap-aware Mulliken/Löwdin data are not present in this artifact set.
+With the corrected vacancy-facing region, both codes show high region density for several candidate defect subspaces: ↑ HOMO−2, ↑ HOMO−1/HOMO, ↓ HOMO, and ↓ LUMO/LUMO+1. The other near-degenerate groups remain comparatively low in this region. This is group-level localization evidence, not proof that the two codes produced the same physical orbital. OpenMX LCAO coefficients were not converted into weights by coefficient-squaring because the required overlap-aware Mulliken/Löwdin data are not present in this artifact set.
 
 ## Claim boundary
 

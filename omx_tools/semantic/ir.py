@@ -6,10 +6,8 @@ from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, Field
 
-from dft_utils import DATA_VERSION
-
 IR_SCHEMA = "dft_semantic_ir"
-IR_VERSION = DATA_VERSION  # 0.3.0
+IR_VERSION = "0.3.0"
 
 CalcClass = Literal["scf", "scf_metal", "relax", "band", "md", "unsupported"]
 SpinKind = Literal["off", "collinear", "noncollinear"]
@@ -26,12 +24,12 @@ class Physics(BaseModel):
     xc: Optional[str] = None
     spin: Optional[SpinKind] = None
     ispin: Optional[int] = None
+    nupdown: Optional[float] = None
     cutoff_eV: Optional[float] = None
     smearing: Smearing = Field(default_factory=Smearing)
     ediff_eV: Optional[float] = None
     max_scf: Optional[int] = None
     charge: Optional[float] = None
-
 
 class Ionic(BaseModel):
     motion: Optional[IonicMotion] = None

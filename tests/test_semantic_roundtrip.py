@@ -54,6 +54,14 @@ def test_nsw_zero_preserved(mapping):
     assert back["NSW"] == 0
 
 
+def test_nupdown_roundtrip(mapping):
+    src = {"NUPDOWN": 2, "ISPIN": 2}
+    mid = forward(src, mapping)
+    assert mid["scf_nupdown"] == 2
+    back = reverse(mid, mapping)
+    assert back["NUPDOWN"] == 2
+
+
 def test_ismear_sigma_roundtrip(mapping):
     src = {"ISMEAR": 1, "SIGMA": 0.2, "NSW": 0, "ENCUT": 400}
     mid = forward(src, mapping)

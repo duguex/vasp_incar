@@ -63,6 +63,15 @@ def test_encode_omx_dat_fixture():
     assert env["data"]["schema"] == "dft_semantic_ir"
 
 
+def test_cross_roundtrip_nupdown_is_explicit_loss():
+    rep = cross_roundtrip_vasp({
+        "ENCUT": 400, "ISPIN": 2, "NUPDOWN": 2,
+        "EDIFF": 1e-5, "NELM": 100, "GGA": "PE", "NSW": 0,
+    })
+    assert rep["ok_core"]
+    assert "NUPDOWN" in rep["expected_loss"]
+
+
 def test_cross_roundtrip_core_ok_insulator():
     incar = _parse_simple_incar(VASP_FIX / "scf_insulator.INCAR")
     rep = cross_roundtrip_vasp(incar)

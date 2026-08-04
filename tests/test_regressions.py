@@ -21,6 +21,37 @@ def requires_db():
 
 # ── row_factory: _search_fts5 must use sqlite3.Row ────────────────────
 
+def test_hybrid_search_without_vectors_does_not_crash(monkeypatch):
+    import vasp_query._common as common
+
+    monkeypatch.setattr(common, "SEARCH_DB", Path("/nonexistent/search.db"))
+    monkeypatch.setattr(common, "SEARCH_INDEX", Path("/nonexistent/search.index"))
+    monkeypatch.setattr(common, "DOC_VECTORS", Path("/nonexistent/doc.npy"))
+    monkeypatch.setattr(common, "TAG_VECTORS", Path("/nonexistent/tag.npy"))
+    monkeypatch.setattr(common, "DOC_META", Path("/nonexistent/doc.json"))
+    monkeypatch.setattr(common, "TAG_META", Path("/nonexistent/tag.json"))
+    assert common.hybrid_search("ENCUT") == []
+
+
+def test_hybrid_search_embedding_failure_does_not_crash(monkeypatch):
+    import vasp_query._common as common
+    import numpy as np
+
+    monkeypatch.setattr(common, "SEARCH_DB", Path("/nonexistent/search.db"))
+    monkeypatch.setattr(common, "SEARCH_INDEX", Path("/nonexistent/search.index"))
+    monkeypatch.setattr(common, "DOC_VECTORS", Path("/nonexistent/doc.npy"))
+    monkeypatch.setattr(common, "TAG_VECTORS", Path("/nonexistent/tag.npy"))
+    monkeypatch.setattr(common, "DOC_META", Path("/nonexistent/doc.json"))
+    monkeypatch.setattr(common, "TAG_META", Path("/nonexistent/tag.json"))
+    monkeypatch.setattr(common, "load_data_raw", lambda path: np.zeros((1, 3)))
+    monkeypatch.setattr(common, "load_data", lambda path: [{"id": "doc:1"}])
+
+    import dft_utils.embedding
+    monkeypatch.setattr(dft_utils.embedding, "embed", lambda keyword: (_ for _ in ()).throw(RuntimeError("offline")))
+    assert common.hybrid_search("ENCUT") == []
+
+
+# ── row_factory: _search_fts5 must use sqlite3.Row ────────────────────
 def test_row_factory_fts5():
     """_search_fts5 must set row_factory to sqlite3.Row (regression)."""
     from omx_tools.database import DB_PATH

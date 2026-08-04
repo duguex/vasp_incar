@@ -17,8 +17,10 @@ def decode_omx(ir: SemanticIR) -> tuple[str, dict[str, Any]]:
     template = ir.openmx_template or CLASS_TO_TEMPLATE.get(ir.calc_class, "scf_band")
 
     if ir.ase_params:
-        # Prefer bridge params from encode_vasp (includes convert rules)
         overrides = for_openmx_writer(dict(ir.ase_params))
+        # Strip scf_nupdown (OpenMX has no global NUPDOWN keyword;
+        # spin init uses per-atom occupations in Atoms.SpeciesAndCoordinates)
+        overrides.pop("scf_nupdown", None)
         return template, overrides
 
     # Fallback projection from IR fields
@@ -33,6 +35,8 @@ def decode_omx(ir: SemanticIR) -> tuple[str, dict[str, Any]]:
         overrides["scf_spinpolarization"] = "On"
     elif p.spin == "noncollinear":
         overrides["scf_spinpolarization"] = "NC"
+    # OpenMX has no global NUPDOWN keyword; the value remains in the IR for
+    # VASP round-trip and is reported as an expected cross-code loss.
     if p.ediff_eV is not None:
         overrides["scf_criterion"] = p.ediff_eV
     if p.max_scf is not None:

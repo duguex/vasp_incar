@@ -13,16 +13,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from dft_utils.version import load_data
+
 PKG_DIR = Path(__file__).resolve().parent
 TEMPLATES_PATH = PKG_DIR / "schemas" / "templates.json"
 
 
 def _load_templates() -> dict[str, Any]:
-    raw = json.loads(TEMPLATES_PATH.read_text(encoding="utf-8"))
-    if isinstance(raw, dict) and "data" in raw:
-        data = raw["data"]
-    else:
-        data = raw
+    data = load_data(TEMPLATES_PATH)
     if not isinstance(data, dict):
         raise ValueError("templates.json must be an object of template records")
     return data

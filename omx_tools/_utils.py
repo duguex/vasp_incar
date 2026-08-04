@@ -1,20 +1,19 @@
 """Shared utilities for omx_tools modules."""
 
-import json
 import sys
 from pathlib import Path
 
 from dft_utils import die_json  # noqa: F401 — re-exported for callers
+from dft_utils.version import load_data
 
 
 def load_json(path: str | Path, name: str) -> dict:
-    """Load a JSON file, exiting with error on FileNotFoundError."""
-    try:
-        with open(path) as f:
-            return json.load(f)
-    except FileNotFoundError:
+    """Load JSON data through the shared version-envelope loader."""
+    data = load_data(Path(path))
+    if data is None:
         print(f"Error: {name} not found at {path}", file=sys.stderr)
         sys.exit(1)
+    return data
 
 
 def auto_kgrid(atoms, kspacing: float) -> list[int]:

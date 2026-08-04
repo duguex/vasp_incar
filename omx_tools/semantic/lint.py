@@ -102,6 +102,7 @@ def lint_vasp_incar(
     nsw = _as_int(_f(src, "NSW"))
     ibrion = _as_int(_f(src, "IBRION"))
     ispin = _as_int(_f(src, "ISPIN"))
+    nupdown = _as_float(_f(src, "NUPDOWN"))
     ediff = _as_float(_f(src, "EDIFF"))
     ediffg = _as_float(_f(src, "EDIFFG"))
     isif = _as_int(_f(src, "ISIF"))
@@ -225,6 +226,14 @@ def lint_vasp_incar(
             "Consider MAGMOM initialization for TM oxides/defects. "
             "vasp-query tag MAGMOM",
             ["ISPIN"],
+        ))
+    if ispin == 2 and nupdown is None:
+        findings.append(LintFinding(
+            "warning", "spin.nupdown_missing",
+            "ISPIN=2 without NUPDOWN: spin multiplicity not initialized.",
+            "Set NUPDOWN=N for N unpaired electrons (e.g. NUPDOWN=2 for S=1 triplet). "
+            "VASP defaults to NUPDOWN=0 (unrestricted, may converge to wrong state).",
+            ["ISPIN", "NUPDOWN"],
         ))
     if lsorbit is not None:
         ls = str(lsorbit).upper()

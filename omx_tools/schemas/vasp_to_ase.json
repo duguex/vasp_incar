@@ -12,6 +12,12 @@
       "reverse_convert": "nelect_rev",
       "note": "auto-detected from NELECT+POTCAR; use --charge FLOAT to override"
     },
+    "NUPDOWN": {
+      "omx_key": "scf_nupdown",
+      "convert": "passthrough",
+      "reverse_convert": "passthrough",
+      "note": "spin multiplicity: initial up-down electron difference (2S); OpenMX uses same name"
+    },
     "ISMEAR": {
       "omx_key": "vasp_ismear",
       "convert": "passthrough",

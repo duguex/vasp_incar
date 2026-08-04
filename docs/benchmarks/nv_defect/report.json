@@ -13,6 +13,12 @@
     "formula": "C214N1",
     "natoms": 215,
     "charge_state": -1,
+    "defect_region": {
+      "atom_indices_1based": [215, 61, 127, 185],
+      "definition": "N plus the three vacancy-facing C atoms adjacent to the vacancy center",
+      "vacancy_center_fractional": [0.5, 0.5, 0.5],
+      "cube_sphere_radius_bohr": 2.0
+    },
     "vasp": {
       "ISPIN": 2,
       "NELECT": 862.0,
@@ -160,20 +166,20 @@
       {"spin": "down", "group": "LUMO/LUMO+1", "vasp_span_eV": 0.0027, "openmx_span_eV": 0.0028},
       {"spin": "down", "group": "LUMO+2/LUMO+3", "vasp_span_eV": 0.0001, "openmx_span_eV": 0.0001}
     ],
-    "angular_projection_definition": "The VASP PROCAR header contains s, three p channels, and five d channels. Reported s/p values are s/(s+p) and p/(s+p), with d excluded and renormalized within s+p; d_total_pct is reported separately against the total PROCAR projection.",
+    "angular_projection_definition": "The VASP PROCAR header contains s, three p channels, and five d channels. The reported angular values are whole-cell sums over all atoms for each state: s/(s+p) and p/(s+p), with d excluded and renormalized within s+p; d_total_pct is reported separately against the total whole-cell PROCAR projection. The defect-region percentage is a separate N+vacancy-facing-C atom sum.",
     "orbital_groups": [
-      {"spin": "up", "group": "HOMO-3", "vasp_region_pct": 0.97, "vasp_s_within_sp_pct": 0.3, "vasp_p_within_sp_pct": 99.7, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 1.21},
-      {"spin": "up", "group": "HOMO-2", "vasp_region_pct": 40.61, "vasp_s_within_sp_pct": 5.1, "vasp_p_within_sp_pct": 94.9, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 33.63},
-      {"spin": "up", "group": "HOMO-1", "vasp_region_pct": 0.35, "vasp_s_within_sp_pct": 9.4, "vasp_p_within_sp_pct": 90.6, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 0.54},
-      {"spin": "up", "group": "HOMO", "vasp_region_pct": 0.34, "vasp_s_within_sp_pct": 9.3, "vasp_p_within_sp_pct": 90.7, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 0.54},
-      {"spin": "up", "group": "LUMO/LUMO+1", "vasp_region_pct": 1.85, "vasp_s_within_sp_pct": 49.8, "vasp_p_within_sp_pct": 50.2, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 1.55},
-      {"spin": "up", "group": "LUMO+2", "vasp_region_pct": 3.68, "vasp_s_within_sp_pct": 43.9, "vasp_p_within_sp_pct": 56.1, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 2.97},
-      {"spin": "up", "group": "LUMO+3", "vasp_region_pct": 0.27, "vasp_s_within_sp_pct": 52.9, "vasp_p_within_sp_pct": 47.1, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 0.78},
-      {"spin": "down", "group": "HOMO-3", "vasp_region_pct": 0.55, "vasp_s_within_sp_pct": 0.1, "vasp_p_within_sp_pct": 99.9, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 0.95},
-      {"spin": "down", "group": "HOMO-2/HOMO-1", "vasp_region_pct": 1.03, "vasp_s_within_sp_pct": 0.2, "vasp_p_within_sp_pct": 99.8, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 1.30},
-      {"spin": "down", "group": "HOMO", "vasp_region_pct": 31.34, "vasp_s_within_sp_pct": 6.5, "vasp_p_within_sp_pct": 93.5, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 23.60},
-      {"spin": "down", "group": "LUMO/LUMO+1", "vasp_region_pct": 0.19, "vasp_s_within_sp_pct": 11.8, "vasp_p_within_sp_pct": 88.2, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 0.51},
-      {"spin": "down", "group": "LUMO+2/LUMO+3", "vasp_region_pct": 1.73, "vasp_s_within_sp_pct": 50.1, "vasp_p_within_sp_pct": 49.9, "vasp_d_total_pct": 0.0, "openmx_cube_region_pct": 1.53}
+      {"spin": "up", "group": "HOMO-3", "vasp_region_pct": 3.18, "vasp_whole_cell_s_within_sp_pct": 0.3, "vasp_whole_cell_p_within_sp_pct": 99.7, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 3.14},
+      {"spin": "up", "group": "HOMO-2", "vasp_region_pct": 56.85, "vasp_whole_cell_s_within_sp_pct": 5.1, "vasp_whole_cell_p_within_sp_pct": 94.9, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 46.26},
+      {"spin": "up", "group": "HOMO-1", "vasp_region_pct": 67.42, "vasp_whole_cell_s_within_sp_pct": 9.4, "vasp_whole_cell_p_within_sp_pct": 90.6, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 55.70},
+      {"spin": "up", "group": "HOMO", "vasp_region_pct": 66.95, "vasp_whole_cell_s_within_sp_pct": 9.3, "vasp_whole_cell_p_within_sp_pct": 90.7, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 55.70},
+      {"spin": "up", "group": "LUMO/LUMO+1", "vasp_region_pct": 0.25, "vasp_whole_cell_s_within_sp_pct": 49.8, "vasp_whole_cell_p_within_sp_pct": 50.2, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 1.01},
+      {"spin": "up", "group": "LUMO+2", "vasp_region_pct": 1.08, "vasp_whole_cell_s_within_sp_pct": 43.9, "vasp_whole_cell_p_within_sp_pct": 56.1, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 1.10},
+      {"spin": "up", "group": "LUMO+3", "vasp_region_pct": 0.0, "vasp_whole_cell_s_within_sp_pct": 52.9, "vasp_whole_cell_p_within_sp_pct": 47.1, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 0.49},
+      {"spin": "down", "group": "HOMO-3", "vasp_region_pct": 4.29, "vasp_whole_cell_s_within_sp_pct": 0.1, "vasp_whole_cell_p_within_sp_pct": 99.9, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 5.40},
+      {"spin": "down", "group": "HOMO-2/HOMO-1", "vasp_region_pct": 1.55, "vasp_whole_cell_s_within_sp_pct": 0.2, "vasp_whole_cell_p_within_sp_pct": 99.8, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 2.05},
+      {"spin": "down", "group": "HOMO", "vasp_region_pct": 62.50, "vasp_whole_cell_s_within_sp_pct": 6.5, "vasp_whole_cell_p_within_sp_pct": 93.5, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 50.71},
+      {"spin": "down", "group": "LUMO/LUMO+1", "vasp_region_pct": 67.60, "vasp_whole_cell_s_within_sp_pct": 11.8, "vasp_whole_cell_p_within_sp_pct": 88.2, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 53.64},
+      {"spin": "down", "group": "LUMO+2/LUMO+3", "vasp_region_pct": 0.25, "vasp_whole_cell_s_within_sp_pct": 50.1, "vasp_whole_cell_p_within_sp_pct": 49.9, "vasp_whole_cell_d_total_pct": 0.0, "openmx_cube_region_pct": 0.98}
     ]
   },
   "limitations": [

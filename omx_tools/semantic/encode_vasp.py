@@ -72,6 +72,7 @@ def encode_vasp(
         xc=gga_to_xc(src.get("GGA")),
         spin=ispin_to_spin(ispin_i),
         ispin=ispin_i,
+        nupdown=float(src["NUPDOWN"]) if "NUPDOWN" in src else None,
         cutoff_eV=float(src["ENCUT"]) if "ENCUT" in src else None,
         smearing=Smearing(
             method=ismear_to_method(ismear_i),

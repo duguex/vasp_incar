@@ -192,5 +192,7 @@
     "tol_gap_eV": 0.25,
     "tol_rms_eV": 0.2
   },
-  "ok": true
+  "ok": true,
+  "tol_gap_eV": 0.25,
+  "tol_rms_eV": 0.2
 }

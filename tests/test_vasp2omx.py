@@ -29,6 +29,16 @@ def mapping():
     return load_mapping_table(raw)
 
 
+def test_mapping_loader_uses_explicit_envelope():
+    from omx_tools.mapping import load_mapping_table
+
+    raw = {
+        "_version": "0.3.0",
+        "data": {"ONLY_PRESERVE": {"preserve_key": "vasp_only"}},
+    }
+    assert load_mapping_table(raw) == raw["data"]
+
+
 # ---------------------------------------------------------------------------
 # INCAR parsing (needs pymatgen)
 # ---------------------------------------------------------------------------

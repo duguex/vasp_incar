@@ -64,7 +64,7 @@ class TestHelpers:
     def test_die_json_json(self, capsys):
         with pytest.raises(SystemExit) as exc:
             die_json("test error", json_output=True, code=1)
-        assert exc.value.code == 0
+        assert exc.value.code == 1
         out, err = capsys.readouterr()
         data = json.loads(out)
         assert data["error"] == "test error"
@@ -149,7 +149,7 @@ class TestKeyword:
         out, err, code = run_gen(
             ["omx-gen", "--keyword", "scf.NonexistentKeyword", "--json"], capsys
         )
-        assert code == 0  # die_json exits 0 for JSON mode
+        assert code == 1
         data = json.loads(out)
         assert "error" in data
         assert data["exit"] == 1  # intended exit code embedded in JSON
@@ -174,7 +174,7 @@ class TestKeyword:
 class TestErrors:
     def test_no_structure_json(self, capsys):
         out, err, code = run_gen(["omx-gen", "--json"], capsys)
-        assert code == 0
+        assert code == 1
         data = json.loads(out)
         assert "error" in data
         assert "STRUCTURE" in data["error"]
@@ -189,7 +189,7 @@ class TestErrors:
         out, err, code = run_gen(
             ["omx-gen", "/tmp/definitely_not_a_file.cif", "--json"], capsys
         )
-        assert code == 0
+        assert code == 1
         data = json.loads(out)
         assert "error" in data
 
@@ -209,6 +209,6 @@ class TestDryRun:
         out, err, code = run_gen(
             ["omx-gen", "/tmp/nope.cif", "--dry-run", "--json"], capsys
         )
-        assert code == 0
+        assert code == 1
         data = json.loads(out)
         assert "error" in data

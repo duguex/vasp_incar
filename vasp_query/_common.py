@@ -366,6 +366,8 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
 
     # ── Signal B: Full semantic ────────────────────────────────────
     semantic_signal = []
+    tag_signal = []
+    query_vec = None
     if vectors is not None:
         try:
             from dft_utils.embedding import embed
@@ -381,10 +383,9 @@ def hybrid_search(keyword: str, top_k: int = 10) -> list[dict]:
             debug_log(f"  Semantic error: {e}")
 
         # ── Signal C: Tag-only semantic (boosted) ──────────────────
-        tag_signal = []
         tag_vectors = load_data_raw(TAG_VECTORS) if TAG_VECTORS.exists() else None
         tag_meta = load_data(TAG_META) or []
-        if tag_vectors is not None and tag_meta:
+        if query_vec is not None and tag_vectors is not None and tag_meta:
             tag_scores = np.dot(tag_vectors, query_vec.T).flatten()
             tag_top = np.argsort(-tag_scores)[:top_k * 2]
             debug_log(f"  Tag-only semantic: top {len(tag_top)} from {len(tag_scores)}")

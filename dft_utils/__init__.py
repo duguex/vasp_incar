@@ -11,8 +11,11 @@ import json
 import sys
 from typing import Any
 
-# ── Data version ───────────────────────────────────────────────────────
+# ── Version identifiers ────────────────────────────────────────────────
 
+# Data envelope compatibility version.  Keep independent from the product
+# release and semantic IR schema versions.
+PRODUCT_VERSION = "0.3.0"
 DATA_VERSION = "0.3.0"
 
 
@@ -48,7 +51,7 @@ def die_json(msg: str, json_output: bool = False, code: int = 1):
     """Print JSON error and exit, or print text error and exit with code."""
     if json_output:
         print(json.dumps({"error": msg, "exit": code}))
-        sys.exit(0)
+        sys.exit(code)
     else:
         print(f"Error: {msg}", file=sys.stderr)
         sys.exit(code)

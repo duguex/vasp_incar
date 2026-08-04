@@ -13,6 +13,7 @@ from omx_tools.semantic import (
     encode_vasp,
     roundtrip_vasp_ir,
 )
+from dft_utils import DATA_VERSION
 from omx_tools.semantic.ir import IR_SCHEMA, IR_VERSION
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -41,6 +42,12 @@ def _parse_simple_incar(path: Path) -> dict:
             except ValueError:
                 out[k] = v
     return out
+
+
+def test_ir_version_is_independent_from_data_version(monkeypatch):
+    monkeypatch.setattr("dft_utils.DATA_VERSION", "9.9.9")
+    assert DATA_VERSION == "0.3.0"
+    assert IR_VERSION == "0.3.0"
 
 
 def test_encode_vasp_envelope_shape():

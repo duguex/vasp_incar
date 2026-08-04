@@ -27,6 +27,8 @@ def decode_vasp(ir: SemanticIR) -> dict[str, Any]:
     ispin = p.ispin if p.ispin is not None else spin_to_ispin(p.spin)
     if ispin is not None:
         out["ISPIN"] = ispin
+    if p.nupdown is not None:
+        out["NUPDOWN"] = p.nupdown
     if p.ediff_eV is not None:
         out["EDIFF"] = p.ediff_eV
     if p.max_scf is not None:

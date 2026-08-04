@@ -109,7 +109,6 @@ def write_dat(
         params[key] = value
         if verbose:
             print(f"  Override: {key} = {value}", file=sys.stderr)
-
     # Resolve None defaults from schema
     for key in list(params.keys()):
         if params[key] is None:

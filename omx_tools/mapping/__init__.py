@@ -13,12 +13,14 @@ from typing import Any
 
 
 def _load_mapping_data(mapping: dict) -> dict:
-    """Accept raw rule dict or version envelope ``{_version, data}``."""
-    if isinstance(mapping, dict) and "data" in mapping and isinstance(mapping["data"], dict):
-        # Heuristic: envelope if data values look like rule entries
-        sample = next(iter(mapping["data"].values()), None)
-        if isinstance(sample, dict) and ("omx_key" in sample or "convert" in sample or "note" in sample):
-            return mapping["data"]
+    """Accept raw rule dict or an explicit version envelope."""
+    if (
+        isinstance(mapping, dict)
+        and "_version" in mapping
+        and "data" in mapping
+        and isinstance(mapping["data"], dict)
+    ):
+        return mapping["data"]
     return mapping
 
 

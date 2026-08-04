@@ -68,6 +68,28 @@ class TestWriteIncar:
     reason="ASE not installed",
 )
 class TestWriteDat:
+    def test_verbose_reports_written_path(self, tmp_path, monkeypatch, capsys):
+        from omx_tools.intent import CalculationIntent
+        from omx_tools.writers.openmx import write_dat
+
+        root = Path(__file__).resolve().parent.parent
+        xyz_path = root / "work" / "Si8.xyz"
+        if not xyz_path.exists():
+            pytest.skip(f"Test structure not found: {xyz_path}")
+
+        monkeypatch.chdir(tmp_path)
+        intent = CalculationIntent(
+            template="scf_band",
+            params={"scf_maxiter": 1},
+            structure_path=str(xyz_path),
+        )
+        try:
+            write_dat(intent, kspacing=0.5, verbose=True)
+        except SystemExit:
+            pytest.skip("OpenMX DFT data path unavailable")
+        _, err = capsys.readouterr()
+        assert "Written:" in err
+
     def test_dry_run_output(self):
         """write_dat dry-run produces .dat content on stdout."""
         from omx_tools.intent import CalculationIntent

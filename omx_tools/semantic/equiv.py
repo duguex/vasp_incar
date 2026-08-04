@@ -23,7 +23,7 @@ CROSS_CODE_CORE = frozenset({
 
 # Known lossy under cross-code (stripped before ASE write or no OpenMX equivalent)
 CROSS_CODE_EXPECTED_LOSS = frozenset({
-    "ISMEAR", "SIGMA", "IBRION", "ISIF", "ICHARG", "ALGO",
+    "NUPDOWN", "ISMEAR", "SIGMA", "IBRION", "ISIF", "ICHARG", "ALGO",
     "PREC", "LWAVE", "LCHARG", "LREAL", "ISYM", "LORBIT", "NELMIN",
     "ADDGRID", "NBANDS", "MAGMOM", "IVDW",
 })
