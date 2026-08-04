@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from omx_tools.semantic.ir import (
+from dft_utils.ir import (
     SemanticIR,
     method_to_ismear,
     spin_to_ispin,

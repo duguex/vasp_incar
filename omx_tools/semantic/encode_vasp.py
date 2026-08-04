@@ -8,7 +8,7 @@ from typing import Any
 from omx_tools._utils import load_json
 from omx_tools.mapping import forward, load_mapping_table
 from omx_tools.parsers.vasp import detect_intent_from_incar
-from omx_tools.semantic.ir import (
+from dft_utils.ir import (
     CLASS_TO_TEMPLATE,
     TEMPLATE_TO_CLASS,
     CodeNative,

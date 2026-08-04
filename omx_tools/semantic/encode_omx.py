@@ -9,7 +9,7 @@ from omx_tools._utils import load_json
 from omx_tools.mapping import load_mapping_table, reverse
 from omx_tools.parsers.openmx import parse_dat
 from omx_tools.semantic.encode_vasp import encode_vasp
-from omx_tools.semantic.ir import (
+from dft_utils.ir import (
     CLASS_TO_TEMPLATE,
     TEMPLATE_TO_CLASS,
     SemanticIR,

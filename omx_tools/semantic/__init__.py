@@ -3,7 +3,7 @@
 See ``docs/superpowers/specs/2026-07-14-semantic-roundtrip-design.md``.
 """
 
-from omx_tools.semantic.ir import SemanticIR, IR_SCHEMA, IR_VERSION
+from dft_utils.ir import SemanticIR, IR_SCHEMA, IR_VERSION
 from omx_tools.semantic.encode_vasp import encode_vasp
 from omx_tools.semantic.decode_vasp import decode_vasp
 from omx_tools.semantic.decode_omx import decode_omx

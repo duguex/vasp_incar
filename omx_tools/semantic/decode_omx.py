@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from omx_tools.mapping import for_openmx_writer
-from omx_tools.semantic.ir import CLASS_TO_TEMPLATE, SemanticIR
+from dft_utils.ir import CLASS_TO_TEMPLATE, SemanticIR
 
 
 def decode_omx(ir: SemanticIR) -> tuple[str, dict[str, Any]]:
