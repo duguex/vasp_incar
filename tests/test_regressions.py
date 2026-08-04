@@ -25,7 +25,6 @@ def test_hybrid_search_without_vectors_does_not_crash(monkeypatch):
     import vasp_query._common as common
 
     monkeypatch.setattr(common, "SEARCH_DB", Path("/nonexistent/search.db"))
-    monkeypatch.setattr(common, "SEARCH_INDEX", Path("/nonexistent/search.index"))
     monkeypatch.setattr(common, "DOC_VECTORS", Path("/nonexistent/doc.npy"))
     monkeypatch.setattr(common, "TAG_VECTORS", Path("/nonexistent/tag.npy"))
     monkeypatch.setattr(common, "DOC_META", Path("/nonexistent/doc.json"))
@@ -38,7 +37,6 @@ def test_hybrid_search_embedding_failure_does_not_crash(monkeypatch):
     import numpy as np
 
     monkeypatch.setattr(common, "SEARCH_DB", Path("/nonexistent/search.db"))
-    monkeypatch.setattr(common, "SEARCH_INDEX", Path("/nonexistent/search.index"))
     monkeypatch.setattr(common, "DOC_VECTORS", Path("/nonexistent/doc.npy"))
     monkeypatch.setattr(common, "TAG_VECTORS", Path("/nonexistent/tag.npy"))
     monkeypatch.setattr(common, "DOC_META", Path("/nonexistent/doc.json"))

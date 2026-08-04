@@ -26,3 +26,6 @@ work/benchmarks/
 # OpenMX runtime dumps (cubes / restarts)
 *.cube
 *_rst/
+
+# Dead tantivy BM25 index (hybrid search uses FTS5 + semantic/tag now)
+vasp_query/data/search_index/

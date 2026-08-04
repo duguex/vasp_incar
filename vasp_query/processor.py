@@ -11,7 +11,6 @@ from vasp_query._common import (
     DATA_VERSION,
     DATA_DIR,
     RAW_DIR,
-    SEARCH_INDEX,
     RAW_META,
     FETCH_META,
     WIKI_RAW,
@@ -459,9 +458,8 @@ def generate_missing_tags() -> dict:
 
 
 def build_search_indexes() -> None:
-    """Build tantivy BM25 index + sentence-transformers embeddings for search."""
+    """Build SQLite FTS5 index + sentence-transformers embeddings for search."""
     import numpy as np
-    from tantivy import Index, SchemaBuilder, Document
 
     # Load co-occurrence data for text enrichment
     import json as _json
@@ -508,25 +506,7 @@ def build_search_indexes() -> None:
             "type": n.get("type", "other"),
         })
 
-    schema = (SchemaBuilder()
-              .add_text_field("id", stored=True).add_text_field("title", stored=True)
-              .add_text_field("text", stored=False).add_text_field("type", stored=True).build())
-    import shutil
-    if SEARCH_INDEX.exists():
-        shutil.rmtree(SEARCH_INDEX)
-    SEARCH_INDEX.mkdir(parents=True, exist_ok=True)
-    index = Index(schema, path=str(SEARCH_INDEX))
-    writer = index.writer()
-    for d in docs:
-        doc = Document()
-        doc.add_text("id", d["id"]); doc.add_text("title", d["title"])
-        doc.add_text("text", d["text"]); doc.add_text("type", d["type"])
-        writer.add_document(doc)
-    writer.commit()
-    logger.info("Built tantivy index with %d docs at %s", len(docs), SEARCH_INDEX)
-
-
-    # Also build SQLite FTS5 search db (zero-dependency fallback when tantivy is unavailable)
+    # Build SQLite FTS5 search db
     import sqlite3
     import shutil as _shutil
     fts5_path = DATA_DIR / "search.db"

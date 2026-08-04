@@ -63,7 +63,6 @@ TAG_STATS = DATA_DIR / "tag_stats.json"
 WIKI_FULL = DATA_DIR / "wiki_full.json"
 TAG_CONFIGS = DATA_DIR / "tag_configs.json"
 TAG_COOCCUR = DATA_DIR / "tag_cooccur.json"
-SEARCH_INDEX = DATA_DIR / "search_index"
 TAG_VECTORS = DATA_DIR / "tag_vectors.npy"
 TAG_META = DATA_DIR / "tag_meta.json"
 DOC_VECTORS = DATA_DIR / "doc_vectors.npy"
@@ -255,11 +254,7 @@ def query_tag(resolved: dict, configs: dict | None = None,
     return result
 
 
-# ── Hybrid search (tantivy BM25 + sentence-transformers semantic) ────
-
-_INDEX_CACHE = None
-_SEARCHER_CACHE = None
-_MODEL_CACHE = None
+# ── Hybrid search (FTS5 + semantic + tag) ─────────────────────────────
 
 
 def _search_fts5(keyword: str, top_k: int) -> list[dict]:
