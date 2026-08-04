@@ -2,11 +2,9 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Any
 
-from omx_tools._utils import load_json
-from omx_tools.mapping import forward, load_mapping_table
+from omx_tools.mapping import default_mapping, forward
 from omx_tools.parsers.vasp import detect_intent_from_incar
 from dft_utils.ir import (
     CLASS_TO_TEMPLATE,
@@ -24,13 +22,6 @@ from dft_utils.ir import (
     ispin_to_spin,
 )
 
-_PKG = Path(__file__).resolve().parent.parent
-_MAP = _PKG / "schemas" / "vasp_to_ase.json"
-
-
-def _mapping() -> dict:
-    return load_mapping_table(load_json(str(_MAP), "vasp_to_ase.json"))
-
 
 def encode_vasp(
     incar: dict[str, Any],
@@ -41,7 +32,7 @@ def encode_vasp(
     source_code: str = "vasp",
 ) -> SemanticIR:
     """Build SemanticIR from a VASP INCAR parameter dict."""
-    mapping = mapping or _mapping()
+    mapping = mapping or default_mapping()
     src = {str(k).upper(): v for k, v in incar.items()}
 
     tmpl = template or detect_intent_from_incar(src)

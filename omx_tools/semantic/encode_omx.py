@@ -5,8 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from omx_tools._utils import load_json
-from omx_tools.mapping import load_mapping_table, reverse
+from omx_tools.mapping import default_mapping, reverse
 from omx_tools.parsers.openmx import parse_dat
 from omx_tools.semantic.encode_vasp import encode_vasp
 from dft_utils.ir import (
@@ -14,13 +13,6 @@ from dft_utils.ir import (
     TEMPLATE_TO_CLASS,
     SemanticIR,
 )
-
-_PKG = Path(__file__).resolve().parent.parent
-_MAP = _PKG / "schemas" / "vasp_to_ase.json"
-
-
-def _mapping() -> dict:
-    return load_mapping_table(load_json(str(_MAP), "vasp_to_ase.json"))
 
 
 def infer_template_from_ase(ase_params: dict[str, Any]) -> str:
@@ -62,7 +54,7 @@ def encode_omx(
     Strategy: reverse-map to VASP tags (including any ``vasp_*`` preserve
     keys), then ``encode_vasp``. Original ASE + raw OpenMX keywords kept on IR.
     """
-    mapping = _mapping()
+    mapping = default_mapping()
     vasp = reverse(ase_params, mapping)
     tmpl = template or infer_template_from_ase(ase_params)
     ir = encode_vasp(

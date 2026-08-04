@@ -8,7 +8,8 @@ from pathlib import Path
 import pytest
 
 from omx_tools.mapping import forward, load_mapping_table, reverse
-from omx_tools.semantic_roundtrip import MUST_PRESERVE, roundtrip_vasp
+from dft_utils.equiv import MUST_PRESERVE
+from omx_tools.semantic.equiv import roundtrip_vasp_ir as roundtrip_vasp
 
 ROOT = Path(__file__).resolve().parent.parent
 FIXTURES = ROOT / "tests" / "fixtures" / "semantic" / "vasp"
@@ -57,7 +58,8 @@ def test_nsw_zero_preserved(mapping):
 def test_nupdown_roundtrip(mapping):
     src = {"NUPDOWN": 2, "ISPIN": 2}
     mid = forward(src, mapping)
-    assert mid["scf_nupdown"] == 2
+    # NUPDOWN is a preserve-only key (no global OpenMX keyword).
+    assert mid["vasp_nupdown"] == 2
     back = reverse(mid, mapping)
     assert back["NUPDOWN"] == 2
 

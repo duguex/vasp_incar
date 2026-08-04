@@ -9,6 +9,8 @@ Phase 1 semantic contract (see docs/superpowers/specs/2026-07-14-semantic-roundt
 from __future__ import annotations
 
 import sys
+from functools import lru_cache
+from pathlib import Path
 from typing import Any
 
 
@@ -27,6 +29,21 @@ def _load_mapping_data(mapping: dict) -> dict:
 def load_mapping_table(mapping: dict) -> dict:
     """Public unwrap for JSON envelope or bare rule dict."""
     return _load_mapping_data(mapping)
+
+
+_MAPPING_DEFAULT_PATH = Path(__file__).resolve().parent.parent / "schemas" / "vasp_to_ase.json"
+
+
+@lru_cache(maxsize=1)
+def default_mapping() -> dict:
+    """The single, cached VASP→ASE/OpenMX keyword table.
+
+    ``load_json`` (via ``dft_utils.version.load_data``) already strips the
+    ``_version``/``data`` envelope, so the result is ready to pass to
+    :func:`forward` / :func:`reverse` without a second unwrap.
+    """
+    from omx_tools._utils import load_json
+    return load_json(str(_MAPPING_DEFAULT_PATH), "vasp_to_ase.json")
 
 
 

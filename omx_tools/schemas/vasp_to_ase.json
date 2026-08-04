@@ -13,10 +13,10 @@
       "note": "auto-detected from NELECT+POTCAR; use --charge FLOAT to override"
     },
     "NUPDOWN": {
-      "omx_key": "scf_nupdown",
+      "omx_key": "vasp_nupdown",
       "convert": "passthrough",
       "reverse_convert": "passthrough",
-      "note": "spin multiplicity: initial up-down electron difference (2S); OpenMX uses same name"
+      "note": "semantic preserve for VASP round-trip; OpenMX has no global NUPDOWN (spin init is per-atom occupations in Atoms.SpeciesAndCoordinates)"
     },
     "ISMEAR": {
       "omx_key": "vasp_ismear",

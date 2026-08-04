@@ -8,11 +8,11 @@ from omx_tools.semantic.decode_omx import decode_omx
 from omx_tools.semantic.decode_vasp import decode_vasp
 from omx_tools.semantic.encode_omx import encode_omx
 from omx_tools.semantic.encode_vasp import encode_vasp
-from omx_tools.semantic_roundtrip import (
+from dft_utils.equiv import (
     MUST_PRESERVE,
     EquivalenceReport,
-    _norm_key,
-    _values_close,
+    norm_key as _norm_key,
+    values_close as _values_close,
 )
 
 # Physics core expected to survive VASP → OpenMX projection → back
