@@ -83,8 +83,10 @@ vasp2omx INCAR POSCAR -o input.dat
 omp2vasp input.dat -o INCAR
 ```
 
-**CLI is not a DFT engine** (does not embed VASP/OpenMX). Optional **verification**
-scripts (containers) live under `scripts/` and are documented in WORKFLOWS §6–10.
+**CLI is not a DFT engine or an integration dependency** (it does not embed VASP/OpenMX).
+Production verification is delegated through the CRISP Python facade; optional local
+**compatibility/testing** scripts (containers) live under `scripts/` and are documented
+in WORKFLOWS §6–10.
 
 - E2E / advise: §6 · OpenMX Si Ecoh: §7 · official engine tests: §8  
 - True cross-engine: §9 · Ecoh/gates: §10 · KS eigenvalues: §11 · a_eq: §12  

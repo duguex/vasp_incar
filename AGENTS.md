@@ -12,7 +12,7 @@
 
 ## Always-on
 
-- **What this is**: multi-code DFT **knowledge + input generation + conversion + advice on existing inputs** — `vasp_query/`, `omx_tools/`, `dft_utils/`, `omx_tools/semantic/`. Product CLIs are **not** a DFT engine. Optional `scripts/*` may drive container OpenMX/VASP for **verification only**.  
+- **What this is**: multi-code DFT **knowledge + input generation + conversion + advice on existing inputs** — `vasp_query/`, `omx_tools/`, `dft_utils/`, `omx_tools/semantic/`. Product CLIs are **not** a DFT engine or an integration dependency. Production verification is delegated through the CRISP Python facade; optional `scripts/*` may drive local container OpenMX/VASP for compatibility/testing only.
 - **Goals**: (1) query docs/tags, (2) generate inputs, (3) convert via semantic IR, (4) **advise existing inputs** (`lint` + knowledge attach + optional safe fix loop), (5) round-trip self-consistency. GT: pymatgen / vaspkit / pydefect boundary.  
 - **Install extras**: `pip install -e ".[vasp]"` | `".[omx]"` | `".[all]"`.  
 - **CLIs**: `vasp-query`; `vasp-gen`; `omx-db`; `omx-gen`; converters; `dft semantic {show,lint,advise,gen-advise,advise-omx,roundtrip,cross,show-omx}`.  

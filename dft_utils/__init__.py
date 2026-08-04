@@ -5,6 +5,8 @@ Sub-modules
 version  — DATA_VERSION, load_data(), check_version()
 search   — match_keyword(), score_keyword(), make_fts5_query()
 error    — make_error(), make_suggestion_response(), print_error()
+verify   — verification seam: VerifyJob, runners, plan/submit/collect/analyze
+           (import explicitly: ``from dft_utils.verify import ...``)
 """
 
 import json

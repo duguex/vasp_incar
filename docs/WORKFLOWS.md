@@ -289,6 +289,10 @@ pytest tests/test_integration.py -q
 
 ## 7. Energy / experiment benchmark (Si diamond, OpenMX PBE)
 
+> **Execution ownership:** Container/MPI commands in §§7–12 are compatibility/testing
+> paths. Production verification submits the generated case to CRISP through its Python
+> facade; vasp_wiki retains input generation, result parsing, and physics gates.
+
 **Scenario:** Beyond file-level E2E, validate that **generated inputs actually run** and that a physical observable is in the experimental ballpark.
 
 ### Run (MPI `-np 8`)

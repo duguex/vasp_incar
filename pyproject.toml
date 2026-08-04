@@ -25,6 +25,8 @@ all = ["sentence-transformers", "tantivy", "requests", "beautifulsoup4",
        "tqdm", "ase>=3.22", "pymatgen"]
 
 [project.scripts]
+# User-facing convenience commands; integrations should import Python modules directly.
+# CRISP remains an optional external verification backend, not a package dependency.
 # vasp-query
 vasp-query = "vasp_query.query:main"
 vasp-gen = "vasp_query.generator:cli"
