@@ -64,11 +64,18 @@ dependency**.
 - `db_models`, `aliases`, `db_conn`, `search` are single-responsibility modules;
   `omx_tools.database` is the CLI/facade.
 
+### 5. Conversion adapter hierarchy is consolidated  *(settled)*
+- One downward chain: `dft_utils.ir` (physics seam) → `omx_tools/semantic`
+  (IR↔code encoders/decoders, no duplicated field-mapping copy) →
+  `omx_tools.mapping` (single keyword adapter + `default_mapping()` cache) →
+  `schemas/vasp_to_ase.json` (single mapping data table).
+- The legacy `omx_tools/semantic_roundtrip.py` is gone; equivalence-report
+  helpers live in the neutral `dft_utils.equiv`.
+- The VASP-side enum vocabulary (ISPIN, GGA) has a **single source of truth**:
+  `dft_utils.ir`; `mapping` composes it and keeps only OpenMX literal wording.
+
 ## Deferred / open (worth exploring, not settled)
 
-- Conversion adapter hierarchy: clarifying the relationship between
-  `SemanticIR` (physics seam) and `omx_tools.mapping` (code-native keyword
-  adapter), and removing duplicated mapping derivation.
 - Reproducibility hygiene flagged in review: OpenMX index build script,
   moving built search artifacts out of git, removing dead tantivy/`check_version`
   ambiguity (items not yet implemented).
