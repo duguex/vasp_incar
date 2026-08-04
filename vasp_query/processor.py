@@ -526,7 +526,10 @@ def build_search_indexes() -> None:
     logger.info("Built FTS5 search db with %d docs at %s", len(docs), fts5_path)
     try:
         from dft_utils.embedding import embed_numpy, EMBEDDING_DIM
-        texts = [d["text"][:8000] for d in docs]
+        # Keep embedding text well under the Ollama context window: 8k chars
+        # sent a few docs over and the whole batch failed. 4k chars ≈ ≤1k
+        # tokens fits comfortably even for token-dense pages.
+        texts = [d["text"][:4000] for d in docs]
         embeddings = embed_numpy(texts)
         np.save(str(DATA_DIR / "doc_vectors.npy"), embeddings)
         meta = [{"id": d["id"], "title": d["title"], "type": d["type"]} for d in docs]

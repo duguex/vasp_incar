@@ -82,8 +82,10 @@ dependency**.
   rebuilds `openmx.db` from the tracked `openmx4.0_manual/` HTML; `openmx.db`
   is untracked/gitignored, and its `section_embeddings` `dim`/`file_path` and
   version `meta` are now correct.
-- Remaining committed build products: `vasp_query/data/doc_vectors.npy` /
-  `tag_vectors.npy` / `search.db` (rebuildable via `python -m vasp_query
-  preprocess`); deciding whether to move them out of git is still open.
+- VASP search artifacts are **reproducible**: `python -m vasp_query preprocess`
+  rebuilds `search.db` (deterministic) + `doc_vectors.npy`/`tag_vectors.npy`
+  from the committed `data/raw/` corpus; all three are untracked/gitignored.
+  (Rebuild required lowering the embedding-text truncation 8k→4k chars to fit
+  the Ollama context window.)
 - `check_version` naming ambiguity between `dft_utils.version` and
   `omx_tools.db_conn` (minor; optional rename).

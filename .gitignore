@@ -32,3 +32,8 @@ vasp_query/data/search_index/
 
 # Regenerable OpenMX manual DB (rebuild: scripts/build_openmx_db.py)
 openmx.db
+
+# Regenerable VASP search artifacts (rebuild: python -m vasp_query preprocess)
+vasp_query/data/search.db
+vasp_query/data/doc_vectors.npy
+vasp_query/data/tag_vectors.npy
