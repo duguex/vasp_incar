@@ -45,6 +45,7 @@ python3 scripts/run_cross_gates.py --check-only --elements Si C
 
 | When | Read first |
 |------|------------|
+| Domain vocabulary + settled architecture decisions | [`CONTEXT.md`](CONTEXT.md) |
 | Architecture, conventions, files | [`docs/agent-conventions.md`](docs/agent-conventions.md) |
 | CLI detail / gotchas (ex-CLAUDE) | [`docs/agent-lessons.md`](docs/agent-lessons.md) |
 | Adding a DFT code | [`docs/ADDING_A_CODE.md`](docs/ADDING_A_CODE.md) |
