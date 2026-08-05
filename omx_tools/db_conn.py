@@ -20,8 +20,15 @@ _default_db = Path(os.environ.get("OPENMX_DB_PATH", str(PKG_DIR.parent / "openmx
 DB_PATH = _default_db.resolve()
 
 
-def check_version(db) -> bool:
-    """Check the meta table version vs code version. Returns True if match or unavailable."""
+def warn_on_version_mismatch(db) -> bool:
+    """Log (via debug_log) when the openmx.db meta table version differs.
+
+    Best-effort: never raises and always returns True — the no-meta-table
+    case and any meta read error are treated as "no version to compare".
+    Callers get a debug trace line on mismatch rather than a hard failure.
+    Distinct from :func:`dft_utils.version.check_version`, which compares a
+    stored version *string* and returns a boolean verdict.
+    """
     try:
         row = db.execute("SELECT value FROM meta WHERE key='version'").fetchone()
         if row and row["value"] != DATA_VERSION:
@@ -43,5 +50,5 @@ def get_db():
         sys.exit(1)
     db = sqlite3.connect(str(DB_PATH))
     db.row_factory = sqlite3.Row
-    check_version(db)
+    warn_on_version_mismatch(db)
     return db

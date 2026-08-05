@@ -87,5 +87,6 @@ dependency**.
   from the committed `data/raw/` corpus; all three are untracked/gitignored.
   (Rebuild required lowering the embedding-text truncation 8k→4k chars to fit
   the Ollama context window.)
-- `check_version` naming ambiguity between `dft_utils.version` and
-  `omx_tools.db_conn` (minor; optional rename).
+- The omx DB version check is renamed `warn_on_version_mismatch`; the only
+  `check_version` is now the shared `dft_utils.version` envelope check
+  (ambiguity resolved).

@@ -30,9 +30,9 @@ from omx_tools.db_conn import (  # noqa: F401
     PKG_DIR,
     SCHEMA_PATH,
     _default_db,
-    check_version,
     get_db,
     strip_ansi,
+    warn_on_version_mismatch,
 )
 from omx_tools.db_models import (  # noqa: F401
     ErrorResponse,
